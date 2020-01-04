@@ -16,6 +16,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-10">
+          <p>testing ting ting</p>
           <a style="margin-right: 20px" class="btn btn-outline-secondary mb-4"  href="<?= base_url('penilaian/entry')?>">Entry Tambahan Wali Kelas</a>
           <?php if ($raport_umum != null): ?>
           <a style="margin-right: 20px" class="btn btn-outline-warning mb-4"  href="<?= base_url('raport/nisn')?>">Entry NISN</a>
