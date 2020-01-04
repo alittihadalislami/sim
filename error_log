@@ -1,0 +1,36 @@
+[05-Jul-2019 08:39:40 Asia/Jakarta] PHP Fatal error:  Call to undefined function var_dam() in /home/alitt452/public_html/sim/application/controllers/Penilaian.php on line 195
+[05-Jul-2019 09:11:22 Asia/Jakarta] PHP Fatal error:  Cannot access empty property in /home/alitt452/public_html/sim/application/controllers/Penilaian.php on line 198
+[08-Jul-2019 08:44:57 Asia/Jakarta] PHP Fatal error:  Call to undefined method User_model::idAsatid() in /home/alitt452/public_html/sim/application/controllers/Penilaian.php on line 424
+[08-Jul-2019 12:27:57 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 77822867 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[08-Jul-2019 12:28:22 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 77822867 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[08-Jul-2019 12:28:47 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 77822867 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[08-Jul-2019 12:29:49 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 77822867 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[08-Jul-2019 13:52:16 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 77822867 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[08-Jul-2019 13:54:11 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 77822867 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[08-Jul-2019 14:12:45 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 77822867 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[13-Jul-2019 05:22:39 Asia/Jakarta] PHP Fatal error:  Call to undefined method User_model::rapotMii() in /home/alitt452/public_html/sim/application/controllers/Penilaian.php on line 626
+[13-Jul-2019 07:26:04 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 75382866 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[13-Jul-2019 07:26:15 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 75382866 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[13-Jul-2019 08:05:00 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 87373008 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[13-Jul-2019 08:05:30 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 87373008 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[13-Jul-2019 08:06:50 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 87373008 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[13-Jul-2019 08:06:57 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 87373008 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[13-Jul-2019 08:11:39 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 75382866 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[13-Jul-2019 08:22:25 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 66242393 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[13-Jul-2019 08:22:56 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 66242393 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[13-Jul-2019 09:17:18 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 87373008 bytes) in /home/alitt452/public_html/sim/system/core/Output.php on line 447
+[04-Aug-2019 11:55:06 Asia/Jakarta] PHP Fatal error:  Call to undefined method User_model::siapPrint() in /home/alitt452/public_html/sim/application/views/penilaian/home_raport.php on line 44
+[04-Aug-2019 12:28:26 Asia/Jakarta] PHP Fatal error:  Call to undefined method User_model::siapPrint() in /home/alitt452/public_html/sim/application/views/penilaian/home_raport.php on line 44
+[04-Aug-2019 13:05:56 Asia/Jakarta] PHP Fatal error:  Call to undefined function var_damp() in /home/alitt452/public_html/sim/application/controllers/Raport.php on line 186
+[19-Oct-2019 11:00:25 Asia/Jakarta] PHP Fatal error:  Call to undefined method User_model::showRombel() in /home/alitt452/public_html/sim/application/controllers/Penilaian.php on line 178
+[21-Dec-2019 14:51:16 Asia/Jakarta] PHP Fatal error:  Call to undefined method Raport::rapotsmp() in /home/alitt452/public_html/sim/application/controllers/Raport.php on line 20
+[22-Dec-2019 10:44:03 Asia/Jakarta] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in /home/alitt452/public_html/sim/vendor/dompdf/dompdf/src/Frame.php on line 303
+[22-Dec-2019 10:45:05 Asia/Jakarta] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in /home/alitt452/public_html/sim/vendor/dompdf/dompdf/src/Frame/FrameList.php on line 33
+[22-Dec-2019 10:46:07 Asia/Jakarta] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in /home/alitt452/public_html/sim/vendor/dompdf/dompdf/src/Cellmap.php on line 143
+[22-Dec-2019 10:48:30 Asia/Jakarta] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in /home/alitt452/public_html/sim/vendor/dompdf/dompdf/src/Frame.php on line 325
+[22-Dec-2019 10:50:31 Asia/Jakarta] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in /home/alitt452/public_html/sim/vendor/dompdf/dompdf/src/FrameDecorator/AbstractFrameDecorator.php on line 466
+[22-Dec-2019 10:50:58 Asia/Jakarta] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in /home/alitt452/public_html/sim/vendor/dompdf/dompdf/src/Frame.php on line 325
+[22-Dec-2019 10:52:22 Asia/Jakarta] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in /home/alitt452/public_html/sim/vendor/dompdf/dompdf/src/Frame/FrameList.php on line 33
+[22-Dec-2019 10:54:29 Asia/Jakarta] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in /home/alitt452/public_html/sim/vendor/dompdf/dompdf/src/FrameDecorator/AbstractFrameDecorator.php on line 531
+[22-Dec-2019 10:56:33 Asia/Jakarta] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in /home/alitt452/public_html/sim/vendor/dompdf/dompdf/src/Css/Style.php on line 850
+[22-Dec-2019 10:57:46 Asia/Jakarta] PHP Fatal error:  Maximum execution time of 60 seconds exceeded in /home/alitt452/public_html/sim/vendor/dompdf/dompdf/src/Frame.php on line 325
