@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-  <section class="content">
+  <section class="content" style="baca">
     <div class="row">
       <div class="col-md-6 mx-auto">
 

@@ -114,9 +114,16 @@ class Absensi extends CI_Controller {
 		}
 
 		redirect('absensi','refresh');
-
 	}
 
+	public function rekap()
+	{
+		$data['judul'] = 'Rekap Absensi';
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('absensi/rekap_semua', $data);
+		$this->load->view('templates/footer');
+	}
 }
 
 /* End of file absensi.php */
