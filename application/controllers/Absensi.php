@@ -120,9 +120,33 @@ class Absensi extends CI_Controller {
 	{
 		$data['judul'] = 'Rekap Absensi';
 
+		$this->db->select('id_asatid, nama_asatid');
+		$asatid = $this->db->get('m_asatid')->result_array();
+
+		$rekap_semua = $this->am->rekapSemua();
+
+		foreach ($rekap_semua as $rs) {
+			foreach ($asatid as $as) {
+				if($as['id_asatid'] == $rs['id_asatid']){
+
+				}
+			}
+		}
+
+		var_dump($rekap_semua);die();
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('absensi/rekap_semua', $data);
 		$this->load->view('templates/footer');
+	}
+
+	public function coba()
+	{
+		$mobil = ['mewah', ['keluarga'=> ['innova', 'avanza','panther', ['rush'=> ['merah','putih']] ] ]];
+
+		foreach ($mobil as $k) {
+			echo $k;
+		}
 	}
 }
 
