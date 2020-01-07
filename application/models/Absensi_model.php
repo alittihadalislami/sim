@@ -53,12 +53,27 @@ class Absensi_model extends CI_Model {
 		return $this->db->query($stringQ)->result_array();
 	}
 
-	// public function semuaAsatid()
-	// {
-	// 	$this->db->select('id_asatid, nama_asatid')
-	// 	return $this->db->get('asatid')->result_array();
-	// }
-	
+	public function tglHadir($asatid_id, $bulan, $tahun)
+	{
+		$stringQ = " SELECT ra.`id_asatid`, ra.`waktu`, ra.`hari`, ra.`tgl`, ra.`bulan`, ra.`tahun`
+					FROM v_rekap_asatid ra
+					WHERE ra.`id_asatid` = '$asatid_id' 
+					AND ra.`bulan` = '$bulan'
+					AND ra.`tahun` = '$tahun'
+					GROUP BY ra.`waktu`
+					ORDER BY ra.`bulan` ASC, CAST(ra.`tgl` AS INT)  "; 
+		return $this->db->query($stringQ)->result_array();
+	}
+
+	public function waktuHadir($id_asatid, $waktu)
+	{
+		$stringQ = " SELECT ra.`id_asatid`, ra.`waktu`, ra.`id_kelas`, ra.`jamke`,ra.`id_mapel`
+					FROM v_rekap_asatid ra
+					WHERE ra.`id_asatid` = '$id_asatid'
+					AND ra.`waktu` = '$waktu'
+					ORDER BY ra.`jamke` ASC ";
+		return $this->db->query($stringQ)->result_array();
+	}
 
 }
 

@@ -120,20 +120,40 @@ class Absensi extends CI_Controller {
 	{
 		$data['judul'] = 'Rekap Absensi';
 
+		$tahun = 2019;
+		$bulan = 'November';
+
+
+
 		$this->db->select('id_asatid, nama_asatid');
 		$asatid = $this->db->get('m_asatid')->result_array();
 
-		$rekap_semua = $this->am->rekapSemua();
+		foreach ($asatid as $as) {
 
-		foreach ($rekap_semua as $rs) {
-			foreach ($asatid as $as) {
-				if($as['id_asatid'] == $rs['id_asatid']){
+			$tgl_hadir = $this->am->tglHadir($as['id_asatid'], $bulan, $tahun);
 
+			$x = 0;
+			foreach ($tgl_hadir as $tgl) {
+				
+				echo $tgl['id_asatid'].'-'.$tgl['tgl'].'-'.$tgl['waktu'];
+				
+				$waktu_hadir = $this->am->waktuHadir($as['id_asatid'], $tgl['waktu']);
+				$y = count($waktu_hadir);
+				var_dump($y);
+				echo '<br>';
+
+				foreach ($waktu_hadir as $wh) {
+					echo $wh['jamke'].'<br>';
 				}
+				$x += $y;
 			}
+			echo 'total-'.$as['nama_asatid'].' : '.$x;
+			echo '<br>';
+			echo '<hr>';
 		}
 
-		var_dump($rekap_semua);die();
+
+		die();
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('absensi/rekap_semua', $data);
