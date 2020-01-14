@@ -11,7 +11,7 @@ class Auth extends CI_Controller {
 
 	public function index()
 	{
-		$data['judul'] = "Halaman login";
+		$data['judul'] = "SIM - Al Ittihad Al Islami";
 
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email',['valid_email'=>'Alamat email tidak valid']);
 		$this->form_validation->set_rules('password', 'Password', 'trim|required',['required'=>'Password harus diisi']); 

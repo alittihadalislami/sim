@@ -120,8 +120,8 @@ class Absensi extends CI_Controller {
 	{
 		$data['judul'] = 'Rekap Absensi';
 
-		$tahun = 2019;
-		$bulan = 'November';
+		$tahun = 2020;
+		$bulan = 'Januari';
 
 
 
@@ -130,30 +130,41 @@ class Absensi extends CI_Controller {
 
 		foreach ($asatid as $as) {
 
-			$tgl_hadir = $this->am->tglHadir($as['id_asatid'], $bulan, $tahun);
+			$total = 0;
 
-			$x = 0;
+			//membuat array template list ustad, dengan tgl jamke dan total kosongan
+
+			$list_asatid [ $as['nama_asatid'] ] = [
+												'tgl' => [],
+												'jamke' => [],
+												'total' => ''
+			];
+
+
+			$tgl_hadir = $this->am->tglHadir($as['id_asatid'], $bulan, $tahun);
 			foreach ($tgl_hadir as $tgl) {
 				
-				echo $tgl['id_asatid'].'-'.$tgl['tgl'].'-'.$tgl['waktu'];
-				
+				//mengisi array tgl pada array ustad
+				$list_asatid [$as['nama_asatid']] ['tgl'] [ $tgl['tgl'] ] = $tgl['waktu'];
+						
 				$waktu_hadir = $this->am->waktuHadir($as['id_asatid'], $tgl['waktu']);
-				$y = count($waktu_hadir);
-				var_dump($y);
-				echo '<br>';
+				
+				$total += count($waktu_hadir);
 
 				foreach ($waktu_hadir as $wh) {
-					echo $wh['jamke'].'<br>';
+
+					foreach ($list_asatid [$as['nama_asatid']] ['tgl'] as $t => $w) {
+						if ($w == $wh['waktu']) {
+							//mengisi array jamke pada array ustad
+							$list_asatid [$as['nama_asatid']] ['jamke'] [$t] [] = $wh['jamke']  ;
+						}
+					}
 				}
-				$x += $y;
 			}
-			echo 'total-'.$as['nama_asatid'].' : '.$x;
-			echo '<br>';
-			echo '<hr>';
+			$list_asatid [$as['nama_asatid']] ['total'] = $total;
 		}
 
-
-		die();
+		$data['rekap_semua']=$list_asatid;
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('absensi/rekap_semua', $data);
@@ -162,11 +173,41 @@ class Absensi extends CI_Controller {
 
 	public function coba()
 	{
-		$mobil = ['mewah', ['keluarga'=> ['innova', 'avanza','panther', ['rush'=> ['merah','putih']] ] ]];
+		// $asatid = [
+		// 	'anam' => [
+		// 		'tgl' => [6,7,8,9],
+		// 		'jamke' => [
+		// 			6 => ['1-2','3-4'],
+		// 			7 => ['1-2','3-4'],
+		// 			9 => ['1-2','3-4']
+		// 		],
+		// 		'total' => 20
+		// 	],
+		// ];
 
-		foreach ($mobil as $k) {
-			echo $k;
-		}
+
+		$asatid = [
+			'anam' => [
+				'tgl' => [],
+				'jamke' => [],
+				'total' => ''
+			],
+		];
+
+
+		var_dump($asatid);
+
+		echo '<hr>';
+
+		// array_push($asatid['anam']['tgl'], 1);
+		// array_push($asatid['anam']['jamke'][9], '5-6');
+
+		// var_dump($asatid);
+
+		// echo '<hr>';
+
+		// echo count($asatid['anam']['jamke'][9]);
+
 	}
 }
 

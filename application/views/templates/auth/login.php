@@ -26,13 +26,29 @@
     .card {
       border-top: 4px solid green;
     }
+    .home{
+      background-image:url('<?=base_url()?>assets/img/home.jpg');
+      background-size: cover;
+    }
+    .register-logo{
+      color: whitesmoke;
+      margin-bottom: auto;
+    }
+    .sistem{
+      font-size: 100px;
+      text-transform: uppercase;
+      font-weight: 400;
+      line-height: 90%;
+    }
+
   </style>
 </head>
-<body class="hold-transition register-page">
+<body class="hold-transition register-page home">
   <?=$this->session->flashdata('pesan');?>
-<div class="register-box mt-4">
+<div class="register-box">
   <div class="register-logo">
-    <span> <b>Ma'had</b><br>Al Ittihad Al Islami</span>
+    <div class="sistem"> S&nbspI&nbspM </div>
+    <div class="mb-3">Al Ittihad Al Islami</div>
   </div>
 
 <div class="card">
