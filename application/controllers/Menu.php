@@ -33,10 +33,10 @@ class Menu extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
-	public function tambahMenu()
+	public function ubahMenu($id)
 	{
 
-		$data['judul'] = "Tambah Data";
+		$data['judul'] = "Ubah Menu";
 
 		
 		$this->load->view('templates/header', $data);
@@ -47,7 +47,6 @@ class Menu extends CI_Controller {
 	public function aksiTambahSubmenu()
 	{
 		$daput = $this->input->post();
-		var_dump($daput);
 
 		$this->db->insert('menu_sub', $daput);
 		$submenu_id = $this->db->insert_id();
@@ -58,6 +57,8 @@ class Menu extends CI_Controller {
 		];
 
 		$this->db->insert('akses_submenu', $object);
+
+		redirect('menu','refresh');
 	}
 
 	public function aksiTambahMenu()
@@ -73,6 +74,8 @@ class Menu extends CI_Controller {
 		];
 
 		$this->db->insert('akses_menu', $object);
+
+		redirect('menu','refresh');
 	}
 
 	public function deleteMenu($id, $kategori)
@@ -93,7 +96,7 @@ class Menu extends CI_Controller {
 			$this->db->delete('akses_submenu');
 		}
 
-		//redirect('menu','refresh')
+		redirect('menu','refresh');
 	}
 
 	public function hakAkses()

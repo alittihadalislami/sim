@@ -18,8 +18,8 @@
         <div class="col-lg-6">
           <div class="card elevation-2">
             <div class="card-header bg-success">
-              <button class="btn btn-secondary float-right" data-toggle="modal" data-target="#modal-default">Tambah Submenu</button>
-              <a href="#" class="btn btn-primary float-right mr-2" data-toggle="modal" data-target="#modal-default-2">Tambah Menu</a>
+              <a href="#" class="badge badge-outline-light elevation-2 float-right" data-toggle="modal" data-target="#modal-default">+ Submenu</a>
+              <a href="#" class="badge badge-warning elevation-2 float-right mr-2" data-toggle="modal" data-target="#modal-default-2">+ Menu</a>
             </div>
 
             <div class="card-body">
@@ -42,7 +42,7 @@
                         <td><?= $m->nama_menu ?></td>
                         <td><span class="badge badge-warning">menu</span></td>
                         <td>
-                          <a href="#" class="badge badge-primary">ubah</a>
+                          <a href="<?= base_url() ?>menu/ubahMenu/<?=$m->id_menu?>" class="badge badge-primary">ubah</a>
                           <a href="<?= base_url() ?>menu/deleteMenu/<?= $m->id_menu.'/'.$m->kategori ?>" class="badge badge-danger">hapus</a>
                         </td>
                       </tr>
