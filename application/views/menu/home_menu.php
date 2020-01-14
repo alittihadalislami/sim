@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>List Menu</h1>
+          <h1>Managemen Menu dan Submenu</h1>
         </div>
       </div>
     </div><!-- /.container-fluid -->

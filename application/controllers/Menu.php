@@ -96,6 +96,28 @@ class Menu extends CI_Controller {
 		//redirect('menu','refresh')
 	}
 
+	public function hakAkses()
+	{
+		$data['judul'] = "Pengaturan hak akses";
+
+		is_login();
+
+		$data['user_rule']=$this->db->get('user_rule')->result();
+
+		$stringQ = " SELECT h.`id_head`, h.`nama`, '1' AS kategori FROM menu_head  h ";
+		$data['head'] = $this->db->query($stringQ)->result();
+
+		$stringQ = " SELECT s.`id_menu`, s.`nama_menu`, '2' AS kategori FROM menu s ORDER BY s.`head_id`, s.`urutan` ";
+		$data['menu'] = $this->db->query($stringQ)->result();
+
+		$stringQ = " SELECT s.`id_submenu`, s.`nama_submenu`, s.`menu_id`, '3' AS kategori FROM menu_sub  s ";
+		$data['sub_menu'] = $this->db->query($stringQ)->result();
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('menu/hak_akses', $data);
+		$this->load->view('templates/footer');
+	}
+
 }
 
 /* End of file menu.php */
