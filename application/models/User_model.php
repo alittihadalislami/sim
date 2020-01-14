@@ -418,6 +418,27 @@ class User_model extends CI_Model {
 					GROUP BY a.`santri_id`, k.`id_mapel`, k.`id_kelas`";
 		return $this->db->query($stringQ)->result_array();
 	}
+
+
+	public function isAksesMenu($id_rule, $id_menu)
+	{
+		$stringQ = " SELECT am.`menu_id`, am.`rule_id` 
+					FROM `akses_menu` AS am
+					WHERE am.`menu_id` = $id_menu
+					AND am.`rule_id` = $id_rule ";
+		return $this->db->query($stringQ)->num_rows();
+
+	}
+
+	public function isAksesSubmenu($id_rule, $id_submenu)
+	{
+		$stringQ = " SELECT ab.`submenu_id`, ab.`rule_id` 
+					FROM `akses_submenu` AS ab
+					WHERE ab.`submenu_id` = $id_submenu
+					AND ab.`rule_id` = $id_rule ";
+		return $this->db->query($stringQ)->num_rows();
+
+	}
 }
 
 /* End of file user.php */

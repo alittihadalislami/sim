@@ -102,7 +102,7 @@ class Menu extends CI_Controller {
 
 		is_login();
 
-		$data['user_rule']=$this->db->get('user_rule')->result();
+		$data['user_rule']=$this->db->get_where('user_rule',['id_rule !=' => 1])->result();
 
 		$stringQ = " SELECT h.`id_head`, h.`nama`, '1' AS kategori FROM menu_head  h ";
 		$data['head'] = $this->db->query($stringQ)->result();
@@ -116,6 +116,44 @@ class Menu extends CI_Controller {
 		$this->load->view('templates/header', $data);
 		$this->load->view('menu/hak_akses', $data);
 		$this->load->view('templates/footer');
+	}
+
+	public function beriAkses()
+	{
+		$sub_menu = $this->input->post('id_menu');
+		$rule = $this->input->post('id_rule');
+		$kategori = $this->input->post('kategori');
+
+		if ($kategori == 3) {
+			$daput = [
+				'submenu_id' => $sub_menu,
+				'rule_id' => $rule
+			];
+
+			$cek = $this->db->get_where('akses_submenu', $daput)->num_rows();
+
+			if ($cek < 1 ) {
+				$this->db->insert('akses_submenu', $daput);
+			}else{
+				$this->db->where($daput);
+				$this->db->delete('akses_submenu');
+			}
+		}else {
+			$daput = [
+				'menu_id' => $sub_menu,
+				'rule_id' => $rule
+			];
+
+			$cek = $this->db->get_where('akses_menu', $daput)->num_rows();
+
+			if ($cek < 1 ) {
+				$this->db->insert('akses_menu', $daput);
+			}else{
+				$this->db->where($daput);
+				$this->db->delete('akses_menu');
+			}
+		}
+
 	}
 
 }
