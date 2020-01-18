@@ -24,7 +24,7 @@
 
           <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Keseluruhan santri</h3>
+                <h3 class="card-title">Keseluruhan Santri</h3>
                 <!-- <a href="<?= base_url()?>santri/tambah_santri" class="float-right tambah"><i class="fas fa-plus text-success"></i> Tambah data santri</a> -->
               </div>
               
