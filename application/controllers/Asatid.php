@@ -33,6 +33,7 @@ class Asatid extends CI_Controller {
 	{
 		$data['judul'] = 'Input no HP';
 		$data['id_asatid'] = $this->uri->segment(3);
+		$data['kategori'] = ['guru','pegawai'];
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('asatid/input', $data);

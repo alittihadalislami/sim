@@ -34,9 +34,9 @@
                   <span class="input-group-text"><i class="fa fa-fw fa-user"></i></span>
                 </div>
             <select class="form-control" name="kategori" id="kategori"  required="true">
-                <option value="">pilih</option>
+                <option value="">--pilih aja--</option>
               <?php foreach ($kategori as $k): ?> 
-                <option value="<?=$k?>"><?=$k?></option>
+                <option class="text-capitalize" value="<?=$k?>"><?=$k?></option>
               <?php endforeach ?> 
             </select>
               </div>
