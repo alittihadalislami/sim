@@ -15,6 +15,15 @@ class Asatid extends CI_Controller {
 		$data['judul'] = 'Daftar Asatid Grup';
 		$data['asatid'] = $this->db->get('m_asatid')->result_array();
 
+		$data['kategori'] = ['Guru','Tas','Khusus'];
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('asatid/df_asatid', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function tambahAsatid()
+	{
 		$this->load->view('templates/header', $data);
 		$this->load->view('asatid/df_asatid', $data);
 		$this->load->view('templates/footer');

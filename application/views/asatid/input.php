@@ -18,10 +18,27 @@
               </div>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><i class="fa fa-mobile"></i></span>
+                  <span class="input-group-text"><i class="fa fa-fw fa-mobile"></i></span>
                 </div>
                 <input type="text" class="form-control" value="<?= $x['id_asatid']; ?>" name="id_asatid" hidden="true">
                 <input type="number" class="form-control" placeholder="No. hp" name="nohp" value="<?= $x['nohp'] ?  $x['nohp'] : ''; ?>">
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-fw fa-user"></i></span>
+                </div>
+                <input type="number" class="form-control" placeholder="No. IY" name="noiy" value="<?= $x['niy'] ?  $x['niy'] : ''; ?>">
+              </div>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fa fa-fw fa-user"></i></span>
+                </div>
+            <select class="form-control" name="kategori" id="kategori"  required="true">
+                <option value="">pilih</option>
+              <?php foreach ($kategori as $k): ?> 
+                <option value="<?=$k?>"><?=$k?></option>
+              <?php endforeach ?> 
+            </select>
               </div>
               <button type="sumbit" class="btn btn-primary float-right" name="simpan">Simpan</button>
             </div>
