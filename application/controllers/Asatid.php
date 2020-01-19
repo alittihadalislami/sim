@@ -13,9 +13,9 @@ class Asatid extends CI_Controller {
 	public function index()
 	{
 		$data['judul'] = 'Daftar Asatid Grup';
-		$data['asatid'] = $this->db->get('m_asatid')->result_array();
+		$data['asatid'] = $this->db->order_by('sts', 'desc')->order_by('niy', 'asc')->get('m_asatid')->result_array();
 
-		$data['kategori'] = ['Guru','Tas','Khusus'];
+		$data['kategori'] = [1=>'guru','pegawai'];
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('asatid/df_asatid', $data);
@@ -33,7 +33,7 @@ class Asatid extends CI_Controller {
 	{
 		$data['judul'] = 'Input no HP';
 		$data['id_asatid'] = $this->uri->segment(3);
-		$data['kategori'] = ['guru','pegawai'];
+		$data['kategori'] = [1=>'guru','pegawai'];
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('asatid/input', $data);
@@ -41,15 +41,33 @@ class Asatid extends CI_Controller {
 
 	}
 
-	public function tambahhp()
+	public function updateCivitas()
 	{
 		$data_input = $this->input->post();
 
-		if ( isset($data_input) ) {
-			$this->db->where('id_asatid', $data_input['id_asatid']);
-			$this->db->update('m_asatid', ['nohp' => $data_input['nohp'] ]);
-			$status = $this->db->affected_rows();
+	
+		$this->db->where('id_asatid', $data_input['id_asatid']);
+		$this->db->update('m_asatid', $data_input );
+		$status = $this->db->affected_rows();
+
+		if ($status > 0)
+		{
+		 	redirect('asatid','refresh');
 		}
+	}
+
+	public function tambahCivitas()
+	{
+		$data_input = $this->input->post();
+
+		$niy ['niy'] = $this->db->select_max('niy')->get('m_asatid')->row()->niy+1;
+		$count_asatid = $this->db->select('id_asatid')->get('m_asatid')->num_rows();
+		$id['id_asatid'] = $this->input->post('kategori').$count_asatid;
+
+		$object = array_merge($id,$niy,$data_input);
+
+		$this->db->insert('m_asatid', $object);
+		$status = $this->db->affected_rows();
 
 		if ($status > 0)
 		{
