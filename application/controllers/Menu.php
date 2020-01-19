@@ -20,10 +20,10 @@ class Menu extends CI_Controller {
 		$stringQ = " SELECT h.`id_head`, h.`nama`, '1' AS kategori FROM menu_head  h ";
 		$data['head'] = $this->db->query($stringQ)->result();
 
-		$stringQ = " SELECT s.`id_menu`, s.`nama_menu`, '2' AS kategori FROM menu s ORDER BY s.`head_id`, s.`urutan` ";
+		$stringQ = " SELECT s.*, '2' AS kategori FROM menu s ORDER BY s.`head_id`, s.`urutan` ";
 		$data['menu'] = $this->db->query($stringQ)->result();
 
-		$stringQ = " SELECT s.`id_submenu`, s.`nama_submenu`, s.`menu_id`, '3' AS kategori FROM menu_sub  s ";
+		$stringQ = " SELECT s.*, '3' AS kategori FROM menu_sub  s ";
 		$data['sub_menu'] = $this->db->query($stringQ)->result();
 
 		// var_dump($data['sub_menu']);die();
@@ -58,6 +58,22 @@ class Menu extends CI_Controller {
 
 		$this->db->insert('akses_submenu', $object);
 
+		redirect('menu','refresh');
+	}
+
+	public function updateSubmenu()
+	{
+		$daput = [
+			'nama_submenu' => $this->input->post('nama_submenu'),
+			'url' => $this->input->post('url'),
+			'icon' => $this->input->post('icon'),
+			'menu_id' => $this->input->post('menu_id'),
+			'urutan' => $this->input->post('urutan'),
+		];		
+
+		$this->db->where('id_submenu', $this->input->post('id_submenu') );
+		$this->db->update('menu_sub', $daput);
+	
 		redirect('menu','refresh');
 	}
 
