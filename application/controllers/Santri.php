@@ -62,10 +62,50 @@ class Santri extends CI_Controller {
 		$data['judul'] = 'Ubah data Santri';
 		$data['santri'] = $this->db->get_where('m_santri', ['id_santri'=>$santri_id])->row_array();
 		$data['d_santri'] = $this->db->get_where('t_detail_santri', ['santri_id'=>$santri_id])->row_array();
+		$data['list_minat'] = $this->db->select('id_minat, nama_minat, kategori_minat')->order_by('kategori_minat','asc')->get('t_minat')->result();
+		$data['kategori'] = ['Olahraga','Pelajaran','Keterampilan','Atletik'];
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/edit_santri', $data);
 		$this->load->view('templates/footer');
+	}
+
+	public function tampilMinat()
+	{
+		$list_minat = $this->db->select('id_minat, nama_minat, kategori_minat')->order_by('kategori_minat','asc')->get('t_minat')->result();
+
+		$no=1;
+		foreach ($list_minat as $value) {
+			echo "<tr>";
+				echo "<td>".$no++."</td>";
+				echo "<td>".$value->nama_minat."</td>";
+				echo "<td>".$value->kategori_minat."</td>";
+				echo "<td>";
+					echo 	'<a class= "hps-minat">Delete<a/>';
+				echo "</td>";
+			echo "</tr>";
+		}
+
+	}
+
+	public function tambah_minat()
+	{
+
+		$id_santri = $this->input->post('id_santri');
+
+		$daput = [
+			'nama_minat' => $this->input->post('nama_minat'),
+			'kategori_minat' => $this->input->post('kategori_minat'),
+		];
+
+		$this->db->insert('t_minat', $daput);
+
+
+	}
+
+	public function hapus_minat($id)
+	{
+		$this->db->where('id_minat',$id)->delete('t_minat');
 	}
 
 	public function ubah_santri()

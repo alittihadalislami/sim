@@ -39,7 +39,7 @@
                   <div class="btn btn-primary" style="background-color:smokewithe" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><strong>DATA KELUARGA, DUKCAPIL</strong>
                   </div>
 
-                  <div id="collapseOne" class="collapse show bg-light" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div id="collapseOne" class="collapse bg-light" aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
                       <div class="form-group">
                         <label for="nik">1. No Induk Kependudukan (DUKCAPIL)</label>
@@ -170,13 +170,29 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="card">
+                  <div class="btn btn-info collapsed" id="heading4" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4"><strong>PEMINATAN</strong></div>
+                  <div id="collapse4" class="collapse bg-light" aria-labelledby="heading4" data-parent="#accordion">
+                    
+                    <div class="card-body">
+                      
+                      <div class="btn-group float-right" role="group">
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal" id="DaftarPeminatan">Daftar Peminatan</button>
+                        <button type="button" class="btn btn-success"><i class="fas fa-list-ul"></i></button>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+
               </div>
 
               <button type="sumbit" class="btn btn-primary float-right elevation-4">Simpan</button>
             </form>
           </div>
-
-            
+          
 
           </div>
         </div>
@@ -184,3 +200,124 @@
     </div>
   </section>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" style="overflow-y: auto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title hps-minat" id="exampleModalLabel">Daftar Peminatan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <a href="" class="btn btn-sm btn-success mb-3 float-right" data-toggle="modal" data-target="#addModal">+ Tambah</a>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nama Minat</th>
+              <th scope="col">Jenis Minat</th>
+              <th scope="col">Opsi</th>
+            </tr>
+          </thead>
+          <tbody id="minat1">
+            <!-- <?php $no=1; foreach ($list_minat as $key => $value): ?>
+              <tr>
+                <th scope="row"><?= $no++ ?></th>
+                <td><?= $value->nama_minat ?></td>
+                <td><?= $value->kategori_minat ?></td>
+                <td>
+                  <a href=""><i class="fas fa fa-edit"></i></a>  &nbsp
+                  <a href="<?= base_url()?>santri/hapus_minat/<?=$value->id_minat ?>"><i class="fas fa-trash text-danger" onclick="return confirm('Yaqin ingin menghapus minat : <?= $value->nama_minat ?> ?')"></i></a>
+                </td>
+              </tr>
+            <?php endforeach ?> -->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tambah Peminatan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <form action="<?= base_url()?>santri/tambah_minat" method="post">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="minat">Nama Minat</label>
+              <input type="text" class="form-control" id="nama_minat" name="nama_minat" placeholder="Nama Minat">
+            </div>
+            <div class="form-group">
+              <label for="minat">Kategori Minat</label>
+              <select class="form-control" name="kategori_minat" id="kategori_minat" required="true">
+              <option value="">--pilih--</option>
+                <?php foreach ($kategori as $key => $value): ?>
+                  <option value="<?=$value ?>"><?=$value ?></option>
+                <?php endforeach ?>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveMinat">Save changes</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+
+    
+    function tampilMinat(){
+      tabel = '';
+      $.ajax({
+        url:'<?=base_url()?>santri/tampilMinat',
+        type:'post',
+        typeData:'html',
+        success:function(data){
+          $('#minat1').html(data)
+        }
+      })
+    }
+
+    $('#DaftarPeminatan').on('click',function(){
+      tampilMinat()
+    })
+
+    $('#saveMinat').on('click', function(){
+      
+      id = $('#id_santri').val()
+      nama = $('#nama_minat').val();
+      kategori = $('#kategori_minat').val();
+
+      $.ajax({
+        url:'<?=base_url()?>santri/tambah_minat',
+        type:'post',
+        typeData:'html',
+        data:{id_santri:id,nama_minat:nama,kategori_minat:kategori},
+        success:function(){
+          tampilMinat()
+        }
+      })
+    })
+
+
+  })
+</script>
