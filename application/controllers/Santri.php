@@ -65,6 +65,8 @@ class Santri extends CI_Controller {
 		$data['list_minat'] = $this->db->select('id_minat, nama_minat, kategori_minat')->order_by('kategori_minat','asc')->get('t_minat')->result();
 		$data['kategori'] = ['Olahraga','Pelajaran','Keterampilan','Atletik'];
 
+		// var_dump($data['list_minat']);die();
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/edit_santri', $data);
 		$this->load->view('templates/footer');
@@ -72,20 +74,17 @@ class Santri extends CI_Controller {
 
 	public function tampilMinat()
 	{
-		$list_minat = $this->db->select('id_minat, nama_minat, kategori_minat')->order_by('kategori_minat','asc')->get('t_minat')->result();
-
+		$list_minat = $this->db->select('id_minat, nama_minat, kategori_minat')->order_by('kategori_minat','asc')->get('t_minat')->result_array();
+		
 		$no=1;
 		foreach ($list_minat as $value) {
-			echo "<tr>";
-				echo "<td>".$no++."</td>";
-				echo "<td>".$value->nama_minat."</td>";
-				echo "<td>".$value->kategori_minat."</td>";
-				echo "<td>";
-					echo 	'<a class= "hps-minat">Delete<a/>';
-				echo "</td>";
-			echo "</tr>";
+			echo '<tr>';
+				echo '<td>'.$no++.'</td>';
+				echo '<td>'.$value['nama_minat'].'</td>';
+				echo '<td>'.$value['kategori_minat'].'</td>';
+				echo '<td><a href="#" class="btn btn-sm hapus" data-id="'.$value['id_minat'].'"><i class="far fa-trash-alt text-danger"></i></td>';
+			echo '</tr>';
 		}
-
 	}
 
 	public function tambah_minat()
@@ -103,8 +102,10 @@ class Santri extends CI_Controller {
 
 	}
 
-	public function hapus_minat($id)
+	public function hapus_minat()
 	{
+		$id = $this->input->post('id_minat');
+
 		$this->db->where('id_minat',$id)->delete('t_minat');
 	}
 

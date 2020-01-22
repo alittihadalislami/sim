@@ -181,6 +181,18 @@
                         <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal" id="DaftarPeminatan">Daftar Peminatan</button>
                         <button type="button" class="btn btn-success"><i class="fas fa-list-ul"></i></button>
                       </div>
+                      
+                      <div id="pilihan">
+                        <?php foreach ($list_minat as $value): ?>
+                          
+                          <div class="checkbox">
+                            <label style="width: 40%">
+                              <input type="checkbox" name=""> <?= $value->nama_minat ?>
+                            </label>
+                          </div>
+                        <?php endforeach ?>
+                        
+                      </div>
 
                     </div>
 
@@ -206,14 +218,14 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" style="overflow-y: auto">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title hps-minat" id="exampleModalLabel">Daftar Peminatan</h5>
+      <div class="modal-header bg-success">
+        <h5 class="modal-title" id="exampleModalLabel">Daftar Peminatan</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <a href="" class="btn btn-sm btn-success mb-3 float-right" data-toggle="modal" data-target="#addModal">+ Tambah</a>
+        <a href="" class="btn btn-sm btn-outline-success mb-3 float-right" data-toggle="modal" data-target="#addModal">+ Tambah</a>
         <table class="table table-striped">
           <thead>
             <tr>
@@ -223,24 +235,12 @@
               <th scope="col">Opsi</th>
             </tr>
           </thead>
-          <tbody id="minat1">
-            <!-- <?php $no=1; foreach ($list_minat as $key => $value): ?>
-              <tr>
-                <th scope="row"><?= $no++ ?></th>
-                <td><?= $value->nama_minat ?></td>
-                <td><?= $value->kategori_minat ?></td>
-                <td>
-                  <a href=""><i class="fas fa fa-edit"></i></a>  &nbsp
-                  <a href="<?= base_url()?>santri/hapus_minat/<?=$value->id_minat ?>"><i class="fas fa-trash text-danger" onclick="return confirm('Yaqin ingin menghapus minat : <?= $value->nama_minat ?> ?')"></i></a>
-                </td>
-              </tr>
-            <?php endforeach ?> -->
+          <tbody id="minat1"> <!-- diisi oleh ajax -->
           </tbody>
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" >Save changes</button>
+        <button type="button" class="btn btn-warning" id="tutupDaftar" data-dismiss="modal">Tutup</button>
       </div>
     </div>
   </div>
@@ -260,7 +260,7 @@
           <div class="modal-body">
             <div class="form-group">
               <label for="minat">Nama Minat</label>
-              <input type="text" class="form-control" id="nama_minat" name="nama_minat" placeholder="Nama Minat">
+              <input type="text" class="form-control" id="nama_minat" name="nama_minat" placeholder="Nama Minat" required>
             </div>
             <div class="form-group">
               <label for="minat">Kategori Minat</label>
@@ -274,7 +274,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveMinat">Save changes</button>
+            <button type="submit" class="btn btn-primary" data-dismiss="modal" id="saveMinat">Save changes</button>
           </div>
         </form>
     </div>
@@ -284,15 +284,14 @@
 <script>
   $(document).ready(function(){
 
-    
     function tampilMinat(){
       tabel = '';
       $.ajax({
         url:'<?=base_url()?>santri/tampilMinat',
         type:'post',
-        typeData:'html',
-        success:function(data){
-          $('#minat1').html(data)
+        typeData:'json',
+        success:function(hasil){
+          $('#minat1').html(hasil);
         }
       })
     }
@@ -301,21 +300,42 @@
       tampilMinat()
     })
 
+    $(document).on('click', ".hapus", function () {
+      id = $(this).data('id');
+      $.ajax({
+        url:'<?=base_url()?>santri/hapus_minat',
+        type:'post',
+        typeData:'html',
+        data:{id_minat:id},
+        success:function(){
+          tampilMinat()
+        }
+      })
+    })
+
     $('#saveMinat').on('click', function(){
       
       id = $('#id_santri').val()
       nama = $('#nama_minat').val();
       kategori = $('#kategori_minat').val();
+      if ( $.trim(nama) === '' || $.trim(kategori) === '' ) {
+        alert('tidak boleh nambah data kosong')
+      }else{
+        $.ajax({
+          url:'<?=base_url()?>santri/tambah_minat',
+          type:'post',
+          typeData:'html',
+          data:{id_santri:id,nama_minat:nama,kategori_minat:kategori},
+          success:function(){
+            tampilMinat()
+          }
+        })
+      }
+    })
 
-      $.ajax({
-        url:'<?=base_url()?>santri/tambah_minat',
-        type:'post',
-        typeData:'html',
-        data:{id_santri:id,nama_minat:nama,kategori_minat:kategori},
-        success:function(){
-          tampilMinat()
-        }
-      })
+    $('#tutupDaftar').on('click',function(){
+      $('#collapse4').addClass('show')
+      window.location.href = "";
     })
 
 

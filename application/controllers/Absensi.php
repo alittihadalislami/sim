@@ -26,10 +26,6 @@ class Absensi extends CI_Controller {
 
 		$data['jadwal'] = $this->am->jadwalHariIni($hari,$id_asatid);
 
-	   var_dump($id_asatid);
-	   var_dump($hari);
-	   die();
-
 		$this->load->view('templates/header', $data);
 		$this->load->view('absensi/home', $data);
 		$this->load->view('templates/footer');	
