@@ -33,4 +33,17 @@ class Kesantrian extends CI_Controller {
 		$this->load->view('kesantrian/klub', $data);
 		$this->load->view('templates/footer');
 	}
+
+	public function simpanKlub()
+	{
+		$daput = $this->input->post();
+		$cek = $this->db->get_where('t_klub', $daput)->num_rows();
+
+		if ($cek < 1) {
+			$this->db->insert('t_klub', $daput);
+		}else{
+			$this->db->where($daput);
+			$this->db->delete('t_klub');
+		}
+	}
 }

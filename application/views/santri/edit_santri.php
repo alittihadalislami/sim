@@ -182,13 +182,11 @@
                         <button type="button" class="btn btn-success"><i class="fas fa-list-ul"></i></button>
                       </div>
                       
-                      <div id="pilihan">
+                      <div>
                         <?php foreach ($list_minat as $value): ?>
-                          
                           <div class="checkbox">
-                            <label style="width: 40%">
-                              <input type="checkbox" name=""> <?= $value->nama_minat ?>
-                            </label>
+                            <input id="<?= $value->id_minat ?>" type="checkbox" minat="minat[]">
+                            <label class="pilihan" data-id_santri="<?=$santri['id_santri']?>" data-id_minat="<?= $value->id_minat ?>" for="<?= $value->id_minat ?>"> <?= $value->nama_minat ?> </label>
                           </div>
                         <?php endforeach ?>
                         
@@ -283,6 +281,20 @@
 
 <script>
   $(document).ready(function(){
+
+    $('.pilihan').unbind("click").click(function(){
+      minat = $(this).data("id_minat");
+      santri = $(this).data("id_santri");
+
+      $.ajax({
+        type:'post',
+        url:'<?=base_url()?>Kesantrian/simpanKlub',
+        data:{minat_id:minat,santri_id:santri},
+        success:function(){
+
+        }
+      })
+    })
 
     function tampilMinat(){
       tabel = '';
