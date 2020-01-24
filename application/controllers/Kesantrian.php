@@ -41,9 +41,11 @@ class Kesantrian extends CI_Controller {
 
 		if ($cek < 1) {
 			$this->db->insert('t_klub', $daput);
+			echo 'Simpan'.$daput['minat_id'];
 		}else{
 			$this->db->where($daput);
 			$this->db->delete('t_klub');
+			echo 'Hapus'.$daput['minat_id'];
 		}
 	}
 }

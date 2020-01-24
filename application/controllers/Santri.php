@@ -11,6 +11,7 @@ class Santri extends CI_Controller {
 		$this->load->model('User_model','um');
 		$this->tahunAktif = $this->um->tahunAktif()['id_tahun'];
 		$this->load->model('Kelas_model','km');
+		$this->load->model('Santri_model','sm');
 	}
 
 	public function perkelas()

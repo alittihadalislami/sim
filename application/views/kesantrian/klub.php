@@ -38,6 +38,7 @@
                       <th data-priority="1">Kelas Santri</th>
                       <th data-priority="2">Minat Santri</th>
                       <th data-priority="2">Kategori Minat</th>
+                      <th data-priority="2">L/P</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -45,10 +46,11 @@
                       <tr>
                         <td><?= $no++;?></td>
                         <td><?= $str['idk_mii'];?></td>
-                        <td><?= $str['nama_kelas'];?></td>
                         <td><?= $str['nama_santri'];?></td>
+                        <td><?= $str['nama_kelas'];?></td>
                         <td><?= $str['nama_minat'];?></td>
                         <td><?= $str['kategori_minat'];?></td>
+                        <td><?= $str['tra_tri'];?></td>
                       </tr>
                     <?php endforeach ?>
                   </tbody>

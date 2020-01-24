@@ -52,7 +52,7 @@
   </div>
 
 <div class="card">
-    <div class="card-body login-card-body">
+    <div class="card-body login-card-body bg-transparent">
       <p class="login-box-msg">Halaman login</p>
 
       <form action="<?= base_url('auth') ?>" method="post">

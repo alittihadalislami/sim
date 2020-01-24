@@ -75,6 +75,14 @@ class Absensi_model extends CI_Model {
 		return $this->db->query($stringQ)->result_array();
 	}
 
+	public function listBulanAbsen()
+	{
+		$stringQ = " SELECT DISTINCT(ra.`bulan`), ra.`tahun`
+					FROM v_rekap_asatid AS ra
+					ORDER BY ra.`tahun`, ra.`bulan` ASC ";
+		return $this->db->query($stringQ)->result();
+	}
+
 }
 
 /* End of file Absensi_model.php */

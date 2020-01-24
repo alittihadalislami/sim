@@ -112,13 +112,35 @@ class Absensi extends CI_Controller {
 		redirect('absensi','refresh');
 	}
 
-	public function rekap()
+	public function pilihPeriode()
+	{
+		$data['judul'] = 'Pilih Periode';
+
+		$list_bulan = $this->am->listBulanAbsen();
+		$bulan = [1=>'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+		foreach ($list_bulan as $val) {
+			$bulan_absen[array_search($val->bulan,$bulan)] = [
+				array_search($val->bulan,$bulan),
+				$val->bulan,
+				$val->tahun
+			];
+		}
+
+		$data['bulan']=$bulan_absen;
+		
+		$this->load->view('templates/header', $data);
+		$this->load->view('absensi/periode', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function rekap($bln,$tahun)
 	{
 		$data['judul'] = 'Rekap Absensi';
 
-		$tahun = 2020;
-		$bulan = 'Januari';
+		$list_bulan = [1=>'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
+		$bulan = $list_bulan[$bln];
 
 
 		$this->db->select('id_asatid, nama_asatid');
@@ -161,50 +183,13 @@ class Absensi extends CI_Controller {
 		}
 
 		$data['rekap_semua']=$list_asatid;
+		$data['atribut']=[$bulan, $tahun];
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('absensi/rekap_semua', $data);
 		$this->load->view('templates/footer');
 	}
 
-	public function coba()
-	{
-		// $asatid = [
-		// 	'anam' => [
-		// 		'tgl' => [6,7,8,9],
-		// 		'jamke' => [
-		// 			6 => ['1-2','3-4'],
-		// 			7 => ['1-2','3-4'],
-		// 			9 => ['1-2','3-4']
-		// 		],
-		// 		'total' => 20
-		// 	],
-		// ];
-
-
-		$asatid = [
-			'anam' => [
-				'tgl' => [],
-				'jamke' => [],
-				'total' => ''
-			],
-		];
-
-
-		var_dump($asatid);
-
-		echo '<hr>';
-
-		// array_push($asatid['anam']['tgl'], 1);
-		// array_push($asatid['anam']['jamke'][9], '5-6');
-
-		// var_dump($asatid);
-
-		// echo '<hr>';
-
-		// echo count($asatid['anam']['jamke'][9]);
-
-	}
 }
 
 /* End of file absensi.php */

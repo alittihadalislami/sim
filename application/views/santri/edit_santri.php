@@ -181,12 +181,34 @@
                         <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal" id="DaftarPeminatan">Daftar Peminatan</button>
                         <button type="button" class="btn btn-success"><i class="fas fa-list-ul"></i></button>
                       </div>
+
+                      <br style="clear:both" />
                       
-                      <div>
-                        <?php foreach ($list_minat as $value): ?>
+                      <div class="col-md" style="display: block;">
+                        <?php foreach ($list_minat as $value): 
+                          $check = $this->sm->klubTerpilih($santri['id_santri'],$value->id_minat);
+                          if ($check > 0) {
+                            $checked = 'checked';
+                          }else{
+                            $checked = null;
+                          }
+                        ?>
                           <div class="checkbox">
-                            <input id="<?= $value->id_minat ?>" type="checkbox" minat="minat[]">
-                            <label class="pilihan" data-id_santri="<?=$santri['id_santri']?>" data-id_minat="<?= $value->id_minat ?>" for="<?= $value->id_minat ?>"> <?= $value->nama_minat ?> </label>
+                            
+                            <input 
+                            id="<?= $value->id_minat ?>" 
+                            type="checkbox" 
+                            minat="minat[]" <?= $checked ?> >
+                            
+                            <label 
+                              class="pilihan p-2" 
+                              style="cursor: pointer;width: 40%"
+                              data-id_santri="<?=$santri['id_santri']?>" 
+                              data-id_minat="<?= $value->id_minat ?>" 
+                              for="<?= $value->id_minat ?>" > 
+                                
+                                <?= $value->nama_minat ?>
+                            </label>
                           </div>
                         <?php endforeach ?>
                         
