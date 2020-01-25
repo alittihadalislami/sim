@@ -5,9 +5,10 @@ class User_model extends CI_Model {
 
 	function dataAktif($email)
 	{ /*ambil data tabel user dari email login*/
-		$stringQ = " SELECT d.`nama`, d.`email`, d.`foto`, d.`foto`, d.`is_active`, d.`date_created`, r.`id_rule`, r.`nama_rule`, d.`nohp`
+		$stringQ = " SELECT d.`nama`, d.`email`, d.`foto`, d.`is_active`, d.`date_created`, r.`id_rule`, r.`nama_rule`, d.`nohp`, a.`kategori`
 					FROM `user_data` d JOIN `user_rule` r
-					ON d.`rule_id` = r.`id_rule`
+					ON d.`rule_id` = r.`id_rule` join m_asatid a
+					on a.`nohp` = d.`nohp`
 					WHERE d.`email` = '$email' ";
 		return $this->db->query($stringQ)->row_array();
 	}

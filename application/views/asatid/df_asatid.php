@@ -11,7 +11,7 @@ body.modal-open .modal .modal-dialog {
 <div class="content-wrapper">
   <section class="content">
     <div class="row">
-      <div class="col-md-6 mx-auto">
+      <div class="col-md-8 mx-auto">
         <div class="card card-secondary mt-5">
           <div class="card-header">
             <span class="card-title">Asatidz Ma'had Al Ittihad Al Islami</span>
@@ -39,7 +39,7 @@ body.modal-open .modal .modal-dialog {
                     <td><?= $as['nama_asatid']; ?></td>
                     <td><?= $as['niy'] == 0 ? '' : $as['niy']  ?></td>
                     <td><?= $as['nohp']; ?></td>
-                    <td><?= $as['kategori'] ==  1 ? '<span class="badge badge-success"> Guru </span>' : '<span class="badge badge-info badge-warning" > Pegawai </span>' ?></td>
+                    <td><?= $as['kategori'] ==  2 ? '<span class="badge badge-success"> Guru </span>' : '<span class="badge badge-info badge-warning" > Pegawai </span>' ?></td>
                     <td><?= $as['sts'] == 1 ? '<span class="badge badge-success"> Aktif </span>' : '<span class="badge badge-secondary"> Nonaktif</span>' ?></td>
                     <td><a href="<?=base_url('asatid/input/').$as['id_asatid']?>"><i class="fas fa-edit"></i></a></td>
                   </tr>

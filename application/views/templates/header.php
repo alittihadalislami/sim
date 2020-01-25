@@ -125,28 +125,34 @@
           <?php foreach ($daftarHeading as $dh): ?>
             <!-- <li class="nav-header">EXAMPLES</li> -->
           <div class="nav-header mt-2 pt-2 pl-3 text-uppercase" style="font-size: 15px; font-weight:bold;"><?=$dh['nama_head'] ?></div>
+
             <?php foreach ($daftarMenu as $dm): ?>
+              <?php if ($dm['id_menu'] == 5 && $dataAktif['kategori'] == 1) { 
+              } else { ?>
+
               <?php if ($dm['id_head'] == $dh['id_head']): ?>
                 <li class="nav-item has-treeview"> <!-- menu-open -->
                   <a href="<?=base_url().$dm['url']?>" class="nav-link rounded-1 py-2">
                     <i class="nav-icon <?= $dm['icon']?>  ?>"></i>
                     <p><?=$dm['nama_menu']; echo $this->um->adaSubmenu($this->session->userdata('rule_id'),$dm['id_menu'])['submenu']>0 ? '<i class="right fa fa-angle-left"></i>' : '';?></p>
                   </a>
-                  <?php foreach ($daftarSubmenu as $dsm): ?>
-                  <?php if ($dsm['menu_id'] == $dm['id_menu']): ?>
-                    <ul class="nav nav-treeview">
-                      <li class="nav-item ">
-                        <a href="<?= base_url().$dsm['url'] ?>" class="nav-link pl-4 py-0">
-                          <i class="icon <?= $dsm['icon'] ?> fa-fw"></i>
-                          <p><?= $dsm['nama_submenu'] ?></p>
-                        </a>
-                      </li>
-                    </ul>
-                  <?php endif ?>
-                  <?php endforeach ?>
 
+                  <?php foreach ($daftarSubmenu as $dsm): ?>
+                    <?php if ($dsm['menu_id'] == $dm['id_menu']): ?>
+                      <ul class="nav nav-treeview">
+                        <li class="nav-item ">
+                          <a href="<?= base_url().$dsm['url'] ?>" class="nav-link pl-4 py-0">
+                            <i class="icon <?= $dsm['icon'] ?> fa-fw"></i>
+                            <p><?= $dsm['nama_submenu'] ?></p>
+                          </a>
+                        </li>
+                      </ul>
+                    <?php endif ?>
+                  <?php endforeach ?>
+          
                 </li>
               <?php endif ?>
+              <?php } ?>
             <?php endforeach ?>
           <?php endforeach ?>
         </ul>

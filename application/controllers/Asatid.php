@@ -15,7 +15,7 @@ class Asatid extends CI_Controller {
 		$data['judul'] = 'Daftar Asatid Grup';
 		$data['asatid'] = $this->db->order_by('sts', 'desc')->order_by('niy', 'asc')->get('m_asatid')->result_array();
 
-		$data['kategori'] = [1=>'guru','pegawai'];
+		$data['kategori'] = [1=>'pegawai','guru'];
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('asatid/df_asatid', $data);
@@ -33,7 +33,7 @@ class Asatid extends CI_Controller {
 	{
 		$data['judul'] = 'Input no HP';
 		$data['id_asatid'] = $this->uri->segment(3);
-		$data['kategori'] = [1=>'guru','pegawai'];
+		$data['kategori'] = [1=>'pegawai','guru'];
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('asatid/input', $data);

@@ -61,7 +61,7 @@ class Absensi_model extends CI_Model {
 					AND ra.`bulan` = '$bulan'
 					AND ra.`tahun` = '$tahun'
 					GROUP BY ra.`waktu`
-					ORDER BY ra.`bulan` ASC, CAST(ra.`tgl` AS INT)  "; 
+					ORDER BY ra.`bulan` ASC "; 
 		return $this->db->query($stringQ)->result_array();
 	}
 
