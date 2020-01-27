@@ -64,7 +64,7 @@ class Santri extends CI_Controller {
 		$data['santri'] = $this->db->get_where('m_santri', ['id_santri'=>$santri_id])->row_array();
 		$data['d_santri'] = $this->db->get_where('t_detail_santri', ['santri_id'=>$santri_id])->row_array();
 		$data['list_minat'] = $this->db->select('id_minat, nama_minat, kategori_minat')->order_by('kategori_minat','asc')->get('t_minat')->result();
-		$data['kategori'] = ['Olahraga','Pelajaran','Keterampilan','Atletik'];
+		$data['kategori'] = ['Alqur\'an','Kitab','Kesenian','Olahraga','Kepanduan','Lainnya'];
 
 		// var_dump($data['list_minat']);die();
 
@@ -83,7 +83,15 @@ class Santri extends CI_Controller {
 				echo '<td>'.$no++.'</td>';
 				echo '<td>'.$value['nama_minat'].'</td>';
 				echo '<td>'.$value['kategori_minat'].'</td>';
-				echo '<td><a href="#" class="btn btn-sm hapus" data-id="'.$value['id_minat'].'"><i class="far fa-trash-alt text-danger"></i></td>';
+				echo '<td>
+						<a href="#" class="btn btn-sm editMinat" data-toggle="modal" data-target="#editModal"
+						data-minat="'.$value['nama_minat'].'"
+						data-kategori="'.$value['kategori_minat'].'"
+						data-id="'.$value['id_minat'].'">
+						<i class="far fa-edit text-primary"></i></a>
+
+						<a href="#" class="btn btn-sm hapus ml-3" data-id="'.$value['id_minat'].'" data-minat="'.$value['nama_minat'].'"><i class="far fa-trash-alt text-danger"></i></a>
+						</td>';
 			echo '</tr>';
 		}
 	}

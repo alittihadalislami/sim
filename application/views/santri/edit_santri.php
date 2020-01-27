@@ -246,7 +246,7 @@
       </div>
       <div class="modal-body">
         <a href="" class="btn btn-sm btn-outline-success mb-3 float-right" data-toggle="modal" data-target="#addModal">+ Tambah</a>
-        <table class="table table-striped">
+        <table class="table table-striped table-sm">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -301,6 +301,42 @@
   </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Peminatan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <form action="<?= base_url()?>santri/tambah_minat" method="post">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="minat">Nama Minat</label>
+              <input type="text" class="form-control" id="e_nama_minat" name="nama_minat" placeholder="Nama Minat" required>
+              <input type="text" class="form-control" id="e_id_minat" name="nama_minat" placeholder="ID Minat" required>
+            </div>
+            <div class="form-group">
+              <label for="minat">Kategori Minat</label>
+              <select class="form-control" name="kategori_minat" id="e_kategori_minat" required="true">
+              <option value="">--pilih--</option>
+                <?php foreach ($kategori as $key => $value): ?>
+                  <option value="<?=$value ?>"><?=$value ?></option>
+                <?php endforeach ?>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" data-dismiss="modal" id="save_e_Minat">Save changes</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
 <script>
   $(document).ready(function(){
 
@@ -335,16 +371,23 @@
     })
 
     $(document).on('click', ".hapus", function () {
+      
       id = $(this).data('id');
-      $.ajax({
-        url:'<?=base_url()?>santri/hapus_minat',
-        type:'post',
-        typeData:'html',
-        data:{id_minat:id},
-        success:function(){
-          tampilMinat()
-        }
-      })
+      minat = $(this).data('minat');
+      
+      if (confirm("Yakin mau menghapus: "+minat+"?")) {
+        $.ajax({
+          url:'<?=base_url()?>santri/hapus_minat',
+          type:'post',
+          typeData:'html',
+          data:{id_minat:id},
+          success:function(){
+            tampilMinat()
+          }
+        })
+      } 
+      return false
+
     })
 
     $('#saveMinat').on('click', function(){
@@ -365,6 +408,18 @@
           }
         })
       }
+    })
+
+    $(document).on('click', ".editMinat", function () {
+      
+      id = $(this).data('id')
+      minat = $(this).data('minat')
+      kategori = $(this).data('kategori')
+
+      $('#e_id_minat').val(id)
+      $('#e_nama_minat').val(minat)
+      $('#e_kategori_minat').val(kategori)
+      
     })
 
     $('#tutupDaftar').on('click',function(){
