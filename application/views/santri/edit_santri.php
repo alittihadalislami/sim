@@ -11,10 +11,13 @@
 <div class="content-wrapper">
   <section class="content">
     <div class="row">
+
       <?= $this->session->flashdata('pesan'); ?>
+
       <div class="col-md mx-auto">
 
         <div class="card mt-5">
+
           <div class="card-header">
             <h3 class="card-title">Perubahan data santri</h3>
           </div>
@@ -218,14 +221,10 @@
 
                   </div>
                 </div>
-
               </div>
 
               <button type="sumbit" class="btn btn-primary float-right elevation-4">Simpan</button>
             </form>
-          </div>
-          
-
           </div>
         </div>
       </div>
