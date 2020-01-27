@@ -250,7 +250,7 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Nama Minat</th>
-              <th scope="col">Jenis Minat</th>
+              <th scope="col">Ketegori</th>
               <th scope="col">Opsi</th>
             </tr>
           </thead>
@@ -300,7 +300,7 @@
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal EDIT-->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -419,7 +419,26 @@
       $('#e_nama_minat').val(minat)
       $('#e_kategori_minat').val(kategori)
       
+      
     })
+
+    $('#save_e_Minat').on('click', function(){
+
+      id = $('#e_id_minat').val()
+      minat = $('#e_nama_minat').val()
+      kategori = $('#e_kategori_minat').val()
+
+      $.ajax({
+        url:'<?=base_url()?>kesantrian/ubahMinat',
+        type:'post',
+        data:{id_minat:id,nama_minat:minat,kategori_minat:kategori},
+        typeData:'json',
+        success:function(){
+          tampilMinat()
+        }
+      })
+    })
+
 
     $('#tutupDaftar').on('click',function(){
       $('#collapse4').addClass('show')

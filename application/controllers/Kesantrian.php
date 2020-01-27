@@ -48,4 +48,16 @@ class Kesantrian extends CI_Controller {
 			echo 'Hapus'.$daput['minat_id'];
 		}
 	}
+
+	public function ubahMinat()
+	{
+		$id = $this->input->post('id_minat');
+		$object = [
+			'nama_minat' => $this->input->post('nama_minat'),
+			'kategori_minat' => $this->input->post('kategori_minat')
+		];
+		$this->db->where('id_minat', $id);
+		$this->db->update('t_minat', $object);
+
+	}
 }
