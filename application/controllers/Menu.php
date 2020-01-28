@@ -38,10 +38,32 @@ class Menu extends CI_Controller {
 
 		$data['judul'] = "Ubah Menu";
 
+		$data['head'] = $this->db->get('menu_head')->result();
+		$data['menu'] = $this->db->get_where('menu',['id_menu'=>$id])->row();
 		
+		$ubah = $this->input->post('ubah');
+
+		if ($ubah != NULL ) {
+			
+			$id_menu = $this->input->post('id_menu');
+			$object = [
+				'nama_menu' => $this->input->post('nama_menu'),
+				'url' => $this->input->post('url'),
+				'icon' => $this->input->post('icon'),
+				'urutan' => $this->input->post('urutan'),
+				'head_id' => $this->input->post('head_id')
+			];
+
+			$this->db->where('id_menu', $id_menu);
+			$this->db->update('menu', $object);
+
+			redirect('menu','refresh');
+		}
+
 		$this->load->view('templates/header', $data);
-		$this->load->view('menu/tambahMenu', $data);
+		$this->load->view('menu/editMenu', $data);
 		$this->load->view('templates/footer');
+
 	}
 
 	public function aksiTambahSubmenu()

@@ -186,20 +186,17 @@
                       </div>
 
                       <br style="clear:both" />
-                    
 
-                      <div class="col-xl-12">
-                        
+                      <div class="row">
+                     
                         <?php $no=1; foreach ($kategori as $kat): ?>
                           
 
-                        <div class="card col-xl-4 px-0">
+                        <div class="card col-md-6 col-xl-3 px-0 m-3 justify-content-center">
                             <div class="card-header font-weight-bold text-uppercase bg-secondary">
                               <?= $no++. '. '.$kat ?>
                             </div>
                           <div class="card-body">
-                            
-
 
                         <?php foreach ($list_minat as $value):
 
@@ -240,9 +237,7 @@
                            </div>
                         </div>
                         <?php endforeach ?>
-
                       </div>
-
                     </div>
                   </div>
                 </div>

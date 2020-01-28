@@ -21,33 +21,39 @@
               <h5><?= $judul ?></h5>
             </div>
             <div class="card-body">
-              <form action="<?= base_url('menu/aksiTambahMenu') ?>" method="post">
+              <form action="" method="post">
                     <div class="form-group">
                       <label for="headMenu">Heading</label>
                       <select class="form-control" name="head_id" id="headMenu" placeholder="Menu" required="">
                         <option value="">Pilih head</option>
-                        <?php foreach ($head as $h): ?> 
-                          <option value="<?=$h->id_head?>"><?=$h->nama?></option>
+                        <?php foreach ($head as $h): ?>
+                          <?php if ($h->id_head == $menu->head_id): ?>
+                            <option selected="true" value="<?=$h->id_head?>"><?=$h->nama?></option>
+                          <?php endif ?>
+                            <option value="<?=$h->id_head?>"><?=$h->nama?></option>
                         <?php endforeach ?> 
                       </select>
                     </div>
                     <div class="form-group">
                       <label for="namaMenu">Nama Menu</label>
-                      <input type="text" class="form-control" name="nama_menu" id="namamenu" placeholder="Nama Menu">
+                      <input type="text" class="form-control" name="nama_menu" value="<?= $menu->nama_menu ?>">
+                      <input hidden="true" type="text" class="form-control" name="id_menu" value="<?= $menu->id_menu ?>">
                     </div>
                     <div class="form-group">
                       <label for="urlMenu">URL</label>
-                      <input type="text" class="form-control" name="url" id="urlMenu" placeholder="URL Menu">
+                      <input type="text" class="form-control" name="url" value="<?= $menu->url ?>" >
                     </div>
                     <div class="form-group">
                       <label for="iconMenu">ICON</label>
-                      <input type="text" class="form-control" name="icon" id="iconMenu" placeholder="URL Menu">
+                      <input type="text" class="form-control" name="icon" value="<?= $menu->icon ?>">
                     </div>
                     <div class="form-group">
                       <label for="urutMenu">Urut</label>
-                      <input type="text" class="form-control" name="urutan" id="urutMenu" placeholder="Urut Menu">
+                      <input type="text" class="form-control" name="urutan" value="<?= $menu->urutan ?>">
                     </div>
+                    <button class="btn btn-success" type="submit" name="ubah" value="ubah">Simpan Perubahan</button>
                 </div>
+              </form>
             </div>
           </div>
         </div>
