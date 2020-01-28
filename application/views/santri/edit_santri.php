@@ -180,45 +180,71 @@
                     
                     <div class="card-body">
                       
-                      <div class="btn-group float-right" role="group">
+                      <div class="btn-group float-right mb-3" role="group">
                         <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal" id="DaftarPeminatan">Daftar Peminatan</button>
                         <button type="button" class="btn btn-success"><i class="fas fa-list-ul"></i></button>
                       </div>
 
                       <br style="clear:both" />
-                      
-                      <div class="col-md" style="display: block;">
-                        <?php foreach ($list_minat as $value): 
+                    
+
+                      <div class="col-xl-12">
+                        
+                        <?php $no=1; foreach ($kategori as $kat): ?>
+                          
+
+                        <div class="card col-xl-4 px-0">
+                            <div class="card-header font-weight-bold text-uppercase bg-secondary">
+                              <?= $no++. '. '.$kat ?>
+                            </div>
+                          <div class="card-body">
+                            
+
+
+                        <?php foreach ($list_minat as $value):
+
+                          if ($value->kategori_minat == $kat) {
+                            # code...
+
                           $check = $this->sm->klubTerpilih($santri['id_santri'],$value->id_minat);
                           if ($check > 0) {
                             $checked = 'checked';
                           }else{
                             $checked = null;
                           }
-                        ?>
+
+                        ?> 
+                          
+                          
                           <div class="checkbox">
-                            
+
                             <input 
                             id="<?= $value->id_minat ?>" 
                             type="checkbox" 
                             minat="minat[]" <?= $checked ?> >
                             
                             <label 
-                              class="pilihan p-2" 
-                              style="cursor: pointer;width: 40%"
+                              class="pilihan" 
+                              style="cursor: pointer;"
                               data-id_santri="<?=$santri['id_santri']?>" 
                               data-id_minat="<?= $value->id_minat ?>" 
                               for="<?= $value->id_minat ?>" > 
-                                
                                 <?= $value->nama_minat ?>
                             </label>
                           </div>
+
+                          </li>
+                          <?php } ?>
+
                         <?php endforeach ?>
-                        
+
+                           </div>
+                        </div>
+                        <?php endforeach ?>
+
                       </div>
 
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -251,7 +277,9 @@
               <th scope="col">#</th>
               <th scope="col">Nama Minat</th>
               <th scope="col">Ketegori</th>
-              <th scope="col">Opsi</th>
+              <?php if ($this->session->userdata('rule_id')<5): ?>
+                <th scope="col">Opsi</th>
+              <?php endif ?>
             </tr>
           </thead>
           <tbody id="minat1"> <!-- diisi oleh ajax -->
@@ -315,7 +343,7 @@
             <div class="form-group">
               <label for="minat">Nama Minat</label>
               <input type="text" class="form-control" id="e_nama_minat" name="nama_minat" placeholder="Nama Minat" required>
-              <input type="text" class="form-control" id="e_id_minat" name="nama_minat" placeholder="ID Minat" required>
+              <input type="text" class="form-control" id="e_id_minat" name="nama_minat" placeholder="ID Minat" hidden="true">
             </div>
             <div class="form-group">
               <label for="minat">Kategori Minat</label>

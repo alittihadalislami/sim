@@ -66,8 +66,6 @@ class Santri extends CI_Controller {
 		$data['list_minat'] = $this->db->select('id_minat, nama_minat, kategori_minat')->order_by('kategori_minat','asc')->get('t_minat')->result();
 		$data['kategori'] = ['Alqur\'an','Kitab','Kesenian','Olahraga','Kepanduan','Lainnya'];
 
-		// var_dump($data['list_minat']);die();
-
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/edit_santri', $data);
 		$this->load->view('templates/footer');
@@ -79,10 +77,14 @@ class Santri extends CI_Controller {
 		
 		$no=1;
 		foreach ($list_minat as $value) {
+
 			echo '<tr>';
 				echo '<td>'.$no++.'</td>';
 				echo '<td>'.$value['nama_minat'].'</td>';
 				echo '<td>'.$value['kategori_minat'].'</td>';
+
+			if ($this->session->userdata('rule_id')<5) {
+				
 				echo '<td>
 						<a href="#" class="btn btn-sm editMinat" data-toggle="modal" data-target="#editModal"
 						data-minat="'.$value['nama_minat'].'"
@@ -92,6 +94,8 @@ class Santri extends CI_Controller {
 
 						<a href="#" class="btn btn-sm hapus ml-3" data-id="'.$value['id_minat'].'" data-minat="'.$value['nama_minat'].'"><i class="far fa-trash-alt text-danger"></i></a>
 						</td>';
+			}
+
 			echo '</tr>';
 		}
 	}
