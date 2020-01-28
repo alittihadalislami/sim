@@ -204,7 +204,6 @@
                         <?php foreach ($list_minat as $value):
 
                           if ($value->kategori_minat == $kat) {
-                            # code...
 
                           $check = $this->sm->klubTerpilih($santri['id_santri'],$value->id_minat);
                           if ($check > 0) {
