@@ -197,6 +197,68 @@ class Menu extends CI_Controller {
 
 	}
 
+	public function user()
+	{
+		$data['judul'] = 'List User';
+		$this->load->view('templates/header', $data);
+		$this->load->view('menu/user', $data);
+		$this->load->view('templates/footer');
+	}
+
+	function tampilUser()
+	{
+
+		$draw=$_REQUEST['draw'];
+		$length=$_REQUEST['length'];
+		$start=$_REQUEST['start'];
+		$search=$_REQUEST['search']["value"];
+		$total=$this->db->count_all_results("user_data");
+
+		$output=array();
+		
+		$output['draw']=$draw;
+		$output['recordsTotal']=$output['recordsFiltered']=$total;
+		$output['data']=array();
+
+		if($search!=""){
+		$this->db->like("nama",$search);
+		$this->db->or_like("nohp",$search);
+		$this->db->or_like("email",$search);
+		}
+
+		$this->db->limit($length,$start);
+		/*Urutkan dari alphabet paling terkahir*/
+		$this->db->order_by('nama','asc');
+		$query=$this->db->get('user_data');
+
+		if($search!=""){
+		$this->db->like("nama",$search);
+		$this->db->or_like("nohp",$search);
+		$this->db->or_like("email",$search);
+		$jum=$this->db->get('user_data');
+		$output['recordsTotal']=$output['recordsFiltered']=$jum->num_rows();
+		}
+
+
+		$nomor_urut=$start+1;
+		foreach ($query->result_array() as $user) {
+			
+			$output['data'][]=array(
+				$nomor_urut, 
+				$user['nama'],
+				$user['email'],
+				$user['nohp'],
+				$user['rule_id'],
+				"<a href:'".base_url()."menu/ubah' class='btn btn-primary btn-sm'>ubah</a> | <a>delete</a>"
+			);
+
+		$nomor_urut++;
+		}
+
+		echo json_encode($output);
+
+	}
+
 }
 
 /* End of file menu.php */
