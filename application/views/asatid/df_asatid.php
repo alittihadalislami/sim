@@ -39,7 +39,7 @@ body.modal-open .modal .modal-dialog {
                     <td><?= $as['nama_asatid']; ?></td>
                     <td><?= $as['niy'] == 0 ? '' : $as['niy']  ?></td>
                     <td><?= $as['nohp']; ?></td>
-                    <td><?= $as['kategori'] ==  2 ? '<span class="badge badge-success"> Guru </span>' : '<span class="badge badge-info badge-warning" > Pegawai </span>' ?></td>
+                    <td><?= $as['kategori'] ==  1 ? '<span class="badge badge-success"> Guru </span>' : '<span class="badge badge-info badge-warning" > Pegawai </span>' ?></td>
                     <td><?= $as['sts'] == 1 ? '<span class="badge badge-success"> Aktif </span>' : '<span class="badge badge-secondary"> Nonaktif</span>' ?></td>
                     <td><a href="<?=base_url('asatid/input/').$as['id_asatid']?>"><i class="fas fa-edit"></i></a></td>
                   </tr>
@@ -81,6 +81,7 @@ body.modal-open .modal .modal-dialog {
           </div>
           </div>
            <input type="text" name="sts" value="1" hidden="true">
+           <input type="text" name="tetap" value="0" hidden="true">
           <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary">Save changes</button>

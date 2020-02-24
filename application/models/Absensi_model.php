@@ -15,6 +15,15 @@ class Absensi_model extends CI_Model {
 		return $this->db->query($stringQ)->result_array();
 	}
 
+	public function cekPegewai($id)
+	{
+		$stringQ=" SELECT *
+					FROM m_asatid a
+					WHERE a.`kategori`= 2
+					AND a.`id_asatid` = $id ";
+		return $this->db->query($stringQ)->result();
+	}
+
 	public function detailKbm($id_kbm)
 	{
 		return $this->db->get_where('t_kbm', ['id_kbm'=>$id_kbm])->row_array();

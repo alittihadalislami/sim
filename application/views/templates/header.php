@@ -53,6 +53,11 @@
     background-color: #28A745 !important;
     border-radius: 4!important;
   }
+
+  .pagination > .active {
+    box-shadow: none;
+  }
+  
   </style>
 
   <!-- jQuery -->

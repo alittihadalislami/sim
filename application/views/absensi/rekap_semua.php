@@ -23,8 +23,8 @@
         <div class="col-lg lebar">
 
           <div class="card">
-              <div class="card-header bg-success">
-                <h3 class="card-title"><?= $atribut[0] .' - '.$atribut[1]; ?></h3>
+              <div class="card-header bg-primary">
+                <h3 class="card-title">Kehadiran Guru Kelas, Bulan: <?= $atribut[0] .' - '.$atribut[1]; ?></h3>
               </div>
               
               <!-- /.card-header -->
@@ -59,6 +59,37 @@
                         ?>
                       </tr>
                       <?php endforeach ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header bg-secondary">
+                <h3 class="card-title">Kehadiran Civitas non Guru: <?= $atribut[0] .' - '.$atribut[1]; ?></h3>
+              </div>
+              
+              <!-- /.card-header -->
+              <div class="card-body table-responsive">
+                <table id="santri" class="table table-sm table-bordered table-hover" width="100%">
+                  <thead>                  
+                    <tr>
+                      <th>#</th>
+                      <th>Nama Asatid</th>
+                      <th>Jumlah Hadir</th>
+                      <?php for ($i=1; $i <= 31 ; $i++) : ?> 
+                        <th data-priority="1"><?= $i ?></th>
+                      <?php endfor?>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php $no=1; foreach ($nonguru as $ng): ?>
+                      <tr>
+                        <td><?= $no++ ?></td>
+                        <td><?=$ng->nama_asatid ?></td>
+                      </tr>
+                      
+                    <?php endforeach ?>
                   </tbody>
                 </table>
               </div>

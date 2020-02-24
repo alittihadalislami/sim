@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 
 
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper pl-3">
   <!-- Content Header (Page header) -->

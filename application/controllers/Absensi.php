@@ -22,9 +22,17 @@ class Absensi extends CI_Controller {
 		$hari = $this->waktuAbsen()['nama_hari'];
 
 		$nohp = $this->um->dataAktif($this->session->userdata('email'))['nohp'];
-		$id_asatid = $this->um->idAsatid($nohp)['id_asatid'];
+		$id_asatid = /*265;//*/ $this->um->idAsatid($nohp)['id_asatid'];
 
 		$data['jadwal'] = $this->am->jadwalHariIni($hari,$id_asatid);
+
+
+		if ( count($data['jadwal']) < 1) {
+			
+			$this->load->view('templates/header', $data);
+			$this->load->view('absensi/home', $data);
+			$this->load->view('templates/footer');				
+		}
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('absensi/home', $data);
@@ -144,6 +152,9 @@ class Absensi extends CI_Controller {
 
 
 		$this->db->select('id_asatid, nama_asatid');
+		$this->db->order_by('niy', 'asc');
+		$this->db->where('sts', 1);
+		$this->db->where('kategori', 1);
 		$asatid = $this->db->get('m_asatid')->result_array();
 
 		foreach ($asatid as $as) {
@@ -184,6 +195,9 @@ class Absensi extends CI_Controller {
 
 		$data['rekap_semua']=$list_asatid;
 		$data['atribut']=[$bulan, $tahun];
+
+		$this->db->order_by('niy', 'asc');
+		$data['nonguru'] = $this->db->get_where('m_asatid', ['kategori'=>2])->result();
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('absensi/rekap_semua', $data);
