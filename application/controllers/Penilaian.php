@@ -9,6 +9,7 @@ class Penilaian extends CI_Controller {
 		parent::__construct();
 		is_login();
 		$this->load->model('User_model','um');
+		$this->load->model('Kelas_model','km');
 		$this->tahunAktif = $this->um->tahunAktif();
 	}
 
@@ -78,6 +79,94 @@ class Penilaian extends CI_Controller {
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('penilaian/na', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function uamii_form($id_mapel)
+	{
+
+		$data['judul'] = 'Nilai UAMII';
+		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
+		$data['santri'] = $this->km->santriIjz($data['id_tahun']);
+		$data['mapel'] = $this->um->listMapelIjz($id_mapel);
+		$data['nilai_raport'] = $this->db->get_where('t_nilai_ijz', ['mapel_id'=>$id_mapel, 'tahun_id'=>$data['id_tahun'] ])->result_array();
+	
+		$this->load->view('templates/header', $data);
+		$this->load->view('penilaian/uamii_form', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function uamii_simpan()
+	{
+		$daput = $this->input->post(null,true);
+
+		
+		$id_tahun = $daput['id-tahun-0'];
+		$id_mapel = $daput['id-mapel-0'];
+
+		foreach ($daput as $dp => $val) {
+			$cacah = explode('-', $dp);
+			if ($cacah[0] != 'id') {
+				$arrayc[] =  $cacah[1];
+			}
+		}
+
+		$santri_id = (array_unique($arrayc));
+
+		foreach ($santri_id as $santri) {
+
+			if ($daput["uamii-$santri"] < 1) {
+				$uamii = null;
+			}else {
+				$uamii = $daput["uamii-$santri"];
+			}
+
+			if ($daput["ijazah-$santri"] < 1){
+				$ijz=null;
+			}else{
+				$ijz = $daput["ijazah-$santri"];
+			} 
+
+			if ($daput["suluk-$santri"] < 1) {
+				$slk = null;
+			}else{
+				$slk = $daput["suluk-$santri"];
+			}
+
+			$object_update=[
+    					'uamii' => $uamii,
+    					'ijz' => $ijz,
+    					'slk' => $slk
+    				];
+    				
+    				$this->db->where('tahun_id', $id_tahun);
+    				$this->db->where('mapel_id', $id_mapel);
+    				$this->db->where('santri_id', $santri);
+    				$affect_update = $this->db->update('t_nilai_ijz', $object_update);
+		}
+
+		
+			redirect('penilaian/uamii_form/'.$id_mapel,'refresh');
+		
+
+
+	}
+
+	public function uamii() //rekap nilai uamii
+	{
+		is_boleh();
+
+		$data['judul'] = 'Nilai UAMII';
+		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
+		$data['id_kelas'] = 12; //$this->uri->segment(5);
+		$data['id_mapel'] = 1; //$this->uri->segment(4);
+		$data['mapel'] = $this->um->listMapelIjz();
+		$data['santri'] = $this->km->santriIjz($data['id_tahun']);
+		$data['suluk'] = $this->km->sulukIjz();
+
+	
+		$this->load->view('templates/header', $data);
+		$this->load->view('penilaian/uamii_nilai', $data);
 		$this->load->view('templates/footer');
 	}
 

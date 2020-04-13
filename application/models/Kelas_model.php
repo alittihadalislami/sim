@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Kelas_model extends CI_Model {
 
-	public function santri($tahun_id = 2, $wali=null)
+	public function santri($tahun_id = 3, $wali=null)
 	{
 		if ($wali == null) {
 			$this->db->select('m_santri.id_santri, m_santri.idk_mii, m_santri.idk_umum, m_santri.nama_santri, m_kelas.nama_kelas');
@@ -89,6 +89,37 @@ class Kelas_model extends CI_Model {
 						+ IF( d.`hp_ibu` IS NULL || d.`hp_ibu` = '', 0,1)
 						AS isian
 					FROM t_detail_santri d ";
+		return $this->db->query($stringQ)->result_array();
+	}
+
+	public function santriIjz($tahun_id)
+	{
+		$stringQ = " SELECT s.`id_santri`, s.`idk_mii`, s.`idk_umum`, s.`nisn`, s.`nama_santri`, k.`nama_kelas`
+			FROM t_agtkelas a JOIN m_santri s 
+			ON a.`santri_id` = s.`id_santri` JOIN m_kelas k
+			ON k.`id_kelas` = a.`kelas_id`
+			WHERE a.`tahun_id` = $tahun_id && k.`rombel` = 6 ";
+		return $this->db->query($stringQ)->result_array();
+	}
+
+	public function nilaiIjz($santri_id, $mapel_id, $tahun_id)
+	{
+		$stringQ = " SELECT * 
+					FROM t_nilai_ijz 
+					WHERE santri_id = $santri_id and mapel_id = $mapel_id and tahun_id = $tahun_id ";
+		return $this->db->query($stringQ)->row_array();
+	}
+
+	public function adaNilaiIjz($id_mapel,$id_santri)
+	{
+		return $this->db->get_where('t_nilai_ijz', ['mapel_id'=>$id_mapel, 'santri_id'=>$id_santri])->row_array();
+	}
+
+	public function sulukIjz()
+	{
+		$stringQ = " SELECT	`santri_id`, ROUND(AVG(slk),1) slk
+					FROM t_nilai_ijz 
+					GROUP BY santri_id ";
 		return $this->db->query($stringQ)->result_array();
 	}
 

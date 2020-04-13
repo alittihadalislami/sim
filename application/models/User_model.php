@@ -440,6 +440,34 @@ class User_model extends CI_Model {
 		return $this->db->query($stringQ)->num_rows();
 
 	}
+
+	public function listMapelIjz($id_mapel = null)
+	{
+		if ($id_mapel != null ) {
+			$kond = "WHERE u.`urut_ijz` IS NOT NULL and u.`mapel_id` = $id_mapel";
+		} else{
+			$kond = "WHERE u.`urut_ijz` IS NOT NULL";
+		}
+
+		$stringQ = " SELECT m.`id_mapel`, u.`urut_ijz`, m.`mapel_alias`,  m.`mapel_ar`
+				FROM t_urutmapel u JOIN m_mapel m
+				ON u.`mapel_id` = m.`id_mapel`
+				$kond ORDER BY u.`urut_ijz` ASC ";
+		return $this->db->query($stringQ)->result_array();
+	}
+
+	public function guruKelas6($email)
+	{
+		$stringQ=" SELECT a.`id_asatid`, p.`id_mapel`, p.`mapel_alias`, k.`kelas_alias`, u.`email`, a.`nama_asatid`
+			FROM m_mengajar	m JOIN m_kelas k
+			ON k.`id_kelas` = m.`kelas_id` JOIN m_asatid a
+			ON a.`id_asatid` = m.`asatid_id` JOIN user_data u
+			ON u.`nohp` = a.`nohp` JOIN m_mapel p
+			ON p.`id_mapel` = m.`mapel_id`
+			WHERE k.`rombel` = 6 AND m.`tahun_id` = 3 AND u.`email` = $email
+			GROUP BY a.`id_asatid`, p.`id_mapel` ";
+		return $this->db->query($stringQ)->num_rows();
+	}
 }
 
 /* End of file user.php */

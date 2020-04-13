@@ -43,4 +43,14 @@ function is_ngajar()
 function is_boleh()
 {
 	$ci = get_instance();
+	$ci->load->model('User_model','um');
+
+	$email = '"'.$ci->session->userdata('email').'"';
+
+	$guruKelas6 = $ci->um->guruKelas6("$email");
+	
+	if ($guruKelas6 < 1) {
+ 		redirect('dashboard','refresh');
+ 	}
+
 }
