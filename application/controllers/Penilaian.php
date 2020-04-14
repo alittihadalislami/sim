@@ -90,10 +90,6 @@ class Penilaian extends CI_Controller {
 		$data['santri'] = $this->km->santriIjz($data['id_tahun']);
 		$data['mapel'] = $this->um->listMapelIjz($id_mapel);
 		$data['nilai_raport'] = $this->db->get_where('t_nilai_ijz', ['mapel_id'=>$id_mapel, 'tahun_id'=>$data['id_tahun'] ])->result_array();
-
-		var_dump($id_mapel);
-		var_dump($data['id_tahun']);
-		var_dump($data['nilai_raport']);die();
 	
 		$this->load->view('templates/header', $data);
 		$this->load->view('penilaian/uamii_form', $data);
