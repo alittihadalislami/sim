@@ -132,7 +132,7 @@
           <div class="nav-header mt-2 pt-2 pl-3 text-uppercase" style="font-size: 15px; font-weight:bold;"><?=$dh['nama_head'] ?></div>
 
             <?php foreach ($daftarMenu as $dm): ?>
-              <?php if ($dm['id_menu'] == 5 && $dataAktif['kategori'] == 1) { 
+              <?php if ($dm['id_menu'] == 5 && $dataAktif['kategori'] == 2) { 
               } else { ?>
 
               <?php if ($dm['id_head'] == $dh['id_head']): ?>
