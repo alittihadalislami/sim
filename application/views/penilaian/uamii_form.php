@@ -191,7 +191,7 @@
               $slk = $this->km->adaNilaiIjz($mapel[0]['id_mapel'],$s['id_santri'])['slk'];
             ?>
 
-            <div class="br2 awnilai lb-2"><input class="form-control lb-i nrp" type="text" min="0" max="100" id="nrp-<?=$i?>"  value=" <?= $r_nrp ?>" readonly>
+            <div class="br2 awnilai lb-2"><input class="form-control lb-i nrp" type="text" min="0" max="100" id="nrp-<?=$i?>"  value="<?= $r_nrp ?>" readonly>
             </div>
 
 
