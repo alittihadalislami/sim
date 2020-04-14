@@ -49,7 +49,6 @@ function is_boleh()
 
 
 	$guruKelas6 = $ci->um->guruKelas6("$email");
-	var_dump($guruKelas6);die();
 	
 	if ($guruKelas6 < 1) {
  		redirect('dashboard','refresh');
