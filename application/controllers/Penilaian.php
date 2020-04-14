@@ -154,12 +154,10 @@ class Penilaian extends CI_Controller {
 
 	public function uamii() //rekap nilai uamii
 	{
-		is_boleh();
+		//is_boleh();
 
 		$data['judul'] = 'Nilai UAMII';
 		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
-		$data['id_kelas'] = 12; //$this->uri->segment(5);
-		$data['id_mapel'] = 1; //$this->uri->segment(4);
 		$data['mapel'] = $this->um->listMapelIjz();
 		$data['santri'] = $this->km->santriIjz($data['id_tahun']);
 		$data['suluk'] = $this->km->sulukIjz();
