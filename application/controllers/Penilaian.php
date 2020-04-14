@@ -154,7 +154,7 @@ class Penilaian extends CI_Controller {
 
 	public function uamii() //rekap nilai uamii
 	{
-		//is_boleh();
+		is_boleh();
 
 		$data['judul'] = 'Nilai UAMII';
 		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
