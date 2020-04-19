@@ -151,10 +151,10 @@ class Penilaian extends CI_Controller {
     					'slk' => $slk
     				];
     				
-    				$this->db->where('tahun_id', $id_tahun);
-    				$this->db->where('mapel_id', $id_mapel);
-    				$this->db->where('santri_id', $santri);
-    				$affect_update = $this->db->update('t_nilai_ijz', $object_update);
+			$this->db->where('mapel_id', $id_mapel);
+			$this->db->where('santri_id', $santri);
+			$this->db->where('tahun_id', $id_tahun);
+			$this->db->update('t_nilai_ijz', $object_update);
 		}
 
 		
