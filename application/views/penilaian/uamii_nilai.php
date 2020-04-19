@@ -44,6 +44,7 @@
                 <table id="leger_nilai" class="table table-striped table-hover">
                   <thead>                  
                     <tr>
+                      <?php $css = 'style="border-top: 5px solid darkgreen"'; ?>
                       <th>No</th>
                       <th>Nama Santri</th>
                       <th>Kelas</th>
@@ -66,8 +67,26 @@
                           <?php
                             foreach ($suluk as $slk) {
                               if ($slk['santri_id'] == $s['id_santri']) {
-                                  echo $slk['slk'];
-                                }  
+                                  switch ( $slk['slk'] ) {
+                                    case $slk['slk'] > 90 :
+                                      $suluk_k = "A";
+                                      break;
+                                    case $slk['slk'] > 80 :
+                                      $suluk_k = "B";
+                                      break;
+                                    case $slk['slk'] > 70 :
+                                      $suluk_k = "C";
+                                      break;
+                                    case $slk['slk'] > 60 :
+                                      $suluk_k = "D";
+                                      break;
+                                    default:
+                                      $suluk_k = "E";
+                                      break;
+                                  } 
+                                echo $suluk_k.'  ';
+                                echo '('.round($slk['slk'],0).')';
+                                }
                             }
                           ?>
                         </td>
