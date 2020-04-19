@@ -96,6 +96,18 @@ class Penilaian extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	public function uamii_form_karya()
+	{
+
+		$data['judul'] = 'Nilai UAMII';
+		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
+		$data['santri'] = $this->km->santriIjz($data['id_tahun']);
+	
+		$this->load->view('templates/header', $data);
+		$this->load->view('penilaian/uamii_form_karya', $data);
+		$this->load->view('templates/footer');
+	}
+
 	public function uamii_simpan()
 	{
 		$daput = $this->input->post(null,true);
@@ -152,6 +164,60 @@ class Penilaian extends CI_Controller {
 
 	}
 
+	public function uamii_simpan_karya()
+	{
+		$daput = $this->input->post(null,true);
+		
+		$id_tahun = $daput['id-tahun-0'];
+
+		foreach ($daput as $dp => $val) {
+			$cacah = explode('-', $dp);
+			if ($cacah[0] != 'id') {
+				$arrayc[] =  $cacah[1];
+			}
+		}
+
+		$santri_id = (array_unique($arrayc));
+
+		foreach ($santri_id as $santri) {
+
+			if ($daput["tematik-$santri"] < 1) {
+				$tematik = null;
+			}else {
+				$tematik = $daput["tematik-$santri"];
+			}
+
+			if ($daput["ijazah-$santri"] < 1){
+				$ijz=null;
+			}else{
+				$ijz = $daput["ijazah-$santri"];
+			} 
+
+			if ($daput["penelitian-$santri"] < 1) {
+				$penelitian = null;
+			}else{
+				$penelitian = $daput["penelitian-$santri"];
+			}
+
+			$object_update=[
+						'santri_id'=> $santri,
+						'judul_penelitian'=> '',
+						'judul_tematik'=> '',
+    					'nilai_penelitian' => $penelitian,
+    					'nilai_tematik' => $tematik,
+    					'nilai_karya' => $ijz,
+    					'tahun_id' => $id_tahun
+    				];
+
+    			$this->db->replace('t_karya', $object_update);
+		}
+
+		redirect('penilaian/uamii_form_karya','refresh');
+		
+
+
+	}
+
 	public function uamii() //rekap nilai uamii
 	{
 		is_boleh();
@@ -161,6 +227,7 @@ class Penilaian extends CI_Controller {
 		$data['mapel'] = $this->um->listMapelIjz();
 		$data['santri'] = $this->km->santriIjz($data['id_tahun']);
 		$data['suluk'] = $this->km->sulukIjz();
+		$data['karya'] = $this->db->get('t_karya')->result_array();
 
 	
 		$this->load->view('templates/header', $data);

@@ -51,6 +51,9 @@
                       <?php foreach ($mapel as $m): ?>
                         <th><a href="<?= base_url('penilaian/uamii_form/').$m['id_mapel'] ?>"><?= $m['mapel_alias'] ?></a></th>
                       <?php endforeach ?>
+                      <th><a href="<?php base_url()?>uamii_form_karya">Karya Ilmiyah</a></th>
+                      <th>Jumlah</th>
+                      <th>Rata-rata</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -68,9 +71,37 @@
                             }
                           ?>
                         </td>
-                        <?php foreach ($mapel as $m): ?>
-                          <td><?= $this->km->nilaiIjz($s['id_santri'],$m['id_mapel'],3)['ijz'] ?></td>
+                        <?php $nilai = 0; foreach ($mapel as $m): ?>
+                          <td>
+                            <?php 
+                              $nilai = $this->km->nilaiIjz($s['id_santri'],$m['id_mapel'],3)['ijz'] ;
+                              $nilai += $nilai;
+                            ?>
+                          </td>
                         <?php endforeach ?>
+                        <td>
+                          <?php 
+                            foreach ($karya as $k) {
+                              if ($k['santri_id'] == $s['id_santri']) {
+                                echo $karya_ilmiyah = $k['nilai_karya'];
+                              }
+                            }
+                          ?>
+                        </td>
+                        <td>
+                          <?php  
+                            if ($nilai + $karya_ilmiyah > 0) {
+                               echo $nilai + $karya_ilmiyah;
+                             } 
+                          ?>
+                        </td>
+                        <td>
+                          <?php  
+                            if ($nilai + $karya_ilmiyah > 0) {
+                               echo round(($nilai + $karya_ilmiyah)/28,1);
+                             } 
+                          ?>
+                        </td>
                       </tr>
                     <?php endforeach ?>
                                      
