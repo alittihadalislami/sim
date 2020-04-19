@@ -228,7 +228,6 @@ class Penilaian extends CI_Controller {
 		$data['santri'] = $this->km->santriIjz($data['id_tahun']);
 		$data['suluk'] = $this->km->sulukIjz();
 		$data['karya'] = $this->db->get('t_karya')->result_array();
-
 	
 		$this->load->view('templates/header', $data);
 		$this->load->view('penilaian/uamii_nilai', $data);

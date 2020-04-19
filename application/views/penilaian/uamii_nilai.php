@@ -74,8 +74,8 @@
                         <?php $nilai = 0; foreach ($mapel as $m): ?>
                           <td>
                             <?php 
-                              $nilai = $this->km->nilaiIjz($s['id_santri'],$m['id_mapel'],3)['ijz'] ;
-                              $nilai += $nilai;
+                              echo $nilai_ijz = $this->km->nilaiIjz($s['id_santri'],$m['id_mapel'],3)['ijz'] ;
+                              $nilai += $nilai_ijz;
                             ?>
                           </td>
                         <?php endforeach ?>
