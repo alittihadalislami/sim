@@ -98,7 +98,7 @@
                         <td>
                           <?php  
                             if ($nilai + $karya_ilmiyah > 0) {
-                               echo round(($nilai + $karya_ilmiyah)/28,1);
+                               echo round(($nilai + $karya_ilmiyah)/26,1);
                              } 
                           ?>
                         </td>
