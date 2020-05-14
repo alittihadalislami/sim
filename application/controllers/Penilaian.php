@@ -18,6 +18,25 @@ class Penilaian extends CI_Controller {
 		$this->dashboard();
 	}
 
+	function enk()
+	{
+		$string = 'Indy Nuhaa Mardzia';
+		echo $string."<br>";
+		$param = $this->acak->buatKembali(1,$string);
+		echo $param.'<br>';
+		echo "<a href='".base_url()."penilaian/enk2/".$param."'>Ayyash</a>";
+		echo "<br>";
+		var_dump($this->acak->buatKembali(0,$param));
+	}
+
+	function enk2($param)
+	{
+		echo $param." << sebelum dikembalikan<br>";
+		$kembali_lagi = $this->acak->buatKembali(0,$param);
+		echo "<a href='".base_url()."penilaian/enk'>Urwah</a><br>";
+		echo $kembali_lagi;
+	}
+
 	public function na()
 	{
 		is_ngajar();
@@ -421,18 +440,22 @@ class Penilaian extends CI_Controller {
 	}
 	
 
-	public function kd()
+	public function kd($asatid, $mapel, $kelas)
 	{
-
 		$data['judul'] = 'Kompetensi Dasar';
 		
 		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
-		$data['id_mapel'] = $this->uri->segment(4);
-		$data['id_kelas'] = $this->uri->segment(5);
+		$sem = $this->tahunAktif['semester'];
+		$data['id_mapel'] = $this->acak->buatKembali(0,$mapel); 
+		$data['id_kelas'] = $this->acak->buatKembali(0,$kelas); 
+
 		$data['rombel'] = $this->db->get_where('m_kelas', ['id_kelas' => $data['id_kelas']] )->row_array()['rombel'];
 
 		$jml_kd = $this->um->kdTersedia2($data['id_mapel'],$data['rombel'],$data['id_tahun'])->num_rows();
 		$data['jml_kd'] = $jml_kd;
+
+		//mencari arsip kd
+		$data['arsip_kd'] = $this->um->arsipKD($data['rombel'], $data['id_mapel'], $sem);
 		
 		//mencari nama kelas
 		$this->db->select('nama_kelas');
@@ -465,6 +488,28 @@ class Penilaian extends CI_Controller {
 		}
 		
 		
+	}
+
+	function rombelKD()//manual tambah nilai rombel
+	{
+		$stringQ = "SELECT `t_kd`.`kelas_id`, `t_kd`.`rombel` 
+					FROM `t_kd` 
+					WHERE `t_kd`.`rombel` = 0 
+					GROUP BY `t_kd`.`kelas_id`";
+		$target = $this->db->query($stringQ)->result_array();
+
+		foreach ($target as $tr) {
+			$id_kelas = $tr['kelas_id'];
+			$stringQ = "SELECT k.rombel
+						FROM `m_kelas` k
+						WHERE k.`id_kelas` = $id_kelas";
+			$rombel = $this->db->query($stringQ)->row_array()['rombel'];
+
+			$this->db->where('kelas_id', $id_kelas);
+			$this->db->where('rombel', 0);
+			$this->db->update('t_kd', ['rombel' => $rombel]);
+
+		}
 	}
 
 	function tambah_kd()

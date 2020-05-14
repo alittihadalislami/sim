@@ -170,6 +170,32 @@
         </div>
 
         <div class="card-body">
+          <h4 class="p-2">
+            A. &nbsp KD Tersimpan
+          </h4>
+          <div class="col-md-12 table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>KD Pengetahuan</th>
+                  <th>KD Keterampilan</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php $no=1; foreach ($arsip_kd as $ak): ?>
+                  <tr onclick="window.location='#';" data-href='url://sim.alttihadalislami.org' style="cursor: pointer;" >
+                    <td><?= $no++?></td>
+                    <td><?= $ak['kdp'] ?></td>
+                    <td><?= $ak['kdk'] ?></td>
+                    <td>Pilih</td>
+                  </tr>
+                <?php endforeach ?>
+              </tbody>
+            </table>
+          </div>
+          <hr>
 
         <div class=" mx-auto mt-2 col-12 col-md-7 p-2 alert alert-secondary alert-dismissible" id="alert">
           <button type="button" class="close mx" data-dismiss="alert" aria-hidden="true">×</button>

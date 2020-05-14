@@ -65,7 +65,7 @@
 					    		NH
 					    	</a>
 
-					    	<a href="<?= base_url('penilaian/kd') .'/'. $m['id_asatid'].'/'.$m['id_mapel'].'/'.$m['id_kelas'] ?>" class="btn btn-warning float-right">
+					    	<a href="<?= base_url('penilaian/kd') .'/'. $this->acak->buatKembali(1,$m['id_asatid']).'/'.$this->acak->buatKembali(1,$m['id_mapel']).'/'.$this->acak->buatKembali(1,$m['id_kelas']) ?>" class="btn btn-warning float-right">
 					    		<?php if ($this->um->kdOke($m['id_mapel'],$m['rombel'],2) < 2 ): ?>
 						    		<span style="position: absolute; right: 105px;" class="badge badge-secondary">
 						    			b

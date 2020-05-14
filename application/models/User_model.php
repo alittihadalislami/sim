@@ -81,6 +81,15 @@ class User_model extends CI_Model {
 		return $this->db->get('m_tahun')->row_array();
 	}
 
+	function arsipKD($rombel, $mapel_id, $semester)
+	{
+		$stringQ = " SELECT DISTINCT(d.`kdp`), d.`kdk`, d.`tahun_id`, d.`id_kd` 
+					FROM t_kd d 
+					WHERE d.`rombel` = $rombel AND d.`mapel_id` = $mapel_id  
+					AND d.`tahun_id` IN (SELECT id_tahun FROM m_tahun t WHERE t.`semester` = $semester)";
+		return $this->db->query($stringQ)->result_array();
+	}
+
 	function kdTersedia($id_mapel, $id_kelas, $id_tahun)
 	{
 		$this->db->select('kelas_id, mapel_id, kdp, kdk, kkm');
