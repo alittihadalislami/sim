@@ -1002,14 +1002,16 @@ class Penilaian extends CI_Controller {
 	{
 		ini_set('max_execution_time', 1200);
 
-		$q = $this->um->generateNKH();
+		$tgl_awal_semester = 20200101;
+		$q = $this->um->generateNKH($tgl_awal_semester);
+		$id_tahun = $this->tahunAktif['id_tahun'];
 
 		foreach ($q as $v) {
 			$object = [
 				'santri_id' => $v['santri_id'],
 				'kelas_id' => $v['id_kelas'],
 				'mapel_id' => $v['id_mapel'],
-				'tahun_id' => 2,
+				'tahun_id' => $id_tahun,
 				//'nkh' => round($v['hadir'] / $v['total'] * 100,0)
 				// 'alpa' => $v['alpa'],
 				// 'sakit' => $v['sakit'],
@@ -1025,7 +1027,7 @@ class Penilaian extends CI_Controller {
 					'santri_id' => $v['santri_id'],
 					'kelas_id' => $v['id_kelas'],
 					'mapel_id' => $v['id_mapel'],
-					'tahun_id' => 2,
+					'tahun_id' => $id_tahun,
 					'nkh' => round($v['hadir'] / $v['total'] * 100,0)
 				];
 				$this->db->insert('t_na', $object);
@@ -1034,7 +1036,7 @@ class Penilaian extends CI_Controller {
 				$nkh = round($v['hadir'] / $v['total'] * 100,0) ;
 
 				$this->db->where('id_na', $id_na );
-				$this->db->where('tahun_id', 2 ); //statis hanya tahun ini
+				$this->db->where('tahun_id', $id_tahun ); 
 				$this->db->update('t_na', ['nkh'=> $nkh] );
 			}
 		}

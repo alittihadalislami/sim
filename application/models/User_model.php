@@ -405,9 +405,10 @@ class User_model extends CI_Model {
 		return $status;
 	}
 	
-	public function generateNKH()
+	public function generateNKH($tgl_awal_semester)
 	{
-		$stringQ = " SELECT a.`santri_id`, k.`id_kelas`, k.`id_mapel`, 
+		//$tgl_awal_semester = yyyymmhh;
+		/* $stringQ = " SELECT a.`santri_id`, k.`id_kelas`, k.`id_mapel`, 
 						COUNT(IF(a.`absen`=0,1,NULL)) AS alpa, 
 						COUNT(IF(a.`absen`=1,1,NULL)) AS izin, 
 						COUNT(IF(a.`absen`=2,1,NULL)) AS sakit, 
@@ -417,6 +418,38 @@ class User_model extends CI_Model {
 					ON a.`jurnal_id` = j.`id_jurnal` JOIN `t_kbm` k
 					ON j.`kbm_id` = k.`id_kbm`
 					GROUP BY a.`santri_id`, k.`id_mapel`, k.`id_kelas`";
+		*/
+		$stringQ = " SELECT santri_id,id_mapel,id_kelas,
+						COUNT(IF(datasemua.`absen`=0,1,NULL)) AS alpa, 
+						COUNT(IF(datasemua.`absen`=1,1,NULL)) AS izin, 
+						COUNT(IF(datasemua.`absen`=2,1,NULL)) AS sakit, 
+						COUNT(IF(datasemua.`absen`>2,1,NULL)) AS hadir,
+						COUNT(datasemua.`santri_id`) AS total
+					FROM 
+					(SELECT a.`santri_id`, k.`id_mapel`, k.`id_kelas`, k.`id_asatid`, j.`tgl`,a.`absen`,
+							CONCAT (
+								SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',-1),
+								CASE
+								    WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',2), ' ', -1) = 'Januari' THEN '01'
+								    WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',2), ' ', -1) = 'Februari' THEN '02'
+								    WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',2), ' ', -1) = 'Maret' THEN '03'
+								    WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',2), ' ', -1) = 'April' THEN '04'
+								    WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',2), ' ', -1) = 'Mei' THEN '05'
+								    WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',2), ' ', -1) = 'Juni' THEN '06'
+								    WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',2), ' ', -1) = 'Juli' THEN '07'
+								    WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',2), ' ', -1) = 'Agustus' THEN '08'
+								    WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',2), ' ', -1) = 'September' THEN '09'
+								    WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',2), ' ', -1) = 'Oktober' THEN '10'
+								    WHEN SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',2), ' ', -1) = 'November' THEN '11'
+								    ELSE '12'
+								END,
+								IF (SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',1) < 10, CONCAT('0',SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',1)), SUBSTRING_INDEX(SUBSTRING_INDEX(j.`tgl`, ', ', -1),' ',1)) 
+							) AS tgl_unix 
+						FROM t_absensi a JOIN `t_jurnal` j
+						ON a.`jurnal_id` = j.`id_jurnal` JOIN `t_kbm` k
+						ON j.`kbm_id` = k.`id_kbm`) AS datasemua
+					WHERE datasemua.tgl_unix > $tgl_awal_semester
+					GROUP BY datasemua.santri_id, datasemua.id_mapel, datasemua.id_kelas ";
 		return $this->db->query($stringQ)->result_array();
 	}
 
