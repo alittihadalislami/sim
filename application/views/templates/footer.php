@@ -2,7 +2,7 @@
     <div class="float-right d-none d-sm-block">
       Jl. Raya Camplong No.15, Camplong Sampang 69281
     </div>
-    <strong>Copyright &copy; 2019 | Sistem Informasi <a href="#">Ma'had </a></strong><br>Al Ittihad Al Islami Camplong.
+    <strong>Copyright &copy; <?= date('Y') ?> | Sistem Informasi <a href="#">Ma'had </a></strong><br>Al Ittihad Al Islami Camplong.
   </footer>
 
   <!-- Control Sidebar -->

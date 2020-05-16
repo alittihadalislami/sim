@@ -170,110 +170,181 @@
         </div>
 
         <div class="card-body">
+          <div class=" mx-auto mt-2 col-12 col-md-7 p-2 alert alert-secondary alert-dismissible" id="alert">
+            <button type="button" class="close mx" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4 class="mt-2 ml-3"><i class="fas fa-exclamation-triangle text-warning mr-2"></i> Perhatian..!!</h4>
+            <ol>
+              <li>Deskripsi KD harus diawali dengan kata kerja </li>
+              <li>Tidak perlu diberi Nomor / point disetiap KD</li>
+              <li>Tiap mapel minimal 2 KD pengetahuan dan 2 KD Keterampilan </li>
+              <li>KD menjadi bahan untuk penilaian harian selama semester berlangsung </li>
+              <li>Contoh (salah): <strong>1. Siswa Dapat memahami...</strong> </li>
+              <li>Contoh (benar): <strong>memahami mubtada' khabar...</strong> </li>
+            </ol>
+          </div>
+
+            <form action="<?=base_url()?>penilaian/tambah_kd" method="post">
+
+            <div class="frame-nilai" id="fn1">
+
+              <div class="kkm mx-auto" style="width: 285px; margin-bottom: 15px; margin-top: 15px;">
+                <label style="display: inline-block;">Kreteria Kelulusan Minimal :</label>
+                <input style="display:inline-block; width: 25%; font-weight: bold; font-size: 20px; text-align: center;" type="number" min="50" max="100" class="form-control px-0" required name="kkm" value="<?= ($jml_kd ? $kd[0]['kkm'] : '') ?>">
+              </div>
+
+              <div class="judul-kd">
+                <div class="jd">NO</div>
+                <div class="jd">Kompetensi Dasar Pengetahuan</div>
+                <div class="jd">Kompetensi Dasar Keterampilan</div>
+              </div>
+
+              <div class="kd">
+                <div class="br2">1</div>
+                <input type="text" name="urut1" value="1" hidden="true">
+                <div class="br2">
+                  <textarea class="form-control" rows="3" name="kdp1" placeholder="KD-Pengetahuan 1" required><?= ($jml_kd ? $kd[0]['kdp'] : '') ?></textarea>
+                </div>
+                <div class="br2">
+                  <textarea class="form-control" rows="3" name="kdk1" placeholder="KD-Keterampilan 1" required><?= ($jml_kd ? $kd[0]['kdk'] : '') ?></textarea>
+                </div>
+              </div>
+            
+              <?php $x = 2; do {?>
+              <div class="kd">
+                <div class="br2"><?=$x;?></div>
+                <input type="text" name="urut<?=$x;?>" value="<?=$x;?>" hidden="true">
+                <div class="br2">
+                  <textarea class="form-control" rows="3" name="kdp<?=$x;?>" placeholder="KD-Pengetahuan 2" required><?= ($jml_kd ? $kd[$x-1]['kdp'] : '' ) ?></textarea>
+                </div>
+                <div class="br2">
+                  <textarea class="form-control" rows="3" name="kdk<?=$x;?>" placeholder="KD-Keterampilan 2" required><?= ($jml_kd ? $kd[$x-1]['kdk'] : '')?></textarea>
+                </div>
+              </div>
+                  
+              <?php $x++; } while ($x <= ($jml_kd ? $jml_kd : 2 ) );?>
+
+              <input type="text" name="mapel_id" value="<?=$id_mapel?>" hidden="true">
+              <input type="text" name="kelas_id" value="<?=$id_kelas?>" hidden="true">
+              <input type="text" name="rombel" value="<?=$rombel?>" hidden="true">
+              <input type="text" name="tahun_id" value="<?=$id_tahun?>" hidden="true">
+
+            </div>
+
+            <div style="background-color: darkgreen; height: 5px;"></div>
+            <button type="submit" class="btn btn-success float-right m-3">Simpan</button>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
           <h4 class="p-2">
-            A. &nbsp KD Tersimpan
+            KD Tersimpan dalam SIM
           </h4>
           <div class="col-md-12 table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped table-hover">
               <thead>
                 <tr>
                   <th>#</th>
                   <th>KD Pengetahuan</th>
                   <th>KD Keterampilan</th>
-                  <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <?php $no=1; foreach ($arsip_kd as $ak): ?>
-                  <tr onclick="window.location='#';" data-href='url://sim.alttihadalislami.org' style="cursor: pointer;" >
+                  <tr onclick="pilih(this);" data-kdp="<?=$ak['kdp']?>" data-kdk="<?=$ak['kdk']?>" style="cursor: pointer;" >
                     <td><?= $no++?></td>
                     <td><?= $ak['kdp'] ?></td>
                     <td><?= $ak['kdk'] ?></td>
-                    <td>Pilih</td>
                   </tr>
                 <?php endforeach ?>
               </tbody>
             </table>
           </div>
-          <hr>
-
-        <div class=" mx-auto mt-2 col-12 col-md-7 p-2 alert alert-secondary alert-dismissible" id="alert">
-          <button type="button" class="close mx" data-dismiss="alert" aria-hidden="true">×</button>
-          <h4 class="mt-2 ml-3"><i class="fas fa-exclamation-triangle text-warning mr-2"></i> Perhatian..!!</h4>
-          <ol>
-            <li>Deskripsi KD harus diawali dengan kata kerja </li>
-            <li>Tidak perlu diberi Nomor / point disetiap KD</li>
-            <li>Tiap mapel minimal 2 KD pengetahuan dan 2 KD Keterampilan </li>
-            <li>KD menjadi bahan untuk penilaian harian selama semester berlangsung </li>
-            <li>Contoh (salah): <strong>1. Siswa Dapat memahami...</strong> </li>
-            <li>Contoh (benar): <strong>memahami mubtada' khabar...</strong> </li>
-          </ol>
         </div>
-
-          <form action="<?=base_url()?>penilaian/tambah_kd" method="post">
-
-          <div class="frame-nilai" id="fn1">
-
-            <div class="kkm mx-auto" style="width: 285px; margin-bottom: 15px; margin-top: 15px;">
-              <label style="display: inline-block;">Kreteria Kelulusan Minimal :</label>
-              <input style="display:inline-block; width: 25%; font-weight: bold; font-size: 20px; text-align: center;" type="number" min="50" max="100" class="form-control px-0" required name="kkm" value="<?= ($jml_kd ? $kd[0]['kkm'] : '') ?>">
-            </div>
-
-            <div class="judul-kd">
-              <div class="jd">NO</div>
-              <div class="jd">Kompetensi Dasar Pengetahuan</div>
-              <div class="jd">Kompetensi Dasar Keterampilan</div>
-            </div>
-
-            <div class="kd">
-              <div class="br2">1</div>
-              <input type="text" name="urut1" value="1" hidden="true">
-              <div class="br2">
-                <textarea class="form-control" rows="3" name="kdp1" placeholder="KD-Pengetahuan 1" required><?= ($jml_kd ? $kd[0]['kdp'] : '') ?></textarea>
-              </div>
-              <div class="br2">
-                <textarea class="form-control" rows="3" name="kdk1" placeholder="KD-Keterampilan 1" required><?= ($jml_kd ? $kd[0]['kdk'] : '') ?></textarea>
-              </div>
-            </div>
-          
-            <?php $x = 2; do {?>
-            <div class="kd">
-              <div class="br2"><?=$x;?></div>
-              <input type="text" name="urut<?=$x;?>" value="<?=$x;?>" hidden="true">
-              <div class="br2">
-                <textarea class="form-control" rows="3" name="kdp<?=$x;?>" placeholder="KD-Pengetahuan 2" required><?= ($jml_kd ? $kd[$x-1]['kdp'] : '' ) ?></textarea>
-              </div>
-              <div class="br2">
-                <textarea class="form-control" rows="3" name="kdk<?=$x;?>" placeholder="KD-Keterampilan 2" required><?= ($jml_kd ? $kd[$x-1]['kdk'] : '')?></textarea>
-              </div>
-            </div>
-                
-            <?php $x++; } while ($x <= ($jml_kd ? $jml_kd : 2 ) );?>
-
-            <input type="text" name="mapel_id" value="<?=$id_mapel?>" hidden="true">
-            <input type="text" name="kelas_id" value="<?=$id_kelas?>" hidden="true">
-            <input type="text" name="rombel" value="<?=$rombel?>" hidden="true">
-            <input type="text" name="tahun_id" value="<?=$id_tahun?>" hidden="true">
-
-          </div>
-
-          <div style="background-color: darkgreen; height: 5px;"></div>
-          <button type="submit" class="btn btn-success float-right m-3">Simpan</button>
-          </form>
-        </div>
-    </div>
+      </div>
   </div>
   </section>
+
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" style="overflow-y: auto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-success">
+        <h5 class="modal-title" id="exampleModalLabel">Pilih Kolom KD</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Kompetensi Dasar: <br> <pre id="kd-terpilih" class="font-weight-light"></pre>untuk kolom nomor?</p>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Kompetensi Dasar</th>
+            </tr>
+          </thead>
+          <tbody id="kd-list"> <!-- diisi oleh ajax -->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" id="tutupDaftar" data-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous">
-</script> 
+</div>
 
 <script>
+
+  function pilih(param){
+    
+    $('#modal').modal();
+    
+    let kd = [
+      $(param).data("kdp"),
+      $(param).data("kdk")
+    ];
+
+    let textArea = $(".kd").find("textarea");
+    
+    $('#kd-terpilih').text(kd[0]);
+
+    data = '' ;
+    no=1;
+    for (i=0; i<textArea.length; i+=2) {
+      
+      if (textArea[i].textContent == '') {
+        isi = 'kosong';
+      }else{
+        isi = textArea[i].textContent.slice(0,60) + ' ...';
+      }
+
+      data += '<tr onclick="pilihKolom(this);" data-kol="'+i+'" data-kdp="'+kd[0]+'" data-kdk="'+kd[1]+'" style="cursor: pointer;" ><td>' + no + '</td><td>' + isi + '</td></tr>';
+      no=no+1
+    }
+
+    $('#kd-list').html(data);
+  }
+
+  function pilihKolom(param){
+    
+    let textArea = $(".kd").find("textarea");
+
+    let kol = $(param).data('kol');
+    let kdp = $(param).data('kdp');
+    let kdk = $(param).data('kdk');
+    textArea[kol].textContent = kdp;
+    textArea[kol+1].textContent = kdk;
+    textArea[kol].focus();
+    $('#modal').modal('toggle');
+  }
+
   $(document).ready(function(){
+
+
     $('.nkh, .pts, .pas').change(function(){
       var xNkh = $(".nkh").index(this)+1;        
       var xPts = $(".pts").index(this)+1;        

@@ -239,7 +239,7 @@ class Penilaian extends CI_Controller {
 
 	public function uamii() //rekap nilai uamii
 	{
-		is_boleh();
+		is_uamii();
 
 		$data['judul'] = 'Nilai UAMII';
 		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
@@ -640,6 +640,7 @@ class Penilaian extends CI_Controller {
 		$id_asatid = $this->um->idAsatid($nohp)['id_asatid'];
 		$data_wali = $this->um->adaIdWali($id_asatid,$tahun_aktif);
 		return $data_wali;
+		// var_dump($data_wali);
 	}
 
 

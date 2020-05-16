@@ -40,7 +40,7 @@ function is_ngajar()
  	}
 }
 
-function is_boleh()
+function is_uamii()
 {
 	$ci = get_instance();
 	$ci->load->model('User_model','um');
@@ -54,4 +54,29 @@ function is_boleh()
  		redirect('dashboard','refresh');
  	}
 
+}
+
+function is_boleh()
+{
+	$ci = get_instance();
+
+	$ci->load->model('User_model','um');
+	$user = $ci->um->dataAktif($ci->session->userdata('email'));
+		 
+		 
+	$url_menu = $ci->uri->segment(1);
+	$ci->db->select('id_menu');
+	$id_menu = $ci->db->get_where('menu', ['url'=> $url_menu])->row_array();
+
+	$where = [
+		'rule_id' => $user['id_rule'],
+		'menu_id' => $id_menu['id_menu']
+	];
+
+	$akses_menu = $ci->db->get_where('akses_menu',$where)->num_rows();
+	$where['akses_menu'] = $akses_menu;
+	
+	if ($akses_menu < 1) {
+		redirect('My404','refresh');
+	}
 }
