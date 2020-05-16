@@ -516,8 +516,6 @@ class Penilaian extends CI_Controller {
 	{
 		$data_input = $this->input->post();
 		$jumlahData = (count($data_input)-3)/3;
-
-		// var_dump($data_input);die();
 		
 		for ($i=1; $i<=$jumlahData; $i++ ){
 			$object=[
@@ -545,29 +543,53 @@ class Penilaian extends CI_Controller {
 				$this->db->where('rombel', $object['rombel']);
 				$this->db->update('t_kd', $dUpdate);
 
+				$nama_mapel = $this->um->showNamaMapel($object['mapel_id'])['mapel_alias'];
+				$nama_kelas = $this->um->showNamaKelas($object['kelas_id'])['nama_kelas'];
+
 				$this->session->set_flashdata('pesan', '<div class="col-lg-12">
 		    		<div class="col-md-6 mt-4 py-1 alert alert-warning alert-dismissible elevation-2">
 				  		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				  		<p class="mt-3"><i class="icon fa fa-exclamation-circle"></i> Data berhasil <strong>diubah</strong>.</p>
+				  		<p class="mt-3"><i class="icon fa fa-exclamation-circle"></i> Data '.$nama_mapel.'-'.$nama_kelas.'<strong> berhasil diubah</strong>.</p>
 					</div><br>
 	    		</div>');
 			}else{
 				
 				$this->db->insert('t_kd', $object);
+
+				$nama_mapel = $this->um->showNamaMapel($object['mapel_id'])['mapel_alias'];
+				$nama_kelas = $this->um->showNamaKelas($object['kelas_id'])['nama_kelas'];
 				
 				$this->session->set_flashdata('pesan', '<div class="col-lg-12">
 		    		<div class="col-md-6 mt-4 py-1 alert alert-success alert-dismissible elevation-2">
 				  		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				  		<p class="mt-3"><i class="icon fa fa-exclamation-circle"></i> Data berhasil <strong>ditambahkan</strong>.</p>
+				  		<p class="mt-3"><i class="icon fa fa-exclamation-circle"></i> Data '.$nama_mapel.'-'.$nama_kelas.'<strong> berhasil ditambahkan</strong>.</p>
 					</div><br>
 	    		</div>');
 			}
 
 			if ($data_input['kdp'.$i] == 'hapus' and $data_input['urut'.$i] >= 3 ) {
-				$this->db->where('urut', $object['urut']);
 				$this->db->where('mapel_id', $object['mapel_id']);
 				$this->db->where('kelas_id', $object['kelas_id']);
+				$this->db->where('tahun_id', $object['tahun_id']);
+				$this->db->where('urut', $object['urut']);
 				$this->db->delete('t_kd');
+
+				$this->db->where('mapel_id', $object['mapel_id']);
+				$this->db->where('kelas_id', $object['kelas_id']);
+				$this->db->where('tahun_id', $object['tahun_id']);
+				$this->db->where('urut_kd', $object['urut']);
+				$this->db->delete('t_nh');
+
+				$nama_mapel = $this->um->showNamaMapel($object['mapel_id'])['mapel_alias'];
+				$nama_kelas = $this->um->showNamaKelas($object['kelas_id'])['nama_kelas'];
+
+
+				$this->session->set_flashdata('pesan', '<div class="col-lg-12">
+		    		<div class="col-md-6 mt-4 py-1 alert alert-success alert-dismissible elevation-2">
+				  		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				  		<p class="mt-3"><i class="icon fa fa-exclamation-circle"></i> Data KD '.$nama_mapel.'-'.$nama_kelas.' <strong>berhasil dihapus</strong>.</p>
+					</div><br>
+	    		</div>');
 			}
 			
 		}
@@ -1042,50 +1064,6 @@ class Penilaian extends CI_Controller {
 			];
 		}
 		return $domir;
-	}
-	
-	public function q()
-	{
-		ini_set('max_execution_time', 1200);
-
-		$tgl_awal_semester = 20200101;
-		$q = $this->um->generateNKH($tgl_awal_semester);
-		$id_tahun = $this->tahunAktif['id_tahun'];
-
-		foreach ($q as $v) {
-			$object = [
-				'santri_id' => $v['santri_id'],
-				'kelas_id' => $v['id_kelas'],
-				'mapel_id' => $v['id_mapel'],
-				'tahun_id' => $id_tahun,
-				//'nkh' => round($v['hadir'] / $v['total'] * 100,0)
-				// 'alpa' => $v['alpa'],
-				// 'sakit' => $v['sakit'],
-				// 'ijin' =>  $v['izin'],
-				//echo $v['hadir'];
-				//echo $v['total'];
-			];
-			
-			$adaRow = $this->db->get_where('t_na', $object)->result_array();
-
-			if (!$adaRow) {
-				$object = [
-					'santri_id' => $v['santri_id'],
-					'kelas_id' => $v['id_kelas'],
-					'mapel_id' => $v['id_mapel'],
-					'tahun_id' => $id_tahun,
-					'nkh' => round($v['hadir'] / $v['total'] * 100,0)
-				];
-				$this->db->insert('t_na', $object);
-			}else {
-				$id_na = $adaRow[0]['id_na'];
-				$nkh = round($v['hadir'] / $v['total'] * 100,0) ;
-
-				$this->db->where('id_na', $id_na );
-				$this->db->where('tahun_id', $id_tahun ); 
-				$this->db->update('t_na', ['nkh'=> $nkh] );
-			}
-		}
 	}
 
 }
