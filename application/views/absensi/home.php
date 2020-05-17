@@ -47,7 +47,7 @@
 	              <div class="icon">
 	                <i class="fas fa-edit fa-sm"></i>
 	              </div>
-	              <a href="<?= base_url('absensi/dhsantri/').$j['id_kbm']?>" class="small-box-footer py-3">Absen <i class="fas fa-arrow-circle-right"></i></a>
+	              <a href="<?= base_url('absensi/dhsantri/').$j['id_kbm']?>" class="klik-lama small-box-footer py-3">Absen <i class="fas fa-arrow-circle-right"></i></a>
 	            </div>
 	        </div>
 	        <!-- <div class="col-lg-4 col-12">

@@ -10,12 +10,18 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
+  <div class="preloader" style="display: none">
+    <div class="loading">
+      <img src="<?= base_url('assets/img/') ?>ajax-loader.png" >
+    </div>
+  </div>
 </div>
 <!-- ./wrapper -->
 
+
 <!-- AdminLTE App -->
 <script src="<?=base_url('assets/js/')?>adminlte.min.js"></script>
-<script src="<?=base_url('assets/js/')?>Chart.min.js"></script>
+<!--<script src="<?php //echo base_url('assets/js/')?>Chart.min.js"></script>-->
 <script>
   $(document).ready(function(){
     var sm = $('aside .sidebar nav ul li ul li a');
@@ -29,8 +35,17 @@
     m.removeClass("active", "menu-open");
     $(this).addClass("active");
     });
-
   });
+  
+
+  $(document).ready(function(){
+    $(".preloader").fadeOut('slow');
+  })
+
+  $('.klik-lama').on('click', function(){
+    $(".preloader").fadeIn('slow');
+  })
+
 </script>
 
 <!-- <script type="text/javascript">

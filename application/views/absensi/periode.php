@@ -23,7 +23,7 @@
     		<div class="col-sm-8 col-md-4">
 	    		<div class="list-group">
 					<?php foreach ($bulan as $val): ?>
-					  	<a href="<?= base_url('absensi/rekap/'.$val['0'].'/'.$val['2'])?>" class="list-group-item list-group-item-action bg-light ">
+					  	<a href="<?= base_url('absensi/rekap/'.$val['0'].'/'.$val['2'])?>" class="klik-lama list-group-item list-group-item-action bg-light ">
 					    	<?= $val['1'] ?>
 					    	<?= $val['2'] ?>
 					  	</a>

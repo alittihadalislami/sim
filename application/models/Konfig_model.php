@@ -19,4 +19,27 @@ class Konfig_model extends CI_Model {
 			GROUP BY m.`id_mapel`";
 		return $this->db->query($stringQ)->result_array();
 	}
+
+	function cekNilaiMii6($tahun_id, $mapel_id)
+	{
+		$stringQ = "SELECT a.`kelas_id`, COUNT(a.`nkh`) AS nhk, COUNT(a.`nhr`) AS nhr, COUNT(a.`pts`) AS pts, COUNT(a.`pas`) AS pas, COUNT(a.`nrp`) AS nrp
+			FROM t_na a
+			WHERE a.`tahun_id` = $tahun_id AND a.`kelas_id` IN (12,13,24)
+			AND a.`mapel_id` = $mapel_id
+			GROUP BY a.`kelas_id`";
+		return $this->db->query($stringQ)->result_array();
+	}
+
+	function deleteDuplikat()
+	{
+		$stringQ = " DELETE FROM t_nilai_ijz
+						WHERE `t_nilai_ijz`.`id_nilai` NOT IN 
+						(
+							SELECT MAX(n.`id_nilai`)
+							FROM t_nilai_ijz n
+							GROUP BY n.`mapel_id`, n.`tahun_id`, n.`santri_id`
+						)";
+		$this->db->query($stringQ);
+		return $this->db->affected_rows();
+	}
 }

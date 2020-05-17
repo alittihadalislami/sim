@@ -20,7 +20,7 @@
 
           <div class="list-group">
             <?php $no=1; foreach ($daftar as $d => $v): ?>
-              <a href="<?= $v ?>" class="list-group-item list-group-item-action"  onclick="return confirm('YAKIN, <?= $d ?>?')" >
+              <a href="<?= $v ?>" class="klik-lama list-group-item list-group-item-action"  onclick="return confirm('YAKIN, <?= $d ?>?')" >
                 <?=$no++.'. '. $d ?>
               </a>
             <?php endforeach ?>

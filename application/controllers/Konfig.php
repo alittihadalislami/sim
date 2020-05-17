@@ -29,7 +29,7 @@ class Konfig extends CI_Controller {
 		];
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('konfig/index', $data);
+		$this->load->view('konfig/konfig_index', $data);
 		$this->load->view('templates/footer');
 	}
 
@@ -71,9 +71,35 @@ class Konfig extends CI_Controller {
 	public function uamiiRaport()
 	{
 		$mapel_mii = $this->fm->mapelMii6();
+		$id_tahun = $this->tahunAktif['id_tahun'];
+
 		foreach ($mapel_mii as $mii) {
-			echo $mii['id_mapel'];
+			
+			$nilai = $this->fm->cekNilaiMii6($id_tahun, $mii['id_mapel']);
+			
+			foreach ($nilai as $n) {
+				$nilai_null = ($n['nhr'] + $n['pts'] + $n['pas'] + $n['nrp'] == 0); 
+				if ($nilai_null) {
+					# import data dari nilaiijazah
+					$this->db->select('nrp as `nhr1`');
+					$this->db->select('uamii as `nhr2`');
+					$this->db->select('uamii as `pts`');
+					$this->db->select('ijz as `pas`');
+					$this->db->select('slk as `slk`');
+					$this->db->where('tahun_id', $id_tahun);
+					$this->db->where('mapel_id', $mii['id_mapel']);
+					$object_import = $this->db->get('t_nilai_ijz')->result_array();
+					var_dump($object_import['nhr1']);
+					echo '<hr>';
+				}
+			}
 		}
+	}
+
+	function aa()
+	{
+		$x = $this->fm->deleteDuplikat();
+		var_dump($x);
 	}
 
 	public function hitungNkh()

@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="<?=base_url('assets')?>/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?=base_url('assets')?>/css/adminlte.min.css">
+  <link rel="stylesheet" href="<?=base_url('assets')?>/css/loader.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="<?=base_url('assets')?>/css/googlefont.css" rel="stylesheet">
 
@@ -121,7 +122,7 @@
             <small><?=$dataAktif['nama_rule'] ?></small>
           </div>
         </div>
-          <a href="<?=base_url('dashboard/logout') ?>" class=" d-block btn btn-danger btn-sm  my-0" style="position: absolute; top: 50px; left: 90px;"> <i class="fa fa-sign-out-alt"></i> logout</a>
+          <a href="<?=base_url('dashboard/logout') ?>" class="klik-lama d-block btn btn-danger btn-sm  my-0" style="position: absolute; top: 50px; left: 90px;"> <i class="fa fa-sign-out-alt"></i> logout</a>
       </div>
 
       <!-- Sidebar Menu -->
@@ -136,17 +137,21 @@
               } else { ?>
 
               <?php if ($dm['id_head'] == $dh['id_head']): ?>
+                <?php  
+                  $ada_sub_menu = $this->um->adaSubmenu($this->session->userdata('rule_id'),$dm['id_menu'])['submenu'] > 0 ;
+                  $klik_lama = $ada_sub_menu ? '' : 'klik-lama';
+                ?>
                 <li class="nav-item has-treeview"> <!-- menu-open -->
-                  <a href="<?=base_url().$dm['url']?>" class="nav-link rounded-1 py-2">
+                  <a href="<?=base_url().$dm['url']?>" class="nav-link rounded-1 py-2 <?= $klik_lama ?>">
                     <i class="nav-icon <?= $dm['icon']?>  ?>"></i>
-                    <p><?=$dm['nama_menu']; echo $this->um->adaSubmenu($this->session->userdata('rule_id'),$dm['id_menu'])['submenu']>0 ? '<i class="right fa fa-angle-left"></i>' : '';?></p>
+                    <p><?=$dm['nama_menu']; echo $ada_sub_menu ? '<i class="right fa fa-angle-left"></i>' : '';?></p>
                   </a>
 
                   <?php foreach ($daftarSubmenu as $dsm): ?>
                     <?php if ($dsm['menu_id'] == $dm['id_menu']): ?>
                       <ul class="nav nav-treeview">
                         <li class="nav-item ">
-                          <a href="<?= base_url().$dsm['url'] ?>" class="nav-link pl-4 py-0">
+                          <a href="<?= base_url().$dsm['url'] ?>" class="klik-lama nav-link pl-4 py-0">
                             <i class="icon <?= $dsm['icon'] ?> fa-fw"></i>
                             <p><?= $dsm['nama_submenu'] ?></p>
                           </a>
