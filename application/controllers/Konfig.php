@@ -26,10 +26,20 @@ class Konfig extends CI_Controller {
 			'Hitung nilai Kehadiran' => base_url('konfig/hitungNkh'),
 			'Ambil nilai ijazah untuk nilai raport' => 0,
 			'Ambil nilai serumpun' => 0,
+			'Atur Daftar Desa' => base_url('konfig/konfigDesa')
 		];
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('konfig/konfig_index', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function konfigDesa()
+	{
+		$data['judul'] = 'Konfigurasi';
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('konfig/konfig_desa', $data);
 		$this->load->view('templates/footer');
 	}
 

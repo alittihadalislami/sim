@@ -1,0 +1,84 @@
+/*
+SQLyog Ultimate v13.1.1 (64 bit)
+MySQL - 10.4.10-MariaDB : Database - sim
+*********************************************************************
+*/
+
+/*!40101 SET NAMES utf8 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*Table structure for table `t_pertanyaan` */
+
+DROP TABLE IF EXISTS `t_pertanyaan`;
+
+CREATE TABLE `t_pertanyaan` (
+  `id_perty` int(11) NOT NULL AUTO_INCREMENT,
+  `konten_perty` longtext DEFAULT NULL,
+  `soal_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_perty`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `t_pertanyaan` */
+
+insert  into `t_pertanyaan`(`id_perty`,`konten_perty`,`soal_id`) values 
+(1,'Bisakah anda membaca Al-Quran?',3),
+(2,'Bisakah anda menulis arab?',3),
+(3,'Apa tujuan anda masuk ke lembaga pondok pesantren?',3),
+(4,'Contoh soal uraian?',3);
+
+/*Table structure for table `t_pilihan` */
+
+DROP TABLE IF EXISTS `t_pilihan`;
+
+CREATE TABLE `t_pilihan` (
+  `id_pilihan` int(11) NOT NULL AUTO_INCREMENT,
+  `konten_pilihan` longtext DEFAULT NULL,
+  `jwb_benar` int(1) DEFAULT NULL,
+  `perty_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_pilihan`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `t_pilihan` */
+
+insert  into `t_pilihan`(`id_pilihan`,`konten_pilihan`,`jwb_benar`,`perty_id`) values 
+(1,'Bisa',1,1),
+(2,'Bisa, tapi tidak lancar',1,1),
+(3,'Tidak sama sekali',1,1),
+(4,'Lancar dan mengerti tajwidnya',1,1),
+(5,'Bisa',1,2),
+(6,'Bisa, tapi tidak lancar',1,2),
+(7,'Lancar dan mengerti tajwidnya',1,2),
+(8,'Tidak sama sekali',1,2),
+(12,'Bisa',1,3),
+(13,'Bisa, tapi tidak lancar',1,3),
+(14,'Lancar dan mengerti tajwidnya',1,3),
+(15,'Tidak sama sekali',1,3);
+
+/*Table structure for table `t_soal` */
+
+DROP TABLE IF EXISTS `t_soal`;
+
+CREATE TABLE `t_soal` (
+  `id_soal` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_soal` varchar(44) DEFAULT NULL,
+  `mapel_id` int(11) DEFAULT NULL,
+  `kelas_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `create` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id_soal`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `t_soal` */
+
+insert  into `t_soal`(`id_soal`,`nama_soal`,`mapel_id`,`kelas_id`,`user_id`,`create`) values 
+(3,'Asesment santri baru',NULL,NULL,9,'2020-05-25 10:19:09');
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
