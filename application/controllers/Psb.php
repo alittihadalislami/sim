@@ -9,12 +9,15 @@ class Psb extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Psb_model');
+        $this->load->model('User_model','um');
         $this->load->library('form_validation');        
-	$this->load->library('datatables');
+		$this->load->library('datatables');
     }
 
     public function index()
-    {
+    {	
+    	$data['judul'] = 'PSB';
+    	$this->load->view('templates/header', $data);
         $this->load->view('psb/p_data_awal_list');
     } 
     
@@ -46,7 +49,11 @@ class Psb extends CI_Controller
 		'asesment' => $row->asesment,
 		'verf_keuangan' => $row->verf_keuangan,
 	    );
-            $this->load->view('psb/p_data_awal_read', $data);
+
+        $data['judul'] = "Detail santri";
+        $this->load->view('templates/header', $data);
+        $this->load->view('psb/p_data_awal_read', $data);
+
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('psb'));
@@ -182,7 +189,7 @@ class Psb extends CI_Controller
 
         if ($row) {
             $this->Psb_model->delete($id);
-            $this->session->set_flashdata('message', 'Delete Record Success');
+            $this->session->set_flashdata('message', 'Hapus '.$row->nama.' Success');
             redirect(site_url('psb'));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');

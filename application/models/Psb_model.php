@@ -21,7 +21,7 @@ class Psb_model extends CI_Model
         $this->datatables->from('p_data_awal');
         //add this line for join
         //$this->datatables->join('table2', 'p_data_awal.field = table2.field');
-        $this->datatables->add_column('action', anchor(site_url('psb/read/$1'),'Read')." | ".anchor(site_url('psb/update/$1'),'Update')." | ".anchor(site_url('psb/delete/$1'),'Delete','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_data_awal');
+        $this->datatables->add_column('action', '<a class="d-flex flex-column mb-4" href="'.base_url('psb/read/$1').'"><i class="far fa-list-alt"></i></a><hr>'.anchor(site_url('psb/delete/$1'),'<i class="far fa-trash-alt text-danger"></i>','onclick="javasciprt: return confirm(\'Yakin mau menghapus semua data $2 ?\')"'), 'id_data_awal, nama');
         return $this->datatables->generate();
     }
 
@@ -42,23 +42,23 @@ class Psb_model extends CI_Model
     // get total rows
     function total_rows($q = NULL) {
         $this->db->like('id_data_awal', $q);
-	$this->db->or_like('nama', $q);
-	$this->db->or_like('nik', $q);
-	$this->db->or_like('nisn', $q);
-	$this->db->or_like('alamat_pengenal', $q);
-	$this->db->or_like('npsn_asal', $q);
-	$this->db->or_like('desa_id', $q);
-	$this->db->or_like('nohp', $q);
-	$this->db->or_like('proses', $q);
-	$this->db->or_like('ijasah', $q);
-	$this->db->or_like('skhu', $q);
-	$this->db->or_like('kk', $q);
-	$this->db->or_like('akte', $q);
-	$this->db->or_like('kartu', $q);
-	$this->db->or_like('keuangan', $q);
-	$this->db->or_like('asesment', $q);
-	$this->db->or_like('verf_keuangan', $q);
-	$this->db->from($this->table);
+    	$this->db->or_like('nama', $q);
+    	$this->db->or_like('nik', $q);
+    	$this->db->or_like('nisn', $q);
+    	$this->db->or_like('alamat_pengenal', $q);
+    	$this->db->or_like('npsn_asal', $q);
+    	$this->db->or_like('desa_id', $q);
+    	$this->db->or_like('nohp', $q);
+    	$this->db->or_like('proses', $q);
+    	$this->db->or_like('ijasah', $q);
+    	$this->db->or_like('skhu', $q);
+    	$this->db->or_like('kk', $q);
+    	$this->db->or_like('akte', $q);
+    	$this->db->or_like('kartu', $q);
+    	$this->db->or_like('keuangan', $q);
+    	$this->db->or_like('asesment', $q);
+    	$this->db->or_like('verf_keuangan', $q);
+    	$this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
@@ -66,23 +66,23 @@ class Psb_model extends CI_Model
     function get_limit_data($limit, $start = 0, $q = NULL) {
         $this->db->order_by($this->id, $this->order);
         $this->db->like('id_data_awal', $q);
-	$this->db->or_like('nama', $q);
-	$this->db->or_like('nik', $q);
-	$this->db->or_like('nisn', $q);
-	$this->db->or_like('alamat_pengenal', $q);
-	$this->db->or_like('npsn_asal', $q);
-	$this->db->or_like('desa_id', $q);
-	$this->db->or_like('nohp', $q);
-	$this->db->or_like('proses', $q);
-	$this->db->or_like('ijasah', $q);
-	$this->db->or_like('skhu', $q);
-	$this->db->or_like('kk', $q);
-	$this->db->or_like('akte', $q);
-	$this->db->or_like('kartu', $q);
-	$this->db->or_like('keuangan', $q);
-	$this->db->or_like('asesment', $q);
-	$this->db->or_like('verf_keuangan', $q);
-	$this->db->limit($limit, $start);
+    	$this->db->or_like('nama', $q);
+    	$this->db->or_like('nik', $q);
+    	$this->db->or_like('nisn', $q);
+    	$this->db->or_like('alamat_pengenal', $q);
+    	$this->db->or_like('npsn_asal', $q);
+    	$this->db->or_like('desa_id', $q);
+    	$this->db->or_like('nohp', $q);
+    	$this->db->or_like('proses', $q);
+    	$this->db->or_like('ijasah', $q);
+    	$this->db->or_like('skhu', $q);
+    	$this->db->or_like('kk', $q);
+    	$this->db->or_like('akte', $q);
+    	$this->db->or_like('kartu', $q);
+    	$this->db->or_like('keuangan', $q);
+    	$this->db->or_like('asesment', $q);
+    	$this->db->or_like('verf_keuangan', $q);
+    	$this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }
 
@@ -104,6 +104,12 @@ class Psb_model extends CI_Model
     {
         $this->db->where($this->id, $id);
         $this->db->delete($this->table);
+
+        $this->db->where('data_awal_id', $id);
+        $this->db->delete('p_pendaftaran');
+
+        $this->db->where('data_awal_id', $id);
+        $this->db->delete('p_wali_pendaftaran');
     }
 
 }

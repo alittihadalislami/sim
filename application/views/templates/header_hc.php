@@ -14,13 +14,13 @@
 </style>
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper pl-3">
+<div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>List calon santri baru 2020</h1>
+          <h1></h1>
         </div>
       </div>
     </div><!-- /.container-fluid -->
