@@ -26,7 +26,7 @@ class Konfig extends CI_Controller {
 			'Hitung nilai Kehadiran' => base_url('konfig/hitungNkh'),
 			'Ambil nilai ijazah untuk nilai raport' => 0,
 			'Ambil nilai serumpun' => 0,
-			'Atur Daftar Desa' => base_url('konfig/konfigDesa')
+			'Pilih fontawesome' => base_url('konfig/pilihFontawesome')
 		];
 
 		$this->load->view('templates/header', $data);
@@ -34,12 +34,12 @@ class Konfig extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
-	public function konfigDesa()
+	public function pilihFontawesome()
 	{
-		$data['judul'] = 'Konfigurasi';
+		$data['judul'] = 'Font Awesome';
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('konfig/konfig_desa', $data);
+		$this->load->view('konfig/pilih_fontawesome', $data);
 		$this->load->view('templates/footer');
 	}
 
