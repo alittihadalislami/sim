@@ -8,6 +8,7 @@ class Psb extends CI_Controller
     function __construct()
     {
         parent::__construct();
+        is_login();
         $this->load->model('Psb_model');
         $this->load->model('User_model','um');
         $this->load->library('form_validation');        
@@ -26,19 +27,44 @@ class Psb extends CI_Controller
         echo $this->Psb_model->json();
     }
 
+    function getText($name_field,$value=null){
+    	if ($value == null) {
+    		return '';
+    	}
+
+    	$id_tabel_baris = $this->db->select('id_kolom')->get_where('u_tabel_baris',['name_kolom' => $name_field])->row()->id_kolom;
+
+    	$this->db->select('select');
+    	$this->db->where(['tabel_baris_id'=>$id_tabel_baris,'value'=>$value]);
+    	return $this->db->get('u_tabel_pilihan')->row()->select;
+    }
+
     public function read($id) 
     {
         $row = $this->Psb_model->get_by_id($id);
+        $detail = $this->db->get_where('p_pendaftaran', ['data_awal_id'=> $id])->row();
+        $wali = $this->db->get_where('p_wali_pendaftaran', ['data_awal_id'=> $id])->result();
+
+        if ($detail) {
+        	$pendidikan ['Nama'] = $detail->nama_seijasah;
+			$pendidikan ['Tempat'] = $detail->tmp_lahir_seijasah;
+			$pendidikan ['Tanggal Lahir'] = $detail->tgl_lahir_seijasah;
+			$pendidikan ['No Peserta'] = $detail->nopes;
+			$pendidikan ['Jumlah Nilai Ijasah'] = $detail->nilai_ijasah;
+			$pendidikan ['Seri Ijasah'] = $detail->no_ijasah;
+			$pendidikan ['Seri SKHU'] = $detail->no_skhu;
+			$pendidikan ['Tahun Ijasah'] = $detail->thn_ijs;
+			$pendidikan ['Sekolah Asal'] = $detail->nama_sekolah_asal;
+			$pendidikan ['Status'] = $this->getText('kls_akhir',$detail->kls_akhir);
+        }else{
+        	$this->session->set_flashdata('message', $row->nama.' belum mengisi formulir');
+            redirect(site_url('psb'));
+        }
+
         if ($row) {
             $data = array(
 		'id_data_awal' => $row->id_data_awal,
-		'nama' => $row->nama,
-		'nik' => $row->nik,
-		'nisn' => $row->nisn,
-		'alamat_pengenal' => $row->alamat_pengenal,
-		'npsn_asal' => $row->npsn_asal,
 		'desa_id' => $row->desa_id,
-		'nohp' => $row->nohp,
 		'proses' => $row->proses,
 		'ijasah' => $row->ijasah,
 		'skhu' => $row->skhu,
@@ -50,7 +76,57 @@ class Psb extends CI_Controller
 		'verf_keuangan' => $row->verf_keuangan,
 	    );
 
+        $alamat = $this->Psb_model->tampilDesa($row->desa_id);
+        $alamat_lengkap = 'DESA '.$alamat['ds'].', '.'KEC. '.$alamat['kec'].', '.$alamat['kab'].', '.'PROP. '.$alamat['prop'];
+        $alamat_lengkap = ucwords(strtolower($alamat_lengkap));
+		$diri = [
+			'Nama' => $row->nama,
+			'NIK' => $row->nik,
+			'NISN' => $row->nisn,
+			'NPSN Asal' => $row->npsn_asal,
+			'Alamat Rumah ' => $row->alamat_pengenal.'<br><strong>'.$alamat_lengkap.'</strong>',
+			'No HP' => $row->nohp,
+			'Jenis Kelamin' => $this->getText('lp',$detail->lp),
+			'TTL' => $detail->tmp_lahir.', '.$detail->tgl_lahir,
+			'Anak ke' => $detail->anak_ke,
+			'Saudara' =>  $detail->jml_saudara,
+			'Tinggal dengan' => $this->getText('tinggal_dengan',$detail->tinggal_dengan),
+			'Gol Darah' => $this->getText('goda',$detail->goda),
+			'Riwayat Penyakit' => $detail->r_penyakit,
+			'Tinggi/berat' => $detail->t_badan,
+			'Ukuran baju' => $detail->b_badan
+		];
+
+
+        if ($wali) {
+        	$sts = [
+        		1 => 'Bapak',
+        		2 => 'Ibu',
+        		3 => 'Wali'
+        	];
+        	foreach ($wali as $wl) {
+        		foreach ($sts as $key => $value) {
+	        		if ($wl->sts == $key ) {
+						$ortu ['Nama '.$value] = $wl->nama_ortu;
+						$ortu ['NIK '.$value] = $wl->nik_ortu;
+						$ortu ['Tempat '.$value] = $wl->tmp_lahir_ortu;
+						$ortu ['Tanggal Lahir '.$value] = $wl->tgl_lahir_ortu;
+						$ortu ['Pendidikan '.$value] = $this->getText('pendidikan_ortu', $wl->pendidikan_ortu);
+						$ortu ['Pekerjaan '.$value] = $this->getText('pekerjaan_ortu',$wl->pekerjaan_ortu);
+						$ortu ['Penghasilan '.$value] = $this->getText('penghasilan_ortu',$wl->penghasilan_ortu);
+						$ortu ['No HP '.$value] = $wl->no_hp_ortu;
+						$ortu ['Keterangan '.$value] = $this->getText('keterangan_ortu',$wl->keterangan_ortu);
+	        		}
+        		}
+        	}
+        }
+
+        $data ['data_diri'] = $diri;
+        $data ['data_ortu'] = $ortu;
+        $data ['data_pendidikan'] = $pendidikan;
+ 
         $data['judul'] = "Detail santri";
+
         $this->load->view('templates/header', $data);
         $this->load->view('psb/p_data_awal_read', $data);
 

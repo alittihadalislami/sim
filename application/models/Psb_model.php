@@ -25,6 +25,40 @@ class Psb_model extends CI_Model
         return $this->datatables->generate();
     }
 
+    function tampilDesa($id_desa)
+    {
+        $stringQ = " SELECT d.`name` AS ds, k.`name` AS kec , b.`name` AS kab, v.`name` AS prop
+                FROM i_desa d JOIN i_kecamatan k
+                ON k.`id` = d.`kecamatan_id` JOIN i_kabkot b
+                ON k.`kabkot_id` = b.`id` JOIN i_propinsi v
+                ON v.`id` = b.`propinsi_id` WHERE d.`id` = '$id_desa' ";
+        $hasil =  $this->db->query($stringQ)->row_array();
+        
+        if ($hasil != NULL){
+            
+            return $hasil;
+
+        }else{
+            
+            $tingkat = [
+                13 => 'ds',
+                8 => 'kec',
+                5 => 'kab',
+                2 => 'prop',
+            ];
+            
+            foreach ($tingkat as $tk => $val) {
+                $kode = substr($id_desa, 0, $tk);
+
+                $this->db->select('nama');
+                $data = $this->db->get_where('wilayah_2020', ['kode'=>$kode])->row_array();
+                $hasil [$val] = $data['nama'] ;
+            }
+
+            return $hasil;
+        }
+    }
+
     // get all
     function get_all()
     {

@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
 
 <style>
-    td {
+    table#mytable td {
          text-transform:uppercase
     }
 
