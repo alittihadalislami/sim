@@ -61,24 +61,32 @@ class Psb extends CI_Controller
             redirect(site_url('psb'));
         }
 
-        if ($row) {
-            $data = array(
-		'id_data_awal' => $row->id_data_awal,
-		'desa_id' => $row->desa_id,
-		'proses' => $row->proses,
-		'ijasah' => $row->ijasah,
-		'skhu' => $row->skhu,
-		'kk' => $row->kk,
-		'akte' => $row->akte,
-		'kartu' => $row->kartu,
-		'keuangan' => $row->keuangan,
-		'asesment' => $row->asesment,
-		'verf_keuangan' => $row->verf_keuangan,
+        
+        $data = array(
+			'id_data_awal' => $row->id_data_awal,
+			'desa_id' => $row->desa_id,
+			'proses' => $row->proses,
+			'asesment' => $row->asesment,
 	    );
 
+	    // //file upload
+        $doc = ['keuangan','ijasah','skhu','kk','akte','kartu'];
+
+        foreach ($doc as $nama_file) {
+ 			
+ 			$cek = $row->$nama_file != NULL OR $row->$nama_file != ''; 
+
+	        if ($cek) {
+ 				$upload_berkas [$nama_file] = $row->$nama_file;
+	        }
+        }
+
+        //generate desa
         $alamat = $this->Psb_model->tampilDesa($row->desa_id);
         $alamat_lengkap = 'DESA '.$alamat['ds'].', '.'KEC. '.$alamat['kec'].', '.$alamat['kab'].', '.'PROP. '.$alamat['prop'];
         $alamat_lengkap = ucwords(strtolower($alamat_lengkap));
+
+        //data diri 
 		$diri = [
 			'Nama' => $row->nama,
 			'NIK' => $row->nik,
@@ -104,6 +112,9 @@ class Psb extends CI_Controller
         		2 => 'Ibu',
         		3 => 'Wali'
         	];
+
+        	$ortu ['Nomor Kartu Keluarga'] = $detail->nok;
+        	
         	foreach ($wali as $wl) {
         		foreach ($sts as $key => $value) {
 	        		if ($wl->sts == $key ) {
@@ -121,19 +132,31 @@ class Psb extends CI_Controller
         	}
         }
 
+        $data ['data_upload'] = $upload_berkas;
         $data ['data_diri'] = $diri;
         $data ['data_ortu'] = $ortu;
         $data ['data_pendidikan'] = $pendidikan;
  
         $data['judul'] = "Detail santri";
 
+        // var_dump($data['data_upload']);die();
+
         $this->load->view('templates/header', $data);
         $this->load->view('psb/p_data_awal_read', $data);
 
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('psb'));
-        }
+
+    }
+
+    function lihat(){
+
+
+
+
+
+		   $img = "https://psb.alittihadalislami.org/uploads/18-Lagi-ijasah.jpeg";
+
+		   echo "<img src=$img>";
+
     }
 
     public function create() 
