@@ -98,7 +98,11 @@
 			    <div class="d-flex" style="overflow: scroll;">
 			    	<?php foreach ($data_upload as $index => $upload ): ?>
 			    		<?php  
-			    			$img = 'https://psb.alittihadalislami.org/uploads/'.$upload;
+			    			if ($index == 'keuangan') {
+			    				$img = 'https://psb.alittihadalislami.org/uploads/transfer'.$upload;
+			    			}else{
+			    				$img = 'https://psb.alittihadalislami.org/uploads/'.$upload;
+			    			}
 			    		?>
 					    <div class="col-md-2">
 						    <div class="card text-center">
