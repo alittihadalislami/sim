@@ -99,7 +99,7 @@
 			    	<?php foreach ($data_upload as $index => $upload ): ?>
 			    		<?php  
 			    			if ($index == 'keuangan') {
-			    				$img = 'https://psb.alittihadalislami.org/uploads/transfer'.$upload;
+			    				$img = 'https://psb.alittihadalislami.org/uploads/transfer/'.$upload;
 			    			}else{
 			    				$img = 'https://psb.alittihadalislami.org/uploads/'.$upload;
 			    			}
