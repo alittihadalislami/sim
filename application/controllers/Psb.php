@@ -72,6 +72,7 @@ class Psb extends CI_Controller
 	    // //file upload
         $doc = ['keuangan','ijasah','skhu','kk','akte','kartu'];
 
+        $upload_berkas = [];
         foreach ($doc as $nama_file) {
  			
  			$cek = $row->$nama_file != NULL OR $row->$nama_file != ''; 

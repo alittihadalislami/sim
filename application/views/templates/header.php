@@ -1,11 +1,25 @@
 <?php
     $email = $this->session->userdata('email');
-    $rule_id = $this->session->userdata('rule_id');
-
     $dataAktif = $this->um->dataAktif($email);
-    $daftarHeading = $this->um->daftarHeading($rule_id);
-    $daftarMenu = $this->um->daftarMenu($rule_id);
-    $daftarSubmenu = $this->um->daftarSubmenu($rule_id); 
+    $id_user = $dataAktif['id_user'];
+    $rule_id = $this->um->multipleRule($id_user);
+
+    $rule_ids ='';
+    $no=0; 
+    $total = count($rule_id);
+    foreach ($rule_id as $rule) {
+      $no++;
+      if ($no == $total-1) {
+        $koma = ',';
+      }else{
+        $koma = '';
+      }
+      $rule_ids .= $rule['rule_id'].$koma;
+    }
+
+    $daftarHeading = $this->um->daftarHeading($rule_ids);
+    $daftarMenu = $this->um->daftarMenu($rule_ids);
+    $daftarSubmenu = $this->um->daftarSubmenu($rule_ids); 
 ?>
 <!DOCTYPE html>
 <html>

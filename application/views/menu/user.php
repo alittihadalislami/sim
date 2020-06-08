@@ -19,12 +19,13 @@
   <section class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lx-10 mx-auto">
+        <div class="col-lx-10 mx-auto pb-5">
           
           <table id="user12" class="table table-sm table-striped table-bordered">
             <thead>
               <tr>
                   <th>#</th>
+                  <th>ID User</th>
                   <th>Nama User</th>
                   <th>Email</th>
                   <th>No HP</th>
@@ -36,7 +37,7 @@
 
             </tbody>
           </table>
-
+        
         </div>
       </div>
     </div>
@@ -50,14 +51,41 @@
   $(document).ready(function() {
 
       $('#user12').DataTable( {
-          ordering: false,
+          ordering: true,
           processing: true,
           serverSide: true,
           ajax: {
             url: "<?php echo base_url('menu/tampilUser') ?>",
             type:'POST',
-          }
+          },
+          columns: [
+              {data:'urut'},
+              {data:'id_user'},
+              {data:'nama'},
+              {data:'email'},
+              {data:'nohp'},
+              {data:'rule_id'},
+              {data:'email',
+                "render": function (data,type,row) {
+                  console.log(row);
+                    let tanya = "apakah yakin?";
+                    return '<a href="<?= base_url('menu/deleteUser/') ?>'+row.id_user+'"><i class="buang fas fa-trash text-danger mr-lg-4"></i></a>';
+                }
+              }
+          ],
+          // order: [[2, 'asc']]
       })
+
+      
+
+      $('#user12').on('click', 'td a', function (){
+          var result = confirm("Want to delete?");
+          if (result) {
+              return true;
+          }else{
+            return false;
+          }
+      });
 
   });
 </script>

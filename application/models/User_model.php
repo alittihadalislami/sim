@@ -5,12 +5,17 @@ class User_model extends CI_Model {
 
 	function dataAktif($email)
 	{ /*ambil data tabel user dari email login*/
-		$stringQ = " SELECT d.`nama`, d.`email`, d.`foto`, d.`is_active`, d.`date_created`, r.`id_rule`, r.`nama_rule`, d.`nohp`, a.`kategori`
+		$stringQ = " SELECT d.`id_user`, d.`nama`, d.`email`, d.`foto`, d.`is_active`, d.`date_created`, r.`id_rule`, r.`nama_rule`, d.`nohp`, a.`kategori`
 					FROM `user_data` d JOIN `user_rule` r
-					ON d.`rule_id` = r.`id_rule` join m_asatid a
+					ON d.`rule_id` = r.`id_rule` LEFT JOIN m_asatid a
 					on a.`nohp` = d.`nohp`
 					WHERE d.`email` = '$email' ";
 		return $this->db->query($stringQ)->row_array();
+	}
+
+	function multipleRule($user_id){
+		$this->db->select('rule_id');
+		return $this->db->get_where('user_dapat_rule', ['user_id'=>$user_id])->result_array();
 	}
 
 	function daftarHeading($rule_id)
@@ -19,7 +24,7 @@ class User_model extends CI_Model {
 						FROM `menu_head` h JOIN `menu` m
 						ON h.`id_head`= m.`head_id` JOIN akses_menu a
 						ON a.`menu_id`= m.`id_menu`
-						WHERE a.`rule_id` = $rule_id
+						WHERE a.`rule_id` IN ($rule_id)
 						ORDER BY h.`urutan` ASC
 						 ";
 		return $this->db->query($stringQ)->result_array();
@@ -31,7 +36,7 @@ class User_model extends CI_Model {
 					FROM akses_menu a JOIN menu m
 					ON a.`menu_id` = m.`id_menu` JOIN `menu_head` h
 					ON h.`id_head` = m.`head_id`
-					WHERE a.`rule_id` = $rule_id
+					WHERE a.`rule_id` IN ($rule_id)
 					ORDER BY m.`urutan` ASC ";
 		return $this->db->query($stringQ)->result_array();
 	}
@@ -41,7 +46,7 @@ class User_model extends CI_Model {
 		$stringQ = " SELECT s.`id_submenu`, s.`nama_submenu`, s.`url`, s.`icon`, s.`menu_id`
 					FROM `menu_sub` s JOIN `akses_submenu` asm
 					ON s.`id_submenu`=asm.`submenu_id`
-					WHERE asm.`rule_id` = $rule_id
+					WHERE asm.`rule_id` IN ($rule_id)
 					ORDER BY s.`urutan` ASC ";
 		return $this->db->query($stringQ)->result_array();
 	}

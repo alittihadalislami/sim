@@ -242,14 +242,14 @@ class Menu extends CI_Controller {
 
 		$nomor_urut=$start+1;
 		foreach ($query->result_array() as $user) {
-			
+			$url = base_url('menu/ubah');
 			$output['data'][]=array(
-				$nomor_urut, 
-				$user['nama'],
-				$user['email'],
-				$user['nohp'],
-				$user['rule_id'],
-				"<a href:'".base_url()."menu/ubah' class='btn btn-primary btn-sm'>ubah</a> | <a>delete</a>"
+				'urut' => $nomor_urut, 
+				'id_user' => $user['id_user'],
+				'nama' => $user['nama'],
+				'email' => $user['email'],
+				'nohp' => $user['nohp'],
+				'rule_id' => $user['rule_id']
 			);
 
 		$nomor_urut++;
@@ -257,6 +257,14 @@ class Menu extends CI_Controller {
 
 		echo json_encode($output);
 
+	}
+
+	function deleteUser($id)
+	{
+		$this->db->where('id_user', $id);
+		$this->db->delete('user_data');
+
+		redirect('menu/user','refresh');
 	}
 
 }

@@ -92,7 +92,9 @@
 					<footer class="blockquote-footer">Data sesuai yang diupload User</footer>
 			    </h5>
 
-
+				<?php if (count ($data_upload) < 1): ?>
+					<div class="mt-4 col-12 text-center text-gray-dark">Belum ada berkas diupload</div>
+				<?php endif ?>
 
 				<!-- start card content -->
 			    <div class="d-flex" style="overflow: scroll;">
