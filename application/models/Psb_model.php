@@ -21,7 +21,7 @@ class Psb_model extends CI_Model
         $this->datatables->from('p_data_awal');
         //add this line for join
         //$this->datatables->join('table2', 'p_data_awal.field = table2.field');
-        $this->datatables->add_column('action', '<a class="d-flex flex-column mb-4 klik-lama" href="'.base_url('psb/read/$1').'"><i class="far fa-list-alt"></i></a><hr>'.anchor(site_url('psb/delete/$1'),'<i class="far fa-trash-alt text-danger"></i>','onclick="javasciprt: return confirm(\'Yakin mau menghapus semua data $2 ?\')"'), 'id_data_awal, nama');
+        $this->datatables->add_column('action', '<a class="d-flex flex-column mb-4 klik-lama" href="'.base_url('psb/read/$1').'"><i class="far fa-list-alt"></i></a><hr>'.anchor(site_url('psb/#'/*'psb/delete/$1'*/),'<i class="far fa-trash-alt text-danger"></i>','onclick="javasciprt: return confirm(\'Yakin mau menghapus semua data $2 ?\')"'), 'id_data_awal, nama');
         return $this->datatables->generate();
     }
 
