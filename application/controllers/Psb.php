@@ -47,7 +47,7 @@ class Psb extends CI_Controller
 
         if ($detail) {
         	$pendidikan ['Nama'] = $detail->nama_seijasah;
-			$pendidikan ['Tempat'] = $detail->tmp_lahir_seijasah;
+			$pendidikan ['Tempat Lahir'] = $detail->tmp_lahir_seijasah;
 			$pendidikan ['Tanggal Lahir'] = $detail->tgl_lahir_seijasah;
 			$pendidikan ['No Peserta'] = $detail->nopes;
 			$pendidikan ['Jumlah Nilai Ijasah'] = $detail->nilai_ijasah;
@@ -88,7 +88,20 @@ class Psb extends CI_Controller
         $alamat_lengkap = ucwords(strtolower($alamat_lengkap));
 
         //data diri 
-		$diri = [
+        
+        if ($detail->tmp_lahir == null || $detail->tmp_lahir == '') {
+            $tempat_lahir = '<span class="badge badge-secondary">kososng</span>';
+        }else{
+            $tempat_lahir = $detail->tmp_lahir;
+        }
+
+        if ($detail->tgl_lahir == null || $detail->tgl_lahir == '') {
+            $tanggal_lahir = '<span class="badge badge-secondary">kososng</span>';
+        }else{
+            $tanggal_lahir = $detail->tgl_lahir;
+        }
+
+        $diri = [
 			'Nama' => $row->nama,
 			'NIK' => $row->nik,
 			'NISN' => $row->nisn,
@@ -96,7 +109,7 @@ class Psb extends CI_Controller
 			'Alamat Rumah ' => $row->alamat_pengenal.'<br><strong>'.$alamat_lengkap.'</strong>',
 			'No HP' => $row->nohp,
 			'Jenis Kelamin' => $this->getText('lp',$detail->lp),
-			'TTL' => $detail->tmp_lahir.', '.$detail->tgl_lahir,
+			'TTL' => $tempat_lahir.', '.$tanggal_lahir,
 			'Anak ke' => $detail->anak_ke,
 			'Saudara' =>  $detail->jml_saudara,
 			'Tinggal dengan' => $this->getText('tinggal_dengan',$detail->tinggal_dengan),
@@ -121,8 +134,8 @@ class Psb extends CI_Controller
 	        		if ($wl->sts == $key ) {
 						$ortu ['Nama '.$value] = $wl->nama_ortu;
 						$ortu ['NIK '.$value] = $wl->nik_ortu;
-						$ortu ['Tempat '.$value] = $wl->tmp_lahir_ortu;
-						$ortu ['Tanggal Lahir '.$value] = $wl->tgl_lahir_ortu;
+						$ortu ['Tempat lahir '.$value] = $wl->tmp_lahir_ortu;
+						$ortu ['Tanggal lahir '.$value] = $wl->tgl_lahir_ortu;
 						$ortu ['Pendidikan '.$value] = $this->getText('pendidikan_ortu', $wl->pendidikan_ortu);
 						$ortu ['Pekerjaan '.$value] = $this->getText('pekerjaan_ortu',$wl->pekerjaan_ortu);
 						$ortu ['Penghasilan '.$value] = $this->getText('penghasilan_ortu',$wl->penghasilan_ortu);
@@ -226,24 +239,27 @@ class Psb extends CI_Controller
             $data = array(
                 'button' => 'Update',
                 'action' => site_url('psb/update_action'),
-		'id_data_awal' => set_value('id_data_awal', $row->id_data_awal),
-		'nama' => set_value('nama', $row->nama),
-		'nik' => set_value('nik', $row->nik),
-		'nisn' => set_value('nisn', $row->nisn),
-		'alamat_pengenal' => set_value('alamat_pengenal', $row->alamat_pengenal),
-		'npsn_asal' => set_value('npsn_asal', $row->npsn_asal),
-		'desa_id' => set_value('desa_id', $row->desa_id),
-		'nohp' => set_value('nohp', $row->nohp),
-		'proses' => set_value('proses', $row->proses),
-		'ijasah' => set_value('ijasah', $row->ijasah),
-		'skhu' => set_value('skhu', $row->skhu),
-		'kk' => set_value('kk', $row->kk),
-		'akte' => set_value('akte', $row->akte),
-		'kartu' => set_value('kartu', $row->kartu),
-		'keuangan' => set_value('keuangan', $row->keuangan),
-		'asesment' => set_value('asesment', $row->asesment),
-		'verf_keuangan' => set_value('verf_keuangan', $row->verf_keuangan),
+				'id_data_awal' => set_value('id_data_awal', $row->id_data_awal),
+				'nama' => set_value('nama', $row->nama),
+				'nik' => set_value('nik', $row->nik),
+				'nisn' => set_value('nisn', $row->nisn),
+				'alamat_pengenal' => set_value('alamat_pengenal', $row->alamat_pengenal),
+				'npsn_asal' => set_value('npsn_asal', $row->npsn_asal),
+				'desa_id' => set_value('desa_id', $row->desa_id),
+				'tampil_desa' => $this->Psb_model->tampilDesa($row->desa_id),
+				'nohp' => set_value('nohp', $row->nohp),
+				/*'proses' => set_value('proses', $row->proses),
+				'ijasah' => set_value('ijasah', $row->ijasah),
+				'skhu' => set_value('skhu', $row->skhu),
+				'kk' => set_value('kk', $row->kk),
+				'akte' => set_value('akte', $row->akte),
+				'kartu' => set_value('kartu', $row->kartu),
+				'keuangan' => set_value('keuangan', $row->keuangan),
+				'asesment' => set_value('asesment', $row->asesment),
+				'verf_keuangan' => set_value('verf_keuangan', $row->verf_keuangan),*/
 	    );
+    		$data['judul'] = 'Update Data Awal';
+    		$this->load->view('templates/header', $data);
             $this->load->view('psb/p_data_awal_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
@@ -259,22 +275,22 @@ class Psb extends CI_Controller
             $this->update($this->input->post('id_data_awal', TRUE));
         } else {
             $data = array(
-		'nama' => $this->input->post('nama',TRUE),
-		'nik' => $this->input->post('nik',TRUE),
-		'nisn' => $this->input->post('nisn',TRUE),
-		'alamat_pengenal' => $this->input->post('alamat_pengenal',TRUE),
-		'npsn_asal' => $this->input->post('npsn_asal',TRUE),
-		'desa_id' => $this->input->post('desa_id',TRUE),
-		'nohp' => $this->input->post('nohp',TRUE),
-		'proses' => $this->input->post('proses',TRUE),
-		'ijasah' => $this->input->post('ijasah',TRUE),
-		'skhu' => $this->input->post('skhu',TRUE),
-		'kk' => $this->input->post('kk',TRUE),
-		'akte' => $this->input->post('akte',TRUE),
-		'kartu' => $this->input->post('kartu',TRUE),
-		'keuangan' => $this->input->post('keuangan',TRUE),
-		'asesment' => $this->input->post('asesment',TRUE),
-		'verf_keuangan' => $this->input->post('verf_keuangan',TRUE),
+			'nama' => $this->input->post('nama',TRUE),
+			'nik' => $this->input->post('nik',TRUE),
+			'nisn' => $this->input->post('nisn',TRUE),
+			'alamat_pengenal' => $this->input->post('alamat_pengenal',TRUE),
+			'npsn_asal' => $this->input->post('npsn_asal',TRUE),
+			'desa_id' => $this->input->post('desa_id',TRUE),
+			'nohp' => $this->input->post('nohp',TRUE),
+			/*'proses' => $this->input->post('proses',TRUE),
+			'ijasah' => $this->input->post('ijasah',TRUE),
+			'skhu' => $this->input->post('skhu',TRUE),
+			'kk' => $this->input->post('kk',TRUE),
+			'akte' => $this->input->post('akte',TRUE),
+			'kartu' => $this->input->post('kartu',TRUE),
+			'keuangan' => $this->input->post('keuangan',TRUE),
+			'asesment' => $this->input->post('asesment',TRUE),
+			'verf_keuangan' => $this->input->post('verf_keuangan',TRUE),*/
 	    );
 
             $this->Psb_model->update($this->input->post('id_data_awal', TRUE), $data);
@@ -302,7 +318,7 @@ class Psb extends CI_Controller
 	$this->form_validation->set_rules('nama', 'nama', 'trim|required');
 	$this->form_validation->set_rules('nik', 'nik', 'trim|required');
 	$this->form_validation->set_rules('nisn', 'nisn', 'trim|required');
-	$this->form_validation->set_rules('alamat_pengenal', 'alamat pengenal', 'trim|required');
+/*	$this->form_validation->set_rules('alamat_pengenal', 'alamat pengenal', 'trim|required');
 	$this->form_validation->set_rules('npsn_asal', 'npsn asal', 'trim|required');
 	$this->form_validation->set_rules('desa_id', 'desa id', 'trim|required');
 	$this->form_validation->set_rules('nohp', 'nohp', 'trim|required');
@@ -316,7 +332,7 @@ class Psb extends CI_Controller
 	$this->form_validation->set_rules('asesment', 'asesment', 'trim|required');
 	$this->form_validation->set_rules('verf_keuangan', 'verf keuangan', 'trim|required');
 
-	$this->form_validation->set_rules('id_data_awal', 'id_data_awal', 'trim');
+	$this->form_validation->set_rules('id_data_awal', 'id_data_awal', 'trim');*/
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
@@ -400,6 +416,44 @@ class Psb extends CI_Controller
         );
         
         $this->load->view('psb/p_data_awal_doc',$data);
+    }
+
+    function listPropinsi()
+    {
+        $this->db->where('char_length(kode)', 2);
+        $data = $this->db->get('wilayah_2020')->result_array();
+        
+        echo json_encode($data);
+    }
+
+    function listKabupaten()
+    {   $id = $this->input->post('id',true);
+
+        $this->db->where('char_length(kode)', 5);
+        $this->db->like('kode', $id, 'after');
+        $data = $this->db->get('wilayah_2020')->result_array();
+        
+        echo json_encode($data);
+    }
+
+    function listKecamatan()
+    {   $id = $this->input->post('id',true);
+
+        $this->db->where('char_length(kode)', 8);
+        $this->db->like('kode', $id, 'after');
+        $data = $this->db->get('wilayah_2020')->result_array();
+
+        echo json_encode($data);
+    }
+
+    function listDesa()
+    {   $id = $this->input->post('id',true);
+
+        $this->db->where('char_length(kode)', 13);
+        $this->db->like('kode', $id, 'after');
+        $data = $this->db->get('wilayah_2020')->result_array();
+
+        echo json_encode($data);
     }
 
 }

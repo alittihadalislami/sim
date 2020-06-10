@@ -100,7 +100,7 @@
                             "render": function (data, type, row) {
                                 let sts_lgkp = eval(tidakKosong100(row.proses))+eval(tidakKosong100(row.ijasah))+eval(tidakKosong100(row.skhu))+eval(tidakKosong100(row.kk))+eval(tidakKosong100(row.akte))+eval(tidakKosong100(row.keuangan))+eval(tidakKosong100(row.verf_keuangan))+eval(tidakKosong100(row.asesment));
                                 let persen = Math.round(sts_lgkp/8);
-                                return data+'<br><i class="fas fa-user-circle"></i> '+row.nik+'<br><i class="fas fa-key"></i> '+row.npsn_asal+'<br><hr> <a href="<?=base_url("psb/read")?>/'+row.id_data_awal+'" style="text-transform: capitalize" class="badge badge-info"> Detail: '+persen+' % </a`>'
+                                return data+'<br><i class="fas fa-user-circle"></i> '+row.nik+'<br><i class="fas fa-key"></i> '+row.nisn+'<br><hr> <a href="<?=base_url("psb/read")?>/'+row.id_data_awal+'" style="text-transform: capitalize" class="badge badge-info"> Detail: '+persen+' % </a`>'
                             }
                         },
                         {"data": "nik"},
