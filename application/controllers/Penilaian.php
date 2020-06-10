@@ -438,6 +438,21 @@ class Penilaian extends CI_Controller {
 		redirect('penilaian','refresh');
 
 	}
+
+	public function kdDarurat()
+	{	
+		$query = " SELECT m.*, p.`mapel_alias` 
+					FROM m_mengajar m LEFT JOIN m_mapel p
+					ON m.`mapel_id` = p.`id_mapel`
+					WHERE m.`tahun_id` = 3 AND m.`kelas_id` IN (12,13,24)
+					GROUP BY m.`mapel_id` order by p.`mapel_alias` asc ";
+		$data ['mapel6'] = $this->db->query($query)->result_array();
+		$data['judul'] = 'Darurat KD';
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('penilaian/kd_list_darurat', $data);
+		$this->load->view('templates/footer');
+	}
 	
 
 	public function kd($asatid, $mapel, $kelas)
