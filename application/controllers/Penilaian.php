@@ -736,7 +736,7 @@ class Penilaian extends CI_Controller {
 
 	public function legerNilai(){
 	    
-	    ini_set("memory_limit","512M");
+	    ini_set("memory_limit","1024M");
 		
 		$nohp = $this->um->dataAktif($this->session->userdata('email'))['nohp'];
 		$id_asatid = $this->um->idAsatid($nohp)['id_asatid'];
