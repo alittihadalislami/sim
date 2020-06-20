@@ -280,6 +280,7 @@ class User_model extends CI_Model {
 					FROM m_mengajar m JOIN m_mapel p 
 					ON m.`mapel_id` = p.`id_mapel` 
 					WHERE kelas_id = $kelas_id AND tahun_id = $tahun_id
+					GROUP BY m.`mapel_id`
 					ORDER BY p.`nama_mapel`";
 		return  $this->db->query($stringQ)->result_array();
 	}

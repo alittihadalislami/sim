@@ -764,6 +764,8 @@ class Penilaian extends CI_Controller {
 		$data['nilai_perkelas'] = $this->um->nilaiPerkelas($filter_kelas,$data['id_tahun']);
 		$suluk_perkelas = $this->um->sulukPersantriPerkelas($filter_kelas,$data['id_tahun']);
 
+		// var_dump($data['mapel_perkelas']);die();
+
 		// foreach ($nilai_perkelas as $target) {
 		// 	$nilaiperkelas[] = [
 		// 		'mapel_id' => $target['mapel_id'], 
