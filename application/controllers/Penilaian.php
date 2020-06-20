@@ -8,6 +8,7 @@ class Penilaian extends CI_Controller {
 	{
 		parent::__construct();
 		is_login();
+		$this->load->model('Raport_model','rm');
 		$this->load->model('User_model','um');
 		$this->load->model('Kelas_model','km');
 		$this->tahunAktif = $this->um->tahunAktif();
@@ -735,9 +736,10 @@ class Penilaian extends CI_Controller {
 	}
 
 	public function legerNilai(){
-	    
-	    ini_set("memory_limit","1024M");
-		
+
+	   	$limit = ini_get('memory_limit');
+	   	ini_set('memory_limit', -1);
+
 		$nohp = $this->um->dataAktif($this->session->userdata('email'))['nohp'];
 		$id_asatid = $this->um->idAsatid($nohp)['id_asatid'];
 		if ($id_asatid == 111 || $id_asatid == 2 || $id_asatid == 'M' || $id_asatid == 9) {
@@ -761,8 +763,6 @@ class Penilaian extends CI_Controller {
 		$data['mapel_perkelas'] = $this->um->mapelPerkelas($filter_kelas,$data['id_tahun']);
 		$data['nilai_perkelas'] = $this->um->nilaiPerkelas($filter_kelas,$data['id_tahun']);
 		$suluk_perkelas = $this->um->sulukPersantriPerkelas($filter_kelas,$data['id_tahun']);
-
-
 
 		// foreach ($nilai_perkelas as $target) {
 		// 	$nilaiperkelas[] = [
@@ -799,9 +799,13 @@ class Penilaian extends CI_Controller {
 
 		$data['semua_kelas'] = null;
 
+		// var_dump($data);die();
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('penilaian/leger_nilai');
 		$this->load->view('templates/footer');
+
+		ini_set('memory_limit', $limit);
 	}
 
 	public function LegerNilaiAll($filter_kelas){
@@ -980,10 +984,11 @@ class Penilaian extends CI_Controller {
 		$data['nama_santri'] = $this->um->showNamasantri($data['id_santri']);
 		
 		$this->db->where('santri_id', $data['id_santri']);
-		// $this->db->where('kelas_id', $data['id_kelas']);
 		$this->db->where('tahun_id', $data['id_tahun']);
 		$data['cek'] = $this->db->get('t_entriwali')->row_array();
 
+
+		$data['sia'] = $this->rm->hitungSIA('20200101',$data['id_santri']); 
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('penilaian/f_entry', $data);
@@ -992,16 +997,13 @@ class Penilaian extends CI_Controller {
 
 	public function doentry()
 	{
-		// var_dump($this->input->post());die();
 		$this->db->where('santri_id', $this->input->post('santri_id'));
-	//	$this->db->where('kelas_id', $this->input->post('kelas_id'));
 		$this->db->where('tahun_id', $this->input->post('tahun_id'));
 		$cek = $this->db->get('t_entriwali')->row_array();
 
 		if ($cek) {
 			
 			$this->db->where('santri_id', $this->input->post('santri_id'));
-// 			$this->db->where('kelas_id', $this->input->post('kelas_id'));
 			$this->db->where('tahun_id', $this->input->post('tahun_id'));
 
 			$this->db->update('t_entriwali', $this->input->post());

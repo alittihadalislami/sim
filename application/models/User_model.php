@@ -422,17 +422,6 @@ class User_model extends CI_Model {
 	public function generateNKH($tgl_awal_semester)
 	{
 		//$tgl_awal_semester = yyyymmhh;
-		/* $stringQ = " SELECT a.`santri_id`, k.`id_kelas`, k.`id_mapel`, 
-						COUNT(IF(a.`absen`=0,1,NULL)) AS alpa, 
-						COUNT(IF(a.`absen`=1,1,NULL)) AS izin, 
-						COUNT(IF(a.`absen`=2,1,NULL)) AS sakit, 
-						COUNT(IF(a.`absen`>2,1,NULL)) AS hadir,
-						COUNT(a.`santri_id`) AS total
-					FROM t_absensi a JOIN `t_jurnal` j
-					ON a.`jurnal_id` = j.`id_jurnal` JOIN `t_kbm` k
-					ON j.`kbm_id` = k.`id_kbm`
-					GROUP BY a.`santri_id`, k.`id_mapel`, k.`id_kelas`";
-		*/
 		$stringQ = " SELECT santri_id,id_mapel,id_kelas,
 						COUNT(IF(datasemua.`absen`=0,1,NULL)) AS alpa, 
 						COUNT(IF(datasemua.`absen`=1,1,NULL)) AS izin, 

@@ -9,9 +9,9 @@
           <form method="post" action="<?=base_url('penilaian/doentry') ?>">
             <div class="form-group">
               <label for="sakit" style="display: block;">Ketidakhadiran</label>
-              <input type="number" class="form-control" id="sakit" placeholder="Sakit" style="width: 100px; display: inline-block;" name="sakit" required="true" value="<?= $cek['sakit']?>">
-              <input type="number" class="form-control" id="sakit" placeholder="Ijin" style="width: 100px; display: inline-block;" name="ijin" required="true" value="<?= $cek['ijin']?>">
-              <input type="number" class="form-control" id="sakit" placeholder="Alpa" style="width: 100px; display: inline-block;" name="alpa" required="true" value="<?= $cek['alpa']?>">
+              <input type="number" class="form-control" id="sakit" placeholder="Sakit" style="width: 100px; display: inline-block;" name="sakit" required="true" value="<?= $sia[0]['sakit']?>">
+              <input type="number" class="form-control" id="sakit" placeholder="Ijin" style="width: 100px; display: inline-block;" name="ijin" required="true" value="<?= $sia[0]['izin']?>">
+              <input type="number" class="form-control" id="sakit" placeholder="Alpa" style="width: 100px; display: inline-block;" name="alpa" required="true" value="<?= $sia[0]['alpa']?>">
             </div>
             <div class="form-group">
               <label for="Nasehat">Nasehat</label>
@@ -19,34 +19,42 @@
             </div>
             <hr style="margin-bottom: 20px;margin-top: 50px;">
             <label>Untuk Raport Umum</label>
+            <?php 
+              $pramuka = $cek['pramuka'];
+              $ismii = $cek['ismi'];
+              $tahfid = $cek['tahfid'];
+              $pilihan = [
+                "1"=>"A",
+                "2"=>"B",
+                "3"=>"C",
+                "4"=>"D"
+              ];
+            ?>
             <div class="form-group">
               <label for="pramuka">Pramuka</label>
               <select class="form-control" id="pramuka" name="pramuka" required="true">
                 <option value="">-pilih nilai pramuka-</option>
-                <option value="1">A</option>
-                <option value="2">B</option>
-                <option value="3">C</option>
-                <option value="4">D</option>
+                <?php foreach ($pilihan as $key => $pilih): ?>
+                  <option value="<?=$key?>" <?= $key == $pramuka ? 'selected' : null?> ><?= $pilih ?></option>
+                <?php endforeach ?>
               </select>
             </div>
             <div class="form-group">
               <label for="ismii">Osis/Ismii</label>
               <select class="form-control" name="ismi" id="ismii" required="true">
                 <option value="">-pilih nilai ismii-</option>
-                <option value="1">A</option>
-                <option value="2">B</option>
-                <option value="3">C</option>
-                <option value="4">D</option>
+                <?php foreach ($pilihan as $key => $pilih): ?>
+                  <option value="<?=$key?>" <?= $key == $ismii ? 'selected' : null?> ><?= $pilih ?></option>
+                <?php endforeach ?>
               </select>
             </div>
             <div class="form-group">
               <label for="tahfid">Tahfidz</label>
               <select class="form-control" name="tahfid" id="tahfid" required="true">
                 <option value="">-pilih nilai tahfid-</option>
-                <option value="1">A</option>
-                <option value="2">B</option>
-                <option value="3">C</option>
-                <option value="4">D</option>
+                <?php foreach ($pilihan as $key => $pilih): ?>
+                  <option value="<?=$key?>" <?= $key == $tahfid ? 'selected' : null?> ><?= $pilih ?></option>
+                <?php endforeach ?>
               </select>
             </div>
             <input type="text" name="santri_id" value="<?=$id_santri?>" hidden="true">
