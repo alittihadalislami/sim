@@ -25,15 +25,30 @@
 <script>
   $(document).ready(function(){
     var sm = $('aside .sidebar nav ul li ul li a');
-    sm.click(function(){
-    sm.removeClass("active");
-    $(this).addClass("active");
-    });
+      sm.click(function(){
+        sm.removeClass("active");
+        $(this).addClass("active");
+      });
 
     var m = $('aside > .sidebar > nav > ul > li > a');
-    m.click(function(){
-    m.removeClass("active", "menu-open");
-    $(this).addClass("active");
+      m.click(function(){
+        m.removeClass("active", "menu-open");
+        $(this).addClass("active");
+      });
+    
+    sm.each(function(){
+      anchorEl = $(this).attr('href');
+      if (document.location.href.indexOf(anchorEl) >=0 ){
+        $(this).addClass("active");
+        // $(this).parent().parent().siblings('.nav-link').addClass("active");
+        $(this).parent().parent().parent().addClass("menu-open");
+      }
+    })
+    m.each(function(){
+      anchorEl = $(this).attr('href');
+      if (document.location.href.indexOf(anchorEl) >=0 ){
+        $(this).addClass("active");
+      }
     });
   });
   
