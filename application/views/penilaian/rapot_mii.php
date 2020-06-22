@@ -8,11 +8,6 @@
     .main-footer{
       display: none;
     }
-     table tr th {
-      border: 1px solid black;
-      background-color: #6BBC88
-    }
-  
   }
   
   tr > td.jml{
