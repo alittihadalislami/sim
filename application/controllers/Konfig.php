@@ -25,7 +25,7 @@ class Konfig extends CI_Controller {
 			'Tahun Ajaran' => 0,
 			'Hitung nilai Kehadiran' => base_url('konfig/hitungNkh'),
 			'Ambil nilai ijazah untuk nilai raport' => 0,
-			'Ambil nilai serumpun' => 0,
+			'Ambil nilai serumpun' => base_url('konfig/ambilNilaiSerumpun'),
 			'Pilih fontawesome' => base_url('konfig/pilihFontawesome')
 		];
 
@@ -157,6 +157,14 @@ class Konfig extends CI_Controller {
 		</div>');
 
 		redirect('konfig','refresh');
+	}
+
+	public function ambilNilaiSerumpun()
+	{
+		$data['judul'] = 'ambil_nilai';
+		$this->load->view('templates/header', $data);
+		$this->load->view('konfig/ambil_nilai', $data);
+		$this->load->view('templates/footer');
 	}
 
 }
