@@ -55,7 +55,8 @@
                       <?php 
                         $mapel_id = $mp['mapel_id'];
                         $kelas_id = $this->uri->segment(3);
-                        $kkm = $this->rm->kkm($kelas_id, $mapel_id, $this->tahunAktif['id_tahun'])
+                        $rombel = $this->um->showRombel($kelas_id)['rombel'];
+                        $kkm = $this->rm->kkm($rombel, $mapel_id, $this->tahunAktif['id_tahun'])
                       ?>
                       <th colspan="2"><?=$mp['nama_mapel'].'<br>(P-K)'?><br><span class="badge badge-success">KKM: <?=$kkm?></span></th>
                     <?php endforeach ?>
