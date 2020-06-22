@@ -230,46 +230,48 @@
                 <div>االمريض</div>
                 <div>Sakit</div>
               </td>
-              <td><?=$tambahan['sakit'] ?></td>             
+              <td><?=$tambahan['sakit'] == 0 ? '-' : $tambahan['sakit'] ?></td>             
             </tr>
             <tr>
               <td>
                 <div>االإذن</div>
                 <div>Idzin</div>
               </td>
-              <td><?=$tambahan['ijin'] ?></td>
+              <td><?=$tambahan['ijin'] == 0 ? '-' : $tambahan['ijin'] ?></td>
             </tr>
             <tr>
               <td>
                 <div>االغياب</div>
                 <div>Alpa</div>
               </td>
-              <td><?=$tambahan['alpa'] ?></td>
+              <td><?=$tambahan['alpa'] == 0 ? '-' : $tambahan['alpa'] ?></td>
             </tr>
           </table>
 
           <div class="teks" style="text-align: center">
-            <!--<div class="ket" style="margin-top: 30px;">-->
-            <!--  <div class="ar">-->
-            <!--    <?=$domir['ket'];?>-->
-            <!--  </div>-->
-            <!--  <div class="id">-->
-            <!--    Setelah memperhatikan penilaian hasil belajar yang diperoleh santri tersebut maka ditetapkan-->
-            <!--  </div>-->
-            <!--</div>-->
+            <?php if ($at_tahun['semester'] == 2): ?>
+              <div class="ket" style="margin-top: 30px;">
+                <div class="ar">
+                  <?=$domir['ket'];?>
+                </div>
+                <div class="id">
+                  Setelah memperhatikan penilaian hasil belajar yang diperoleh santri tersebut maka ditetapkan
+                </div>
+              </div>
 
-            <!--<div class="lulus" style="margin-top: 20px">-->
-            <!--  <div class="ar">-->
-            <!--    <?= $domir['naik'].$ket['ket_ar'] ?>-->
-            <!--  </div>-->
-            <!--  <div class="id">-->
-            <!--    <?= $ket['ket_id'] ?>-->
-            <!--  </div>-->
-            <!--</div>-->
+              <div class="lulus" style="margin-top: 20px">
+                <div class="ar">
+                  <?= $domir['naik'].$ket['ket_ar'] ?>
+                </div>
+                <div class="id">
+                  <?= $ket['ket_id'] ?>
+                </div>
+              </div>
+            <?php endif ?>
 
             <div class="tanggal" style="margin-top: 20px">
-              <div class="ar">شمبلونج، ٢٤ ربيع الثانى ١٤٤١</div>
-              <div class="id">Camplong, 21 Desember 2019</div>
+              <div class="ar">شمبلونج، ٢٨ شوّال ١٤٤١</div>
+              <div class="id">Camplong, 20 Juni 2020</div>
             </div>
 
             <div class="ttd" style="text-align: center; margin-top: 20px">
@@ -283,7 +285,7 @@
                 <div class="id">Wali Kelas</div>
                 <div class="nama" style="margin-top: 85px; font-weight: bold;font-size: 20px"><?= $at_wali ?></div>
               </div>
-              <div style="position: absolute; left: 48px; bottom: 220px">
+              <div style="position: absolute; left: 68px; bottom: 220px">
                 <div class="ar">بمعرفة</div>
                 <div class="id">Mengetahui</div>
               </div>
