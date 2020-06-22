@@ -74,7 +74,8 @@
                         $k = $dk['mapel'][$idm]['k'] ; 
                         $mapel_id = $dk['mapel'][$idm]['mapel_id'];
                         $kelas_id = $this->uri->segment(3);
-                        $kkm = $this->rm->kkm($kelas_id, $mapel_id, $this->tahunAktif['id_tahun']);
+                        $rombel = $this->um->showRombel($kelas_id)['rombel'];
+                        $kkm = $this->rm->kkm($rombel, $mapel_id, $this->tahunAktif['id_tahun']);
                        } 
                       ?>
                         <td <?= $p<$kkm? 'class="under-kkm"':null ?> ><?= $p ?></td>
