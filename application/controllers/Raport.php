@@ -509,6 +509,7 @@ class Raport extends CI_Controller {
 		$data['judul'] = 'Daftar Nilai Kolektif (DKN)';
 
 		$data['kls'] = $kls;
+		$data['rombel'] = $this->um->showRombel($kls)['rombel'];
 		$data['tahun'] =  $this->tahunAktif['id_tahun'];
 
 		$data['dkn'] = $this->siapkanNilai($kls,$jenjang);

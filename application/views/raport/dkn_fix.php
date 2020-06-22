@@ -45,7 +45,6 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <h1 id="kls_terpilih" class="badge badge-success" style="font-size: 30px; font-weight: lighter;"></h1>
                 <table id="dkn" class="table table-striped table-responsive table-bordered">
                   <thead>
                     <tr>
@@ -64,7 +63,7 @@
                           <?php foreach ($dk['nilai'] as $k => $v): ?>
 
                           <?php 
-                            $kkm = $this->rm->kkm($kls,$dk['nilai'][$k]['mapel_id'],$tahun); 
+                            $kkm = $this->rm->kkm($rombel,$dk['nilai'][$k]['mapel_id'],$tahun); 
                             $p = $dk['nilai'][$k]['p'];
                             $k = $dk['nilai'][$k]['k'];
                           ?>
