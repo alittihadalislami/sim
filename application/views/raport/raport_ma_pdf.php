@@ -527,41 +527,48 @@
 		<h3 class="judul">G. Tanggapan Orang Tua / Wali</h3>
 		<div class="garis" style="margin-buttom:30px;"></div>
 		<div style="clear:both; margin-top:20px; height:5px"></div>
-		<!-- <div class="keputusan">
-			<h4><strong>Keputusan:</strong></h4>
-			<p style="margin-left: 20px; line-height: 20px; position: relative; bottom: 6px; font-size:15px">Berdasarkan pencapaian kompetensi pada semester 1 dan 2, <br> maka peserta didik ditetapkan: Naik <?= $kelas_baru[0].' ('.$kelas_baru[1].')' ?></p>
-		</div> -->
+		
+		<?php if ($semester == 2 ): ?>
+			<div class="keputusan">
+				<h4><strong>Keputusan:</strong></h4>
+				<p style="margin-left: 20px; line-height: 20px; position: relative; bottom: 6px; font-size:15px">Berdasarkan pencapaian kompetensi pada semester 1 dan 2, <br> maka peserta didik ditetapkan: Naik <?= $kelas_baru[0].' ('.$kelas_baru[1].')' ?></p>
+			</div>
+		<?php endif ?>
+
 		<div class="ttd">
-			<div class="cf" style='text-align:right'>
-				Sampang, 21 Desember 2019
+			<div class="cf" style='text-align:right; margin-right: 20px'>
+				Sampang, 20 Juni 2020
 			</div>
 			<br><br>
-			<div class="tempat-ttd">
-				<div>
-					<div class="sebagai" style='font-size:14px'>Orang Tua/Wali</div>
-					<br><br><br><br>
-					<div class="isi">____________________</div>
+			<?php if ($semester == 1 ): ?>
+				<div class="tempat-ttd">
+					<div>
+						<div class="sebagai" style='font-size:14px'>Orang Tua/Wali</div>
+						<br><br><br><br>
+						<div class="isi">____________________</div>
+					</div>
+					<div style="margin-left: 250px;">
+						<div class="sebagai" style='font-size:14px'>Wali Kelas</div>
+						<br><br><br><br>
+						<div class="isi" style='font-size:14px'><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
+					</div>
 				</div>
-				<div style="margin-left: 250px;">
-					<div class="sebagai" style='font-size:14px'>Wali Kelas</div>
-					<br><br><br><br>
-					<div class="isi" style='font-size:14px'><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
+			<?php else: ?>
+				<div class="tempat-ttd">
+					<div class="bagi-tiga">
+						<div class="sebagai" style='font-size:14px'>Orang Tua/Wali</div>
+						<div class="isi">____________________</div>
+					</div>
+					<div class="bagi-tiga">
+						<div class="sebagai" style='font-size:14px'>Wali Kelas</div>
+						<div class="isi" style='font-size:14px'><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
+					</div>
+					<div class="kepala">
+						<div class="sebagai" style='font-size:14px'>Mengetahui<br>Kepala Sekolah</div>
+						<div class="isi" style='font-size:14px; margin-top:80px;'><u>Mughni Musa, Lc., M.Ag.</u><br>NIY. 940613009</div>
+					</div>
 				</div>
-			</div>
-			<!-- <div class="tempat-ttd">
-				<div class="bagi-tiga">
-					<div class="sebagai" style='font-size:14px'>Orang Tua/Wali</div>
-					<div class="isi">____________________</div>
-				</div>
-				<div class="bagi-tiga">
-					<div class="sebagai" style='font-size:14px'>Wali Kelas</div>
-					<div class="isi" style='font-size:14px'><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
-				</div>
-				<div class="kepala">
-					<div class="sebagai" style='font-size:14px'>Mengetahui<br>Kepala Sekolah</div>
-					<div class="isi" style='font-size:14px; margin-top:80px;'><u>Mughni Musa, Lc., M.Ag.</u><br>NIY. 940613009</div>
-				</div>
-			</div> -->
+			<?php endif ?>
 		</div>
 	</div>
 </body>
