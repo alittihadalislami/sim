@@ -297,6 +297,26 @@ class Raport_model extends CI_Model {
 					) AS lagi
 					where santri_id = $santri_id ";
 		return $this->db->query($stringQ)->result_array();
+
+		/*
+		INSERT INTO t_kd (kelas_id, rombel, mapel_id, tahun_id, kdp, kdk, urut, kkm)
+		SELECT d.`kelas_id`, d.`rombel`, 38 AS `mapel_id`, d.`tahun_id`, d.`kdp`, d.`kdk`, d.`urut`, d.`kkm`
+		FROM t_kd d
+		WHERE d.`mapel_id` = 28 
+		AND d.`tahun_id` = 3
+
+		INSERT INTO t_nh (mapel_id, kelas_id, santri_id, tahun_id, urut_kd, nilai_kdp, nilai_kdk, nilai_suluk)
+		SELECT 38 AS mapel_id , h.`kelas_id`, h.`santri_id`, h.`tahun_id`, h.`urut_kd`, h.`nilai_kdp`, h.`nilai_kdk`, h.`nilai_suluk`
+		FROM t_nh h
+		WHERE h.`mapel_id` = 28
+		AND h.`tahun_id` = 3
+
+		INSERT INTO t_na (kelas_id, mapel_id, tahun_id, santri_id, nkh, nhr, pts, pas, nrp)
+		SELECT n.`kelas_id`,38 AS mapel_id, n.`tahun_id`, n.`santri_id`, n.`nkh`, n.`nhr`, n.`pts`, n.`pas`, n.`nrp`
+		FROM t_na n
+		WHERE n.`mapel_id` = 28
+		AND n.`tahun_id` = 3
+		*/
 	}
 
 

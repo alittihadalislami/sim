@@ -373,12 +373,22 @@
 					</tr>
 				</table>
 			</div>
-			<!-- <div class="kanan">
-				<p style="font-size: 15px; font-weight: bold; border-bottom: 1px solid grey; padding: 9px 5px 9px 5px;">Keputusan:</p> 
-				<p class="fon2">Berdasarkan pencapaian kompetensi pada semester ke-1 dan ke-2, Siswa ditetapkan:</p>
+			<?php if ($semester == 2): ?>
+				<div class="kanan">
+					<p style="font-size: 15px; font-weight: bold; border-bottom: 1px solid grey; padding: 9px 5px 9px 5px;">Keputusan:</p> 
+					<p class="fon2">Berdasarkan pencapaian kompetensi pada semester ke-1 dan ke-2, Siswa ditetapkan:</p>
 
-				<p class="fon2" style="font-weight: bold;">Naik ke Kelas <?= $kelas_baru[0].' ('.$kelas_baru[1].')' ?></p>
-			</div> -->
+					<?php  
+						$rombel = substr($kelas['nama_kelas'],0,1);
+					?>
+
+					<?php if ($semester == 2 && $rombel == 3): ?>
+						<p class="fon2" style="font-weight: bold;">  <?= $kelas_baru[1] ?> </p>
+					<?php else: ?>
+						<p class="fon2" style="font-weight: bold;">Naik ke Kelas <?= $kelas_baru[0].' ('.$kelas_baru[1].')' ?></p>
+					<?php endif ?>
+				</div>
+			<?php endif ?>
 		</div>
 		<div style="clear: left;"></div>
 		<div class="ttd fon2" style="margin-left:20px; margin-top:30px;">
@@ -386,37 +396,41 @@
 				<div class="bagi-dua">
 					Mengetahui,
 				</div>
-				<div class="bagi-dua" style="margin-top: 0; ">
-					Sampang, 21 Desember 2019
+				<div class="bagi-dua" style="margin-top: 0; margin-right: 100px ">
+					Sampang, 20 Juni 2020
 				</div>
 			</div>
-			<div class="tempat-ttd cf">
-				<div class="bagi-dua">
-					<div class="sebagai">Orang Tua/Wali</div>
-					<br><br><br><br>
-					<div class="isi">_____________________</div>
+			<?php if ($semester == 1): ?>
+				<div class="tempat-ttd cf">
+					<div class="bagi-dua">
+						<div class="sebagai">Orang Tua/Wali</div>
+						<br><br><br><br>
+						<div class="isi">_____________________</div>
+					</div>
+					<div class="bagi-dua" style="margin-left: 250px;">
+						<div class="sebagai">Wali Kelas</div>
+						<br><br><br><br>
+						<div class="isi"><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
+					</div>
 				</div>
-				<div class="bagi-dua" style="margin-left: 250px;">
-					<div class="sebagai">Wali Kelas</div>
-					<br><br><br><br>
-					<div class="isi"><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
-				</div>
-			</div>
-			<!-- <div class="tempat-ttd cf">
-				<div class="bagi-tiga">
-					<div class="sebagai">Orang Tua/Wali</div>
-					<div class="isi">_____________________</div>
-				</div>
-				<div class="bagi-tiga">
-					<div class="sebagai">Wali Kelas</div>
-					<div class="isi"><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
-				</div>
+			<?php endif ?>
+			<?php if ($semester == 2): ?>
+				<div class="tempat-ttd cf">
+					<div class="bagi-tiga">
+						<div class="sebagai">Orang Tua/Wali</div>
+						<div class="isi">_____________________</div>
+					</div>
+					<div class="bagi-tiga">
+						<div class="sebagai">Wali Kelas</div>
+						<div class="isi"><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
+					</div>
 
-				<div class="bagi-tiga">
-					<div class="sebagai">Kepala Sekolah</div>
-					<div class="isi"><u>Mudhar, S.Pd.</u> <br> NIY. 940613051</div>
+					<div class="bagi-tiga">
+						<div class="sebagai">Kepala Sekolah</div>
+						<div class="isi"><u>Mudhar, S.Pd.</u> <br> NIY. 940613051</div>
+					</div>
 				</div>
-			</div> -->
+			<?php endif ?>
 		</div>
 	</div>
 </body>
