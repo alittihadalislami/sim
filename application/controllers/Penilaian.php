@@ -956,7 +956,7 @@ class Penilaian extends CI_Controller {
 		$data['nilai_mii'] = $nilai;
 		$data['jumlah_mii'] = $jumlah;
 		$data['ket'] = $this->naikKe($filter_kelas);
-		$data['domir'] = $this->domir($this->kelaminKelas($filter_kelas));
+		$data['domir'] = $this->domir($this->kelaminKelas($filter_kelas,$tahun_id));
 		// var_dump($data['domir']);die();
 
 		$this->load->view('templates/header', $data);
@@ -1059,9 +1059,9 @@ class Penilaian extends CI_Controller {
 		return $kelas_lanjut;
 	}
 
-	public function kelaminKelas($id_kelas)
+	public function kelaminKelas($id_kelas, $tahun_id)
 	{
-		$kelas = $this->db->get_where('t_wali', ['kelas_id'=>$id_kelas])->row_array();
+		$kelas = $this->db->get_where('t_wali', ['kelas_id'=>$id_kelas, 'tahun_id'=> $tahun_id ] )->row_array();
 		return $kelas['tra_tri'];
 	}
 
@@ -1084,7 +1084,6 @@ class Penilaian extends CI_Controller {
 		}
 		return $domir;
 	}
-
 }
 
 /* End of file kelengkapan.php */
