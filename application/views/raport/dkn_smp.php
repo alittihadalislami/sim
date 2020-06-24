@@ -40,7 +40,13 @@
         <div class="col-md-12 lebar">
           <div class="card">
               <div class="card-header">
-                <h5 class="card-title">Daftar Nilai Kolektif <a href="<?= base_url('raport/InsertDknRaport/').$this->uri->segment(3).'/'.$this->uri->segment(4) ?>"><i class="fa fa-paper-plane text-danger"></i></a></h5>
+                <h5 class="card-title">Daftar Nilai Kolektif 
+                </h5>
+                <?php if ($is_lengkap): ?>
+                  <a class="btn-link" href="<?= base_url('raport/InsertDknRaport/').$this->uri->segment(3).'/'.$this->uri->segment(4) ?>"><i class="fa fa-paper-plane text-danger"></i> Perbaiki nilai kolektif</a>
+                <?php else: ?>
+                  <p>Terdapat nilai belum lengkap</p>                  
+                <?php endif ?>
               </div>
               <!-- /.card-header -->
               <div class="card-body">

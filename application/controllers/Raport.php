@@ -225,7 +225,25 @@ class Raport extends CI_Controller {
 		if ($is_Konfersi == null) {
 			$data['dkn'] = $this->nilai($kelas, $jenjang);
 			$data['mapel'] = $this->rm->showMapel($jenjang);
-			
+
+			$is_lengkap = true;
+			foreach ($data['dkn'] as $dkn) {
+				foreach ($data['mapel'] as $mapel) {
+					
+					$idmapel = $mapel['mapel_id'];
+
+					$nilai_p = isset($dkn['mapel'][$idmapel]['p']) ? $dkn['mapel'][$idmapel]['p'] : null;
+					$nilai_k = isset($dkn['mapel'][$idmapel]['k']) ? $dkn['mapel'][$idmapel]['k'] : null;
+					
+					if ($nilai_p == null or $nilai_k == null) {
+						$is_lengkap = false;
+						break 2;
+					}
+				}
+			}
+
+			$data['is_lengkap'] = $is_lengkap;
+	
 			$this->load->view('templates/header', $data);
 			$this->load->view('raport/dkn_smp', $data);
 			$this->load->view('templates/footer');

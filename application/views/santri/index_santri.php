@@ -34,9 +34,10 @@
                   <thead>                  
                     <tr>
                       <th>#</th>
+                      <th>ID Santri</th>
                       <th>Induk MII</th>
                       <th data-priority="1">Nama Santri</th>
-                      <th data-priority="2">Kelas</th>
+                      <th data-priority="1">Kelas</th>
                       <th>Data</th>
                       <th>Aksi</th>
                     </tr>
@@ -45,6 +46,7 @@
                     <?php $no=1; foreach ($santri as $str): ?>                    
                       <tr>
                         <td><?= $no++;?></td>
+                        <td><?= $str['id_santri'];?></td>
                         <td><?= $str['idk_mii'];?></td>
                         <td><?= $str['nama_santri'];?></td>
                         <td><?= $str['nama_kelas'];?></td>

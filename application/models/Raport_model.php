@@ -319,7 +319,13 @@ class Raport_model extends CI_Model {
 		*/
 	}
 
-
+	public function resetDKN($kelas, $tahun)
+	{
+		$stringQ = " DELETE FROM `t_dkn_raport` WHERE `t_dkn_raport`.`kelas_id` = 
+					$kelas AND `t_dkn_raport`.`tahun_id` = $tahun ";
+		$this->db->query($stringQ);
+		return $this->db->affected_rows();
+	}
 }
 
 /* End of file Raport_model.php */
