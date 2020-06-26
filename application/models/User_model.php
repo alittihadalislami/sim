@@ -55,7 +55,8 @@ class User_model extends CI_Model {
 		$stringQ = " SELECT COUNT(s.`id_submenu`) AS submenu
 					FROM `menu_sub` s JOIN `akses_submenu` asm
 					ON s.`id_submenu`=asm.`submenu_id`
-					WHERE asm.`rule_id` = $rule_id AND s.`menu_id` = $menu_id ";
+					WHERE asm.`rule_id` IN ($rule_id) 
+					AND s.`menu_id` = $menu_id ";
 		return $this->db->query($stringQ)->row_array();
 	}
 

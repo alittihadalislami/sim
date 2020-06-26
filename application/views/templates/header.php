@@ -152,7 +152,7 @@
 
               <?php if ($dm['id_head'] == $dh['id_head']): ?>
                 <?php  
-                  $ada_sub_menu = $this->um->adaSubmenu($this->session->userdata('rule_id'),$dm['id_menu'])['submenu'] > 0 ;
+                  $ada_sub_menu = $this->um->adaSubmenu($rule_ids,$dm['id_menu'])['submenu'] > 0 ;
                   $klik_lama = $ada_sub_menu ? '' : 'klik-lama';
                 ?>
                 <li class="nav-item has-treeview"> <!-- menu-open -->
