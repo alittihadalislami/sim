@@ -8,6 +8,7 @@ class Kurikulum extends CI_Controller {
 		parent::__construct();
 
 		$this->load->model('User_model','um');
+		$this->load->model('Kur_model','krm');
 		$this->tahunAktif = $this->um->tahunAktif();
 	}
 
@@ -20,27 +21,9 @@ class Kurikulum extends CI_Controller {
 	{
 		$data['judul'] = 'Asatid mengajar';
 
-		$data['sts_nilai'] = $this->um->cekEntryNilai(null, $this->tahunAktif['id_tahun']);
+		$tahun_id = 4;
 
-		// var_dump($data['sts_nilai']);die();
-
-		$asatid = $this->db->get('m_asatid')->result_array();
-		foreach ($asatid as $a ) {
-			$nama_asatid [$a['id_asatid']] = $a['nama_asatid'];
-		}
-		$data ['nama_asatid'] = $nama_asatid;
-
-		$mapel = $this->db->get('m_mapel')->result_array();
-		foreach ($mapel as $m ) {
-			$nama_mapel [$m['id_mapel']] = $m['nama_mapel'];
-		}
-		$data ['nama_mapel'] = $nama_mapel;
-
-		$kelas = $this->db->get('m_kelas')->result_array();
-		foreach ($kelas as $k ) {
-			$nama_kelas [$k['id_kelas']] = [$k['nama_kelas'],$k['kelas_alias']];
-		}
-		$data ['nama_kelas'] = $nama_kelas;
+		$data['ngajar'] = $this->krm->ngajar($tahun_id);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('kurikulum/ngajar', $data);
@@ -53,7 +36,12 @@ class Kurikulum extends CI_Controller {
 
 		$data['asatid']= $this->db->get('m_asatid')->result_array();
 		$data['mapel']= $this->db->get('m_mapel')->result_array();
+
+		$this->db->where('id_kelas NOT IN (19,20,21)');
+		$this->db->order_by('nama_kelas', 'asc');
 		$data['kelas']= $this->db->get('m_kelas')->result_array();
+
+		$this->db->group_by('nama_tahun');
 		$data['tahun']= $this->db->get('m_tahun')->result_array();
 
 		$this->load->view('templates/header', $data);
@@ -64,54 +52,75 @@ class Kurikulum extends CI_Controller {
 	public function ex_tbh_ngajar()
 	{
 		$daput = $this->input->post(null,true);
-		
-// 		var_dump($daput['kelas']);die();
 
 		foreach ($daput['kelas'] as $id_kelas) {
+			
+			$where = [
+				'mapel_id' => $daput['mapel'],
+				'kelas_id' => $id_kelas,
+				'tahun_id' => $daput['tapel']
+			];
 
-			$value = [
-			'mapel_id' => $daput['mapel'],
-			'kelas_id' => $id_kelas,
-			'tahun_id' => $daput['tapel']
-			];		
+			$this->db->where($where);
+			$sudah_ada = $this->db->get('m_mengajar')->row_array();
 
-			$this->db->where($value);
-			$sudah_ada = $this->db->get('m_mengajar')->result_array();
+			$mapel_str = $this->um->showNamaMapel($daput['mapel'])['nama_mapel'];
+			$kelas_str = $this->um->showNamaKelas($id_kelas)['nama_kelas'];
+			$asatid_str = $this->um->showNamaAsatid($sudah_ada['asatid_id'])['nama_asatid'];
+	
 
 			if($sudah_ada){
-			
-				$this->session->set_flashdata('pesan', '<div class="col-lg-12">
-		    		<div class="col-md-6 mt-4 py-1 alert alert-danger alert-dismissible elevation-2">
-				  		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				  		<p class="mt-3"><i class="icon fa fa-exclamation-circle"></i> Kelas dan Mata Pelajaran tersebut <strong>sudah telah ada di Data Mengajar</strong>.</p>
-					</div><br>
-	    		</div>');
-	    		
+				//catat mapel kelas sudah ada
+				$catatan [] = '<i class="fas fa-info-circle text-warning"></i> '.$mapel_str.' '.$kelas_str.'<span class="text-warning font-weight-bold"> sudah ada</span> dengan: '.$asatid_str.'<br>';
 			}else{
-				$value_insert = [
-					'asatid_id' => $daput['asatid'],
-					'mapel_id' => $daput['mapel'],
-					'kelas_id' => $id_kelas,
-					'tahun_id' => $daput['tapel']
+				$value = [
+				'asatid_id' => $daput['asatid'],
+				'mapel_id' => $daput['mapel'],
+				'kelas_id' => $id_kelas,
+				'tahun_id' => $daput['tapel']
 				];
 
-				$affect = $this->db->insert('m_mengajar',$value_insert);
-				if ($affect) {
-					$this->session->set_flashdata('pesan', '<div class="col-lg-12">
-		    		<div class="col-md-6 mt-4 py-1 alert alert-success alert-dismissible elevation-2">
-				  		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				  		<p class="mt-3"><i class="icon fa fa-exclamation-circle"></i> Data sudah <strong>ditambahkan</strong>.</p>
-					</div><br>
-	    		</div>');
-				}
+				$this->db->insert('m_mengajar', $value);
+
+				if ( $this->db->affected_rows() > 0) { 
+					// catatan berhasil
+					$catatan [] = '<i class="far fa-check-square text-success"></i> '.$mapel_str.' '.$kelas_str.', berhasil disimpan <br>';
+				}else{
+					// catatan  gagal
+					$catatan [] = '<i class="fas fa-info-circle text-danger"></i> '.$mapel_str.' '.$kelas_str.',gagal disimpan <br>';
+				}	
 			}
+
+			//tampilkan keterangan sweatalert()
 		}
+
+		$note = '';
+
+		foreach ($catatan as $value) {
+			$note .= $value;
+		}
+
+		// var_dump($note);
+
+		// die();
+
+		$this->session->set_flashdata('pesan', '
+		<div class="col-lg-12">
+    		<div class="col-md-6 mt-4 py-1 alert alert-light alert-dismissible elevation-2">
+		  		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		  		<p class="mt-3">'.$note.'</p>
+			</div><br>
+		</div>
+		');
+
 	    redirect('kurikulum/tambah_ngajar','refresh');
 	}
 
-	public function hapus($id)
+	public function hapus()
 	{
-		$this->db->where('id_mengajar', $id);
+		$daput = $this->input->post(null,true);
+
+		$this->db->where('id_mengajar', $daput['id_mengajar']);
 		$affect = $this->db->delete('m_mengajar');
 
 		if ($affect) {
@@ -121,6 +130,7 @@ class Kurikulum extends CI_Controller {
 			  		<p class="mt-3"><i class="icon fa fa-exclamation-circle"></i> Data sudah <strong>dihapus</strong>.</p>
 				</div><br>
 			</div>');
+			$this->session->set_flashdata('filter', $daput['filter']);
 			redirect('kurikulum','refresh');
 		}
 	}

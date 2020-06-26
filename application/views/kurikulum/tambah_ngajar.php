@@ -50,7 +50,7 @@ label{
       <?= $this->session->flashdata('pesan'); ?>
       <div class="col-md-6 mx-auto">
 
-        <div class="card card-info mt-5">
+        <div class="card card-success mt-5">
           <div class="card-header">
             <h3 class="card-title">Tambah data mengajar</h3>
           </div>
@@ -61,7 +61,7 @@ label{
 
               <div class="form-group">
                 <label for="asatid">Asatid</label>
-                <select class="chosen-single form-control" id="asatid" name="asatid">
+                <select class="chosen-single form-control" id="asatid" name="asatid" required>
                   <option value="">- pilih -</option>
                   <?php foreach ($asatid as $a): ?>
                     <option value="<?= $a['id_asatid']; ?>"><?= $a['nama_asatid']; ?></option>
@@ -70,7 +70,7 @@ label{
               </div>
               <div class="form-group">
                 <label for="mapel">Mapel</label>
-                <select class="form-control chosen-single" id="mapel" name="mapel">
+                <select class="form-control chosen-single" id="mapel" name="mapel" required>
                   <option value="">- pilih -</option>
                   <?php foreach ($mapel as $a): ?>
                     <option value="<?= $a['id_mapel']; ?>"><?= $a['nama_mapel']; ?></option>
@@ -79,26 +79,72 @@ label{
               </div>
               <div class="form-group">
                 <label for="kelas">Kelas</label>
-                <select class="form-control chosen-single" id="kelas" name="kelas[]" multiple="true" data-placeholder="Pilih kelas">
-                    <option value="">- pilih -</option>
-                  <?php foreach ($kelas as $a): ?>
-                    <option value="<?= $a['id_kelas']; ?>"><?= $a['nama_kelas'].' / '.$a['kelas_alias']; ?></option>
-                  <?php endforeach ?>
-                </select>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <?php foreach ($kelas as $k => $a): ?>
+                        <?php if ($a['jenjang'] == '1'): ?>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="kelas[]" value="<?= $a['id_kelas']?>" id="<?= $a['id_kelas']?>">
+                            <label class="custom-control-label" for="<?= $a['id_kelas'] ?>"><?= $a['nama_kelas']?></label>
+                          </div>
+                          <?php 
+                            $rb = $kelas[$k]['rombel'];
+                            $rb_lanjut = $kelas[$k+1]['rombel'];
+
+                            if ($rb != $rb_lanjut ) {
+                              echo "<br>";
+                            }
+                          ?>
+                        <?php endif ?>
+                      <?php endforeach ?>
+                    </div>
+                      <div class="col-md-4">
+                        <?php foreach ($kelas as $k => $a): ?>
+                        <?php if ($a['jenjang'] == '2'): ?>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="kelas[]" value="<?= $a['id_kelas']?>" id="<?= $a['id_kelas']?>">
+                            <label class="custom-control-label" for="<?= $a['id_kelas']  ?>"><?= $a['nama_kelas'] ?></label>
+                          </div>
+                          <?php 
+                            $rb = $kelas[$k]['rombel'];
+                            $rb_lanjut = $kelas[$k+1]['rombel'];
+
+                            if ($rb != $rb_lanjut ) {
+                              echo "<br>";
+                            }
+                          ?>
+
+                        <?php endif ?>
+                        <?php endforeach ?>
+                      </div>
+                      <div class="col-md-4">
+                        <?php foreach ($kelas as $k => $a): ?>
+                        <?php if ($a['jenjang'] == '3'): ?>
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="kelas[]" value="<?= $a['id_kelas']?>" id="<?= $a['id_kelas']?>">
+                            <label class="custom-control-label" for="<?= $a['id_kelas']?>"><?=$a['kelas_alias'] ?></label>
+                          </div>
+                      <?php endif ?>
+                      <?php endforeach ?>
+                      </div>
+                  </div>
               </div>
               <div class="form-group">
                 <label for="tapel">Tahun Ajaran</label>
                 <select class="form-control chosen-single" id="tapel" name="tapel">
                   <option value="">- pilih -</option>
-                  <?php foreach ($tahun as $a): ?>
-                    <option value="<?= $a['id_tahun']; ?>"><?= $a['nama_tahun'].' - s'.$a['semester']; ?></option>
+                  <?php foreach ($tahun as $k => $a): ?>
+                    <option value="<?= $a['id_tahun']; ?>" selected>
+                      <?= $a['nama_tahun'] ?>
+                    </option>
                   <?php endforeach ?>
                 </select>
               </div>
 
 
 
-              <button type="sumbit" class="btn btn-primary float-right" name="simpan">Simpan</button>
+              <button type="sumbit" class="btn btn-success float-right" name="simpan">Simpan</button>
+              <a href="<?= base_url('kurikulum') ?>" class="btn btn-secondary float-right mr-4">Kembali</a>
             </form>
 
           </div>
