@@ -7,9 +7,10 @@
     $rule_ids ='';
     $no=0; 
     $total = count($rule_id);
+    
     foreach ($rule_id as $rule) {
       $no++;
-      if ($no == $total-1) {
+      if ($no < $total) {
         $koma = ',';
       }else{
         $koma = '';
@@ -19,9 +20,9 @@
 
     $daftarHeading = $this->um->daftarHeading($rule_ids);
     $daftarMenu = $this->um->daftarMenu($rule_ids);
-    $daftarSubmenu = $this->um->daftarSubmenu($rule_ids); 
-?>
-<!DOCTYPE html>
+    $daftarSubmenu = $this->um->daftarSubmenu($rule_ids);
+    // var_dump($rule_ids);die();
+?><!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
