@@ -48,6 +48,7 @@ class User_model extends CI_Model {
 					ON h.`id_head` = m.`head_id`
 					WHERE a.`rule_id` IN ($rule_id)
 					AND m.`urutan` > 0
+					GROUP BY m.`id_menu`
 					ORDER BY m.`urutan` ASC ";
 		return $this->db->query($stringQ)->result_array();
 	}
@@ -58,6 +59,7 @@ class User_model extends CI_Model {
 					FROM `menu_sub` s JOIN `akses_submenu` asm
 					ON s.`id_submenu`=asm.`submenu_id`
 					WHERE asm.`rule_id` IN ($rule_id)
+					GROUP BY s.`id_submenu`
 					ORDER BY s.`urutan` ASC ";
 		return $this->db->query($stringQ)->result_array();
 	}
