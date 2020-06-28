@@ -21,22 +21,30 @@ class Absensi extends CI_Controller {
 		$data['tanggal'] = $this->waktuAbsen()['tanggal'];
 		$hari = $this->waktuAbsen()['nama_hari'];
 
-		$nohp = $this->um->dataAktif($this->session->userdata('email'))['nohp'];
-		$id_asatid = /*265;//*/ $this->um->idAsatid($nohp)['id_asatid'];
+		$user = $this->um->dataAktif($this->session->userdata('email'));
+		$id_asatid = $this->um->idAsatid($user['nohp'])['id_asatid'];
 
-		$data['jadwal'] = $this->am->jadwalHariIni($hari,$id_asatid);
+		$this->db->select('kategori');
+		$kat = $this->db->get_where('m_asatid', ['id_asatid' => $id_asatid])->row_array();
+		$data['kategori'] = $kat['kategori'];
 
+		$data['level'] = $this->um->showRuleLevel($user['id_user']);
 
-		if ( count($data['jadwal']) < 1) {
-			
-			$this->load->view('templates/header', $data);
-			$this->load->view('absensi/home', $data);
-			$this->load->view('templates/footer');				
+		if ($hari == 'Jum\'at'){
+			$data['jadwal'] = [];
+		}else{
+			$data['jadwal'] = $this->am->jadwalHariIni($hari,$id_asatid);
 		}
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('absensi/home', $data);
 		$this->load->view('templates/footer');	
+
+	}
+
+	public function absenPegawai()
+	{
+		
 	}
 
 	public function waktuAbsen()
@@ -110,8 +118,6 @@ class Absensi extends CI_Controller {
 				$absensi []= ['id_absensi'=>$id_jurnal.explode("-",$absen)[1],'jurnal_id'=>$id_jurnal, 'santri_id'=>explode("-",$absen)[1] , 'absen'=>$a]  ;
 			}
 		}
-
-		// var_dump($absensi);die();
 
 		foreach ($absensi as $ab) {
 			$this->db->replace('t_absensi', $ab);
