@@ -56,8 +56,8 @@
 	            <div class="small-box bg-light ">
 	              <div class="inner form-group">
 	                <h4><?= $level['nama_rule'] ?></h4>
-					<p id="latitude" hidden="">User Registrations</p>
-	                <p id="longitude" hidden="">User Registrations</p> 
+					<p id="latitude"></p>
+	                <p id="longitude"></p> 
 	                <p id="tampilkan"></p> 
 	                <label class="mt-3" for="">Kegiatan</label>
 	                <input class="form-control" type="text" value="" list="fruits" />
