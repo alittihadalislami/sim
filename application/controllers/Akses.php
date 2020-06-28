@@ -7,16 +7,25 @@ class Akses extends CI_Controller
 {
     function __construct()
     {
-        parent::__construct();
-        $this->load->model('Akses_model');
-        $this->load->library('form_validation');        
-	$this->load->library('datatables');
+       parent::__construct();
+        is_login();
+        is_boleh();
+       $this->load->model('User_model','um');
+       $this->load->model('Akses_model');
+       $this->load->library('form_validation');        
+	   $this->load->library('datatables');
     }
 
     public function index()
     {
+        $data['judul'] = 'Hak Akses';
+        $this->load->view('templates/header', $data);
         $this->load->view('akses/user_dapat_rule_list');
     } 
+
+    public function oke(){
+        is_boleh();
+    }
     
     public function json() {
         header('Content-Type: application/json');
@@ -41,13 +50,21 @@ class Akses extends CI_Controller
 
     public function create() 
     {
+        
         $data = array(
-            'button' => 'Create',
+            'button' => 'Tambah hak akses',
             'action' => site_url('akses/create_action'),
-	    'id' => set_value('id'),
-	    'user_id' => set_value('user_id'),
-	    'rule_id' => set_value('rule_id'),
-	);
+    	    'id' => set_value('id'),
+    	    'user_id' => set_value('user_id'),
+    	    'rule_id' => set_value('rule_id'),
+    	);
+        $data['judul'] = 'Hak Akses';
+
+        $this->db->select('id_user, nama, email');
+        $data['user'] = $this->db->get('user_data')->result_array();
+        $data['rule'] = $this->db->get_where('user_rule',['id_rule > ' => 1])->result_array();
+
+        $this->load->view('templates/header', $data);
         $this->load->view('akses/user_dapat_rule_form', $data);
     }
     
@@ -58,13 +75,21 @@ class Akses extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $this->create();
         } else {
-            $data = array(
-		'user_id' => $this->input->post('user_id',TRUE),
-		'rule_id' => $this->input->post('rule_id',TRUE),
-	    );
+    		$user_ids = $this->input->post('user',TRUE);
+    		$rule_ids = $this->input->post('rule',TRUE);
 
-            $this->Akses_model->insert($data);
-            $this->session->set_flashdata('message', 'Create Record Success');
+            foreach ($user_ids as $user) {
+                foreach ($rule_ids as $rule) {
+                    $data ['user_id'] = $user;
+                    $data ['rule_id'] = $rule;
+                    $ada = $this->Akses_model->get_by_data($data);
+                    if ($ada < 1) {
+                        $this->Akses_model->insert($data);
+                    }
+                }
+            }
+
+            $this->session->set_flashdata('message', 'Tambah data berhasil');
             redirect(site_url('akses'));
         }
     }
@@ -77,10 +102,10 @@ class Akses extends CI_Controller
             $data = array(
                 'button' => 'Update',
                 'action' => site_url('akses/update_action'),
-		'id' => set_value('id', $row->id),
-		'user_id' => set_value('user_id', $row->user_id),
-		'rule_id' => set_value('rule_id', $row->rule_id),
-	    );
+        		'id' => set_value('id', $row->id),
+        		'user_id' => set_value('user_id', $row->user_id),
+        		'rule_id' => set_value('rule_id', $row->rule_id),
+        	);
             $this->load->view('akses/user_dapat_rule_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
@@ -96,11 +121,11 @@ class Akses extends CI_Controller
             $this->update($this->input->post('id', TRUE));
         } else {
             $data = array(
-		'user_id' => $this->input->post('user_id',TRUE),
-		'rule_id' => $this->input->post('rule_id',TRUE),
+		'user_id' => $this->input->post('user',TRUE),
+		'rule_id' => $this->input->post('rule',TRUE),
 	    );
 
-            $this->Akses_model->update($this->input->post('id', TRUE), $data);
+            // $this->Akses_model->update($this->input->post('id', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
             redirect(site_url('akses'));
         }
@@ -122,8 +147,8 @@ class Akses extends CI_Controller
 
     public function _rules() 
     {
-	$this->form_validation->set_rules('user_id', 'user id', 'trim|required');
-	$this->form_validation->set_rules('rule_id', 'rule id', 'trim|required');
+	$this->form_validation->set_rules('user[]', 'user', 'trim|required');
+	$this->form_validation->set_rules('rule[]', 'rule', 'trim|required');
 
 	$this->form_validation->set_rules('id', 'id', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');

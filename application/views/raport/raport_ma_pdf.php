@@ -503,15 +503,15 @@
 					</tr>
 					<tr>
 						<td style='font-size:14px'>Sakit</td>
-						<td style='font-size:14px' class='center'><?= $entry_wali['sakit'] ?> Hari</td>
+						<td style='font-size:14px' class='center'><?= $entry_wali['sakit'] ?> Pertemuan</td>
 					</tr>
 					<tr>
 						<td style='font-size:14px'>Idzin</td>
-						<td style='font-size:14px' class='center'><?= $entry_wali['ijin'] ?> Hari</td>
+						<td style='font-size:14px' class='center'><?= $entry_wali['ijin'] ?> Pertemuan</td>
 					</tr>
 					<tr>
 						<td style='font-size:14px'>Tanpa Keterangan</td>
-						<td style='font-size:14px' class='center'><?= $entry_wali['alpa'] ?> Hari</td>
+						<td style='font-size:14px' class='center'><?= $entry_wali['alpa'] ?> Pertemuan</td>
 					</tr>
 				</table>
 			</div>

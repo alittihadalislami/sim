@@ -1,28 +1,46 @@
-<!doctype html>
-<html>
-    <head>
-        <title>harviacode.com - codeigniter crud generator</title>
-        <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css') ?>"/>
-        <style>
-            body{
-                padding: 15px;
-            }
-        </style>
-    </head>
-    <body>
-        <h2 style="margin-top:0px">User_dapat_rule <?php echo $button ?></h2>
-        <form action="<?php echo $action; ?>" method="post">
-	    <div class="form-group">
-            <label for="int">User Id <?php echo form_error('user_id') ?></label>
-            <input type="text" class="form-control" name="user_id" id="user_id" placeholder="User Id" value="<?php echo $user_id; ?>" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+<?php 
+    $this->load->view('templates/header_hc');
+?>
+
+        <div class="card card-success">
+          <div class="card-header">
+            <?php echo $button ?>
+          </div>
+          <div class="card-body">
+            <form action="<?php echo $action; ?>" method="post">
+                <div class="form-group pr-3">
+                    <label for="user_id">User <?php echo form_error('user[]') ?></label>
+                    <select class="form-control basic-multiple" name="user[]" id="user" multiple="multiple">
+                      <?php foreach ($user as $u): ?>
+                            <option value="<?= $u['id_user'] ?>"><?= $u['nama'] ?></option>                            
+                        <?php endforeach ?>
+                    </select>
+                </div>
+                <div class="form-group pr-3">
+                    <label for="int">Rule <?php echo form_error('rule[]') ?></label>
+                    <select class="form-control basic-multiple" name="rule[]" id="rule" multiple="multiple">
+                        <?php foreach ($rule as $r): ?>
+                            <option value="<?= $r['id_rule'] ?>"><?= $r['nama_rule'] ?></option>                            
+                        <?php endforeach ?>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary"><?= $button ?></button> 
+                <a href="<?php echo site_url('akses') ?>" class="btn btn-default">Cancel</a>
+            </form>
+          </div>
         </div>
-	    <div class="form-group">
-            <label for="int">Rule Id <?php echo form_error('rule_id') ?></label>
-            <input type="text" class="form-control" name="rule_id" id="rule_id" placeholder="Rule Id" value="<?php echo $rule_id; ?>" />
-        </div>
-	    <input type="hidden" name="id" value="<?php echo $id; ?>" /> 
-	    <button type="submit" class="btn btn-primary"><?php echo $button ?></button> 
-	    <a href="<?php echo site_url('akses') ?>" class="btn btn-default">Cancel</a>
-	</form>
+    <?php 
+        $this->load->view('templates/footer_hc');
+    ?>
+    <script>
+        $(document).ready(function() {
+            $('.basic-multiple').select2({
+                theme: "classic"
+            });
+        });
+    </script>
     </body>
 </html>

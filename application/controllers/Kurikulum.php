@@ -6,7 +6,8 @@ class Kurikulum extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
+		is_login();
+        is_boleh();
 		$this->load->model('User_model','um');
 		$this->load->model('Kur_model','krm');
 		$this->tahunAktif = $this->um->tahunAktif();
@@ -37,7 +38,7 @@ class Kurikulum extends CI_Controller {
 		$data['asatid']= $this->db->get('m_asatid')->result_array();
 		$data['mapel']= $this->db->get('m_mapel')->result_array();
 
-		$this->db->where('id_kelas NOT IN (19,20,21)');
+		$this->db->where('active = 1');
 		$this->db->order_by('nama_kelas', 'asc');
 		$data['kelas']= $this->db->get('m_kelas')->result_array();
 

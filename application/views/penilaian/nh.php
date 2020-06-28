@@ -197,7 +197,7 @@
     $(".form-control").keyup(function () {
         if (this.value != 10)  {
           if (this.value.length == 2) {
-            $(this).next('.form-control').focus();
+            $(this).next('.form-control').focus().select();
           }else if(this.value > 100){
             alert('Range nilai 1-100.');
           }

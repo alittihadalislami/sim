@@ -39,6 +39,13 @@ class Akses_model extends CI_Model
         $this->db->where($this->id, $id);
         return $this->db->get($this->table)->row();
     }
+
+    // get data by data
+    function get_by_data($where)
+    {
+        $this->db->where($where);
+        return $this->db->get($this->table)->num_rows();
+    }
     
     // get total rows
     function total_rows($q = NULL) {

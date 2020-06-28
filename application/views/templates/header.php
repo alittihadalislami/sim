@@ -3,6 +3,7 @@
     $dataAktif = $this->um->dataAktif($email);
     $id_user = $dataAktif['id_user'];
     $rule_id = $this->um->multipleRule($id_user);
+    $level = $this->um->showRuleLevel($id_user);
 
     $rule_ids ='';
     $no=0; 
@@ -21,7 +22,6 @@
     $daftarHeading = $this->um->daftarHeading($rule_ids);
     $daftarMenu = $this->um->daftarMenu($rule_ids);
     $daftarSubmenu = $this->um->daftarSubmenu($rule_ids);
-    // var_dump($rule_ids);die();
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -134,7 +134,7 @@
             <strong><?=$dataAktif['nama'] ?></strong>
           </div>
           <div>
-            <small><?=$dataAktif['nama_rule'] ?></small>
+            <small><?= $level['nama_rule'] ?></small>
           </div>
         </div>
           <a href="<?=base_url('dashboard/logout') ?>" class="klik-lama d-block btn btn-danger btn-sm  my-0" style="position: absolute; top: 50px; left: 90px;"> <i class="fa fa-sign-out-alt"></i> logout</a>

@@ -18,6 +18,17 @@
       color: red;
       font-weight: bold;
     }
+    ol, p  {
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    } 
+    ol{
+      font-weight: bold;
+      font-size: 12px;
+      color: darkred;
+    }
 </style>
 
 <!-- Content Wrapper. Contains page content -->
@@ -40,12 +51,17 @@
         <div class="col-md-12 lebar">
           <div class="card">
               <div class="card-header">
-                <h5 class="card-title">Daftar Nilai Kolektif 
+                <h5 class="card-title">Daftar Kolektif Nilai <br> <?= $this->uri->segment(4) == 'ma' ? '<strong>MA</strong> Al Ittihad Al Islami' : '<strong>SMP</strong> Al-Ittihad Camplong' ?>
                 </h5>
                 <?php if ($is_lengkap): ?>
-                  <a class="btn-link" href="<?= base_url('raport/InsertDknRaport/').$this->uri->segment(3).'/'.$this->uri->segment(4) ?>"><i class="fa fa-paper-plane text-danger"></i> Perbaiki nilai kolektif</a>
+                  <a class="btn-link" href="<?= base_url('raport/InsertDknRaport/').$this->uri->segment(3).'/'.$this->uri->segment(4) ?>"><i class="fa fa-paper-plane text-danger"></i> Perbaiki kolektif nilai</a>
                 <?php else: ?>
-                  <p>Terdapat nilai belum lengkap</p>                  
+                  <p>Terdapat nilai belum lengkap</p>
+                  <ol>
+                    <?php foreach ($kosong as $k): ?>
+                      <li><?= $k ?></li>
+                    <?php endforeach ?>
+                  </ol>                   
                 <?php endif ?>
               </div>
               <!-- /.card-header -->
@@ -82,7 +98,10 @@
                         $kelas_id = $this->uri->segment(3);
                         $rombel = $this->um->showRombel($kelas_id)['rombel'];
                         $kkm = $this->rm->kkm($rombel, $mapel_id, $this->tahunAktif['id_tahun']);
-                       } 
+                       }else{
+                        $p = '-' ; 
+                        $k = '-' ; 
+                       }
                       ?>
                         <td <?= $p<$kkm? 'class="under-kkm"':null ?> ><?= $p ?></td>
                         <td <?= $k<$kkm? 'class="under-kkm"':null ?> ><?= $k ?></td>

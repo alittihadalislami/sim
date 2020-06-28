@@ -1,33 +1,6 @@
-<!doctype html>
-<html>
-    <head>
-        <title>harviacode.com - codeigniter crud generator</title>
-        <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css') ?>"/>
-        <link rel="stylesheet" href="<?php echo base_url('assets/datatables/dataTables.bootstrap.css') ?>"/>
-        <link rel="stylesheet" href="<?php echo base_url('assets/datatables/dataTables.bootstrap.css') ?>"/>
-        <style>
-            .dataTables_wrapper {
-                min-height: 500px
-            }
-            
-            .dataTables_processing {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 100%;
-                margin-left: -50%;
-                margin-top: -25px;
-                padding-top: 20px;
-                text-align: center;
-                font-size: 1.2em;
-                color:grey;
-            }
-            body{
-                padding: 15px;
-            }
-        </style>
-    </head>
-    <body>
+<?php 
+    $this->load->view('templates/header_hc');
+ ?>
         <div class="row" style="margin-bottom: 10px">
             <div class="col-md-4">
                 <h2 style="margin-top:0px">User_dapat_rule List</h2>
@@ -47,16 +20,19 @@
                     <th width="80px">No</th>
 		    <th>User Id</th>
 		    <th>Rule Id</th>
-            <th>Rule Id</th>
-            <th>Rule Id</th>
+            <th>Nama</th>
+            <th>Rule</th>
 		    <th width="200px">Action</th>
                 </tr>
             </thead>
 	    
         </table>
-        <script src="<?php echo base_url('assets/js/jquery-1.11.2.min.js') ?>"></script>
-        <script src="<?php echo base_url('assets/datatables/jquery.dataTables.js') ?>"></script>
-        <script src="<?php echo base_url('assets/datatables/dataTables.bootstrap.js') ?>"></script>
+        
+        <?php  
+            $this->load->view('templates/footer_hc');
+        ?>
+
+        
         <script type="text/javascript">
             $(document).ready(function() {
                 $.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings)
@@ -83,12 +59,13 @@
                             }
                         });
                     },
+                    stateSave: true,
                     oLanguage: {
                         sProcessing: "loading..."
                     },
                     processing: true,
                     serverSide: true,
-                    ajax: {"url": "akses/json", "type": "POST"},
+                    ajax: {"url": "<?= base_url('akses/json') ?>", "type": "POST"},
                     columns: [
                         {
                             "data": "id",

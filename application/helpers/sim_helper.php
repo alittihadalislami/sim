@@ -9,10 +9,16 @@ function is_login()
 		redirect('auth','refresh');
 	}
 
+	if($ci->session->userdata('email') && ($ci->uri->segment(1) == ''))
+	{
+		redirect('dashboard','refresh');
+	}
+		
 	if($ci->session->userdata('email') && ($ci->uri->segment(1) == 'auth'))
 	{
 		redirect('dashboard','refresh');
-	}	
+	}
+
 }
 
 function is_ngajar()
@@ -61,21 +67,25 @@ function is_boleh()
 	$ci = get_instance();
 
 	$ci->load->model('User_model','um');
-	$user = $ci->um->dataAktif($ci->session->userdata('email'));
-		 
-		 
-	$url_menu = $ci->uri->segment(1);
-	$ci->db->select('id_menu');
-	$id_menu = $ci->db->get_where('menu', ['url'=> $url_menu])->row_array();
-
-	$where = [
-		'rule_id' => $user['id_rule'],
-		'menu_id' => $id_menu['id_menu']
-	];
-
-	$akses_menu = $ci->db->get_where('akses_menu',$where)->num_rows();
-	$where['akses_menu'] = $akses_menu;
+	$id_user = $ci->um->dataAktif($ci->session->userdata('email'))['id_user'];
 	
+	$rules = $ci->db->select("rule_id")->get_where('user_dapat_rule', ['user_id'=>$id_user])->result_array();
+
+	$url_menu = $ci->uri->segment(1);
+
+	$ci->db->select('id_menu');
+	$id_menu = $ci->db->get_where('menu', ['url LIKE '=> "$url_menu%"])->row_array();
+
+	$akses_menu = 0;
+	foreach ($rules as $rule) {
+		$where = [
+			'rule_id' => $rule['rule_id'],
+			'menu_id' => $id_menu['id_menu']
+		];
+
+		$akses_menu += $ci->db->get_where('akses_menu',$where)->num_rows();
+	} 
+
 	if ($akses_menu < 1) {
 		redirect('My404','refresh');
 	}

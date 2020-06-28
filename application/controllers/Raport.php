@@ -134,6 +134,7 @@ class Raport extends CI_Controller {
 	{
 
 		$jenjang = $this->rm->jenjangKelas($kls); 
+		$rombel = $this->um->showRombel($kls)['rombel'];
 
 		$data['judul'] = 'Raport - MA Al-Ittihad Al-Islami';
 
@@ -146,6 +147,9 @@ class Raport extends CI_Controller {
 		$data['kel2'] = [22,19,28];
 		$data['kel3'] = [13,10,29,41,2,42,24,18];
 
+		if ($rombel == 6) {
+			$data['kel3'][6] = 7; //jika kelas 6 ubah idmapel menjadi balaghoh
+		}
 
 		$data['santri'] = $this->um->showNamaSantri($id_santri)['nama_santri'];
 		$data['wali'] = $this->um->showNamaAsatid($id_asatid);
@@ -218,15 +222,17 @@ class Raport extends CI_Controller {
 	public function dkn($kelas) //nilai alittihad
 	{
 		$jenjang = $this->rm->jenjangKelas($kelas);
+		$rombel = $this->um->showRombel($kelas)['rombel'];
 
 		$data['judul'] = 'Daftar Nilai Kolektif';
 		$is_Konfersi = $this->rm->sudahAdaKonfersi($kelas,$this->tahunAktif['id_tahun']);
 
 		if ($is_Konfersi == null) {
 			$data['dkn'] = $this->nilai($kelas, $jenjang);
-			$data['mapel'] = $this->rm->showMapel($jenjang);
+			$data['mapel'] = $this->rm->showMapel($jenjang,$rombel);
 
-			$is_lengkap = true;
+			$is_lengkap = 0;
+			$kosongs = [];
 			foreach ($data['dkn'] as $dkn) {
 				foreach ($data['mapel'] as $mapel) {
 					
@@ -236,14 +242,22 @@ class Raport extends CI_Controller {
 					$nilai_k = isset($dkn['mapel'][$idmapel]['k']) ? $dkn['mapel'][$idmapel]['k'] : null;
 					
 					if ($nilai_p == null or $nilai_k == null) {
-						$is_lengkap = false;
-						break 2;
+						$is_lengkap +=1 ;
+						$kosongs [] = $mapel['mapel_alias'];
 					}
 				}
 			}
 
+			$data ['kosong'] = array_unique($kosongs);
+
+			if ($is_lengkap > 0 ) {
+				$is_lengkap = false;
+			}else{
+				$is_lengkap = true;
+			}
+
 			$data['is_lengkap'] = $is_lengkap;
-	
+
 			$this->load->view('templates/header', $data);
 			$this->load->view('raport/dkn_smp', $data);
 			$this->load->view('templates/footer');
@@ -251,6 +265,15 @@ class Raport extends CI_Controller {
 			$this->showDknRaport($kelas, $jenjang);
 		}
 
+	}
+
+	function resetDKN($kelas,$tahun)
+	{
+		$this->db->where('kelas_id', $kelas);
+		$this->db->where('tahun_id', $tahun);
+		$this->db->delete('t_dkn_raport');
+
+		redirect('penilaian/raport','refresh');
 	}
 
 	public function minmax($kelas, $mapel, $kd)
@@ -423,8 +446,8 @@ class Raport extends CI_Controller {
 	public function konfersi($kelas)
 	{
 		$jenjang = $this->rm->jenjangKelas($kelas);
-		$mapel = $this->rm->showMapel($jenjang);
 		$rombel = $this->um->showRombel($kelas)['rombel'];
+		$mapel = $this->rm->showMapel($jenjang,$rombel);
 
 		
 		//Menetukan target mapel yang akan dikantrol
@@ -438,8 +461,10 @@ class Raport extends CI_Controller {
 
 			$peng_terkecil = $this->minmax($kelas, $mp['mapel_id'], 'p')['min'];
 			$kete_terkecil = $this->minmax($kelas, $mp['mapel_id'], 'k')['min'];
+
 			$peng_terbesar = $this->minmax($kelas, $mp['mapel_id'], 'p')['max'];
 			$kete_terbesar = $this->minmax($kelas, $mp['mapel_id'], 'k')['max'];
+			
 			$target_max_p = $peng_terbesar < 85 ? 85 : $peng_terbesar;
 			$target_max_k = $kete_terbesar < 85 ? 85 : $kete_terbesar;
 
@@ -483,6 +508,7 @@ class Raport extends CI_Controller {
 
 		$jenjang = $this->rm->jenjangKelas($kelas);
 
+
 		$santri = $this->rm->anggotaKelas($kelas,$this->tahunAktif['id_tahun']);
 		$dkn = $this->rm->dknRaport($kelas,$this->tahunAktif['id_tahun'],$jenjang);
 
@@ -513,6 +539,7 @@ class Raport extends CI_Controller {
 	public function showDknRaport($kls=null)
 	{
 		$jenjang = $this->rm->jenjangKelas($kls);
+		$rombel = $this->um->showRombel($kls)['rombel'];
 
 		if (!isset($kls) and !isset($jenjang)) {
 			$data_id = $this->session->flashdata('pesan');
@@ -531,7 +558,7 @@ class Raport extends CI_Controller {
 		$data['tahun'] =  $this->tahunAktif['id_tahun'];
 
 		$data['dkn'] = $this->siapkanNilai($kls,$jenjang);
-		$data['mapel'] = $this->rm->showMapel($jenjang);
+		$data['mapel'] = $this->rm->showMapel($jenjang,$rombel);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('raport/dkn_fix', $data);
@@ -541,9 +568,10 @@ class Raport extends CI_Controller {
 	public function InsertDknRaport($kelas) //nilai raport umum 
 	{
 		$jenjang = $this->rm->jenjangKelas($kelas);
+		$rombel = $this->um->showRombel($kelas)['rombel'];
 
 		$dkn = $this->nilai($kelas, $jenjang);
-		$data['mapel'] = $this->rm->showMapel($jenjang);
+		$data['mapel'] = $this->rm->showMapel($jenjang, $rombel);
 		$data['judul'] = 'Daftar Nilai Kolektif';
 		$kelas =  $this->uri->segment(3);
 
@@ -574,21 +602,22 @@ class Raport extends CI_Controller {
 
 		foreach ($dkn_raport as $dk) {
 			$dk['id_dkn_raport'] = $dk['santri_id'].$dk['mapel_id'].$dk['tahun_id']; 
-
+			// var_dump($dk);
 			$this->db->replace('t_dkn_raport', $dk);
 			$insert = $this->db->affected_rows();
 		}
 
 		$this->session->set_flashdata('pesan', [$kelas,$jenjang]);
-		redirect('raport/showDknRaport/'.$kelas,'refresh');
+		// redirect('raport/showDknRaport/'.$kelas,'refresh');
 	}
 
 	public function nilai($kelas)
 	{
 		$jenjang = $this->rm->jenjangKelas($kelas);
+		$rombel = $this->um->showRombel($kelas)['rombel'];
 
 		$santri = $this->rm->anggotaKelas($kelas,$this->tahunAktif['id_tahun']);
-		$mapel = $this->rm->showMapel($jenjang);
+		$mapel = $this->rm->showMapel($jenjang,$rombel);
 
 		$pengetahuan = $this->rm->nilai($this->tahunAktif['id_tahun'], $kelas, $jenjang,'kdp');
 		$keterampilan = $this->rm->nilai($this->tahunAktif['id_tahun'], $kelas, $jenjang,'kdk');

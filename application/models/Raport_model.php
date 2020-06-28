@@ -8,17 +8,33 @@ class Raport_model extends CI_Model {
 		parent::__construct();
 	}
 
-	function showMapel($jenjang=null)
+	function showMapel($jenjang=null, $rombel)
 	{
 		if ($jenjang==null) {
 			$jenjang = 'mii';
 		}
+
 		$stringQ = "SELECT u.`mapel_id`,u.`urut_$jenjang`,m.`nama_mapel` ,m.`mapel_alias`
 					FROM t_urutmapel AS u JOIN m_mapel m
 					ON u.`mapel_id` = m.`id_mapel`
 					WHERE u.`urut_$jenjang` IS NOT NULL
 					ORDER BY u.`urut_$jenjang`";
-		return $this->db->query($stringQ)->result_array();
+		$mapel =  $this->db->query($stringQ)->result_array();
+
+		if ($jenjang == 'ma')
+		{
+			if ($rombel == 6 ) 
+			{	
+				unset($mapel[19]);//hapus sharaf
+				return array_values($mapel);
+			}else{
+				unset($mapel[20]);//hapus balaghah
+				return array_values($mapel);
+			}
+		}else{
+			return $mapel;
+		}
+		
 	}
 
 	public function anggotaKelas($kelas, $tahun)

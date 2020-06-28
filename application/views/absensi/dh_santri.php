@@ -39,7 +39,8 @@
           <form action="<?= base_url('absensi/simpanDaftarHadir') ?>" method="post">
             <div class="card text-center">
               <div class="card-header">
-                <h5 class="card-title"><strong><?= $this->um->showNamaAsatid($kbm['id_asatid'])['nama_asatid']?></strong></h5>
+                <!-- <a ><span class="badge badge-success float-right py-1 elevation-2"><i class="fa fa-edit text-dark"></i> Penilaian</span></a> -->
+                <h5 class="card-title float-left"><strong><?= $this->um->showNamaAsatid($kbm['id_asatid'])['nama_asatid']?></strong></h5>
               </div>
               <div class="card-body">
                 <h5 class="card-title"><?= $tanggal ?></h5>
@@ -68,9 +69,11 @@
 
             <ul class="list-group">
               <li class="list-group-item judul ">Daftar Hadir Santri :</li>
+
               <?php $no=1; foreach ($santri as $sa): ?>
               
               <?php
+
                 $absensi = $this->am->cekAbsensi($cek['id_jurnal'],$sa['id_santri']);
                 
                 $kelas = "btn btn-success";
@@ -99,8 +102,18 @@
               <li class="list-group-item nama" id="<?=$sa['id_santri']?>"><span id="ket-<?=$sa['id_santri']?>" class="btn <?= $kelas ?> ling"><?= $huruf ?></span>  <?= $no++ .'. '. $sa['nama_santri'] ?></li>
               
               <?php endforeach ?>
+              <?php 
+                $sudah_simpan = isset($absensi) ? 1 : 0;
+               ?>
             </ul>
-            <button class="btn btn-success btn-block my-3" name="simpan">Simpan</button>
+            <div class="row">
+              <div class="col-6">
+                <button class="btn btn-success btn-block my-3" name="simpan">Simpan</button>
+              </div>
+              <div class="col-6">
+                <a href="<?= base_url('penilaian/nh/').$kbm['id_asatid'].'/'.$kbm['id_mapel'].'/'.$kbm['id_kelas'] ?>" class="btn btn-outline-success btn-block my-3 text-dark" id="kliksaya">Penilaian</a>
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -109,7 +122,19 @@
 </div>
 
 <script>
+  $('#kliksaya').on('click', function(e){
+    sts = "<?= $sudah_simpan ?>";
+    if(sts == 0) {
+      e.preventDefault();
+      alert('Silahkan simpan absen terlebih dahulu..');
+      return false
+    }
+
+  });
+
   $( document ).ready(function() {
+
+
     $('.nama').click(function(){
       
       let id = $(this).attr('id');

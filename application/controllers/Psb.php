@@ -9,6 +9,7 @@ class Psb extends CI_Controller
     {
         parent::__construct();
         is_login();
+        is_boleh();
         $this->load->model('Psb_model');
         $this->load->model('User_model','um');
         $this->load->library('form_validation');        

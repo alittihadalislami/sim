@@ -42,6 +42,7 @@
           <div class="card">
               <div class="card-header">
                 <h5 class="card-title">Daftar Nilai Kolektif</h5>
+                <a href="<?= base_url('raport/resetDKN/').$this->uri->segment(3).'/'.$tahun ?>" onclick="return confirm('Apakah anda yakin mereset semua nilai?') ">Reset nilai</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">

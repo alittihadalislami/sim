@@ -13,6 +13,16 @@ class User_model extends CI_Model {
 		return $this->db->query($stringQ)->row_array();
 	}
 
+	public function showRuleLevel($user_id)
+	{
+		$stringQ = " SELECT u.`user_id`, u.`rule_id`, r.`nama_rule`
+			FROM user_dapat_rule u LEFT JOIN user_rule r
+			ON r.`id_rule` = u.`rule_id`
+			WHERE u.`user_id` = $user_id
+			ORDER BY r.`level` ASC LIMIT 1 ";
+		return $this->db->query($stringQ)->row_array();
+	}
+
 	function multipleRule($user_id){
 		$this->db->select('rule_id');
 		return $this->db->get_where('user_dapat_rule', ['user_id'=>$user_id])->result_array();
@@ -37,6 +47,7 @@ class User_model extends CI_Model {
 					ON a.`menu_id` = m.`id_menu` JOIN `menu_head` h
 					ON h.`id_head` = m.`head_id`
 					WHERE a.`rule_id` IN ($rule_id)
+					AND m.`urutan` > 0
 					ORDER BY m.`urutan` ASC ";
 		return $this->db->query($stringQ)->result_array();
 	}
