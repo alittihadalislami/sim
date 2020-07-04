@@ -31,6 +31,24 @@ class Kurikulum extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	public function wali()
+	{
+		$data['judul'] = 'Tambah Wali';
+
+		$data['asatid']= $this->db->get('m_asatid')->result_array();
+
+		$this->db->where('active = 1');
+		$this->db->order_by('nama_kelas', 'asc');
+		$data['kelas']= $this->db->get('m_kelas')->result_array();
+
+		$this->db->group_by('nama_tahun');
+		$data['tahun']= $this->db->get('m_tahun')->result_array();
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('kurikulum/wali', $data);
+		$this->load->view('templates/footer');
+	}
+
 	public function tambah_ngajar()
 	{
 		$data['judul'] = 'From Tambah Ngajar';

@@ -59,7 +59,7 @@
       <div class="row">
         <div class="col-md-6">
           <div class="card">
-            <h5 class="card-header bg-warning">
+            <h5 class="card-header bg-secondary">
                 <a class="collapsed d-block" data-toggle="collapse" href="#collapse-ma" aria-expanded="true" aria-controls="collapse-ma" id="heading-collapsed">
                     <i class="fa fa-chevron-down float-right"></i>
                     MA Al Ittihad Al Islami
@@ -80,7 +80,7 @@
 
         <div class="col-md-6">
           <div class="card">
-            <h5 class="card-header bg-primary">
+            <h5 class="card-header bg-light">
                 <a class="collapsed d-block" data-toggle="collapse" href="#collapse-smp" aria-expanded="true" aria-controls="collapse-smp" id="heading-collapsed">
                     <i class="fa fa-chevron-down float-right"></i>
                     SMP Al-Ittihad Camplong
