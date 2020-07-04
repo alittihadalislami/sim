@@ -164,7 +164,7 @@
 
       <div class="card border-light mb-3">
         <div class="card-header bg-success">
-          <span style="font-size: 20px;">Kompetensi Dasar <br class="bawahkd"> <?= $atribut['mapel_alias'] .' - '. $atribut['nama_kelas'];?> </span>
+          <span style="font-size: 20px;">Kompetensi Dasar <br class="bawahkd"> <?= $atribut['mapel_alias'] .' - '. $atribut['nama_kelas'].' - Semester:'.$sem;?> </span>
           <button class="btn btn-warning btn-sm float-right" href="#" id="tbh"><i class="fas fw fa-plus-square"></i> Tambah</button>
           <span class="badge badge-danger float-right mx-3" id="jmlKD">2</span>
         </div>

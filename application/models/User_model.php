@@ -102,10 +102,10 @@ class User_model extends CI_Model {
 
 	function arsipKD($rombel, $mapel_id, $semester)
 	{
-		$stringQ = " SELECT DISTINCT(d.`kdp`), d.`kdk`, d.`tahun_id`, d.`id_kd` 
+		$stringQ = " SELECT d.`kdp`, d.`kdk`, d.`tahun_id`, d.`id_kd` 
 					FROM t_kd d 
 					WHERE d.`rombel` = $rombel AND d.`mapel_id` = $mapel_id  
-					AND d.`tahun_id` IN (SELECT id_tahun FROM m_tahun t WHERE t.`semester` = $semester)";
+					AND d.`tahun_id` IN (SELECT id_tahun FROM m_tahun t WHERE t.`semester` = $semester) GROUP BY d.`kdp`";
 		return $this->db->query($stringQ)->result_array();
 	}
 

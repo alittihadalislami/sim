@@ -462,8 +462,60 @@ class Penilaian extends CI_Controller {
 		
 		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
 		$sem = $this->tahunAktif['semester'];
+		$data['sem'] = $sem;
 		$data['id_mapel'] = $this->acak->buatKembali(0,$mapel); 
 		$data['id_kelas'] = $this->acak->buatKembali(0,$kelas); 
+
+		$data['rombel'] = $this->db->get_where('m_kelas', ['id_kelas' => $data['id_kelas']] )->row_array()['rombel'];
+
+		$jml_kd = $this->um->kdTersedia2($data['id_mapel'],$data['rombel'],$data['id_tahun'])->num_rows();
+		$data['jml_kd'] = $jml_kd;
+
+		//mencari arsip kd
+		$data['arsip_kd'] = $this->um->arsipKD($data['rombel'], $data['id_mapel'], $sem);
+		
+		//mencari nama kelas
+		$this->db->select('nama_kelas');
+		$this->db->where('id_kelas', $data['id_kelas']);
+		$nama_kelas = $this->db->get('m_kelas')->row_array();
+
+		//mencari nama mapel
+		$this->db->select('mapel_alias');
+		$this->db->where('id_mapel', $data['id_mapel']);
+		$nama_mapel = $this->db->get('m_mapel')->row_array();
+
+		$data['atribut'] = [
+			'nama_kelas' => $nama_kelas['nama_kelas'],
+			'mapel_alias' => $nama_mapel['mapel_alias']
+		];
+
+		if ($jml_kd) {
+			$data['kd'] = $this->um->kdTersedia2($data['id_mapel'],$data['rombel'],$data['id_tahun'])->result_array();
+
+			$this->load->view('templates/header', $data);
+			$this->load->view('penilaian/kd', $data);
+			$this->load->view('templates/footer');
+
+		} else {
+
+			$this->load->view('templates/header', $data);
+			$this->load->view('penilaian/kd',$data);
+			$this->load->view('templates/footer');
+		 
+		}
+		
+		
+	}
+
+	public function kd_2($asatid, $mapel, $kelas)
+	{
+		$data['judul'] = 'Kompetensi Dasar';
+		
+		$data['id_tahun'] = $this->tahunAktif['id_tahun']+1;
+		$sem = 2;
+		$data['sem'] = $sem;
+		$data['id_mapel'] = $mapel; 
+		$data['id_kelas'] = $kelas; 
 
 		$data['rombel'] = $this->db->get_where('m_kelas', ['id_kelas' => $data['id_kelas']] )->row_array()['rombel'];
 
@@ -545,29 +597,65 @@ class Penilaian extends CI_Controller {
 				'kkm' => $data_input['kkm']
 			];
 
-			$ada = $this->um->cariDoubleKd($object['mapel_id'],$object['rombel'],$object['urut'],$this->tahunAktif['id_tahun']);
+			$ada = $this->um->cariDoubleKd($object['mapel_id'],$object['rombel'],$object['urut'],$object['tahun_id']);
 
 			if($ada){
-				$dUpdate=[
-					'kdp' => $data_input['kdp'.$i],
-					'kdk' => $data_input['kdk'.$i],
-					'kkm' => $data_input['kkm'],
-				];
-								
-				$this->db->where('urut', $object['urut']);
-				$this->db->where('mapel_id', $object['mapel_id']);
-				$this->db->where('rombel', $object['rombel']);
-				$this->db->update('t_kd', $dUpdate);
+				if ($data_input['kdp'.$i] == 'hapus' and $data_input['urut'.$i] >= 3 ) {
 
-				$nama_mapel = $this->um->showNamaMapel($object['mapel_id'])['mapel_alias'];
-				$nama_kelas = $this->um->showNamaKelas($object['kelas_id'])['nama_kelas'];
+					$this->db->select('id_kelas');
+					$kelass = $this->db->get_where('m_kelas', ['rombel'=>$object['rombel']])->result_array();
 
-				$this->session->set_flashdata('pesan', '<div class="col-lg-12">
-		    		<div class="col-md-6 mt-4 py-1 alert alert-warning alert-dismissible elevation-2">
-				  		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				  		<p class="mt-3"><i class="icon fa fa-exclamation-circle"></i> Data '.$nama_mapel.'-'.$nama_kelas.'<strong> berhasil diubah</strong>.</p>
-					</div><br>
-	    		</div>');
+					$kelas_in = [];
+					foreach ($kelass as $k => $kls) {
+							$kelas_in [] = $kls['id_kelas'];
+					}
+
+					$this->db->where('mapel_id', $object['mapel_id']);
+					$this->db->where('rombel', $object['rombel']);
+					$this->db->where('tahun_id', $object['tahun_id']);
+					$this->db->where('urut', $object['urut']);
+					$this->db->delete('t_kd');
+
+					$this->db->where('mapel_id', $object['mapel_id']);
+					$this->db->where_in('kelas_id', $kelas_in);
+					$this->db->where('tahun_id', $object['tahun_id']);
+					$this->db->where('urut_kd', $object['urut']);
+					$this->db->delete('t_nh');
+
+					$nama_mapel = $this->um->showNamaMapel($object['mapel_id'])['mapel_alias'];
+					$nama_kelas = $this->um->showNamaKelas($object['kelas_id'])['nama_kelas'];
+
+
+					$this->session->set_flashdata('pesan', '<div class="col-lg-12">
+			    		<div class="col-md-6 mt-4 py-1 alert alert-success alert-dismissible elevation-2">
+					  		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					  		<p class="mt-3"><i class="icon fa fa-exclamation-circle"></i> Data KD '.$nama_mapel.'-'.$nama_kelas.' <strong>berhasil dihapus</strong>.</p>
+						</div><br>
+		    		</div>');
+				}else{
+					$dUpdate=[
+						'kdp' => $data_input['kdp'.$i],
+						'kdk' => $data_input['kdk'.$i],
+						'kkm' => $data_input['kkm'],
+					];
+									
+					$this->db->where('urut', $object['urut']);
+					$this->db->where('mapel_id', $object['mapel_id']);
+					$this->db->where('tahun_id', $object['tahun_id']);
+					$this->db->where('rombel', $object['rombel']);
+					$this->db->update('t_kd', $dUpdate);
+
+					$nama_mapel = $this->um->showNamaMapel($object['mapel_id'])['mapel_alias'];
+					$nama_kelas = $this->um->showNamaKelas($object['kelas_id'])['nama_kelas'];
+
+					$this->session->set_flashdata('pesan', '<div class="col-lg-12">
+			    		<div class="col-md-6 mt-4 py-1 alert alert-warning alert-dismissible elevation-2">
+					  		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+					  		<p class="mt-3"><i class="icon fa fa-exclamation-circle"></i> Data '.$nama_mapel.'-'.$nama_kelas.'<strong> berhasil diubah</strong>.</p>
+						</div><br>
+		    		</div>');
+				}
+
 			}else{
 				
 				$this->db->insert('t_kd', $object);
@@ -582,32 +670,6 @@ class Penilaian extends CI_Controller {
 					</div><br>
 	    		</div>');
 			}
-
-			if ($data_input['kdp'.$i] == 'hapus' and $data_input['urut'.$i] >= 3 ) {
-				$this->db->where('mapel_id', $object['mapel_id']);
-				$this->db->where('kelas_id', $object['kelas_id']);
-				$this->db->where('tahun_id', $object['tahun_id']);
-				$this->db->where('urut', $object['urut']);
-				$this->db->delete('t_kd');
-
-				$this->db->where('mapel_id', $object['mapel_id']);
-				$this->db->where('kelas_id', $object['kelas_id']);
-				$this->db->where('tahun_id', $object['tahun_id']);
-				$this->db->where('urut_kd', $object['urut']);
-				$this->db->delete('t_nh');
-
-				$nama_mapel = $this->um->showNamaMapel($object['mapel_id'])['mapel_alias'];
-				$nama_kelas = $this->um->showNamaKelas($object['kelas_id'])['nama_kelas'];
-
-
-				$this->session->set_flashdata('pesan', '<div class="col-lg-12">
-		    		<div class="col-md-6 mt-4 py-1 alert alert-success alert-dismissible elevation-2">
-				  		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				  		<p class="mt-3"><i class="icon fa fa-exclamation-circle"></i> Data KD '.$nama_mapel.'-'.$nama_kelas.' <strong>berhasil dihapus</strong>.</p>
-					</div><br>
-	    		</div>');
-			}
-			
 		}
 		redirect('penilaian/dashboard');
 	}
