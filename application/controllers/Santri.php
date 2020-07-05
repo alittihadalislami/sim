@@ -155,6 +155,26 @@ class Santri extends CI_Controller {
 		redirect('santri','refresh');
 	}
 
+	public function updateKelasSantri()
+	{
+		$data['judul'] = 'Pengaturan anggota kelas';
+
+		$this->db->order_by('nama_kelas', 'asc');
+		$data['kelas'] = $this->db->get_where('m_kelas', ['active'=>1])->result_array();
+		$data['santri'] = $this->sm->kelasSantri($this->tahunAktif,1);
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('santri/anggota_kelas_santri', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function ajax_santri()
+	{
+		$daput = $this->input->post();
+		$santri = $this->sm->kelasSantri($daput['tahun'],$daput['kelas']);
+		echo json_encode($santri);
+	}
+
 }
 
 /* End of file santri.php */

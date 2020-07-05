@@ -29,4 +29,14 @@ class Santri_model extends CI_Model {
 		];
 		return $this->db->get_where('t_klub', $data)->num_rows();
 	}
+
+	public function kelasSantri($tahun,$kelas)
+	{
+		$stringQ = "SELECT s.`id_santri`,s.`nisn`, s.`nama_santri`
+					FROM t_agtkelas a JOIN m_santri s
+					ON a.`santri_id` = s.`id_santri`
+					WHERE a.`tahun_id` = $tahun
+					AND a.`kelas_id` = $kelas";
+		return $this->db->query($stringQ)->result_array();
+	}
 }
