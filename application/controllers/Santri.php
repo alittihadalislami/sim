@@ -168,10 +168,30 @@ class Santri extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	public function buatAgtKelas()
+	{
+		$data['judul'] = 'Membuat anggota kelas';
+
+		$this->db->select('id_tahun, nama_tahun');
+		$data['tahun'] = $this->db->get('m_tahun')->result_array();
+		
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('santri/buat_agt_kelas', $data);
+		$this->load->view('templates/footer');
+	}
+
 	public function ajax_santri()
 	{
 		$daput = $this->input->post();
 		$santri = $this->sm->kelasSantri($daput['tahun'],$daput['kelas']);
+		echo json_encode($santri);
+	}
+
+	public function ajax_santriRombelTratri()
+	{
+		$daput = $this->input->post();
+		$santri = $this->sm->santriRombelTratri($daput['tahun'], $daput['rombel'], $daput['tratri']);
 		echo json_encode($santri);
 	}
 
