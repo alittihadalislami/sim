@@ -153,6 +153,46 @@ class Kurikulum extends CI_Controller {
 			redirect('kurikulum','refresh');
 		}
 	}
+
+	public function kbm()
+	{
+		$data['judul'] = 'Kegiatan belajar mengajar';
+		$this->load->view('templates/header', $data);
+		$this->load->view('kurikulum/kbm', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function tambahKbm()
+	{
+		$data['judul'] = 'Tambah KBM';
+		$data['asatid']= $this->db->get('m_asatid')->result_array();
+		$data['mapel']= $this->db->get('m_mapel')->result_array();
+		$data['hari'] = ['ahad','kamis','rabu','sabtu','selasa','senin'];
+		$data['jamke'] = ['0','1-2','3-4','5-6','7-8','9-10','11'];
+
+		$this->db->where('active = 1');
+		$this->db->order_by('nama_kelas', 'asc');
+		$data['kelas']= $this->db->get('m_kelas')->result_array();
+		
+		$this->db->group_by('nama_tahun');
+		$data['tahun']= $this->db->get('m_tahun')->result_array();
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('kurikulum/tambah_kbm', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function aksiTambahKbm()
+	{
+		$daput = $this->input->post();
+		var_dump($daput);
+	}
+
+	public function ajax_tampil_kbm()
+	{
+		$kbm = $this->krm->kbm(4);
+		echo json_encode($kbm);
+	}
 }
 
 /* End of file asatid.php */

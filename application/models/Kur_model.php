@@ -14,4 +14,15 @@ class Kur_model extends CI_Model {
 			WHERE g.`tahun_id` = $tahun_id";
 		return $this->db->query($stringQ)->result_array();
 	}
+
+	public function kbm($tahun_id)
+	{
+		$stringQ =" SELECT b.*,a.`nama_asatid`, k.`nama_kelas`, p.`nama_mapel`
+					FROM t_kbm b JOIN m_asatid a
+					ON b.`id_asatid` = a.`id_asatid` JOIN m_kelas k
+					ON b.`id_kelas` = k.`id_kelas` JOIN m_mapel p
+					ON b.`id_mapel` = p.`id_mapel`
+					WHERE b.`id_tahun` = $tahun_id ";
+		return $this->db->query($stringQ)->result_array();
+	}
 }
