@@ -175,6 +175,8 @@ class Santri extends CI_Controller {
 		$this->db->select('id_tahun, nama_tahun');
 		$data['tahun'] = $this->db->get('m_tahun')->result_array();
 		
+		$this->db->order_by('nama_kelas', 'asc');
+		$data['kelas'] = $this->db->get_where('m_kelas', ['active'=>1])->result_array();
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/buat_agt_kelas', $data);
@@ -193,6 +195,65 @@ class Santri extends CI_Controller {
 		$daput = $this->input->post();
 		$santri = $this->sm->santriRombelTratri($daput['tahun'], $daput['rombel'], $daput['tratri']);
 		echo json_encode($santri);
+	}
+
+	public function ajax_tambahAgtKelas()
+	{
+		$daput = $this->input->post(null,true);
+	
+		$tahun_id = 4;
+		$template2 = [1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,];
+		$id_santri = $daput['idsantri'];
+		$id_kelas = $daput['idkelas'];
+
+		if (count($id_kelas)>1 ) {
+			$jumlah_santri = count($id_santri);
+
+			$template = array_slice($template2, 0, $jumlah_santri);
+
+			$data = [];
+			for ($i=0; $i <$jumlah_santri ; $i++) { 
+				$data[] = [
+					'id'=>$id_santri[$i],
+					'template'=> $template[$i]
+				];
+			}
+
+
+			foreach ($data as $santri) {
+
+				if ($santri['template'] == 1 ) {
+					$kelas_id = $id_kelas[0];
+				}
+				else{
+					$kelas_id = $id_kelas[1];
+				}
+
+				$object = [
+					'id_agt_kelas' => $santri['id'].$kelas_id.$tahun_id,
+					'santri_id' => $santri['id'],
+					'kelas_id' =>$kelas_id,
+					'tahun_id' => $tahun_id
+				];
+
+				$this->db->replace('t_agtkelas', $object);
+				var_dump($object);
+			}
+		}else{
+
+			foreach ($id_santri as $santri) {
+
+				$object = [
+					'id_agt_kelas' => $santri.$id_kelas[0].$tahun_id,
+					'santri_id' => $santri,
+					'kelas_id' =>$id_kelas[0],
+					'tahun_id' => $tahun_id
+				];
+				$this->db->replace('t_agtkelas', $object);
+
+			}
+			
+		}
 	}
 
 }

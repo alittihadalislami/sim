@@ -59,7 +59,7 @@
                         <option value="tri">Putri</option>                        
                       </select>
                     </div>
-                    <button type="button" id="simpan" class="btn btn-success float-right mb-5">Simpan</button>
+                    <button type="button" id="simpan" class="btn btn-success float-right mb-5">List Santri</button>
                     <div style="height: 100px"></div>
                   </form>
 
@@ -68,9 +68,6 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>
-                            <input type="checkbox" id="pilih-semua">
-                        </th>
                         <th scope="col">#</th>
                         <th scope="col">ID</th>
                         <th scope="col">NISN</th>
@@ -92,27 +89,13 @@
                   <form action="">
                       <div class="form-group">
                       <label for="kelas_tujuan">Kelas Tujuan</label>
-                      <select class="form-control" id="kelas_tujuan">
-                        <option value="">-pilih-</option>
+                      <select multiple  class="form-control" class="multiselect" id="kelas_tujuan">
                         <?php foreach ($kelas as $key => $value): ?>
                           <option value="<?= $value['id_kelas'] ?>"><?= $value['nama_kelas'] ?></option>
                         <?php endforeach ?>
                       </select>
                     </div>
                   </form>
-                   <h5>kelas baru</h5>
-                   <table class="table">
-                    <thead>
-                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">ID</th>
-                        <th scope="col">NISN</th>
-                        <th scope="col">Nama Santri</th>
-                      </tr>
-                    </thead>
-                    <tbody id="tuju-kls">
-                    </tbody>
-                  </table>
                 </div>
               </div>
               
@@ -134,9 +117,11 @@
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+
 <script>
+
   $(document).ready(function() {
-    
+
     $('#simpan').on('click', function(){
       tahun = $('#tahun-id').val();
       rombel = $('#rombel-id').val();
@@ -162,9 +147,8 @@
               {
                 var item = respon[i];
 
-                hasil += '<td><input type="checkbox" value="'+item['id_santri']+'"></td>'+
-                '<td>'+(i+1)+'</td>'+
-                '<td>'+item['santri_id']+'</td>'+
+                hasil += '<td>'+(i+1)+'</td>'+
+                '<td class="id" id="'+item['santri_id']+'">'+item['santri_id']+'</td>'+
                 '<td>'+item['nisn']+'</td>'+
                 '<td>'+item['nama_santri']+'</td>'+
                 '<td>'+item['nilai']+'</td>';
@@ -181,35 +165,7 @@
     })
 
     $('#kelas_tujuan').on('change', function(){
-      kelas_t = $('#kelas_tujuan').val();
-      alert(kelas_t);
-
-      $.ajax({
-          url: "<?=base_url()?>santri/ajax_santri",
-          type:'post',
-          dataType: "json",
-          data: {
-            tahun : 3,
-            kelas : kelas_t,
-          },
-
-          success: function(respon){
-            hasil = '<tr>';
-            for(let i =0;i < respon.length-1;i++)
-            {
-              var item = respon[i];
-
-              hasil += '<td>'+(i+1)+'</td>'+
-              '<td>'+item['id_santri']+'</td>'+
-              '<td>'+item['nisn']+'</td>'+
-              '<td>'+item['nama_santri']+'</td>';
-              hasil += '</tr>';
-            }
-
-             $('#tuju-kls').html(hasil);
-          }
-
-      })
+      kelas_t = $('#kelas_tujuan').val();    
     })
 
     $("#pilih-semua").click(function(){
@@ -218,11 +174,35 @@
 
     $('#tombol_ubah').on('click', function(){
       
-      idArr = [];
-      $("#asal-kls input:checkbox[name=type]:checked ").each(function(){
-        idArr.push($(this).val());
+      idsantris = [];
+      $('#asal-kls .id').each(function() {
+        idsantris.push($(this).html());
       });
-      console.log(idArr);
+      
+      idkelass = $('#kelas_tujuan').val();
+
+      if (idsantris.length < 1 || idkelass.length < 1) {
+        alert('Ada pilihan yang masih kosong..')
+      }
+      else{
+        console.log(idsantris)
+        console.log(idkelass)
+        $.ajax({
+            url: "<?=base_url()?>santri/ajax_tambahAgtKelas",
+            type:'post',
+            dataType: "json",
+            data: {
+              idsantri : idsantris,
+              idkelas : idkelass,
+            },
+
+            success: function(respon){
+            }
+
+        })
+      }
+
+      
     })
 
 
