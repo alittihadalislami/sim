@@ -197,6 +197,20 @@ class Santri extends CI_Controller {
 		echo json_encode($santri);
 	}
 
+	public function ajax_rombelLanjut(){
+
+		$daput = $this->input->post();
+
+		$rombel_next = $daput['rombel'] + 1;
+		
+		if ($rombel_next > 7 ) {
+			$rombel_next = 4;
+		}
+		$this->db->order_by('nama_kelas', 'asc');
+		$kelas = $this->db->get_where('m_kelas', ['active'=>1, 'rombel'=>$rombel_next])->result_array();
+		echo json_encode($kelas);
+	}
+
 	public function ajax_tambahAgtKelas()
 	{
 		$daput = $this->input->post(null,true);

@@ -80,11 +80,7 @@
                   </table>
                   
                 </div>
-                <div class="col-md-1 text-center">
-                  <input type="checkbox" value="ok">
-                  <br>
-                  <div class="btn btn-info" id="tombol_ubah">>></div>
-                </div>
+                
                 <div class="col-md-5">
                   <form action="">
                       <div class="form-group">
@@ -96,6 +92,10 @@
                       </select>
                     </div>
                   </form>
+                  
+                  <!-- <input type="checkbox" value="ok"> -->
+                  <!-- <br> -->
+                  <div class="btn btn-info" id="tombol_ubah">>></div>
                 </div>
               </div>
               
@@ -130,7 +130,7 @@
       if (tahun == '' || rombel == '' || tratri == '') {
         alert('Silahkan pilih dengan lengkap..')
       }else{
-        console.log(tahun+rombel+tratri);
+        // console.log(tahun+rombel+tratri);
         $.ajax({
             url: "<?=base_url()?>santri/ajax_santriRombelTratri",
             type:'post',
@@ -154,9 +154,32 @@
                 '<td>'+item['nilai']+'</td>';
                 hasil += '</tr>';
               }
-              console.log(hasil);
+              // console.log(hasil);
 
               $('#asal-kls').html(hasil);
+            }
+
+        })
+
+        $.ajax({
+            url: "<?=base_url()?>santri/ajax_rombelLanjut",
+            type:'post',
+            dataType: "json",
+            data: {
+              rombel : rombel,
+            },
+
+            success: function(data){
+              hasil = '<select>';
+              for(let i =0;i < data.length;i++)
+              {
+                var item = data[i];
+                hasil += '<option value="'+item.id_kelas+'">'+item.nama_kelas+'</option>';
+              }
+              hasil += '</select>';
+              console.log(hasil);
+
+              $('#kelas_tujuan').html(hasil);
             }
 
         })
