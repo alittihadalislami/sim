@@ -85,6 +85,14 @@ class Auth extends CI_Controller {
 		$object['rule_id'] = 8;
 
 		$oke = $this->db->insert('user_data', $object);
+		$id = $this->db->insert_id();
+		
+		$udr = [
+			'user_id' => $id,
+			'rule_id' => 8,
+		];
+		
+		$this->db->insert('user_dapat_rule', $udr);
 
 			if ($oke) {
 				$this->session->set_flashdata('pesan', '<div class=" mt-5 mx-auto col-xs-4 col-sm-4 col-md-4 alert alert-success alert-dismissible">

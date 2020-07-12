@@ -21,11 +21,12 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg lebar">
-
           <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Keseluruhan Santri</h3>
-                <!-- <a href="<?= base_url()?>santri/tambah_santri" class="float-right tambah"><i class="fas fa-plus text-success"></i> Tambah data santri</a> -->
+                <?php if ($rule_id == 1): ?>
+                  <a href="<?= base_url()?>santri/setKelasManual" class="float-right tambah"><i class="fas fa-plus text-success"></i> Set kelas santri manual</a> 
+                <?php endif ?>
               </div>
               
               <!-- /.card-header -->

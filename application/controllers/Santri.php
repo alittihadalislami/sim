@@ -22,9 +22,44 @@ class Santri extends CI_Controller {
 		$data['santri'] = $this->km->santri($this->tahunAktif, $id_kelas)->result_array();
 		$data['detail_terisi']=$this->km->detailTerisi();
 
+		$email = $this->session->userdata('email');
+	    $dataAktif = $this->um->dataAktif($email);
+	    $user_id = $dataAktif['id_user'];
+	    $data['rule_id'] = $this->um->multipleRule($user_id)[0]['rule_id'];
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/index_santri', $data);
 		$this->load->view('templates/footer');
+	}
+
+	public function setKelasManual()
+	{
+		$data['judul'] = 'Setting Kelas manual';
+
+		$data['santri'] = $this->db->get('m_santri')->result_array();
+
+		$this->db->order_by('nama_kelas', 'asc');
+		$data['kelas'] = $this->db->get_where('m_kelas', ['active'=>1])->result_array();
+		$data['tahun'] = $this->tahunAktif;
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('santri/kelas_manual', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function aksiSetKelasManual()
+	{
+		$daput = $this->input->post(null,true);
+
+		if ($daput['santri_id'] == "Pilih..." || $daput['kelas_id'] == "Pilih...") {
+			$this->session->set_flashdata('pesan','Pilihan masih kosong');
+			redirect('santri/setKelasManual','refresh');
+		}else{
+			$this->db->insert('t_agtkelas', $daput);
+
+			$this->session->set_flashdata('pesan','Berhasil');
+			redirect('santri/setKelasManual','refresh');
+		}
 	}
 
 	public function tambah_santri()

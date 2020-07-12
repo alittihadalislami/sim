@@ -1,4 +1,19 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" integrity="sha256-EH/CzgoJbNED+gZgymswsIOrM9XhIbdSJ6Hwro09WE4=" crossorigin="anonymous" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+  .select2-selection__rendered {
+    line-height: 35px !important;
+  }
+  .select2-container .select2-selection--single {
+      height: 40px !important;
+  }
+  .select2-selection__arrow {
+      height: 34px !important;
+  }
+  .select2 {
+    width:100%!important;
+  }
+</style>
 
 <style>
   @media only screen and (min-width: 769px) {
@@ -8,30 +23,6 @@
       margin-left: auto; 
     }
   }
-
-.chosen-container-single .chosen-single {
-    width: 100%;
-    height: 40px;
-    border-radius: 3px;
-    border: 1px solid #CCCCCC;
-    font-size: 17px;
-    padding-top: 3px; 
-}
-.chosen-container-single .chosen-single span {
-    padding-top: 2px;
-}
-.chosen-container-single .chosen-single div b {
-    margin-top: 2px;
-}
-.chosen-container-active .chosen-single,
-.chosen-container-active.chosen-with-drop .chosen-single {
-    border-color: #ccc;
-    border-color: rgba(82, 168, 236, .8);
-    outline: 0;
-    outline: thin dotted \9;
-    -moz-box-shadow: 0 0 8px rgba(82, 168, 236, .6);
-    box-shadow: 0 0 8px rgba(82, 168, 236, .6)
-}
 
 label{
   display: block;
@@ -79,10 +70,10 @@ label{
                       </td>
                       <td>
                         <div class="form-group">
-                          <select class="chosen-single form-control" id="asatid" name="asatid" required>
+                          <select class="form-control pilihan" id="asatid" name="asatid" >
                             <option value="">- pilih -</option>
                             <?php foreach ($asatid as $a): ?>
-                              <option value="<?= $a['id_asatid']; ?>" selected><?= $a['nama_asatid']; ?></option>
+                              <option value="<?= $a['id_asatid']; ?>"><?= $a['nama_asatid']; ?></option>
                             <?php endforeach ?>
                           </select>
                         </div>
@@ -91,10 +82,8 @@ label{
                   <?php endforeach ?>
                 </tbody>
               </table>
-
-
               <button type="sumbit" class="btn btn-success float-right" name="simpan">Simpan</button>
-              <a href="<?= base_url('kurikulum') ?>" class="btn btn-secondary float-right mr-4">Kembali</a>
+              <a href="<?= base_url('kurikulum') ?>" class="btn btn-secondary float-right mr-4">Kembali <<  </a>
             </form>
 
           </div>
@@ -104,7 +93,9 @@ label{
     </div>
   </section>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha256-c4gVE6fn+JRKMRvqjoDp+tlG4laudNYrXI1GncbfAYY=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
-  $(".chosen-single").chosen();
+  $(document).ready(function() {
+    $('.pilihan').select2();
+  });
 </script>

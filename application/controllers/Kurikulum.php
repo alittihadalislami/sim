@@ -31,7 +31,7 @@ class Kurikulum extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
-	public function wali()
+	public function parawali()
 	{
 		$data['judul'] = 'Tambah Wali';
 
