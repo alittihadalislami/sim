@@ -185,7 +185,8 @@ class Kurikulum extends CI_Controller {
 	public function aksiTambahKbm()
 	{
 		$daput = $this->input->post();
-		var_dump($daput);
+		$this->db->insert('t_kbm', $daput);
+		redirect('kurikulum/tambahKbm','refresh');
 	}
 
 	public function ajax_tampil_kbm()

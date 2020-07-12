@@ -61,7 +61,7 @@ label{
 
               <div class="form-group">
                 <label for="asatid">Asatid</label>
-                <select class="chosen-single form-control" id="asatid" name="asatid" required>
+                <select class="chosen-single form-control" id="asatid" name="id_asatid" required>
                   <option value="">- pilih -</option>
                   <?php foreach ($asatid as $a): ?>
                     <option value="<?= $a['id_asatid']; ?>"><?= $a['nama_asatid']; ?></option>
@@ -70,7 +70,7 @@ label{
               </div>
               <div class="form-group">
                 <label for="kelas">Kelas</label>
-                <select class="form-control chosen-single" id="kelas" name="kelas" required>
+                <select class="form-control chosen-single" id="kelas" name="id_kelas" required>
                   <option value="">- pilih -</option>
                   <?php foreach ($kelas as $a): ?>
                     <option value="<?= $a['id_kelas'] ?>"><?= $a['nama_kelas'] ?></option>
@@ -79,7 +79,7 @@ label{
               </div>
               <div class="form-group">
                 <label for="mapel">Mapel</label>
-                <select class="form-control chosen-single" id="mapel" name="mapel" required>
+                <select class="form-control chosen-single" id="mapel" name="id_mapel" required>
                   <option value="">- pilih -</option>
                   <?php foreach ($mapel as $a): ?>
                     <option value="<?= $a['id_mapel']; ?>"><?= $a['nama_mapel']; ?></option>
@@ -110,7 +110,7 @@ label{
               </div>
               <div class="form-group">
                 <label for="jamke">Tahun Ajaran</label>
-                <select class="form-control chosen-single" id="tapel" name="tapel">
+                <select class="form-control chosen-single" id="tapel" name="id_tahun">
                   <option value="">- pilih -</option>
                   <?php foreach ($tahun as $k => $a): ?>
                     <option value="<?= $a['id_tahun']; ?>">
