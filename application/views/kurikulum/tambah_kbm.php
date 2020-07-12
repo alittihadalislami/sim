@@ -135,5 +135,5 @@ label{
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha256-c4gVE6fn+JRKMRvqjoDp+tlG4laudNYrXI1GncbfAYY=" crossorigin="anonymous"></script>
 <script>
-  $(".chosen-single").chosen();
+  // $(".chosen-single").chosen();
 </script>
