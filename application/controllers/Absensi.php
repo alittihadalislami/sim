@@ -33,7 +33,7 @@ class Absensi extends CI_Controller {
 		if ($hari == 'Jum\'at'){
 			$data['jadwal'] = [];
 		}else{
-			$data['jadwal'] = $this->am->jadwalHariIni($hari,$id_asatid);
+			$data['jadwal'] = $this->am->jadwalHariIni($hari,$id_asatid,$this->tahunAktif['id_tahun']);
 		}
 
 		$this->load->view('templates/header', $data);

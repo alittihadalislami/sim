@@ -3,14 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Absensi_model extends CI_Model {
 
-	public function jadwalHariIni($hari,$asatid_id)
+	public function jadwalHariIni($hari,$asatid_id,$tahun_id)
 	{
 		$stringQ = " SELECT k.*, a.`nama_asatid`, m.`mapel_alias`, l.`nama_kelas`
 					FROM t_kbm k JOIN `m_asatid` a 
 					ON k.`id_asatid` = a.`id_asatid` JOIN m_mapel m
 					ON m.`id_mapel` = k.`id_mapel` JOIN m_kelas l
 					ON l.`id_kelas` = k.`id_kelas`
-					WHERE k.`hari` = '$hari' AND a.`id_asatid` = '$asatid_id' 
+					WHERE k.`hari` = '$hari' AND a.`id_asatid` = '$asatid_id' AND k.`id_tahun` = $tahun_id
 					ORDER BY k.`jamke`, l.`nama_kelas` ASC ";
 		return $this->db->query($stringQ)->result_array();
 	}
