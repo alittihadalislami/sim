@@ -52,31 +52,74 @@
 		        </div>
 	    	<?php endforeach ?>
 			<?php else: ?>
-	        <div class="col-lg-4 col-12">
-	            <div class="small-box bg-light ">
-	              <div class="inner form-group">
-	                <h4><?= $level['nama_rule'] ?></h4>
-					<p id="latitude"></p>
-	                <p id="longitude"></p> 
-	                <p id="tampilkan"></p> 
-	                <label class="mt-3" for="">Kegiatan</label>
-	                <input class="form-control" type="text" value="" list="fruits" />
-					<datalist id="fruits">
-					  <option value="Apple"></option>
-					  <option value="Orange"></option>
-					  <option value="Peach"></option>
-					  <option value="Melon"></option>
-					  <option value="Strawberry"></option>
-					</datalist>
-	              </div>
-	              <div class="icon">
-	                <i class="fas fa-edit fa-sm"></i>
-	              </div>
-	              <button type="submit" class="btn btn-success my-2 float-right mr-4">Absen <i class="fas fa-arrow-circle-right"></i></button>
-	              <br>
-	              <br>
-	              <br>
-	            </div>
+	        <div class="col-lg-6 col-12">
+              	<?php 
+              		$hari = $atribut['nama_hari'];
+              		$tanggal = $atribut['tgl'];
+              		$bulan = $atribut['bulan'];
+              		$tahun = $atribut['tahun'];
+              		$id = $id_pegawai.$tanggal.$bulan.$tahun;
+              		$datang = $atribut['jam'].':'.$atribut['menit'];
+              		$pulang = $atribut['jam'].':'.$atribut['menit'];
+
+              		$ada = $this->db->get_where('t_jurnal_pegawai', ['id'=> $id])->row_array();
+              	 ?>
+              	 <?php if ( !$ada['pulang'] ): ?>
+              	 	
+	              	 <?php if ($ada < 1 ): ?>
+			            <div class="small-box bg-light p-3">
+			            <form method="post" action="absensi/simpanPegawai">
+			              <div class="inner form-group">
+			                <h4><?= $level['nama_rule'] ?></h4>
+							<p id="latitude"></p>
+			                <p id="longitude"></p> 
+			                <p id="tampilkan"></p> 
+			              </div>
+			              <div class="icon">
+			                <i class="fas fa-edit fa-sm"></i>
+			              </div>
+			              <input hidden type="text" value="<?= $id ?>" name="id">
+			              <input hidden type="text" value="<?= $id_pegawai ?>" name="asatid_id">
+			              <input hidden type="text" value="<?= $semester_id ?>" name="semester_id">
+			              <input hidden type="text" value="<?= $hari ?>" name="hari">
+			              <input hidden type="text" value="<?= $tanggal ?>" name="tanggal">
+			              <input hidden type="text" value="<?= $bulan ?>" name="bulan">
+			              <input hidden type="text" value="<?= $tahun ?>" name="tahun">
+			              <input hidden type="text" value="<?= $datang ?>" name="datang">
+			              <button type="submit"class="btn btn-success my-2 float-right mr-4">Hadir <i class="fas fa-arrow-circle-right"></i></button>
+			          </form>
+			              <br>
+			              <br>
+			              <br>
+			            </div>
+	              	 <?php else : ?>
+	              	 	<div class="small-box p-3 ">
+			            <form method="post" action="absensi/simpanPegawai">
+			              <div class="inner form-group">
+			                <h4><?= $level['nama_rule'] ?></h4>
+							<p id="latitude"></p>
+			                <p id="longitude"></p> 
+			                <p id="tampilkan"></p> 
+			                <label class="mt-3" for="">Kegiatan</label>
+			                <input class="form-control" type="text" value="" list="fruits" name="kegiatan" required />
+							<datalist id="fruits">
+							  <option value="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione voluptatem similique iure praesentium cumque cupiditate numquam alias. Earum adipisci aspernatur assumenda cumque omnis unde delectus fugiat sit ex aliquam aut itaque, nulla voluptas nam totam illo excepturi numquam vitae error beatae. Dicta voluptate fugiat voluptatem, molestiae similique nulla dignissimos recusandae natus quia, hic doloremque fugit consequatur sunt cumque, mollitia error eaque necessitatibus reiciendis perferendis asperiores minima distinctio tenetur quo porro. Maiores voluptates sed doloribus beatae, explicabo nisi, minima quae, iusto facere modi sunt, commodi cumque ea sapiente deleniti quaerat dolor qui voluptatibus a ipsa libero. Voluptatibus odit, explicabo unde reiciendis."></option>
+							</datalist>
+			              </div>
+			              <p class="text-right">Jam Kedatangan: <?= $ada['datang'] ?></p>
+			              <div class="icon">
+			                <i class="fas fa-edit fa-sm"></i>
+			              </div>
+			              <input hidden type="text" value="<?= $id ?>" name="id">
+			              <input hidden type="text" value="<?= $pulang ?>" name="pulang">
+			              <button type="submit"class="btn btn-warning my-2 float-right ">Pulang <i class="fas fa-arrow-circle-right text-light"></i></button>
+			          </form>
+			              <br>
+			              <br>
+			              <br>
+			            </div>
+	              	 <?php endif ?>
+              	 <?php endif ?>
 	        </div>
 		<?php endif ?>
 	   	</div>

@@ -1,0 +1,36 @@
+/*
+SQLyog Ultimate v12.4.3 (64 bit)
+MySQL - 10.4.10-MariaDB : Database - alitt452_sim
+*********************************************************************
+*/
+
+/*!40101 SET NAMES utf8 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*Table structure for table `t_jurnal_pegawai` */
+
+DROP TABLE IF EXISTS `t_jurnal_pegawai`;
+
+CREATE TABLE `t_jurnal_pegawai` (
+  `id` bigint(20) NOT NULL,
+  `asatid_id` varchar(11) DEFAULT NULL,
+  `semester_id` int(11) DEFAULT NULL,
+  `hari` varchar(22) DEFAULT NULL,
+  `tanggal` int(11) DEFAULT NULL,
+  `bulan` int(11) DEFAULT NULL,
+  `tahun` int(11) DEFAULT NULL,
+  `kegiatan` longtext DEFAULT NULL,
+  `datang` varchar(22) DEFAULT NULL,
+  `pulang` varchar(22) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

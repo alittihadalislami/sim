@@ -20,6 +20,7 @@ class Absensi extends CI_Controller {
 		$data['jam'] = $this->waktuAbsen()['jam'].'.'.$this->waktuAbsen()['menit'];
 		$data['tanggal'] = $this->waktuAbsen()['tanggal'];
 		$hari = $this->waktuAbsen()['nama_hari'];
+		$data['atribut'] = $this->waktuAbsen();
 
 		$user = $this->um->dataAktif($this->session->userdata('email'));
 		$id_asatid = $this->um->idAsatid($user['nohp'])['id_asatid'];
@@ -29,6 +30,12 @@ class Absensi extends CI_Controller {
 		$data['kategori'] = $kat['kategori'];
 
 		$data['level'] = $this->um->showRuleLevel($user['id_user']);
+		$data ['semester_id'] = $this->tahunAktif['id_tahun'];
+
+		$email = $this->session->userdata('email');
+	    $no_hp = $this->um->dataAktif($email)['nohp'];
+
+	    $data['id_pegawai'] = $this->um->idAsatid($no_hp)['id_asatid'];
 
 		if ($hari == 'Jum\'at'){
 			$data['jadwal'] = [];
@@ -42,10 +49,27 @@ class Absensi extends CI_Controller {
 
 	}
 
-	public function absenPegawai()
+	public function simpanPegawai()
 	{
-		
+		$daput = $this->input->post(null,true);
+
+		$this->db->where('id', $daput['id']);
+		$ada = $this->db->get('t_jurnal_pegawai')->num_rows();
+
+		if ($ada < 1) {
+			$this->db->insert('t_jurnal_pegawai', $daput);
+		}else{
+			$object = [
+				'pulang' => $daput['pulang'],
+				'kegiatan' => $daput['kegiatan']
+			];
+			$this->db->where('id', $daput['id']);
+			$this->db->update('t_jurnal_pegawai', $object);
+		}
+
+		redirect('absensi','refresh');
 	}
+
 
 	public function waktuAbsen()
 	{
@@ -58,7 +82,7 @@ class Absensi extends CI_Controller {
 		$waktu ['menit'] = date("i");
 		$waktu ['jam'] = date("G");
 		$waktu ['hari'] = date("N");
-		$waktu ['tanggal'] = date("j");
+		$waktu ['tgl'] = date("j");
 		$waktu ['bulan'] = date("n");
 		$waktu ['tahun'] = date("Y");
 		$waktu ['nama_hari'] = $hari_id[date("N")];
