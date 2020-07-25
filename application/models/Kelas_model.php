@@ -23,26 +23,13 @@ class Kelas_model extends CI_Model {
 		}
 	}
 
-	public function indukAkhir($jenjang=null)
+	public function indukAkhir()
 	{
-		if ($jenjang > 0 ) {
-			$stringQ = " SELECT MAX(s.`idk_umum`) AS idk_umum
-			FROM m_santri s JOIN t_agtkelas g
-			ON s.`id_santri` = g.`santri_id` JOIN m_kelas k
-			ON k.`id_kelas`= g.`kelas_id`
-			WHERE k.`jenjang` = $jenjang ";
 
-			$induk = $this->db->query($stringQ)->row_array();
-			return $induk['idk_umum'];
-		}else{
-			$stringQ = " SELECT MAX(s.`idk_mii`) AS idk_mii
-			FROM m_santri s JOIN t_agtkelas g
-			ON s.`id_santri` = g.`santri_id` JOIN m_kelas k
-			ON k.`id_kelas`= g.`kelas_id` ";
-			
-			$induk = $this->db->query($stringQ)->row_array();
-			return $induk['idk_mii'];
-		}
+		$stringQ = " SELECT MAX( DISTINCT( s.`idk_mii`)) AS mii, MAX( DISTINCT( s.`idk_umum`)) AS smp, MAX( DISTINCT( s.`idk_umum2`)) AS ma
+			FROM m_santri s ";
+
+		return $induk = $this->db->query($stringQ)->row_array();
 	}
 
 	function idSantriAkhir()

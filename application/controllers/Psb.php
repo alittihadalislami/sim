@@ -12,6 +12,7 @@ class Psb extends CI_Controller
         is_boleh();
         $this->load->model('Psb_model');
         $this->load->model('User_model','um');
+        $this->load->model('Kelas_model','km');
         $this->load->library('form_validation');        
 		$this->load->library('datatables');
     }
@@ -457,9 +458,35 @@ class Psb extends CI_Controller
         echo json_encode($data);
     }
 
-    public function diterima()
+    public function diterima($id)
     {
+       $csantri = $this->db->get_where('p_data_awal', ['id_data_awal' => $id])->row_array();
+       $santri['nama_santri'] = ucwords(strtolower($csantri['nama']));
+       $santri['nisn'] = $csantri['nisn'];
        
+       /*Manual Tanggal diterima*/
+       $diterima = '15/07/2020';
+
+
+       $this->db->where('id_data_awal', $id);
+       $this->db->update('p_data_awal', ['diterima' => $diterima]);
+       $induk = $this->km->indukAkhir();
+
+       $santri['idk_mii'] = $induk['mii']+1;
+
+       $this->db->where([
+        'nama_santri' => $santri['nama_santri'],
+        'nisn' => $santri['nisn']
+        ]);
+
+       $ada = $this->db->get('m_santri')->num_rows();
+       if ($ada < 1) {
+           $this->db->insert('m_santri', $santri);
+           $id_santri = $this->db->insert_id();
+           redirect('santri/pilihkelas/'.$id_santri,'refresh');
+       }else{
+            echo 'sudah ada ';
+       }
     }
 
 }

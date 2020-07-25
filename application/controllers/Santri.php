@@ -115,6 +115,36 @@ class Santri extends CI_Controller {
 		}
 	}
 
+	public function pilihKelas($id_santri)
+	{
+		$santri = $this->db->get_where('m_santri', ['id_santri' => $id_santri])->row_array();
+		$data['judul'] = 'Pilih Kelas Santri Baru';
+		$data['kelas'] = $this->sm->rombelDiterima();
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('santri/pilih_kelas_santribaru', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function ajax_rombel()
+	{
+		$kelas = $this->input->post('kelas',true);
+
+		$rombel = $this->db->query(" SELECT k.*, COUNT(a.`santri_id`) AS jumlah
+									FROM m_kelas k LEFT JOIN t_agtkelas a
+									ON k.`id_kelas` = a.`kelas_id`
+									AND a.`tahun_id` = 4
+									WHERE k.`nama_kelas` != '0' 
+									AND k.`nama_kelas` != '8' 
+									AND k.`nama_kelas` != '9'
+									AND k.`active` = 1
+									AND k.`rombel` = $kelas
+									GROUP BY k.`id_kelas`
+									ORDER BY k.`nama_kelas` ASC ")->result_array();
+
+		echo json_encode($rombel);
+	}
+
 	public function edit($santri_id)
 	{
 		$data['judul'] = 'Ubah data Santri';

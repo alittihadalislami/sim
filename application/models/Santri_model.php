@@ -72,4 +72,14 @@ class Santri_model extends CI_Model {
 			ORDER BY nilai DESC ";
 		return $this->db->query($stringQ)->result_array();
 	}
+
+	public function rombelDiterima()
+	{
+		$stringQ = "SELECT k.`rombel`
+					FROM m_kelas k
+					WHERE k.`rombel` > 0
+					AND k.`rombel` < 8
+					GROUP BY k.`rombel`";
+		return $this->db->query($stringQ)->result_array();
+	}
 }
