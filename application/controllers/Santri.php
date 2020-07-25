@@ -62,7 +62,7 @@ class Santri extends CI_Controller {
 		}
 	}
 
-	public function tambah_santri()
+	public function tambahSantri()
 	{
 
 		$data['judul'] = 'Dashboard Santri';
@@ -91,6 +91,28 @@ class Santri extends CI_Controller {
 
 			redirect('santri/perkelas','refresh');
 		}		
+	}
+
+	public function manual()
+	{
+		$object = $this->db->query(" SELECT	s.*, k.`jenjang`
+							FROM m_santri s JOIN t_agtkelas a
+							ON s.`id_santri` = a.`santri_id` JOIN m_kelas k
+							ON k.`id_kelas` = a.`kelas_id`
+							WHERE k.`jenjang` = 2 
+							AND a.`tahun_id` = 1 ")->result_array();
+
+		foreach ($object as $value) {
+
+			$update = [
+				'idk_umum2' => $value['idk_umum'] ,
+				'idk_umum' => ''
+			];
+
+			$this->db->where('idk_umum > ', 0 );
+			$this->db->where('id_santri', $value['id_santri'] );
+			$this->db->update('m_santri', $update);
+		}
 	}
 
 	public function edit($santri_id)

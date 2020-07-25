@@ -1,7 +1,8 @@
 <?php 
     $this->load->view('templates/header_hc');
 
-    // var_dump($data_diri);die();
+    $id_csantri = $this->uri->segment(3);
+    var_dump($id_csantri);die();
  ?>
 
 
@@ -134,6 +135,7 @@
    
 <div class="col-12 text-center">
 	<a href="<?php echo site_url('psb') ?>" class="btn btn-success my-auto"><i class="fas fa-backward"></i> &nbsp Kembali</a>
+	<a href="<?php echo site_url('psb/diterima') ?>" class="btn btn-primary my-auto"><i class="far fa-arrow-alt-circle-down"></i> &nbsp Diterima</a>
 </div>
 <?php  
     $this->load->view('templates/footer_hc');

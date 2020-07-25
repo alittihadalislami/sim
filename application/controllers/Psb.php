@@ -457,6 +457,11 @@ class Psb extends CI_Controller
         echo json_encode($data);
     }
 
+    public function diterima()
+    {
+       
+    }
+
 }
 
 /* End of file Psb.php */
