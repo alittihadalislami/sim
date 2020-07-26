@@ -95,11 +95,23 @@
                   $kelas = "btn btn-danger";
                   $huruf = "A";
                 }
+
+                $detail = $this->db->get_where('t_detail_santri', ['santri_id'=> $sa['id_santri'] ])->row_array();
+
+                if(strlen($detail['nama_seijazah']) > 3 ){
+                  $nama_fix = $detail['nama_seijazah'];
+                } else{
+                  $nama_fix = $sa['nama_santri'];
+                }
+
               ?>
               
               <input type="text" hidden="true" id="k-<?=$sa['id_santri']?>" name="kehadiran-<?=$sa['id_santri']?>" value="<?= isset($absensi['absen']) ? $absensi['absen'] : 4 ?>">
+              
+    
 
-              <li class="list-group-item nama" id="<?=$sa['id_santri']?>"><span id="ket-<?=$sa['id_santri']?>" class="btn <?= $kelas ?> ling"><?= $huruf ?></span>  <?= $no++ .'. '. $sa['nama_santri'] ?></li>
+              <li class="list-group-item nama" id="<?=$sa['id_santri']?>"><span id="ket-<?=$sa['id_santri']?>" class="btn <?= $kelas ?> ling"><?= $huruf ?></span>  <?= $no++ .'. '. $nama_fix ?></li>
+
               
               <?php endforeach ?>
               <?php 

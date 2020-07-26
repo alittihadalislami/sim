@@ -478,7 +478,6 @@ class Psb extends CI_Controller
         'nama_santri' => $santri['nama_santri'],
         'nisn' => $santri['nisn']
         ]);
-
        $ada = $this->db->get('m_santri')->num_rows();
        if ($ada < 1) {
            $this->db->insert('m_santri', $santri);

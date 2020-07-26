@@ -35,7 +35,6 @@
                   <thead>                  
                     <tr>
                       <th>#</th>
-                      <th>ID Santri</th>
                       <th>Induk MII</th>
                       <th data-priority="1">Nama Santri</th>
                       <th data-priority="1">Kelas</th>
@@ -47,9 +46,17 @@
                     <?php $no=1; foreach ($santri as $str): ?>                    
                       <tr>
                         <td><?= $no++;?></td>
-                        <td><?= $str['id_santri'];?></td>
                         <td><?= $str['idk_mii'];?></td>
-                        <td><?= $str['nama_santri'];?></td>
+                        <?php 
+                          $detail = $this->db->get_where('t_detail_santri', ['santri_id'=> $str['id_santri'] ])->row_array();
+
+                          if(strlen($detail['nama_seijazah']) > 3 ){
+                            $nama_fix = $detail['nama_seijazah'];
+                          } else{
+                            $nama_fix = $str['nama_santri'];
+                          }
+                        ?>
+                        <td><?= $nama_fix;?></td>
                         <td><?= $str['nama_kelas'];?></td>
                         <td class="sts">26 /
                           <?php
