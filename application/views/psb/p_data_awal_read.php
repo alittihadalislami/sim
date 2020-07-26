@@ -132,8 +132,8 @@
 
    
 <div class="col-12 text-center">
-	<a href="<?php echo site_url('psb') ?>" class="btn btn-success my-auto"><i class="fas fa-backward"></i> &nbsp Kembali</a>
-	<a href="<?php echo site_url('psb/diterima/').$id_csantri ?>" class="btn btn-primary my-auto"><i class="far fa-arrow-alt-circle-down"></i> &nbsp Diterima</a>
+	<a href="<?php echo site_url('psb') ?>" class="btn btn-secondary my-auto"><i class="fas fa-backward"></i> &nbsp Kembali</a>
+	<a href="<?php echo site_url('psb/diterima/').$id_csantri ?>" class="btn btn-success my-auto ml-3"><i class="far fa-arrow-alt-circle-down"></i> &nbsp Diterima</a>
 </div>
 <?php  
     $this->load->view('templates/footer_hc');
