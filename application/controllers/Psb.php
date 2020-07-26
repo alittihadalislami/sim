@@ -465,7 +465,7 @@ class Psb extends CI_Controller
        $santri['nisn'] = $csantri['nisn'];
        
        /*Manual Tanggal diterima*/
-       $diterima = '15/07/2020';
+       $diterima = '13/07/2020';
 
 
        $this->db->where('id_data_awal', $id);
@@ -485,7 +485,8 @@ class Psb extends CI_Controller
            $id_santri = $this->db->insert_id();
            redirect('santri/pilihkelas/'.$id_santri,'refresh');
        }else{
-            echo 'sudah ada ';
+            $this->session->set_flashdata('message', 'Santri Tersebut sudah punya kelas');
+            redirect('psb/index','refresh');
        }
     }
 

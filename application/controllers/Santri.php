@@ -117,7 +117,7 @@ class Santri extends CI_Controller {
 
 	public function pilihKelas($id_santri)
 	{
-		$santri = $this->db->get_where('m_santri', ['id_santri' => $id_santri])->row_array();
+		$data['santri'] = $this->db->get_where('m_santri', ['id_santri' => $id_santri])->row_array();
 		$data['judul'] = 'Pilih Kelas Santri Baru';
 		$data['kelas'] = $this->sm->rombelDiterima();
 
@@ -156,6 +156,36 @@ class Santri extends CI_Controller {
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/edit_santri', $data);
 		$this->load->view('templates/footer');
+	}
+
+	public function simpanKelasDiterima($id_santri, $id_kelas)
+	{
+		
+		$this->db->select('jenjang');
+		$jenjang = $this->db->get_where('m_kelas', ['id_kelas' => $id_kelas])->row_array();
+		$induk = $this->km->indukAkhir();
+		$tahun = $this->tahunAktif;
+		
+		$induk_umum = NULL;
+		$induk_umum2 = NULL;
+
+		if ($jenjang['jenjang'] == 1) {
+			$induk_umum = $induk['smp']+1;
+		}else if($jenjang['jenjang'] == 2) {
+			$induk_umum2 = $induk['ma']+1;
+		}
+		$this->db->where('id_santri', $id_santri);
+		$this->db->update('m_santri', ['idk_umum'=>$induk_umum, 'idk_umum2'=>$induk_umum2]);
+
+		$data_kelas = [
+			'santri_id' => $id_santri,
+			'kelas_id' => $id_kelas,
+			'tahun_id' => $tahun
+		];
+		$this->db->insert('t_agtkelas', $data_kelas);
+
+		$this->session->set_flashdata('message', 'Kelas berhasil disimpan');
+        redirect('psb/index','refresh');
 	}
 
 	public function tampilMinat()

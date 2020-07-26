@@ -10,7 +10,6 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Santri</h1>
         </div>
       </div>
     </div><!-- /.container-fluid -->
@@ -25,42 +24,45 @@
           <div class="card px-2">
               
               <div class="card-header">
-                <h3 class="card-title">Keseluruhan Santri</h3>
+                <h3 class="card-title">Pemilihan kelas santri baru</h3>
               </div>
 
               
               <!-- /.card-header -->
               <div class="card-body">
 
-                  <div class="col-md-5">
-                    <form action="">
-                        <div class="form-group">
-                        <label for="kelas_tujuan">Pilih Kelas Tujuan</label>
-                        <select class="form-control" id="kelas_tujuan">
-                          <option value="">-pilih-</option>
-                          <?php foreach ($kelas as $value): ?>
-                            <option value="<?= $value['rombel'] ?>"><?= $value['rombel'] ?></option>
-                          <?php endforeach ?>
-                        </select>
-                      </div>
-                    </form>
-                     <label>Pilih Rombel</label>
-                     <table class="table">
-                      <thead>
-                       <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Rombel</th>
-                          <th scope="col">Jumlah Santri</th>
-                          <th scope="col">Aksi</th>
-                        </tr>
-                      </thead>
-                      <tbody id="tuju-kls">
-                      </tbody>
-                    </table>
-                  </div>
+                <div class="col-md-5 mb-5">
+                  <h5 class="font-weight-bold"><?= $santri['nama_santri'] ?></h5>
+                  <h5 class="font-weight-normal">NISN: <?= $santri['nisn'] ?></h5>
+                </div>
 
-
-          </div>
+                <div class="col-md-5">
+                  <form action="">
+                      <div class="form-group">
+                      <label for="kelas_tujuan">Pilih Kelas Tujuan</label>
+                      <select class="form-control" id="kelas_tujuan">
+                        <option value="">-pilih-</option>
+                        <?php foreach ($kelas as $value): ?>
+                          <option value="<?= $value['rombel'] ?>"><?= $value['rombel'] ?></option>
+                        <?php endforeach ?>
+                      </select>
+                    </div>
+                  </form>
+                   <label class="mt-4">Pilih Rombel</label>
+                   <table class="table">
+                    <thead>
+                     <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Rombel</th>
+                        <th scope="col">Jumlah Santri</th>
+                        <th scope="col">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tuju-kls">
+                    </tbody>
+                  </table>
+                </div>
+            </div>
         </div>
       </div>
     </div>
@@ -70,9 +72,6 @@
 
 <!-- load js datatable -->
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
 <script>
   $(document).ready(function() {
 
@@ -97,7 +96,7 @@
               hasil += '<td>'+(i+1)+'</td>'+
               '<td>'+ item['nama_kelas'] + '</td>'+
               '<td>'+ item['jumlah'] + '</td>'+
-              '<td> <a href="#" class="btn btn-success pilih-kelas" data-santri="<?= $this->uri->segment(3) ?>" data-kelas="'+item['id_kelas']+'" >Pilih</a> </td>';
+              '<td> <a href="<?= base_url('santri/simpanKelasDiterima/').$this->uri->segment(3).'/'?>'+item['id_kelas']+'" class="btn btn-success">Pilih</a> </td>';
               hasil += '</tr>';
             }
 
