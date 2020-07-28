@@ -47,7 +47,7 @@ label{
 
           <div class="card-body">
             
-            <form action="<?= base_url('kurikulum/ex_tbh_ngajar') ?>" method="post">
+            <form action="<?= base_url('kurikulum/simpanWali') ?>" method="post">
 
               <table class="table table-striped">
                 <thead>
@@ -64,12 +64,15 @@ label{
                       <th scope="row"><?= $no++ ?></th>
                       <td>
                         <div class="form-group">
-                          <input style="height: 41px" class="form-control bg-white" type="text" name="kelas" id="kelas" value="<?= $a['nama_kelas'] ?>" disabled>
+                          <input style="height: 41px" class="form-control bg-white" type="text" name="kelas[]" id="kelas" value="<?= $a['nama_kelas'] ?>" disabled>
                         </div>
+                        <select class="form-control" name="kls[]" hidden="true">
+                            <option value="<?= $a['id_kelas'] ?>" selected="">Putri</option>
+                          </select>
                       </td>
                       <td>
                         <div class="form-group">
-                          <select class="form-control pilihan" name="asatid" data-id_kelas='<?= $a['id_kelas'] ?>'>
+                          <select class="form-control pilihan" name="asatid[]" data-id_kelas='<?= $a['id_kelas'] ?>'>
                             <option value="">- pilih -</option>
                             <?php foreach ($asatid as $a): ?>
                               <option value="<?= $a['id_asatid']; ?>"><?= $a['nama_asatid']; ?></option>
@@ -79,7 +82,7 @@ label{
                       </td>
                       <td>
                         <div class="form-group">
-                          <select class="form-control" name="tratri">
+                          <select class="form-control" name="tratri[]">
                             <option value="">- pilih -</option>
                             <option value="tra">Putra</option>
                             <option value="tri">Putri</option>
@@ -91,6 +94,7 @@ label{
                   
                 </tbody>
               </table>
+              <input type="text" value="<?= $tahun_id ?>" name="tahun_id">
               <button type="sumbit" class="btn btn-success float-right" name="simpan">Simpan</button>
               <a href="<?= base_url('kurikulum') ?>" class="btn btn-secondary float-right mr-4">Kembali </a>
             </form>

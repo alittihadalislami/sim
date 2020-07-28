@@ -34,6 +34,7 @@ class Kurikulum extends CI_Controller {
 	public function parawali()
 	{
 		$data['judul'] = 'Tambah Wali';
+		$data['tahun_id'] = $this->tahunAktif['id_tahun'];
 
 		$data['asatid']= $this->db->get('m_asatid')->result_array();
 
@@ -47,6 +48,14 @@ class Kurikulum extends CI_Controller {
 		$this->load->view('templates/header', $data);
 		$this->load->view('kurikulum/wali', $data);
 		$this->load->view('templates/footer');
+	}
+
+	public function simpanWali()
+	{
+		$daput = $this->input->post();
+		foreach ($daput['kls'] as $key => $value) {
+
+		};
 	}
 
 	public function tambah_ngajar()

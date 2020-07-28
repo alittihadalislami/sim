@@ -6,14 +6,14 @@ class Kelas_model extends CI_Model {
 	public function santri($tahun_id = 3, $wali=null)
 	{
 		if ($wali == null) {
-			$this->db->select('m_santri.id_santri, m_santri.idk_mii, m_santri.idk_umum, m_santri.nama_santri, m_kelas.nama_kelas');
+			$this->db->select('m_santri.id_santri, m_santri.idk_mii, m_santri.idk_umum, m_santri.idk_umum2, m_santri.nama_santri, m_kelas.nama_kelas');
 			$this->db->from('m_santri');
 			$this->db->join('t_agtkelas', 't_agtkelas.santri_id = m_santri.id_santri');
 			$this->db->join('m_kelas', 't_agtkelas.kelas_id = m_kelas.id_kelas');
 			$this->db->where('t_agtkelas.tahun_id', $tahun_id);
 			return $this->db->get();
 		}else{
-			$this->db->select('m_santri.id_santri, m_santri.idk_mii, m_santri.idk_umum, m_santri.nama_santri, m_kelas.nama_kelas');
+			$this->db->select('m_santri.id_santri, m_santri.idk_mii, m_santri.idk_umum, m_santri.idk_umum2, m_santri.nama_santri, m_kelas.nama_kelas');
 			$this->db->from('m_santri');
 			$this->db->join('t_agtkelas', 't_agtkelas.santri_id = m_santri.id_santri');
 			$this->db->join('m_kelas', 't_agtkelas.kelas_id = m_kelas.id_kelas');
