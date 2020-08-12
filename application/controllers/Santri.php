@@ -387,6 +387,15 @@ class Santri extends CI_Controller {
 		}
 	}
 
+	public function rekap()
+	{
+		$data['judul'] = "Rekap Santri";
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('santri/rekap', $data);
+		$this->load->view('templates/footer');
+	}
+
 }
 
 /* End of file santri.php */
