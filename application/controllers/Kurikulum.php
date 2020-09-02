@@ -45,6 +45,8 @@ class Kurikulum extends CI_Controller {
 		$this->db->group_by('nama_tahun');
 		$data['tahun']= $this->db->get('m_tahun')->result_array();
 
+		$data['wali'] = $this->db->get_where('t_wali',['tahun_id'=>$data['tahun_id']])->result_array();
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('kurikulum/wali', $data);
 		$this->load->view('templates/footer');
@@ -53,9 +55,21 @@ class Kurikulum extends CI_Controller {
 	public function simpanWali()
 	{
 		$daput = $this->input->post();
-		foreach ($daput['kls'] as $key => $value) {
 
+		foreach ($daput['kls'] as $key => $value) {
+			
+			$object = [
+				'id_wali'=>$daput['tahun_id'].$daput['kls'][$key],
+				'kelas_id'=>$daput['kls'][$key],
+				'asatid_id'=>$daput['asatid'][$key],
+				'tra_tri'=>$daput['tratri'][$key],
+				'tahun_id'=>$daput['tahun_id']
+			];
+
+			$this->db->replace('t_wali', $object);
 		};
+
+		redirect('kurikulum/parawali','refresh');
 	}
 
 	public function tambah_ngajar()

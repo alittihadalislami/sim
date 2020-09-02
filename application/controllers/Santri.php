@@ -391,6 +391,13 @@ class Santri extends CI_Controller {
 	{
 		$data['judul'] = "Rekap Santri";
 
+		$data['rekap'] = $this->sm->rekapSantri($this->tahunAktif);
+		
+		$data['atribut'] = [
+			'kelas' => [1,2,3,4,5,6,7],
+			'rombel' => ['A','B','C','D']
+		];
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/rekap', $data);
 		$this->load->view('templates/footer');

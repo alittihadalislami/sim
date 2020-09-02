@@ -7,7 +7,7 @@ class Santri_model extends CI_Model {
 		return $this->db->get_where('t_klub', ['minat_id'=>$id_klub])->num_rows();
 	}
 
-	function anggotaKlub($id_klub)
+	function anggotaKlub($id_klub,$tahun_id)
 	{
 		$stringQ = " SELECT k.`santri_id`, s.`nama_santri`, s.`idk_mii`, m.`nama_minat`, m.`kategori_minat`, kl.`nama_kelas`, w.`tra_tri`
 					FROM t_klub k JOIN m_santri s
@@ -17,6 +17,7 @@ class Santri_model extends CI_Model {
 					ON kl.`id_kelas` = a.`kelas_id` join t_wali w
 					on kl.`id_kelas` = w.`kelas_id`
 					WHERE k.`minat_id` = $id_klub
+					AND a.`tahun_id` = $tahun_id
 					GROUP BY s.`id_santri` ";
 		return $this->db->query($stringQ)->result_array();
 	}
@@ -80,6 +81,20 @@ class Santri_model extends CI_Model {
 					WHERE k.`rombel` > 0
 					AND k.`rombel` < 8
 					GROUP BY k.`rombel`";
+		return $this->db->query($stringQ)->result_array();
+	}
+
+	public function rekapSantri($tahun_id)
+	{
+		$stringQ = " SELECT a.`kelas_id`, k.`nama_kelas`, COUNT(a.`santri_id`) AS jumlah, k.`rombel`, k.`jenjang`, w.`tra_tri`
+			FROM t_agtkelas a JOIN m_kelas k
+			ON k.`id_kelas` = a.`kelas_id` JOIN t_wali w
+			ON w.`kelas_id` = a.`kelas_id`
+			WHERE a.`tahun_id` = $tahun_id 
+			AND w.`tahun_id` = $tahun_id
+			AND LENGTH(k.`nama_kelas`) > 1
+			GROUP BY a.`kelas_id`
+			ORDER BY k.`rombel`, k.`id_kelas` ";
 		return $this->db->query($stringQ)->result_array();
 	}
 }

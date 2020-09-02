@@ -59,7 +59,14 @@ label{
                   </tr>
                 </thead>
                 <tbody>
-                  <?php $no=1; foreach ($kelas as $k => $a): ?>
+                  <?php $no=1; foreach ($kelas as $k => $a):
+                    foreach ($wali as $w) {
+                      if ($w['kelas_id'] == $a['id_kelas']) {
+                        $isi_wali = $w['asatid_id'];
+                        $isi_tratri = $w['tra_tri'];
+                      }
+                    } 
+                  ?>
                     <tr>
                       <th scope="row"><?= $no++ ?></th>
                       <td>
@@ -75,7 +82,7 @@ label{
                           <select class="form-control pilihan" name="asatid[]" data-id_kelas='<?= $a['id_kelas'] ?>'>
                             <option value="">- pilih -</option>
                             <?php foreach ($asatid as $a): ?>
-                              <option value="<?= $a['id_asatid']; ?>"><?= $a['nama_asatid']; ?></option>
+                              <option value="<?= $a['id_asatid']?>" <?= $a['id_asatid'] == $isi_wali ? "selected" : NULL ?>><?= $a['nama_asatid']; ?></option>
                             <?php endforeach ?>
                           </select>
                         </div>
@@ -84,8 +91,8 @@ label{
                         <div class="form-group">
                           <select class="form-control" name="tratri[]">
                             <option value="">- pilih -</option>
-                            <option value="tra">Putra</option>
-                            <option value="tri">Putri</option>
+                            <option value="tra" <?= $isi_tratri == "tra" ? "selected" : NULL ?>>Putra</option>
+                            <option value="tri" <?= $isi_tratri == "tri" ? "selected" : NULL ?>>Putri</option>
                           </select>
                         </div>
                       </td>
@@ -94,7 +101,7 @@ label{
                   
                 </tbody>
               </table>
-              <input type="text" value="<?= $tahun_id ?>" name="tahun_id">
+              <input type="text" hidden value="<?= $tahun_id ?>" name="tahun_id">
               <button type="sumbit" class="btn btn-success float-right" name="simpan">Simpan</button>
               <a href="<?= base_url('kurikulum') ?>" class="btn btn-secondary float-right mr-4">Kembali </a>
             </form>

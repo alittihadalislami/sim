@@ -28,66 +28,131 @@
               
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="santri" class="table table-bordered table-hover display responsive" width="100%">
-                  <thead>                  
-                    <tr>
-                      <th>Nama Kelas</th>
-                      <th>A</th>
-                      <th>B</th>
-                      <th>C</th>
-                      <th>D</th>
-                      <th>Putra</th>
-                      <th>Putri</th>
-                      <th>Jumlah</th>
-                    </tr>
-                  </thead>
-                    <?php  for ($i=1; $i<=7; $i++): ?>
-                      <tr>
-                        <td><?= $i ?></td>
-                        <td>A</td>
-                        <td>B</td>
-                        <td>C</td>
-                        <td>D</td>
-                        <td>Putra</td>
-                        <td>Putri</td>
-                        <td>Jumlah</td>
-                      </tr>
-                    <?php endfor ?>
-                    <tr>
-                      <td colspan="7" style="text-align: right;"><b>JUMLAH</b></td>
-                      <td>dsfasf</td>
-                    </tr>
-                  <tbody>
-                  </tbody>
-                </table>
-                <br>
-                <table id="santri" class="table table-bordered table-hover display responsive" width="100%">
-                  <thead>                  
-                    <tr>
-                      <th>Tingkat</th>
-                      <th>Putra</th>
-                      <th>Putri</th>
-                      <th>Jumlah</th>
-                    </tr>
-                  </thead>
-                    <?php  
-                      $tingkat = [1=>'SMP', 'MA', 'Takhassus'];
-                    ?>
-                    <?php  for ($i=1; $i<=3; $i++): ?>
-                      <tr>
-                        <td><?= $tingkat[$i] ?></td>
-                        <td>A</td>
-                        <td>B</td>
-                        <td>Jumlah</td>
-                      </tr>
-                    <?php endfor ?>
-                    <tr>
-                      <td colspan="3" style="text-align: right;"><b>JUMLAH</b></td>
-                      <td>dsfasf</td>
-                    </tr>
-                  <tbody>
-                  </tbody>
-                </table>
+                <div class="row">
+                  <div class="col-md-8">
+                    <table id="santri" class="table table-bordered table-hover display responsive">
+                      <thead>                  
+                        <tr>
+                          <th>Nama Kelas</th>
+                          <?php $total_semua = 0; foreach ($atribut['rombel'] as $r): ?>
+                            <th><?= $r ?></th>
+                          <?php endforeach ?>
+                          <th>Putra</th>
+                          <th>Putri</th>
+                          <th>Jumlah</th>
+                        </tr>
+                      </thead>
+                        <?php  foreach ($atribut['kelas'] as $k): ?>
+                          <tr>
+                            <td><?= $k ?></td>
+                            <?php foreach ($atribut['rombel'] as $r): ?>
+                              <td><?php 
+                                foreach ($rekap as $rkp) {
+                                  if ($rkp['nama_kelas'] == $k.$r) {
+                                    echo $rkp['jumlah'];
+                                  }
+                                }
+                                ?>
+                              </td>
+                            <?php endforeach ?>    
+                            <td>
+                              <?php
+                                $jumlah_tra = 0;
+                                foreach ($rekap as $rkp) {
+                                  if($rkp['rombel'] == $k
+                                      AND $rkp['tra_tri'] == 'tra') {
+                                    $jumlah_tra += $rkp['jumlah'];
+                                  }
+                                }
+                                echo $jumlah_tra;
+                              ?>
+                            </td>
+                            <td>
+                              <?php
+                                $jumlah_tri = 0;
+                                foreach ($rekap as $rkp) {
+                                  if($rkp['rombel'] == $k
+                                      AND $rkp['tra_tri'] == 'tri') {
+                                    $jumlah_tri += $rkp['jumlah'];
+                                  }
+                                }
+                                echo $jumlah_tri;
+                              ?>
+                            </td>
+                            <td>
+                              <?php
+                                $total_kelas = 0;
+                                foreach ($rekap as $rkp) {
+                                  if ($rkp['rombel'] == $k) {
+                                    $total_kelas += $rkp['jumlah'];
+                                  }
+                                }
+                                $total_semua += $total_kelas;
+                                echo $total_kelas;
+                              ?>
+                            </td>
+                          </tr>
+                        <?php endforeach ?>
+                        <tr>
+                          <td colspan="7" style="text-align: right;"><b>JUMLAH</b></td>
+                          <td><?= $total_semua ?></td>
+                        </tr>
+                      <tbody>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-4">
+                    <table id="santri" class="table table-bordered table-hover display responsive">
+                      <thead>                  
+                        <tr>
+                          <th>Tingkat</th>
+                          <th>Putra</th>
+                          <th>Putri</th>
+                          <th>Jumlah</th>
+                        </tr>
+                      </thead>
+                        <?php  
+                          $tingkat = [1=>'SMP', 'MA', 'Takhassus'];
+                          $total_tra = 0 ;
+                          $total_tri = 0 ;
+                        ?>
+                        <?php  for ($i=1; $i<=3; $i++): ?>
+                          <tr>
+                            <td><?= $tingkat[$i] ?></td>
+                            <td>
+                              <?php $jumlah_tra=0; foreach ($rekap as $rkp) {
+                                if ($rkp['jenjang'] == $i && $rkp['tra_tri']=='tra') {
+                                  $jumlah_tra += $rkp['jumlah'];
+                                }                           
+                              }
+                              echo $jumlah_tra;
+                              $total_tra += $jumlah_tra;
+                              ?>
+                            </td>
+                            <td>
+                              <?php $jumlah_tri=0; foreach ($rekap as $rkp) {
+                                if ($rkp['jenjang'] == $i && $rkp['tra_tri']=='tri') {
+                                  $jumlah_tri += $rkp['jumlah'];
+                                }                           
+                              }
+                              echo $jumlah_tri;
+                              $total_tri += $jumlah_tri;
+                              ?>
+                            </td>
+                            <td><?= $jumlah_tri+$jumlah_tra ?></td>
+                          </tr>
+                        <?php endfor ?>
+                        <tr>
+                          <td style="text-align: right;"><b>JUMLAH</b></td>
+                          <td><?= $total_tra ?></td>
+                          <td><?= $total_tri ?></td>
+                          <td><?= $total_tra+$total_tri ?></td>
+                        </tr>
+                      <tbody>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
 

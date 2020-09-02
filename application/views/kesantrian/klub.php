@@ -55,8 +55,10 @@
                     <?php endforeach ?>
                   </tbody>
                 </table>
+                <a class="btn btn-secondary float-right mt-3" href="<?= base_url('kesantrian/peminatan') ?>">Kembali</a>
               </div>
             </div>
+
 
         </div>
       </div>

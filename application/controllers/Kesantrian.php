@@ -28,7 +28,8 @@ class Kesantrian extends CI_Controller {
 	public function klub($id_klub)
 	{
 		$data['judul'] = "Klub Santri";
-		$data['klub'] = $this->sm->anggotaKlub($id_klub);
+		$tahun = $this->tahunAktif['id_tahun'];
+		$data['klub'] = $this->sm->anggotaKlub($id_klub,$tahun);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('kesantrian/klub', $data);
