@@ -389,6 +389,7 @@ class Santri extends CI_Controller {
 
 	public function rekap()
 	{
+		//halaman rekap
 		$data['judul'] = "Rekap Santri";
 
 		$data['rekap'] = $this->sm->rekapSantri($this->tahunAktif);
