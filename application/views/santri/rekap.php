@@ -30,7 +30,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-8">
-                    <table id="santri" class="table table-bordered table-hover display responsive">
+                    <table id="santri" class="table table-bordered table-hover table-responsive w-100 d-block d-md-table">
                       <thead>                  
                         <tr>
                           <th>Nama Kelas</th>
