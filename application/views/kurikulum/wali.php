@@ -60,6 +60,8 @@ label{
                 </thead>
                 <tbody>
                   <?php $no=1; foreach ($kelas as $k => $a):
+                      $isi_wali = NULL;
+                      $isi_tratri = NULL;
                     foreach ($wali as $w) {
                       if ($w['kelas_id'] == $a['id_kelas']) {
                         $isi_wali = $w['asatid_id'];
