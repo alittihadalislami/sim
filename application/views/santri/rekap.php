@@ -3,6 +3,14 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
 
+<style>
+  #santri td,th 
+  {
+      text-align: center; 
+      vertical-align: middle;
+  }
+</style>
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -23,23 +31,23 @@
         <div class="col-lg lebar">
           <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Rekapitulasi Santri</h3>
+                <h3 class="card-title">Rekapitulasi</h3>
               </div>
               
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-8">
-                    <table id="santri" class="table table-bordered table-hover table-responsive w-100 d-block d-md-table">
+                    <table id="santri" class="table table-bordered table-hover table-responsive w-100 d-block d-sm-table">
                       <thead>                  
                         <tr>
-                          <th>Nama Kelas</th>
+                          <th>Kelas</th>
                           <?php $total_semua = 0; foreach ($atribut['rombel'] as $r): ?>
                             <th><?= $r ?></th>
                           <?php endforeach ?>
                           <th>Putra</th>
                           <th>Putri</th>
-                          <th>Jumlah</th>
+                          <th>Total</th>
                         </tr>
                       </thead>
                         <?php  foreach ($atribut['kelas'] as $k): ?>
@@ -108,7 +116,7 @@
                           <th>Tingkat</th>
                           <th>Putra</th>
                           <th>Putri</th>
-                          <th>Jumlah</th>
+                          <th>Total</th>
                         </tr>
                       </thead>
                         <?php  
