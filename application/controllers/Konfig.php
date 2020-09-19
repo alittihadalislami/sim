@@ -116,7 +116,7 @@ class Konfig extends CI_Controller {
 	{
 		ini_set('max_execution_time', 1200);
 
-		$tgl_awal_semester = 20200101;
+		$tgl_awal_semester = 20200613;
 		$q = $this->um->generateNKH($tgl_awal_semester);
 		$id_tahun = $this->tahunAktif['id_tahun'];
 

@@ -6,6 +6,12 @@
       margin-left: auto;
     }
   }
+  .input-group>.input-group-prepend {
+      flex: 0 0 20%;
+  }
+  .input-group .input-group-text {
+      width: 100%;
+  }
 </style>
 
 <div class="content-wrapper">
@@ -31,9 +37,35 @@
                 <input type="text" class="form-control" style="font-weight: bold; font-size: 20px; color: black" value="<?=$santri['nama_santri']?>" required="true" readonly="true">
               </div>
               <div class="form-group">
-                <label for="asatid">No Induk Ma'had</label>
+                <label for="asatid">Nomor Induk</label>
                 <input type="text" class="form-control" name="santri_id" value="<?=$santri['id_santri']?>" required="true" readonly="true" hidden="true">
-                <input type="text" class="form-control" value="<?=$santri['idk_mii']?>" required="true" readonly="true">
+                
+                <div class="row">
+                  <div class="col-sm-3 my-1">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text font-weight-bold">MII</div>
+                      </div>
+                      <input type="text" class="form-control bg-white" readonly="true" value="<?=$santri['idk_mii']?>">
+                    </div>
+                  </div>
+                  <div class="col-sm-3 my-1">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text font-weight-bold">SMP</div>
+                      </div>
+                      <input type="text" class="form-control bg-white" value="<?=$santri['idk_umum']?>">
+                    </div>
+                  </div>
+                  <div class="col-sm-3 my-1">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text font-weight-bold">M A</div>
+                      </div>
+                      <input type="text" class="form-control bg-white" value="<?=$santri['idk_umum2']?>">
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div id="accordion">
@@ -163,11 +195,19 @@
                         <input type="number" class="form-control" name="semester_terima" value="<?= isset($d_santri['semester_terima']) ? $d_santri['semester_terima'] : null ?>">
                       </div>
                       <div class="form-group">
-                        <label for="hp_bapak">4. Nomor HP Bapak</label>
+                        <label for="induk_smp">4. Induk SMP</label>
+                        <input type="number" class="form-control" name="induk_smp" value="<?= isset($d_santri['semester_terima']) ? $d_santri['semester_terima'] : null ?>">
+                      </div>
+                      <div class="form-group">
+                        <label for="induk_ma">5. Induk MA</label>
+                        <input type="number" class="form-control" name="induk_ma" value="<?= isset($d_santri['semester_terima']) ? $d_santri['semester_terima'] : null ?>">
+                      </div>
+                      <div class="form-group">
+                        <label for="hp_bapak">6. Nomor HP Bapak</label>
                         <input type="number" class="form-control" name="hp_bapak" value="<?= isset($d_santri['hp_bapak']) ? $d_santri['hp_bapak'] : null ?>">
                       </div>
                       <div class="form-group">
-                        <label for="hp_ibu">5. Np HP Ibu</label>
+                        <label for="hp_ibu">7. Nomor HP Ibu</label>
                         <input type="number" class="form-control" name="hp_ibu" value="<?= isset($d_santri['hp_ibu']) ? $d_santri['hp_ibu'] : null ?>">
                       </div>
                     </div>

@@ -22,7 +22,7 @@
     	<div class="row">
     		<div class="col-lg mb-2">
 		        <div class="info-box bg-success">
-	              <span class="info-box-icon"><i class="far fa-calendar-alt"></i></span>
+	              	<span class="info-box-icon"><a href="<?= base_url('absensi/rekapPerCivitas')?>/1"><i class="far fa-calendar-alt"></i></a></span>
 	              <div class="info-box-content">
 	                <span class="info-box-number" style="font-size: 18px"><?= $jam; ?></span>
 	                <span class="progress-description" style="font-size: 18px">

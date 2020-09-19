@@ -234,6 +234,26 @@ class Absensi extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	public function rekapPerCivitas($asatid_id)
+	{
+		$data['judul'] = 'Rekap Kehadiran';
+
+		$jumlah_hari = 31;
+
+		for ($i=1; $i <= $jumlah_hari; $i++) { 
+			$hari_aktif [$i] = '2020/8/'.$i;
+		}
+
+		echo date('l',strtotime($hari_aktif[31]) );
+		echo date('N',strtotime($hari_aktif[31]) );
+
+		var_dump($hari_aktif);die();
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('absensi/kehadiran_civitas', $data);
+		$this->load->view('templates/footer');
+	}
+
 }
 
 /* End of file absensi.php */
