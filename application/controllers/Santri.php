@@ -153,6 +153,18 @@ class Santri extends CI_Controller {
 		$data['list_minat'] = $this->db->select('id_minat, nama_minat, kategori_minat')->order_by('kategori_minat','asc')->get('t_minat')->result();
 		$data['kategori'] = ['Alqur\'an','Kitab','Kesenian','Olahraga','Kepanduan','Lainnya'];
 
+		$email = $this->session->userdata('email');
+		$user_id = $this->um->dataAktif($email)['id_user'];
+		$rule = $this->um->multipleRule($user_id);
+
+		$data['readonly'] = true;
+
+		foreach ($rule as $r) {
+			if ($r['rule_id'] == 7 || $r['rule_id'] == 1) {
+				$data['readonly'] = false;
+			}
+		}
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/edit_santri', $data);
 		$this->load->view('templates/footer');
@@ -244,6 +256,8 @@ class Santri extends CI_Controller {
 		$daput = $this->input->post();
 
 		$ada = $this->km->adaDetail($daput['santri_id']);
+
+		var_dump($daput);die();
 
 		if ($ada > 0) {
 			$this->db->where('santri_id', $daput['santri_id']);

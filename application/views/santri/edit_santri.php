@@ -54,7 +54,7 @@
                       <div class="input-group-prepend">
                         <div class="input-group-text font-weight-bold">SMP</div>
                       </div>
-                      <input type="text" class="form-control bg-white" value="<?=$santri['idk_umum']?>">
+                      <input type="text" class="form-control bg-white" readonly="<?=$readonly?>" value="<?=$santri['idk_umum']?>">
                     </div>
                   </div>
                   <div class="col-sm-3 my-1">
@@ -62,7 +62,7 @@
                       <div class="input-group-prepend">
                         <div class="input-group-text font-weight-bold">M A</div>
                       </div>
-                      <input type="text" class="form-control bg-white" value="<?=$santri['idk_umum2']?>">
+                      <input type="text" class="form-control bg-white" value="<?=$santri['idk_umum2']?>" readonly="<?=$readonly?>">
                     </div>
                   </div>
                 </div>
@@ -194,14 +194,7 @@
                         <label for="semester_terima">3. Semester</label>
                         <input type="number" class="form-control" name="semester_terima" value="<?= isset($d_santri['semester_terima']) ? $d_santri['semester_terima'] : null ?>">
                       </div>
-                      <div class="form-group">
-                        <label for="induk_smp">4. Induk SMP</label>
-                        <input type="number" class="form-control" name="induk_smp" value="<?= isset($d_santri['semester_terima']) ? $d_santri['semester_terima'] : null ?>">
-                      </div>
-                      <div class="form-group">
-                        <label for="induk_ma">5. Induk MA</label>
-                        <input type="number" class="form-control" name="induk_ma" value="<?= isset($d_santri['semester_terima']) ? $d_santri['semester_terima'] : null ?>">
-                      </div>
+
                       <div class="form-group">
                         <label for="hp_bapak">6. Nomor HP Bapak</label>
                         <input type="number" class="form-control" name="hp_bapak" value="<?= isset($d_santri['hp_bapak']) ? $d_santri['hp_bapak'] : null ?>">
