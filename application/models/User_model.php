@@ -434,7 +434,7 @@ class User_model extends CI_Model {
 		return $status;
 	}
 	
-	public function generateNKH($tgl_awal_semester)
+	public function generateNKH($tgl_awal_semester,$id_kelas)
 	{
 		//$tgl_awal_semester = yyyymmhh;
 		$stringQ = " SELECT santri_id,id_mapel,id_kelas,
@@ -467,6 +467,7 @@ class User_model extends CI_Model {
 						ON a.`jurnal_id` = j.`id_jurnal` JOIN `t_kbm` k
 						ON j.`kbm_id` = k.`id_kbm`) AS datasemua
 					WHERE datasemua.tgl_unix > $tgl_awal_semester
+					AND datasemua.id_kelas = $id_kelas
 					GROUP BY datasemua.santri_id, datasemua.id_mapel, datasemua.id_kelas ";
 		return $this->db->query($stringQ)->result_array();
 	}

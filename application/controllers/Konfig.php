@@ -23,7 +23,7 @@ class Konfig extends CI_Controller {
 			'Import data walikelas genap dari data ganjil' => base_url('konfig/aturwali'),
 			'Mengajar' => 0,
 			'Tahun Ajaran' => 0,
-			'Hitung nilai Kehadiran' => base_url('konfig/hitungNkh'),
+			'Hitung nilai Kehadiran' => base_url('penilaian/hitungNilaiKehadiran'),
 			'Ambil nilai ijazah untuk nilai raport' => 0,
 			'Ambil nilai serumpun' => 0,
 			'Pilih fontawesome' => base_url('konfig/pilihFontawesome')
@@ -112,12 +112,12 @@ class Konfig extends CI_Controller {
 		var_dump($x);
 	}
 
-	public function hitungNkh()
+	public function hitungNkh($id_kelas)
 	{
-		ini_set('max_execution_time', 1200);
+		ini_set('max_execution_time', 0);
 
 		$tgl_awal_semester = 20200613;
-		$q = $this->um->generateNKH($tgl_awal_semester);
+		$q = $this->um->generateNKH($tgl_awal_semester,$id_kelas);
 		$id_tahun = $this->tahunAktif['id_tahun'];
 
 		foreach ($q as $v) {
@@ -149,14 +149,21 @@ class Konfig extends CI_Controller {
 			}
 		}
 
+		$data_hitung = [
+			'kelas_id' => $v['id_kelas'],
+			'waktu' => time()
+		];
+
+		$this->db->replace('t_waktu_hitung', $data_hitung);
+
 		$this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">
-		  <h4 class="alert-heading">Well done!</h4>
-		  <p>Aww yeah, Penghitungan Nilai Kehadiran sudah dilakukan.</p>
+		  <h4 class="alert-heading">Alhamdilllah!</h4>
+		  <p>Mantaps, Penghitungan Nilai Kehadiran untuk kelas: '.$this->um->showNamaKelas($v['id_kelas'])['nama_kelas'].' berhasil dilakukan.</p>
 		  <hr>
 		  <p class="mb-0">Perhitungan dimulai dari tanggal '.$tgl_awal_semester.'</p>
 		</div>');
 
-		redirect('konfig','refresh');
+		redirect('penilaian/hitungNilaiKehadiran','refresh');
 	}
 
 }

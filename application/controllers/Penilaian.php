@@ -19,6 +19,18 @@ class Penilaian extends CI_Controller {
 		$this->dashboard();
 	}
 
+	public function hitungNilaiKehadiran()
+	{
+		$data['judul'] = "Menghitung nilai kehadiran";
+		$this->db->order_by('nama_kelas', 'asc');
+		$data['kelas'] = $this->db->get_where('m_kelas', ['active'=> 1])->result_array();
+		$data['terakhir_hitung'] = $this->db->get('t_waktu_hitung')->result_array();
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('penilaian/hitungNilaiKehadiran', $data);
+		$this->load->view('templates/footer');
+	}
+
 	function enk()
 	{
 		$string = 'Indy Nuhaa Mardzia';
