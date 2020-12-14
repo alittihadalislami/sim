@@ -25,7 +25,8 @@
               <div class="card-header">
                 <h3 class="card-title">Keseluruhan Santri</h3>
                 <?php if ($rule_id == 1): ?>
-                  <a href="<?= base_url()?>santri/setKelasManual" class="float-right tambah"><i class="fas fa-plus text-success"></i> Set kelas santri manual</a> 
+                  <a href="<?= base_url()?>santri/setKelasManual" class="float-right tambah"><i class="fas fa-plus text-success"></i> Set kelas santri manual</a><br>
+                  <a href="<?= base_url()?>santri/setKelasManual" class="float-right tambah"><i class="fas fa-plus text-success"></i> Menejemen nomor induk</a> 
                 <?php endif ?>
               </div>
               
@@ -52,11 +53,16 @@
                         <?php 
                           $detail = $this->db->get_where('t_detail_santri', ['santri_id'=> $str['id_santri'] ])->row_array();
 
-                          if(strlen($detail['nama_seijazah']) > 3 ){
-                            $nama_fix = $detail['nama_seijazah'];
-                          } else{
+                          if ($detail) {
+                            if(strlen($detail['nama_seijazah']) > 3 ){
+                              $nama_fix = $detail['nama_seijazah'];
+                            }else{
+                              $nama_fix = $str['nama_santri'];
+                            }  
+                          }else{
                             $nama_fix = $str['nama_santri'];
                           }
+
                         ?>
                         <td><?= $nama_fix;?></td>
                         <td><?= $str['nama_kelas'];?></td>

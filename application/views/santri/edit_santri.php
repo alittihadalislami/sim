@@ -31,7 +31,11 @@
           <div class="card-body">
             
             <form action="<?= base_url('santri/ubah_santri') ?>" method="post">
-
+                <div class="row">
+                  <div class="col-md-12">
+                    <a href="<?= base_url("santri/sinkronDataPsb/").$santri['id_santri'] ?>" class="btn btn-warning btn-sm float-right"><i class="fa fa-edit"></i> Sinkron data psb</a href="">
+                  </div>
+                </div>
               <div class="form-group">
                 <label for="asatid">Nama Santri</label>
                 <input type="text" class="form-control" style="font-weight: bold; font-size: 20px; color: black" value="<?=$santri['nama_santri']?>" required="true" readonly="true">

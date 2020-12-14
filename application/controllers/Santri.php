@@ -17,11 +17,14 @@ class Santri extends CI_Controller {
 	public function perkelas()
 	{
 		$data['judul'] = 'Dashboard Santri';
+		$id_kelas = $this->cekWali();
 
-		$id_kelas = $this->cekWali()['kelas_id'];
+		if ($id_kelas != null) {
+			$id_kelas = $id_kelas['kelas_id'];
+		}
+
 		$data['santri'] = $this->km->santri($this->tahunAktif, $id_kelas)->result_array();
 		$data['detail_terisi']=$this->km->detailTerisi();
-
 		$email = $this->session->userdata('email');
 	    $dataAktif = $this->um->dataAktif($email);
 	    $user_id = $dataAktif['id_user'];
@@ -257,8 +260,6 @@ class Santri extends CI_Controller {
 
 		$ada = $this->km->adaDetail($daput['santri_id']);
 
-		var_dump($daput);die();
-
 		if ($ada > 0) {
 			$this->db->where('santri_id', $daput['santri_id']);
 			$this->db->update('t_detail_santri', $daput);
@@ -415,6 +416,50 @@ class Santri extends CI_Controller {
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/rekap', $data);
+		$this->load->view('templates/footer');
+	}
+
+
+	public function sinkronDataPsb()
+	{
+		$data['judul'] = "Singkron data PSB";
+
+		$data['list_detail'] = [
+			"dukcapil" => [
+				"1. No Induk Kependudukan (DUKCAPIL)",
+				"2. No Kartu Keluarga (DUKCAPIL)",
+				"3. Anak Ke",
+				"4. Jumlah Saudara",
+				"5. Nama Bapak",
+				"6. Pekerjaan Bapak",
+				"7. Nama Ibu",
+				"8. Pekerjaan Ibu",
+				"9. Alamat orang tua"],
+			"ijazah" => [
+				"1. Nama Santri sesuai IJAZAH",
+				"2. Tempat Lahir",
+				"3. Tanggal Lahir",
+				"4. Nama Bapak sesuai IJAZAH",
+				"5. NISN",
+				"6. Nomor Peserta Ujian",
+				"7. Jumlah Nilai Ijazah",
+				"8. No Seri Ijazah",
+				"9. No Seri SKHUN",
+				"10. Tahun Ijazah/SKHUN",
+				"11. Nama sekolah asal",
+				"12. NPSN sekolah asal"
+				],
+			"psb"=> [
+				"1. Diterima tanggal",
+				"2. Kelas",
+				"3. Semester",
+				"6. Nomor HP Bapak",
+				"7. Nomor HP Ibu"
+			]
+		];
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('santri/sinkronDataPsb', $data);
 		$this->load->view('templates/footer');
 	}
 
