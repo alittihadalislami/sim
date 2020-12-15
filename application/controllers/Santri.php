@@ -155,6 +155,18 @@ class Santri extends CI_Controller {
 		$data['d_santri'] = $this->db->get_where('t_detail_santri', ['santri_id'=>$santri_id])->row_array();
 		$data['list_minat'] = $this->db->select('id_minat, nama_minat, kategori_minat')->order_by('kategori_minat','asc')->get('t_minat')->result();
 		$data['kategori'] = ['Alqur\'an','Kitab','Kesenian','Olahraga','Kepanduan','Lainnya'];
+		
+		$nik_santri = null;	
+		if (isset($data['d_santri']['nik'])){
+			$nik_santri = $data['d_santri']['nik'];
+			$data['nik_psb'] = $this->db->get_where('p_pendaftaran', ['nik'=>$nik_santri])->row_array();
+			if (isset($data['nik_psb']['nik'])) {
+				$nik_santri = strlen($data['nik_psb']['nik'])==16 ? $data['nik_psb']['nik'] : null ;
+			}else{
+				$nik_santri = null;
+			}
+		}
+		$data['nik_ada_lengkap'] = $nik_santri;	
 
 		$email = $this->session->userdata('email');
 		$user_id = $this->um->dataAktif($email)['id_user'];
@@ -420,7 +432,7 @@ class Santri extends CI_Controller {
 	}
 
 
-	public function sinkronDataPsb()
+	public function sinkronDataPsb($nik_santri)
 	{
 		$data['judul'] = "Singkron data PSB";
 
@@ -457,6 +469,48 @@ class Santri extends CI_Controller {
 				"7. Nomor HP Ibu"
 			]
 		];
+
+		$data['atribut'] = [
+			"dukcapil" => [
+				"nik"=>'nik',
+				"nok"=>'nok',
+				"anak_ke"=>'anak_ke',
+				"jml_saudara"=>'',
+				"bapak"=>'',
+				"kerja_bapak"=>'',
+				"Ibu"=>'',
+				"kerja_ibu"=>'',
+				"alamat_ortu"=>''
+			],
+			"ijazah" => [
+				"nama_seijazah"=>'',
+				"tmp_lahir"=>'',
+				"tgl_lahir"=>'',
+				"bapak_seijazah"=>'',
+				"nisn"=>'',
+				"no_ujian"=>'',
+				"nilai_ijazah"=>'',
+				"seri_ijazah"=>'',
+				"seri_skhun"=>'',
+				"tahun_ijazah"=>'',
+				"sekolah_asal"=>'nama_sekolah_asal',
+				"npsn"=>''
+				],
+			"psb"=> [
+				"tgl_terima"=>'',
+				"kelas_terima"=>'',
+				"semester_terima"=>'',
+				"hp_bapak"=>'',
+				"hp_ibu"=>''
+			]
+		];
+
+		$data['psb'] = $this->db->get_where('p_pendaftaran', ['nik'=>$nik_santri])->row_array();
+		$data['d_santri'] = $this->db->get_where('t_detail_santri', ['nik'=>$nik_santri])->row_array();
+
+		// var_dump($data['psb']);
+		// var_dump($data['d_santri']);
+
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/sinkronDataPsb', $data);

@@ -41,17 +41,26 @@
                       <th width="10%">Aksi</th>
                     </tr>
                   </thead>
-                    <?php foreach ($list_detail as $ld): ?>
-                      <?php foreach ($ld as $list): ?>                
+                  <?php 
+                    $keys = array_keys($list_detail);
+                    var_dump($atribut['dukcapil']['nik']);
+                  ?>
+                    <?php for ($i=0;$i<3;$i++) : ?>
+                      <?php $banyak = count($list_detail[$keys[$i]]) ?>
+                      <?php for ($j=0;$j<$banyak;$j++) : ?>
+                        <?php
+                          $keys2 = array_keys($atribut[$keys[$i]]);
+                          $sim = $atribut[$keys[$i]][$keys2[$j]] != null ? $atribut[$keys[$i]][$keys2[$j]] : $keys2[$j] ;
+                         ?>
                         <tr>
-                          <td><?= $list ?></td>
-                          <td></td>
-                          <td></td>
-                          <td>xx</td>
+                          <td><?= $list_detail[$keys[$i]][$j] ?></td>
+                          <td><?= $keys2[$j]  ?></td>
+                          <td><?= $keys[$i]?></td>
+                          <td><?=var_dump($sim) ?></td>
                           <td>ambil data</td>
-                        </tr>
-                      <?php endforeach ?>
-                    <?php endforeach ?>
+                        </tr> 
+                      <?php endfor ?>
+                    <?php endfor ?>
                   <tbody>
                   </tbody>
                   </table>

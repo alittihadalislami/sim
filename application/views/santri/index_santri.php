@@ -26,7 +26,7 @@
                 <h3 class="card-title">Keseluruhan Santri</h3>
                 <?php if ($rule_id == 1): ?>
                   <a href="<?= base_url()?>santri/setKelasManual" class="float-right tambah"><i class="fas fa-plus text-success"></i> Set kelas santri manual</a><br>
-                  <a href="<?= base_url()?>santri/setKelasManual" class="float-right tambah"><i class="fas fa-plus text-success"></i> Menejemen nomor induk</a> 
+                  <a href="<?= base_url()?>santri/pengaturanNomorInduk" class="float-right tambah"><i class="fas fa-plus text-success"></i> Menejemen nomor induk</a> 
                 <?php endif ?>
               </div>
               

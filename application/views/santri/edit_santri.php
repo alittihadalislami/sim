@@ -33,7 +33,15 @@
             <form action="<?= base_url('santri/ubah_santri') ?>" method="post">
                 <div class="row">
                   <div class="col-md-12">
-                    <a href="<?= base_url("santri/sinkronDataPsb/").$santri['id_santri'] ?>" class="btn btn-warning btn-sm float-right"><i class="fa fa-edit"></i> Sinkron data psb</a href="">
+                    <?php 
+                      if ($d_santri){
+                        $nik_valid = (strlen($d_santri['nik'])) == 16;
+                      }else{
+                        $nik_valid = false;
+                      }
+                      $button_active = $nik_valid && $nik_ada_lengkap ? "" : "disabled";
+                    ?>
+                    <a href="<?= base_url("santri/sinkronDataPsb/").$d_santri['nik']?>" class="btn btn-warning btn-sm float-right <?= $button_active ?>" id="singkronPsb"><i class="fa fa-edit"></i> Sinkron data psb</a href="">
                   </div>
                 </div>
               <div class="form-group">
@@ -82,7 +90,7 @@
                     <div class="card-body">
                       <div class="form-group">
                         <label for="nik">1. No Induk Kependudukan (DUKCAPIL)</label>
-                        <input type="number" class="form-control" name="nik" value="<?= isset($d_santri['nik']) ? $d_santri['nik'] : null ?>">
+                        <input type="number" class="form-control" id="nik" name="nik" value="<?= isset($d_santri['nik']) ? $d_santri['nik'] : null ?>">
                       </div>
                       <div class="form-group">
                         <label for="nok">2. No Kartu Keluarga (DUKCAPIL)</label>
@@ -503,6 +511,11 @@
       $('#collapse4').addClass('show')
       window.location.href = "";
     })
+
+    // $("#nik").on("keyup", function(e) {
+    //   nik = $("#nik").val()
+    //   console.log(nik.length)
+    // })
 
 
   })
