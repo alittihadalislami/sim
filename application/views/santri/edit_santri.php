@@ -41,7 +41,7 @@
                       }
                       $button_active = $nik_valid && $nik_ada_lengkap ? "" : "disabled";
                     ?>
-                    <a href="<?= base_url("santri/sinkronDataPsb/").$d_santri['nik']?>" class="btn btn-warning btn-sm float-right <?= $button_active ?>" id="singkronPsb"><i class="fa fa-edit"></i> Sinkron data psb</a href="">
+                    <a href="<?= base_url("santri/sinkronDataPsb/").$d_santri['nik']?>" class="btn btn-warning btn-sm float-right <?= $button_active ?>" id="singkronPsb"><i class="fas fa-cloud-download-alt"></i> Sinkron data psb</a href="">
                   </div>
                 </div>
               <div class="form-group">
