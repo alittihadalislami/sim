@@ -403,9 +403,10 @@
     			</tr>
 			    <?php $no=1; foreach ($kel2 as $k2): ?>
 			    <?php $kkm = $this->rm->kkm($rombel, $k2, $this->tahunAktif['id_tahun']) ?>
+			    <?php $mapel = $dkn[$id_santri]['nilai'][$k2]['nama_mapel'] ?>
 				<tr>
 					<td><?= $no++ ?></td>
-					<td><?= $dkn[$id_santri]['nilai'][$k2]['nama_mapel'] ?><br><p class="kkm">KKM:<?=$kkm ?></p></td>
+					<td><?= $mapel == "Al-Qur'an" ? "Mulok <br>(Tahfidz Al-Qur'an)" : $mapel  ?><br><p class="kkm">KKM:<?=$kkm ?></p></td>
 					<td><?= $dkn[$id_santri]['nilai'][$k2]['p'] ?></td>
 					<td><?= $CI->hitungPredikat($dkn[$id_santri]['nilai'][$k2]['p'], $kkm)[0] ?></td>
 					<td class="teks isi-deskrip"><?= $CI->desBaru($dkn[$id_santri]['nilai'][$k2]['p'], $kkm, $id_santri, $id_kelas, $k2, 'p') ?></td>
@@ -416,25 +417,14 @@
 				</tr>
 			    <?php endforeach ?>
     			<tr>
-    			    <?php $kkm = $this->rm->kkm($rombel, 22, $this->tahunAktif['id_tahun']) ?>
-    				<td>4</td>
-    				<td>Keterampilan<br><p class="kkm">KKM:<?=$kkm ?></p></td>
-    				<td><?= $dkn[$id_santri]['nilai'][22]['p'] ?></td>
-    				<td><?= $CI->hitungPredikat($dkn[$id_santri]['nilai'][22]['p'], $kkm)[0] ?></td>
-    				<td class="teks isi-deskrip"><?= $CI->desBaru($dkn[$id_santri]['nilai'][22]['p'], $kkm, $id_santri, $id_kelas, 22, 'p') ?></td>
-    
-    				<td><?= $dkn[$id_santri]['nilai'][22]['k'] ?></td>
-    				<td><?= $CI->hitungPredikat($dkn[$id_santri]['nilai'][22]['k'], $kkm)[0] ?></td>
-    				<td class="teks isi-deskrip"><?= $CI->desBaru($dkn[$id_santri]['nilai'][22]['k'], $kkm, $id_santri, $id_kelas, 22, 'k') ?></td>
-    			</tr>
-    			<tr>
     				<td colspan="8">Kelompok C (Peminatan)</td>
     			</tr>
 			    <?php $no=1; foreach ($kel3 as $k3): ?>
 			    <?php $kkm = $this->rm->kkm($rombel, $k3, $this->tahunAktif['id_tahun']) ?>
 				<tr>
 					<td><?=$no++?></td>
-					<td><?= $dkn[$id_santri]['nilai'][$k3]['nama_mapel'] ?><br><p class="kkm">KKM:<?=$kkm ?></p></td>
+					<?php $mapel = $dkn[$id_santri]['nilai'][$k3]['nama_mapel']; ?>
+					<td><?= $mapel?><br><p class="kkm">KKM:<?=$kkm ?></p></td>
 					<td><?= $dkn[$id_santri]['nilai'][$k3]['p'] ?></td>
 					<td><?= $CI->hitungPredikat($dkn[$id_santri]['nilai'][$k3]['p'], $kkm)[0] ?></td>
 					<td class="teks isi-deskrip"><?= $CI->desBaru($dkn[$id_santri]['nilai'][$k3]['p'], $kkm, $id_santri, $id_kelas, $k3, 'p') ?></td>
@@ -537,7 +527,7 @@
 
 		<div class="ttd">
 			<div class="cf" style='text-align:right; margin-right: 20px'>
-				Sampang, 20 Juni 2020
+				Sampang, 19 Desember 2020
 			</div>
 			<br><br>
 			<?php if ($semester == 1 ): ?>

@@ -39,14 +39,28 @@
                     <a class="btn btn-success" href="<?=base_url('penilaian/cetakmii/').$sa['id_santri'].'/'.$id_kelas?>"><?=$sa['nama_santri'];?></a>
                   </td>
                   <?php if ($raport_umum != null): ?>
-                  <?php $siap = $this->um->siapPrint($sa['id_santri'],$this->tahunAktif['id_tahun']); ?>
+                    <?php $siap = $this->um->siapPrint($sa['id_santri'],$this->tahunAktif['id_tahun']); 
+                      $is_Konfersi = $this->rm->sudahAdaKonfersi($id_kelas,$this->tahunAktif['id_tahun']);
+                             
+                      // mau mendisablekan button
+                      if ($is_Konfersi == null) {
+                        $disable_button = true;
+                      } else{
+                        if ($siap < 3 ) {
+                            $disable_button = true;
+                        }else{
+                            $disable_button = false;
+                        }
+                      }
+                    ?>
                     <td>
                         <?php if ($raport_umum == 'SMP' ): ?>
                           <!-- <a style="margin-left: 10px;" class="btn btn-primary" href="<?=base_url('raport/cetaksmp/').$sa['id_santri'].'/'.$id_kelas?>"><?= $sa['nama_santri']?></a> -->
-                          <a style="margin-left: 10px;" target="_blank" class="btn btn-outline-primary <?= $siap < 3 ? 'disabled' : '' ?>" href="<?=base_url('raport/pdfsmp/').$sa['id_santri'].'/'.$id_kelas?>"> <i class="fa fa-file-pdf text-danger"></i> <?= $sa['nama_santri'] ?></a>
+                          <a style="margin-left: 10px;" target="_blank" class="btn btn-outline-primary <?= $disable_button ? 'disabled' : '' ?>" href="<?=base_url('raport/pdfsmp/').$sa['id_santri'].'/'.$id_kelas?>"> <i class="fa fa-file-pdf text-danger"></i> <?= $sa['nama_santri'] ?></a>
                         <?php endif ?>
                         <?php if ($raport_umum == 'MA' ): ?>
-                          <a style="margin-left: 10px;" target="_blank" class="btn btn-outline-primary <?= $siap < 3 ? 'disabled' : '' ?>" href="<?=base_url('raport/pdfma/').$sa['id_santri'].'/'.$id_kelas?>"> <i class="fa fa-file-pdf text-danger"></i> <?= $sa['nama_santri'] ?></a>
+                          <a style="margin-left: 10px;" target="_blank" class="btn btn-outline-primary <?= $disable_button ? 'disabled' : '' ?>" href="<?=base_url('raport/pdfma/').$sa['id_santri'].'/'.$id_kelas?>"> <i class="fa fa-file-pdf text-danger"></i> <?= $sa['nama_santri']
+                          ?></a>
                         <?php endif ?>
                     </td>
                   <?php endif ?> 

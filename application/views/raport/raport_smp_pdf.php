@@ -397,7 +397,7 @@
 					Mengetahui,
 				</div>
 				<div class="bagi-dua" style="margin-top: 0; margin-right: 100px ">
-					Sampang, 20 Juni 2020
+					Sampang, 19 Desember 2020
 				</div>
 			</div>
 			<?php if ($semester == 1): ?>

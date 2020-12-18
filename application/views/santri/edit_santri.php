@@ -196,7 +196,7 @@
                     <div class="card-body">
                       <div class="form-group">
                         <label for="tgl_terima">1. Diterima tanggal</label>
-                        <input type="date" name="tgl_terima" max="2019-12-31" min="1990-01-01" class="form-control" value="<?= isset($d_santri['tgl_terima']) ? $d_santri['tgl_terima'] : null ?>">
+                        <input type="date" name="tgl_terima" class="form-control" value="<?= isset($d_santri['tgl_terima']) ? $d_santri['tgl_terima'] : null ?>">
                       </div>
                       <div class="form-group">
                         <label for="kelas_terima">2. Kelas</label>

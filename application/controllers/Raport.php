@@ -155,7 +155,7 @@ class Raport extends CI_Controller {
 		$id_asatid = $this->cekwali()['asatid_id'];
 
 		$data['kel1'] = [20,5,4,17,36,6];
-		$data['kel2'] = [22,19,37,38,37];
+		$data['kel2'] = [22,19,38,37];
 		$data['kel3'] = [13,10,29,41,2,42,28]; 
 
 		/*
@@ -193,14 +193,6 @@ class Raport extends CI_Controller {
 		$data['kelas_baru'] = $this->naikke($data['kelas']['nama_kelas']);
 
 		$data['dkn'] = $this->siapkanNilai($id_kelas,$jenjang);
-
-		// unset($data['dkn'][$santri]['nilai'][41]); //buang ilmu kalam id 41
-		
-
-		// $data['dkn'] = [$santri => $data['dkn'][$santri]];
-
-		// var_dump($data['dkn']);die();
-
 
 		$namafile = "Raport-MA Al Ittihad-".$data['santri']."-".$data['kelas']['nama_kelas']."-s".$data['semester'].'_'.$data['tahun'];
 
@@ -888,9 +880,12 @@ class Raport extends CI_Controller {
 		if ($jt['jenjang'] < 2) {
 			$data['jenjang'] = 'Sekolah';
 			$data['kepala'] = 'Mudhar, S.Pd.';
+			$data['niy'] = '940613051';
 		}else{
 			$data['jenjang'] = 'Madrasah';
 			$data['kepala'] = 'Mughni Musa, Lc., M.Ag.';
+			$data['niy'] = '940613009';
+
 		}
 
 		if ($jt['tra_tri'] == 'tri') {

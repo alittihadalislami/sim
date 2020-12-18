@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 style="text-align: center;">IDENTIAS SANTRI</h1>
+          <h1 style="text-align: center;">IDENTITAS SANTRI</h1>
         </div>
       </div>
     </div><!-- /.container-fluid -->
@@ -46,7 +46,7 @@
            </table>
            <br>
            <div class="kepala" style="font-size: 17px; margin-left: 450px"> 
-                <div>Sampang, 15 Juli 2019</div>
+                <div>Sampang, 15 Juli 2020</div>
                 <div>Mengetahui,</div>
                 <div>Mudir Ma'had</div>
                 <div style="margin-top: 90px; font-weight: bold;">Dr. Achmad Junaidi, Lc., MA.</div>
@@ -107,10 +107,12 @@
            </table>
            <br>
            <div class="kepala" style="font-size: 17px; margin-left: 450px"> 
-                <div>Sampang, 15 Juli 2019</div>
+                <div>Sampang, 15 Juli 2020</div>
                 <div>Mengetahui,</div>
                 <div>Kepala <?= $jenjang ?></div>
-                <div style="margin-top: 90px; font-weight: bold;"><?= $kepala ?></div>
+                <div style="margin-top: 90px; font-weight: bold;"><?= $kepala ?>
+                </div>
+                <div>NIY. <?= $niy ?></div>
            </div>
         </div>
       </div>
