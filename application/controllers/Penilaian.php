@@ -973,6 +973,8 @@ class Penilaian extends CI_Controller {
 		$filter_kelas = $this->cekwali()['kelas_id'];
 
 		$data['at_wali'] = $this->um->showNamaWali($filter_kelas,$tahun_id)['nama_asatid'];
+
+		$data['nama_di_detail'] = $this->db->get_where('t_detail_santri', ['santri_id'=> $id])->row_array()['nama_seijazah'];
 		
 		$data['at_kelas'] = $this->um->showNamaKelas($na[0]["kelas_id"])['nama_kelas'];
 		$data['at_santri'] = $this->um->showNamasantri($na[0]["santri_id"]);

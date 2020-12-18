@@ -111,7 +111,11 @@
                 <div class="arab1"><?=$domir['santri'];?></div><div>Nama Santri</div>
                 </td>
                 <td>:</td>
-                <td dir="ltr" style="font-size: 19px"><?= $at_santri['nama_santri'] ?></td>
+                <td dir="ltr" style="font-size: 19px">
+                  <?php 
+                    echo strlen($nama_di_detail) > 3 ? $nama_di_detail : $at_santri['nama_santri'];
+                  ?>
+                </td>
               <td>
                 <div class="arab1">الصف / الفصل الدراسي</div><div>Semester/Kelas</div>
                 <td>:</td>

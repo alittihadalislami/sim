@@ -103,8 +103,19 @@ class Raport extends CI_Controller {
 
 		$id_asatid = $this->cekwali()['asatid_id'];
 
+		//nama fix santri dari table detail atau dari tabel santri
+		$detail = $this->db->get_where('t_detail_santri', ['santri_id'=> $id_santri])->row_array();
+	    if ($detail) {
+	        if(strlen($detail['nama_seijazah']) > 3 ){
+	          	$data['nama'] = $detail['nama_seijazah'];
+	        }else{
+	          	$data['nama'] = $this->um->showNamaSantri($id_santri)['nama_santri'];
+	        }  
+	    }else{
+			$data['nama'] = $this->um->showNamaSantri($id_santri)['nama_santri'];
+	    }
 
-		$data['nama'] = $this->um->showNamaSantri($id_santri)['nama_santri'];
+		
 		$data['wali'] = $this->um->showNamaAsatid($id_asatid);
 		$data['nis'] = $this->rm->nomorSantri($id_santri)['idk_umum'];
 		$data['nisn'] = $this->rm->nomorSantri($id_santri)['nisn'];
@@ -144,14 +155,33 @@ class Raport extends CI_Controller {
 		$id_asatid = $this->cekwali()['asatid_id'];
 
 		$data['kel1'] = [20,5,4,17,36,6];
-		$data['kel2'] = [22,19,28];
-		$data['kel3'] = [13,10,29,41,2,42,24,18];
+		$data['kel2'] = [22,19,37,38,37];
+		$data['kel3'] = [13,10,29,41,2,42,28]; 
 
-		if ($rombel == 6) {
-			$data['kel3'][6] = 7; //jika kelas 6 ubah idmapel menjadi balaghoh
-		}
+		/*
+		24: Sharaf
+		18: Nahwu
+		*/
 
-		$data['santri'] = $this->um->showNamaSantri($id_santri)['nama_santri'];
+		unset($data['kel3'][3]);//buang id ke 3 (41:ilmu kalam)
+
+		// if ($rombel == 6) {
+		// 	$data['kel3'][6] = 7; //jika kelas 6 ubah idmapel menjadi balaghoh
+		// }
+
+		//nama fix santri dari table detail atau dari tabel santri
+		$detail = $this->db->get_where('t_detail_santri', ['santri_id'=> $id_santri])->row_array();
+
+	    if ($detail) {
+	        if(strlen($detail['nama_seijazah']) > 3 ){
+	          	$data['santri'] = $detail['nama_seijazah'];
+	        }else{
+	          	$data['santri'] = $this->um->showNamaSantri($id_santri)['nama_santri'];
+	        }  
+	    }else{
+			$data['santri'] = $this->um->showNamaSantri($id_santri)['nama_santri'];
+	    }
+
 		$data['wali'] = $this->um->showNamaAsatid($id_asatid);
 		$data['nis'] = $this->rm->nomorSantri($id_santri)['idk_umum'];
 		$data['nisn'] = $this->rm->nomorSantri($id_santri)['nisn'];
@@ -164,9 +194,17 @@ class Raport extends CI_Controller {
 
 		$data['dkn'] = $this->siapkanNilai($id_kelas,$jenjang);
 
+		// unset($data['dkn'][$santri]['nilai'][41]); //buang ilmu kalam id 41
+		
+
+		// $data['dkn'] = [$santri => $data['dkn'][$santri]];
+
+		// var_dump($data['dkn']);die();
+
+
 		$namafile = "Raport-MA Al Ittihad-".$data['santri']."-".$data['kelas']['nama_kelas']."-s".$data['semester'].'_'.$data['tahun'];
 
-// 		$this->load->view('raport/raport_ma_pdf',$data); die();
+		// $this->load->view('raport/raport_ma_pdf',$data); die();
 
 		$this->load->library('pdf');
 
@@ -608,7 +646,7 @@ class Raport extends CI_Controller {
 		}
 
 		$this->session->set_flashdata('pesan', [$kelas,$jenjang]);
-		// redirect('raport/showDknRaport/'.$kelas,'refresh');
+		redirect('raport/showDknRaport/'.$kelas,'refresh');
 	}
 
 	public function nilai($kelas)
