@@ -688,6 +688,7 @@ class Penilaian extends CI_Controller {
 
 	function dashboard()
 	{
+		
 		$data['judul'] = 'Dashboard Penilaian';
 		$data['tahunAktif'] = $this->tahunAktif['id_tahun']; //tahun aktif ajaran saat ini.
 
@@ -811,8 +812,9 @@ class Penilaian extends CI_Controller {
 
 	public function legerNilai(){
 
-	   	$limit = ini_get('memory_limit');
-	   	ini_set('memory_limit', -1);
+	   	ini_set('memory_limit', '-1');
+
+	   	// phpinfo();die();
 
 		$nohp = $this->um->dataAktif($this->session->userdata('email'))['nohp'];
 		$id_asatid = $this->um->idAsatid($nohp)['id_asatid'];
