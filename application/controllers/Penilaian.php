@@ -883,7 +883,6 @@ class Penilaian extends CI_Controller {
 		$this->load->view('penilaian/leger_nilai');
 		$this->load->view('templates/footer');
 
-		ini_set('memory_limit', $limit);
 	}
 
 	public function LegerNilaiAll($filter_kelas){
