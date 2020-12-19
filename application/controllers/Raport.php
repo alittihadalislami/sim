@@ -156,14 +156,14 @@ class Raport extends CI_Controller {
 
 		$data['kel1'] = [20,5,4,17,36,6];
 		$data['kel2'] = [22,19,38,37];
-		$data['kel3'] = [13,10,29,41,2,42,28]; 
+		$data['kel3'] = [13,10,29,2,42,28]; 
 
 		/*
 		24: Sharaf
 		18: Nahwu
 		*/
 
-		unset($data['kel3'][3]);//buang id ke 3 (41:ilmu kalam)
+		//unset($data['kel3'][3]);//buang id ke 3 (41:ilmu kalam)
 
 		// if ($rombel == 6) {
 		// 	$data['kel3'][6] = 7; //jika kelas 6 ubah idmapel menjadi balaghoh

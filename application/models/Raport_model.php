@@ -19,21 +19,21 @@ class Raport_model extends CI_Model {
 					ON u.`mapel_id` = m.`id_mapel`
 					WHERE u.`urut_$jenjang` IS NOT NULL
 					ORDER BY u.`urut_$jenjang`";
-		$mapel =  $this->db->query($stringQ)->result_array();
+		return $mapel =  $this->db->query($stringQ)->result_array();
 
-		if ($jenjang == 'ma')
-		{
-			if ($rombel == 6 ) 
-			{	
-				unset($mapel[19]);//hapus sharaf
-				return array_values($mapel);
-			}else{
-				unset($mapel[20]);//hapus balaghah
-				return array_values($mapel);
-			}
-		}else{
-			return $mapel;
-		}
+		// if ($jenjang == 'ma')
+		// {
+		// 	if ($rombel == 6 ) 
+		// 	{	
+		// 		unset($mapel[19]);//hapus sharaf
+		// 		return array_values($mapel);
+		// 	}else{
+		// 		unset($mapel[20]);//hapus balaghah
+		// 		return array_values($mapel);
+		// 	}
+		// }else{
+		// 	return $mapel;
+		// }
 		
 	}
 
