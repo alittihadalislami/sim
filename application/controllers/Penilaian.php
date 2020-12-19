@@ -812,7 +812,7 @@ class Penilaian extends CI_Controller {
 
 	public function legerNilai(){
 
-	   	ini_set('memory_limit', '-1');
+	   	ini_set('memory_limit', '1024M');
 
 	   	// phpinfo();die();
 
