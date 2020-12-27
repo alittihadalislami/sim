@@ -266,9 +266,48 @@ class Santri extends CI_Controller {
 		$this->db->where('id_minat',$id)->delete('t_minat');
 	}
 
+	function removeWhiteSpace($text)
+	{
+	    $text = preg_replace('/[\t\n\r\0\x0B]/', '', $text);
+	    $text = preg_replace('/([\s])\1+/', ' ', $text);
+	    $text = ucwords(strtolower(trim($text)));
+	    return $text;
+	}
+
+	function cleanString($text)
+	{
+	    $text = preg_replace('/[\t\n\r\0\x0B]/', ' ', $text);
+	    $text = preg_replace('/([\s])\1+/', ' ', $text);
+	    $text = str_replace(' : ', ' ', $text);
+	    $text = str_replace('Alamat', '', $text);
+
+	    $text = ucwords(strtolower(trim($text)));
+	    return $text;
+	}
+
+	public function ubahNamaDidetailSantri()
+	{
+		// $this->db->select('');
+		// $this->db->get('t_detail_santri');
+
+		$alamat = " Alamat         : DSN. Benteng Baru
+					Desa              : Sambakati
+					Kecamatan : Arjasa
+					Kebupaten  : Sumenep
+					Procinsi.       : Jawa Timur   ";
+		echo $this->cleanString($alamat);
+
+	}
+
 	public function ubah_santri()
 	{
 		$daput = $this->input->post();
+
+		//buang spasi dan huruf kapital
+		if ($daput['nama_seijazah'] != null) {
+			$clean_nama = $this->removeWhiteSpace($daput['nama_seijazah']);
+			$daput['nama_seijazah'] = $clean_nama;
+		}
 
 		$ada = $this->km->adaDetail($daput['santri_id']);
 
