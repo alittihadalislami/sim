@@ -11,6 +11,7 @@ class Absensi_model extends CI_Model {
 					ON m.`id_mapel` = k.`id_mapel` JOIN m_kelas l
 					ON l.`id_kelas` = k.`id_kelas`
 					WHERE k.`hari` = '$hari' AND a.`id_asatid` = '$asatid_id' AND k.`id_tahun` = $tahun_id
+					GROUP BY k.`id_asatid`,k.`id_kelas`,k.`id_mapel`,k.`hari`,k.`jamke`,k.`id_tahun`
 					ORDER BY k.`jamke`, l.`nama_kelas` ASC ";
 		return $this->db->query($stringQ)->result_array();
 	}
