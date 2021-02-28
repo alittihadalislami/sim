@@ -110,4 +110,30 @@ class Kelas_model extends CI_Model {
 		return $this->db->query($stringQ)->result_array();
 	}
 
+	public function hitungRatarataRaport($id_tahun_aktif, $rombel=6)
+	{
+		$id_tahun_hitung = "";
+
+		$max = 5; // jumlah semester maksimal yang dihitung
+		for ($i=$id_tahun_aktif-1 ; $i>0 ; $i--) { 
+			$id_tahun_hitung .= $i;
+			$max = $max - 1;
+			$pemisah=',';
+			if ($max == 0 || $i == 1) {
+				break;
+			}
+			$id_tahun_hitung .= $pemisah;
+		}
+
+		$stringQ = " SELECT CONCAT(a.`tahun_id`, n.`santri_id` , n.`mapel_id`) AS id_nilai, n.`mapel_id`, n.`santri_id`,a.`tahun_id`, ROUND(AVG(n.`nrp`),0) AS nrp
+					FROM t_na n JOIN t_agtkelas a
+					ON a.`santri_id` = n.`santri_id` JOIN m_kelas k
+					ON k.`id_kelas` = a.`kelas_id` 
+					WHERE a.`tahun_id` = $id_tahun_aktif
+					AND k.`rombel` = $rombel
+					AND n.`tahun_id` IN ($id_tahun_hitung)
+					GROUP BY n.`mapel_id`, n.`santri_id` ";
+		return $this->db->query($stringQ)->result_array();
+	}
+
 }

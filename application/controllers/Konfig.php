@@ -26,6 +26,7 @@ class Konfig extends CI_Controller {
 			'Hitung nilai Kehadiran' => base_url('penilaian/hitungNilaiKehadiran'),
 			'Ambil nilai ijazah untuk nilai raport' => 0,
 			'Ambil nilai serumpun' => 0,
+			'Anggota kelas ganjil copy ke genap' => base_url('konfig/copyAgtKelasGanjilKeGenap'),
 			'Pilih fontawesome' => base_url('konfig/pilihFontawesome')
 		];
 
@@ -164,6 +165,20 @@ class Konfig extends CI_Controller {
 		</div>');
 
 		redirect('penilaian/hitungNilaiKehadiran','refresh');
+	}
+
+	public function copyAgtKelasGanjilKeGenap()
+	{
+		 $this->fm->copyAgtKelasSem1keSem2();
+		 // 	$this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">
+			//   <h4 class="alert-heading">Alhamdilllah!</h4>
+			//   <p>Mantaps, Penghitungan Nilai Kehadiran untuk kelas: '.$this->um->showNamaKelas($v['id_kelas'])['nama_kelas'].' berhasil dilakukan.</p>
+			//   <hr>
+			//   <p class="mb-0">Perhitungan dimulai dari tanggal '.$tgl_awal_semester.'</p>
+			// </div>');
+
+			redirect('konfig','refresh');
+		 
 	}
 
 }

@@ -42,4 +42,25 @@ class Konfig_model extends CI_Model {
 		$this->db->query($stringQ);
 		return $this->db->affected_rows();
 	}
+
+	
+	// copy anggota kelas semester 1 ke semester 2 
+	public function copyAgtKelasSem1keSem2()
+	{
+		$cek = "SELECT COUNT(a.`santri_id`) AS tersimpan
+				FROM t_agtkelas a
+				WHERE a.`tahun_id` = (SELECT MAX(t.`id_tahun`)FROM m_tahun t)";
+		$hasil = $this->db->query($cek)->row_array()['tersimpan'];
+
+		if ($hasil > 0){
+			return false;
+		}else{
+			$stringQ = "INSERT INTO t_agtkelas (santri_id, kelas_id, tahun_id)
+						SELECT a.`santri_id`, a.`kelas_id`, (SELECT MAX(t.`id_tahun`)FROM m_tahun t) AS tahun_id
+						FROM t_agtkelas a
+						WHERE a.`tahun_id` = (SELECT MAX(t.`id_tahun`)FROM m_tahun t)-1 ";
+			$this->db->query($stringQ);
+			return $this->db->affected_rows();
+		}
+	}
 }

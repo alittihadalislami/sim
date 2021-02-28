@@ -139,7 +139,9 @@
       <div class="row">
         <div class="col-sm">
           <a class="btn btn-success float-right" href="<?= base_url('penilaian/uamii') ?>">Rekap Nilai</a>
-          <h1  class="display-1" id="head">Nilai UAMII 2020 - <span class="display-4"><?= $mapel[0]['mapel_alias'] ?></span></h1>
+          <a class="btn btn-warning" href="<?= '#'/*base_url('penilaian/uamii')*/ ?>">Tarik dari penilaian reguler</a>
+          <h1  class="display-1" id="head">Nilai UAMII <?= $str_tahun ?> - <span class="display-4"><?= $mapel[0]['mapel_alias'] ?></span></h1>
+          <p>Input nilai mata pelajaran ini dilakukan di form penilaian reguler dengan KD, NKH, PTS, PAS, SLK di link berikut: klik</p>
         </div>
       </div>
     </div><!-- /.container-fluid -->

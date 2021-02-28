@@ -23,7 +23,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>UAMII 2020</h1>
+          <h1>UAMII <?= $str_tahun ?></h1>
         </div>
       </div>
     </div><!-- /.container-fluid -->
@@ -37,7 +37,7 @@
           
           <div class="card">
               <div class="card-header">
-                <h5 class="card-title float-left">Leger Nilai Uamii 2020</h5>
+                <h5 class="card-title float-left">Leger Nilai Ujian Akhir Ma'had Al Ittihad Al Islami</h5>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -67,6 +67,10 @@
                           <?php
                             foreach ($suluk as $slk) {
                               if ($slk['santri_id'] == $s['id_santri']) {
+
+                                if ($slk['slk'] == null) {
+                                  $suluk_k = 'E';
+                                }else{
                                   switch ( $slk['slk'] ) {
                                     case $slk['slk'] > 90 :
                                       $suluk_k = "A";
@@ -84,6 +88,7 @@
                                       $suluk_k = "E";
                                       break;
                                   } 
+                                }
                                 echo $suluk_k.'  ';
                                 echo '('.round($slk['slk'],0).')';
                                 }
@@ -93,18 +98,21 @@
                         <?php $nilai = 0; foreach ($mapel as $m): ?>
                           <td>
                             <?php 
-                              echo $nilai_ijz = $this->km->nilaiIjz($s['id_santri'],$m['id_mapel'],3)['ijz'] ;
+
+                              echo $nilai_ijz = $this->km->nilaiIjz($s['id_santri'],$m['id_mapel'],$id_tahun)['ijz'] ;
                               $nilai += $nilai_ijz;
                             ?>
                           </td>
                         <?php endforeach ?>
                         <td>
                           <?php 
+                            $karya_ilmiyah = null;
                             foreach ($karya as $k) {
                               if ($k['santri_id'] == $s['id_santri']) {
-                                echo $karya_ilmiyah = $k['nilai_karya'];
+                                $karya_ilmiyah = $k['nilai_karya'];
                               }
                             }
+                            echo $karya_ilmiyah;
                           ?>
                         </td>
                         <td>

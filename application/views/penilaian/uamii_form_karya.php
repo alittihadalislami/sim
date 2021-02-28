@@ -137,7 +137,7 @@
       <div class="row">
         <div class="col-sm">
           <a class="btn btn-success float-right" href="<?= base_url('penilaian/uamii') ?>">Rekap Nilai</a>
-          <h1  class="display-1" id="head">Nilai UAMII 2020 - <span class="display-4">Karya Tulis Ilmiyah</span></h1>
+          <h1  class="display-1" id="head">Nilai UAMII <?= $str_tahun ?> - <span class="display-4">Karya Tulis Ilmiyah</span></h1>
         </div>
       </div>
     </div><!-- /.container-fluid -->
@@ -176,10 +176,18 @@
             <div class="br2 nmtebal lb-3"><?= $s['nama_santri']; ?></div>
             
             <?php
+              $tematik = null;
+              $penelitian = null;
+              $ijz = null;
+              
               $karya = $this->db->get_where('t_karya', ['santri_id'=>$s['id_santri']])->row();
-              $tematik = $karya->nilai_tematik;
-              $penelitian = $karya->nilai_penelitian;
-              $ijz = $karya->nilai_karya;
+              
+              if ($karya != null) {
+                $tematik = $karya->nilai_tematik;
+                $penelitian = $karya->nilai_penelitian;
+                $ijz = $karya->nilai_karya;                
+              }
+              
             ?>
 
             <div class="br2 awnilai lb-2"><input class="form-control lb-i" type="number" max="100" min="0" name="tematik-<?= $s['id_santri'];?>" value="<?= isset($tematik) ? $tematik : ''; ?>" id="tematik-<?=$i?>" placeholder="Tematik"></div>

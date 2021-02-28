@@ -119,10 +119,10 @@ class Penilaian extends CI_Controller {
 
 		$data['judul'] = 'Nilai UAMII';
 		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
+		$data['str_tahun'] = $this->tahunAktif['nama_tahun'];
 		$data['santri'] = $this->km->santriIjz($data['id_tahun']);
 		$data['mapel'] = $this->um->listMapelIjz($id_mapel);
 		$data['nilai_raport'] = $this->db->get_where('t_nilai_ijz', ['mapel_id'=>$id_mapel, 'tahun_id'=>$data['id_tahun'] ])->result_array();
-	
 		$this->load->view('templates/header', $data);
 		$this->load->view('penilaian/uamii_form', $data);
 		$this->load->view('templates/footer');
@@ -133,8 +133,9 @@ class Penilaian extends CI_Controller {
 
 		$data['judul'] = 'Nilai UAMII';
 		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
+		$data['str_tahun'] = $this->tahunAktif['nama_tahun'];
 		$data['santri'] = $this->km->santriIjz($data['id_tahun']);
-	
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('penilaian/uamii_form_karya', $data);
 		$this->load->view('templates/footer');
@@ -181,19 +182,13 @@ class Penilaian extends CI_Controller {
     					'uamii' => $uamii,
     					'ijz' => $ijz,
     					'slk' => $slk
-    				];
-    				
+    				];			
 			$this->db->where('mapel_id', $id_mapel);
 			$this->db->where('santri_id', $santri);
 			$this->db->where('tahun_id', $id_tahun);
 			$this->db->update('t_nilai_ijz', $object_update);
-		}
-
-		
-			redirect('penilaian/uamii_form/'.$id_mapel,'refresh');
-		
-
-
+		}	
+		redirect('penilaian/uamii_form/'.$id_mapel,'refresh');
 	}
 
 	public function uamii_simpan_karya()
@@ -256,14 +251,24 @@ class Penilaian extends CI_Controller {
 
 		$data['judul'] = 'Nilai UAMII';
 		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
+		$data['str_tahun'] = $this->tahunAktif['nama_tahun'];
 		$data['mapel'] = $this->um->listMapelIjz();
 		$data['santri'] = $this->km->santriIjz($data['id_tahun']);
 		$data['suluk'] = $this->km->sulukIjz();
-		$data['karya'] = $this->db->get('t_karya')->result_array();
+		$data['karya'] = $this->db->get_where('t_karya', ['tahun_id'=> $data['id_tahun']])->result_array();
 	
 		$this->load->view('templates/header', $data);
 		$this->load->view('penilaian/uamii_nilai', $data);
 		$this->load->view('templates/footer');
+	}
+
+	public function hitungRata2Raport5sem()
+	{
+		set_time_limit(500);
+		$hasil =  $this->km->hitungRatarataRaport($this->tahunAktif['id_tahun']) ;
+		foreach ($hasil as $value) {
+			$this->db->replace('t_nilai_ijz', $value);;
+		}
 	}
 
 	public function tambah_na()

@@ -97,4 +97,13 @@ class Santri_model extends CI_Model {
 			ORDER BY k.`rombel`, k.`id_kelas` ";
 		return $this->db->query($stringQ)->result_array();
 	}
+
+	public function dataUtamaDetail()
+	{
+		$stringQ = "SELECT ds.`santri_id`, ds.`nama_seijazah`, ds.`nik`, ds.`nisn`, ds.`tmp_lahir`, ds.`tgl_lahir`, ds.`anak_ke`, ds.`jml_saudara`, ds.`seri_ijazah`, ds.`seri_skhun`, ds.`no_ujian`, ds.`ibu`, ds.`bapak`, ds.`tgl_terima`
+			FROM t_detail_santri ds JOIN t_agtkelas ak
+			ON ds.`santri_id` = ak.`santri_id`
+			WHERE ak.`tahun_id` = 4 AND ak.`kelas_id` = 1";
+		return $this->db->query($stringQ)->result_array();
+	}
 }
