@@ -7,6 +7,7 @@ class Menu extends CI_Controller {
 
 	public function __construct()
 	{
+		is_login();
 		parent::__construct();		
 		$this->load->model('User_model','um');
 
@@ -42,6 +43,7 @@ class Menu extends CI_Controller {
 		$data['menu'] = $this->db->get_where('menu',['id_menu'=>$id])->row();
 		
 		$ubah = $this->input->post('ubah');
+		
 
 		if ($ubah != NULL ) {
 			
