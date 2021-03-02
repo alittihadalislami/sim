@@ -11,6 +11,8 @@ class Kelas_model extends CI_Model {
 			$this->db->join('t_agtkelas', 't_agtkelas.santri_id = m_santri.id_santri');
 			$this->db->join('m_kelas', 't_agtkelas.kelas_id = m_kelas.id_kelas');
 			$this->db->where('t_agtkelas.tahun_id', $tahun_id);
+			$this->db->order_by('m_kelas.id_kelas', 'ASC');
+			$this->db->order_by('m_santri.nama_santri', 'ASC');
 			return $this->db->get();
 		}else{
 			$this->db->select('m_santri.id_santri, m_santri.idk_mii, m_santri.idk_umum, m_santri.idk_umum2, m_santri.nama_santri, m_kelas.nama_kelas');
@@ -19,6 +21,8 @@ class Kelas_model extends CI_Model {
 			$this->db->join('m_kelas', 't_agtkelas.kelas_id = m_kelas.id_kelas');
 			$this->db->where('t_agtkelas.tahun_id', $tahun_id);
 			$this->db->where('t_agtkelas.kelas_id', $wali);
+			$this->db->order_by('m_kelas.id_kelas', 'ASC');
+			$this->db->order_by('m_santri.nama_santri', 'ASC');
 			return $this->db->get();
 		}
 	}
@@ -85,7 +89,8 @@ class Kelas_model extends CI_Model {
 			FROM t_agtkelas a JOIN m_santri s 
 			ON a.`santri_id` = s.`id_santri` JOIN m_kelas k
 			ON k.`id_kelas` = a.`kelas_id`
-			WHERE a.`tahun_id` = $tahun_id && k.`rombel` = 6 ";
+			WHERE a.`tahun_id` = $tahun_id && k.`rombel` = 6 
+			ORDER BY k.`id_kelas`, s.`nama_santri`";
 		return $this->db->query($stringQ)->result_array();
 	}
 

@@ -160,11 +160,6 @@ class Penilaian extends CI_Controller {
 
 		foreach ($santri_id as $santri) {
 
-			if ($daput["uamii-$santri"] < 1) {
-				$uamii = null;
-			}else {
-				$uamii = $daput["uamii-$santri"];
-			}
 
 			if ($daput["ijazah-$santri"] < 1){
 				$ijz=null;
@@ -176,6 +171,13 @@ class Penilaian extends CI_Controller {
 				$slk = null;
 			}else{
 				$slk = $daput["suluk-$santri"];
+			}
+
+			if ($daput["uamii-$santri"] < 1) {
+				$uamii = null;
+			}else {
+				$uamii = $daput["uamii-$santri"];
+				$ijz = ($uamii + $daput["raport-$santri"])/2 ;
 			}
 
 			$object_update=[
@@ -260,6 +262,35 @@ class Penilaian extends CI_Controller {
 		$this->load->view('templates/header', $data);
 		$this->load->view('penilaian/uamii_nilai', $data);
 		$this->load->view('templates/footer');
+	}
+
+	public function tarikNilaiRegulerkeUamii($mapel_id=28)
+	{
+		$id_tahun = $this->tahunAktif['id_tahun'];
+		$stringQ = 'SELECT CONCAT(n.`tahun_id`, n.`santri_id`,n.`mapel_id`) AS id_nilai, n.`pas` AS uamii
+					FROM t_na n JOIN m_kelas k
+					ON k.`id_kelas` = n.`kelas_id`
+					WHERE n.`tahun_id` = '.$id_tahun.'
+					AND n.`mapel_id` = '.$mapel_id.'
+					AND k.`rombel` = 6';
+		$hasil = $this->db->query($stringQ)->result_array();
+		foreach ($hasil as $uamii ) {
+			$this->db->where('id_nilai', $uamii['id_nilai']);
+    		$this->db->update('t_nilai_ijz', $uamii);
+		}
+
+		$stringQ2 = 'SELECT CONCAT(h.`tahun_id`, h.`santri_id`, h.`mapel_id`) AS id_nilai, h.`nilai_suluk` AS slk
+					FROM t_nh h
+					WHERE h.`tahun_id` = '.$id_tahun.'
+					AND h.`mapel_id` = '.$mapel_id.'
+					AND h.`kelas_id` IN (12,13,24)';//rombel 6 saja
+		$hasil2 = $this->db->query($stringQ2)->result_array();
+		foreach ($hasil2 as $slk ) {
+			$this->db->where('id_nilai', $slk['id_nilai']);
+    		$this->db->update('t_nilai_ijz', $slk);
+		}
+
+		redirect('penilaian/uamii_form/'.$mapel_id);
 	}
 
 	public function hitungRata2Raport5sem()

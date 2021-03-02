@@ -139,11 +139,23 @@
       <div class="row">
         <div class="col-sm">
           <a class="btn btn-success float-right" href="<?= base_url('penilaian/uamii') ?>">Rekap Nilai</a>
-          <a class="btn btn-warning" href="<?= '#'/*base_url('penilaian/uamii')*/ ?>">Tarik dari penilaian reguler</a>
+          <!-- <a class="btn btn-warning" href="<?= '#'/*base_url('penilaian/uamii')*/ ?>">Tarik dari penilaian reguler</a> -->
           <h1  class="display-1" id="head">Nilai UAMII <?= $str_tahun ?> - <span class="display-4"><?= $mapel[0]['mapel_alias'] ?></span></h1>
-          <p>Input nilai mata pelajaran ini dilakukan di form penilaian reguler dengan KD, NKH, PTS, PAS, SLK di link berikut: klik</p>
+          <p>1. Input nilai mata pelajaran <?= $mapel[0]['mapel_alias'] ?> dilakukan di form penilaian reguler dengan KD, NKH, PTS, PAS, SLK di <a href="<?= base_url()?>penilaian" class="badge badge-warning font-weight-bold">link ini</a> <br> 2. Melakukan <a class="badge badge-warning" href="<?= base_url('penilaian/tarikNilaiRegulerkeUamii').'/'.$this->uri->segment(3)?>">tarik data nilai reguler</a> dan simpan untuk nilai UAMII</p>
         </div>
       </div>
+
+      <?php 
+        $id_mapel_aktiv = $mapel[0]['id_mapel'];
+        $ujian2x = [13,10,8,29,2];
+        $kunci_input = 'readonly';
+        foreach ($ujian2x as $val ) {
+          if ($val == $id_mapel_aktiv) {
+            $kunci_input = null;
+          }
+        }
+        var_dump($kunci_input);
+       ?>
     </div><!-- /.container-fluid -->
   </section>
 
@@ -193,16 +205,16 @@
               $slk = $this->km->adaNilaiIjz($mapel[0]['id_mapel'],$s['id_santri'])['slk'];
             ?>
 
-            <div class="br2 awnilai lb-2"><input class="form-control lb-i nrp" type="text" min="0" max="100" id="nrp-<?=$i?>"  value="<?= $r_nrp ?>" readonly>
+            <div class="br2 awnilai lb-2"><input class="form-control lb-i nrp" type="text" min="0" max="100" name="raport-<?= $s['id_santri'];?>" id="nrp-<?=$i?>"  value="<?= $r_nrp ?>" readonly>
             </div>
 
 
-            <div class="br2 awnilai lb-2"><input class="form-control lb-i uamii" type="number" max="100" min="0" name="uamii-<?= $s['id_santri'];?>" value="<?= isset($uamii) ? $uamii : ''; ?>" id="uamii-<?=$i?>" placeholder="UAMII"></div>
+            <div class="br2 awnilai lb-2"><input class="form-control lb-i uamii" type="number" max="100" min="0" name="uamii-<?= $s['id_santri'];?>" value="<?= isset($uamii) ? $uamii : ''; ?>" id="uamii-<?=$i?>" placeholder="UAMII" <?= $kunci_input ?>></div>
 
 
             <div class="br2 lb-2"><input class="form-control lb-i ijazah" type="number" min="0" max="100" readonly name="ijazah-<?= $s['id_santri'];?>" id="ijazah-<?=$i?>" placeholder="IJAZAH" value="<?= isset($ijz) ? $ijz : ''; ?>"></div>
 
-            <div class="br2 lb-2"><input class="form-control lb-i suluk" type="number" min="0" max="100" name="suluk-<?= $s['id_santri'];?>" id="suluk-<?=$i?>" placeholder="SULUK" value="<?= isset($slk) ? $slk : ''; ?>"></div>
+            <div class="br2 lb-2"><input class="form-control lb-i suluk" type="number" min="0" max="100" <?= $kunci_input ?> name="suluk-<?= $s['id_santri'];?>" id="suluk-<?=$i?>" placeholder="SULUK" value="<?= isset($slk) ? $slk : ''; ?>"></div>
 
           <div style="clear: both;"></div>
           </div>
