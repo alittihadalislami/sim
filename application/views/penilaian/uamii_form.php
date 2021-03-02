@@ -150,7 +150,7 @@
 
       <?php 
         $id_mapel_aktiv = $mapel[0]['id_mapel'];
-        $ujian2x = [13,10,8,29,2];
+        $ujian2x = [13,10,8,29,2,9,12,4];
         $kunci_input = 'readonly';
         foreach ($ujian2x as $val ) {
           if ($val == $id_mapel_aktiv) {
