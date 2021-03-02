@@ -104,7 +104,7 @@
                     MA Al Ittihad Al Islami
                 </a>
             </h5>
-            <div id="collapse-ma" class="collapse show" aria-labelledby="heading-collapsed">
+            <div id="collapse-ma" class="collapse" aria-labelledby="heading-collapsed">
                 <div class="card-body">
                     Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
                     officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3
@@ -125,7 +125,7 @@
                     SMP Al-Ittihad Camplong
                 </a>
             </h5>
-            <div id="collapse-smp" class="collapse show" aria-labelledby="heading-collapsed">
+            <div id="collapse-smp" class="collapse" aria-labelledby="heading-collapsed">
                 <div class="card-body">
                     Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
                     officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3

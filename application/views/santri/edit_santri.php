@@ -33,6 +33,9 @@
             <form action="<?= base_url('santri/ubah_santri') ?>" method="post">
                 <div class="row">
                   <div class="col-md-12">
+                    <a href="#">
+                      <img src="<?= base_url('assets/img/user.png')?>" class="rounded float-left m-2 mb-4" alt="Cinque Terre" height="100px">
+                    </a>
                     <?php 
                       if ($d_santri){
                         $nik_valid = (strlen($d_santri['nik'])) == 16;
