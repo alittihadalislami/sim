@@ -564,12 +564,13 @@ class Santri extends CI_Controller {
 		$this->db->order_by('nama_kelas', 'asc');
 		$data['kelas']= $this->db->get_where('m_kelas', ['active'=>1])->result_array();
 
-		$data['data_detail'] = $this->sm->dataUtamaDetail();
+		$data['data_detail'] = $this->sm->dataUtamaDetail($this->tahunAktif);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/data_utama', $data);
 		$this->load->view('templates/footer');
 	}
+
 }
 
 /* End of file santri.php */

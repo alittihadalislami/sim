@@ -98,12 +98,15 @@ class Santri_model extends CI_Model {
 		return $this->db->query($stringQ)->result_array();
 	}
 
-	public function dataUtamaDetail()
+	public function dataUtamaDetail($tahun_id)
 	{
-		$stringQ = "SELECT ds.`santri_id`, ds.`nama_seijazah`, ds.`nik`, ds.`nisn`, ds.`tmp_lahir`, ds.`tgl_lahir`, ds.`anak_ke`, ds.`jml_saudara`, ds.`seri_ijazah`, ds.`seri_skhun`, ds.`no_ujian`, ds.`ibu`, ds.`bapak`, ds.`tgl_terima`
+		$stringQ = "SELECT ds.`santri_id`,s.`nama_santri`,k.`nama_kelas`,s.`nisn` AS nisn_wali, ds.`nama_seijazah`, ds.`nik`, ds.`nisn`, ds.`tmp_lahir`, ds.`tgl_lahir`, ds.`anak_ke`, ds.`jml_saudara`, ds.`seri_ijazah`, ds.`seri_skhun`, ds.`no_ujian`, ds.`ibu`, ds.`bapak`, ds.`tgl_terima`
 			FROM t_detail_santri ds JOIN t_agtkelas ak
-			ON ds.`santri_id` = ak.`santri_id`
-			WHERE ak.`tahun_id` = 4 AND ak.`kelas_id` = 1";
+			ON ds.`santri_id` = ak.`santri_id` JOIN m_santri s
+			ON ds.`santri_id` = s.`id_santri` JOIN m_kelas k
+			ON ak.`kelas_id` = k.`id_kelas`
+			WHERE ak.`tahun_id` = $tahun_id AND k.`jenjang` != 0
+			ORDER BY k.`nama_kelas`, s.`nama_santri`";
 		return $this->db->query($stringQ)->result_array();
 	}
 }

@@ -30,23 +30,24 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-xl-2 float-right mb-5">
-                    <select id="pilih-kelas" class="custom-select">
+                    <!-- <select id="pilih-kelas" class="custom-select">
                       <?php foreach ($kelas as $kls): ?>
                         <option value="<?= $kls['id_kelas'] ?>"><?= $kls['nama_kelas'] ?></option>
                       <?php endforeach ?>
-                    </select>
+                    </select> -->
                   </div>
                 </div>
-                <?php print_r($data_detail) ?>
-                <table id="santri" class="table table-bordered table-hover display responsive" width="100%">
+
+                <table id="santri" class="table table-bordered table-hover display table-sm ">
                   <thead>                  
                     <tr>
-                      <th>#</th>
+                      <th></th>
                       <th>ID Santri</th>
                       <th>Nama</th>
                       <th>NIK</th>
                       <th>NISN</th>
                       <th>NISL</th>
+                      <th>Kelas</th>
                       <th>Tempat Lahir</th>
                       <th>Tanggal Lahir</th>
                       <th>Absen</th>
@@ -60,6 +61,46 @@
                     </tr>
                   </thead>
                   <tbody id="isi-table">
+                    <?php foreach ($data_detail as $data): ?>
+                    <tr>
+                      <?php 
+                      $status = 0;
+                      foreach ($data as $d ) {
+                        if ($d) {
+                          $status += 1;
+                        }
+                      }
+                      $hasil = round($status/17*100,0);
+                      if ($hasil < 50) {
+                        $badge = "badge badge-danger";
+                      }elseif ($hasil < 75) {
+                        $badge = "badge badge-secondary";
+                      }elseif ($hasil < 100) {
+                        $badge = "badge badge-warning";
+                      }else{
+                        $badge = "badge badge-success";
+                      }
+                      ?>
+                      <td><span class="<?= $badge?>"><?= $hasil?> </span></td>
+                      <td><?= $data['santri_id'] ?></td>
+                      <td style="word-wrap: break-word;min-width: 260px;"><a href="<?= base_url('santri/edit/').$data['santri_id']?>"><?= $data['nama_santri'] ?></a></td>
+                      <td><?= $data['nik'] ?></td>
+                      <td><?= $data['nisn'] ?></td>
+                      <td>NISL</td>
+                      <td><?= $data['nama_kelas'] ?></td>
+                      <td><?= $data['tmp_lahir'] ?></td>
+                      <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['tgl_lahir'] ?></td>
+                      <td>Absen </td>
+                      <td><?= $data['anak_ke'].'/'.$data['jml_saudara'] ?></td>
+                      <td><?= $data['seri_ijazah'] ?></td>
+                      <td><?= $data['seri_skhun'] ?></td>
+                      <td><?= $data['no_ujian'] ?></td>
+                      <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['ibu'] ?></td>
+                      <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['bapak'] ?></td>
+                      <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['tgl_terima'] ?></td>
+
+                    </tr>
+                    <?php endforeach ?>
                   </tbody>
                 </table>
               </div>
@@ -79,24 +120,33 @@
 <script>
   $(document).ready(function() {
 
-    $('#pilih-kelas').change(function() {
-      id_kelas = $(this).val()  
-      data = '<tr>'+
-                '<td>'+id_kelas+'</td>'+
-                '<td style="background:darkred">1212</td>'+
-                '<td>Nurul Fuadi</td>'+
-              '</tr>';
-      data = data + data;
-      $('#isi-table').html(data);
-    });
+    // $('#pilih-kelas').change(function() {
+    //   id_kelas = $(this).val()  
+    //   $.ajax({
+    //     type:"post",
+    //     url: "<?php echo base_url(); ?>/santri/ajaxSantriDataUtama",
+    //     data:{id_kelas:id_kelas},
+    //     success:function(response){
+    //       console.log(response);
+    //     }
+    //   });
 
-    kelas = $('#pilih-kelas').find(":selected").text();
+    //   data = '<tr>'+
+    //             '<td>'+id_kelas+'</td>'+
+    //             '<td style="background:darkred">1212</td>'+
+    //             '<td>Nurul Fuadi</td>'+
+    //           '</tr>';
+    //   data = data + data;
+    //   // $('#isi-table').html(data);
+    // });
+
+    // kelas = $('#pilih-kelas').find(":selected").text();
     
 
     
     $('#santri').dataTable( {
       // "columnDefs": [{ 'visible': false, 'targets': [2] }]
-      "scrollY": 200,
+      // "scrollY": 500,
       "scrollX": true
     });
   });
