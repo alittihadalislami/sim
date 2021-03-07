@@ -589,7 +589,6 @@ class Santri extends CI_Controller {
 
 		if ($daput) {
 			$this->db->insert('t_catatan_santri', $daput);
-			redirect('santri/pencatatanKesantrian');
 		}else {
 			$data['santri'] = $this->db->get('m_santri')->result_array();
 			$data['jenis_catatan'] = $this->db->get('t_jenis_catatan')->result_array();
@@ -599,6 +598,7 @@ class Santri extends CI_Controller {
 			$this->load->view('santri/tambahPencatatanKesantrian', $data);
 			$this->load->view('templates/footer');
 		}
+		redirect('santri/pencatatanKesantrian');
 
 	}
 
