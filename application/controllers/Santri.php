@@ -460,8 +460,6 @@ class Santri extends CI_Controller {
 		$data['judul'] = "Rekap Santri";
 
 		$data['rekap'] = $this->sm->rekapSantri($this->tahunAktif);
-
-		var_dump($data);die();
 		
 		$data['atribut'] = [
 			'kelas' => [1,2,3,4,5,6,7],
@@ -589,6 +587,7 @@ class Santri extends CI_Controller {
 
 		if ($daput) {
 			$this->db->insert('t_catatan_santri', $daput);
+			redirect('santri/pencatatanKesantrian');
 		}else {
 			$data['santri'] = $this->db->get('m_santri')->result_array();
 			$data['jenis_catatan'] = $this->db->get('t_jenis_catatan')->result_array();
@@ -598,7 +597,6 @@ class Santri extends CI_Controller {
 			$this->load->view('santri/tambahPencatatanKesantrian', $data);
 			$this->load->view('templates/footer');
 		}
-		redirect('santri/pencatatanKesantrian');
 
 	}
 
