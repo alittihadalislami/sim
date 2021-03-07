@@ -109,4 +109,17 @@ class Santri_model extends CI_Model {
 			ORDER BY k.`nama_kelas`, s.`nama_santri`";
 		return $this->db->query($stringQ)->result_array();
 	}
+
+	public function pencatatanKesantrian($tahun_id)
+	{
+		$stringQ = "SELECT cs.`id`, s.`nama_santri`, s.`idk_mii`, k.`nama_kelas`, cs.`penilaian`,j.`jenis_catatan`, cs.`tanggal_pencatatan`, cs.`keterangan`
+				FROM t_catatan_santri cs JOIN m_santri s
+				ON cs.`santri_id` = s.`id_santri` JOIN t_jenis_catatan j
+				ON j.`id_jenis_catatan` = cs.`jenis_catatan_id` JOIN t_agtkelas g
+				ON g.`santri_id` = cs.`santri_id` JOIN m_kelas k
+				ON k.`id_kelas` = g.`kelas_id`
+				WHERE g.`tahun_id` = $tahun_id";
+		return $this->db->query($stringQ)->result_array();
+
+	}
 }

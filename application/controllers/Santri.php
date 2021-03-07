@@ -571,6 +571,35 @@ class Santri extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	public function pencatatanKesantrian()
+	{
+		$data['judul'] = "Pencatatan Kesantrian";
+		$data['catatan'] = $this->sm->pencatatanKesantrian($this->tahunAktif);
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('santri/pencatatanKesantrian', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function tambahPencatatanKesantrian()
+	{
+		$daput = $this->input->post();
+
+		if ($daput) {
+			$this->db->insert('t_catatan_santri', $daput);
+		}else {
+			$data['santri'] = $this->db->get('m_santri')->result_array();
+			$data['jenis_catatan'] = $this->db->get('t_jenis_catatan')->result_array();
+
+			$data['judul'] = "Pencatatan Kesantrian";
+			$this->load->view('templates/header', $data);
+			$this->load->view('santri/tambahPencatatanKesantrian', $data);
+			$this->load->view('templates/footer');
+		}
+		redirect('santri/pencatatanKesantrian');
+
+	}
+
 }
 
 /* End of file santri.php */
