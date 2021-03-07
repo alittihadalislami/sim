@@ -460,6 +460,8 @@ class Santri extends CI_Controller {
 		$data['judul'] = "Rekap Santri";
 
 		$data['rekap'] = $this->sm->rekapSantri($this->tahunAktif);
+
+		var_dump($data);die();
 		
 		$data['atribut'] = [
 			'kelas' => [1,2,3,4,5,6,7],
