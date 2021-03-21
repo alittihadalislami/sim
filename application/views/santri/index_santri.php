@@ -114,7 +114,8 @@
   $(document).ready(function() {
     
     $('#santri').dataTable( {
-      "columnDefs": [{ 'visible': false, 'targets': [2] }]
+      "columnDefs": [{ 'visible': false, 'targets': [2] }],
+      "stateSave": true
     });
   });
 </script>
