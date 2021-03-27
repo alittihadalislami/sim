@@ -38,6 +38,22 @@
                   </div>
                 </div>
 
+                <?php 
+                  $kelas_aktiv = [];
+                  foreach ($kelas as $kel) {
+                    $kelas_aktiv [] = $kel['nama_kelas'] ;
+                    $status_kelengkapan [] = 0;
+                    $counter [] = 0;
+                  }
+                ?>
+
+                <div class="row mb-5">
+                  <div class="col-sm-12 col-md-7 mb-5 mx-auto">
+                    <canvas id="myChart" height="150"></canvas>
+                  </div>
+                </div>
+
+
                 <table id="santri" class="table table-bordered table-hover display table-sm ">
                   <thead>                  
                     <tr>
@@ -61,12 +77,13 @@
                     </tr>
                   </thead>
                   <tbody id="isi-table">
-                    <?php foreach ($data_detail as $data): ?>
+                    <?php $hasil = 0;  foreach ($data_detail as $data): ?>
+
                     <tr>
                       <?php 
                       $status = 0;
                       foreach ($data as $d ) {
-                        if ($d) {
+                        if (strlen($d) > 1) {
                           $status += 1;
                         }
                       }
@@ -80,6 +97,21 @@
                       }else{
                         $badge = "badge badge-success";
                       }
+
+                      foreach ($kelas_aktiv as $kl) {
+                        if ($data['nama_kelas'] == $kl) {
+                          $indek =  array_keys($kelas_aktiv, $kl)[0];
+
+                          $nilai_conter = $counter[$indek]; //array tidak bisa scalar value
+                          $nilai_conter += 1;
+                          $counter[$indek] = $nilai_conter;
+                          
+                          $temp = $status_kelengkapan[$indek];
+                          $temp += $hasil;
+                          $status_kelengkapan[$indek] = $temp;
+                        }
+                      }
+
                       ?>
                       <td><span class="<?= $badge?>"><?= $hasil?> </span></td>
                       <td><?= $data['santri_id'] ?></td>
@@ -101,6 +133,13 @@
 
                     </tr>
                     <?php endforeach ?>
+
+                    <?php
+                      $data_kelengkapan = [] ;                  
+                      for ($k=0; $k<count($counter) ; $k++) { 
+                        $data_kelengkapan [$k] = round($status_kelengkapan[$k] / $counter[$k],0);
+                      }
+                     ?>
                   </tbody>
                 </table>
               </div>
@@ -111,12 +150,12 @@
   </section>
 </div>
 
-
 <!-- load js datatable -->
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script>
   $(document).ready(function() {
 
@@ -141,7 +180,6 @@
     // });
 
     // kelas = $('#pilih-kelas').find(":selected").text();
-    
 
     
     $('#santri').dataTable( {
@@ -149,5 +187,27 @@
       // "scrollY": 500,
       "scrollX": true
     });
+
+    var ctx = document.getElementById('myChart');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            labels: <?= json_encode($kelas_aktiv)?>,
+            datasets: [{
+                label: 'Kelengkapan Data',
+                backgroundColor: 'rgb(0, 153, 0)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: <?= json_encode($data_kelengkapan) ?>
+            }]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+
+
   });
 </script>
