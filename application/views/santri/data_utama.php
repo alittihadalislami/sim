@@ -2,6 +2,16 @@
 <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css"> -->
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+<style>
+  layout: {
+    padding: {
+        left: 0,
+        right: 0,
+        top: 30,
+        bottom: 0
+    }
+ }
+</style>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -211,6 +221,7 @@
         data: {
             labels: <?= json_encode($kelas_aktiv)?>,
             datasets: [{
+                barPercentage: 0.5,
                 label: 'Kelengkapan Data',
                 backgroundColor: 'rgb(0, 153, 0)',
                 borderColor: 'rgb(255, 99, 132)',
@@ -219,7 +230,36 @@
         },
 
         // Configuration options go here
-        options: {}
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+                display: true,
+ 
+            },
+             animation: {
+              "onComplete": function() {
+                var chartInstance = this.chart,
+                  ctx = chartInstance.ctx;
+ 
+                ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+ 
+                this.data.datasets.forEach(function(dataset, i) {
+                  var meta = chartInstance.controller.getDatasetMeta(i);
+                  meta.data.forEach(function(bar, index) {
+                    var data = dataset.data[index];
+                    ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                  });
+                });
+              }
+            },
+            title: {
+                display: false,
+                text: ''
+            },
+        }
     });
 
 
