@@ -58,8 +58,11 @@
                 ?>
 
                 <div class="row mb-5">
-                  <div class="col-sm-12 col-xl-7 mb-5 mx-auto">
+                  <div class="col-sm-12 col-xl-8 mb-5 mx-auto">
                     <canvas id="myChart" height="150"></canvas>
+                  </div>
+                  <div class="col-xl-4 mb-5 mx-auto my-auto hidden-sm-down">
+                    <canvas id="pie" height="250"></canvas>
                   </div>
                 </div>
 
@@ -161,8 +164,6 @@
                         $data_kelengkapan_all += round($status_kelengkapan[$k] / $counter[$k],0);
                       }
                       $data_kelengkapan_all = $data_kelengkapan_all / count($counter);
-
-                      echo $data_kelengkapan_all;
                      ?>
                   </tbody>
                 </table>
@@ -237,7 +238,11 @@
                 display: true,
  
             },
-             animation: {
+            "hover": {
+              "animationDuration": 0
+            },
+             "animation": {
+                "duration": 1,
               "onComplete": function() {
                 var chartInstance = this.chart,
                   ctx = chartInstance.ctx;
@@ -262,6 +267,26 @@
         }
     });
 
+    var cty = document.getElementById("pie").getContext('2d');
+    var myChart = new Chart(cty, {
+      type: 'pie',
+      data: {
+        labels: ["Sudah", "Belum"],
+        datasets: [{
+          backgroundColor: [
+            "#2ecc71",
+            "#3498db"
+          ],
+          data: [<?= $data_kelengkapan_all ?>, <?= 100 - $data_kelengkapan_all;  ?>]
+        }]
+      },
+      options:{
+        legend: {
+          position: 'bottom',
+          display: true
+        }
+      }
+    });
 
   });
 </script>
