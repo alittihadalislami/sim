@@ -566,6 +566,24 @@ class Santri extends CI_Controller {
 
 		$data['data_detail'] = $this->sm->dataUtamaDetail($this->tahunAktif);
 
+		
+		for ($dt=0; $dt<count($data['data_detail']); $dt++) {
+
+			$nisn_awal = $data['data_detail'][$dt]['nisn'];
+			$nisn_dari_wali = $data['data_detail'][$dt]['nisn_wali'];
+
+			if (strlen($nisn_awal) == 10 ) {
+				$data['data_detail'][$dt]['nisn_fix'] = $nisn_awal;
+			}else{
+				if (strlen($nisn_dari_wali) == 10) {
+					$data['data_detail'][$dt]['nisn_fix'] = $nisn_dari_wali;
+				}else{
+					$data['data_detail'][$dt]['nisn_fix'] = null;
+				}
+			}
+
+		}
+		
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/data_utama', $data);
 		$this->load->view('templates/footer');

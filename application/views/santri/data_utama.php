@@ -48,7 +48,7 @@
                 ?>
 
                 <div class="row mb-5">
-                  <div class="col-sm-12 col-md-7 mb-5 mx-auto">
+                  <div class="col-sm-12 col-xl-7 mb-5 mx-auto">
                     <canvas id="myChart" height="150"></canvas>
                   </div>
                 </div>
@@ -82,12 +82,21 @@
                     <tr>
                       <?php 
                       $status = 0;
-                      foreach ($data as $d ) {
-                        if (strlen($d) > 1) {
-                          $status += 1;
+                      $tata = '';
+                      $putaran= 0;
+
+                      foreach ($data as $d => $konten ) {
+                        if ($putaran == 3 || $putaran == 6 ) {
+                          # code...
+                        }else{
+                          if (strlen($konten) > 0) {
+                            $status += 1;
+                          }
                         }
+                         $putaran += 1;
                       }
-                      $hasil = round($status/17*100,0);
+
+                      $hasil = round($status/16*100,0);
                       if ($hasil < 50) {
                         $badge = "badge badge-danger";
                       }elseif ($hasil < 75) {
@@ -113,11 +122,11 @@
                       }
 
                       ?>
-                      <td><span class="<?= $badge?>"><?= $hasil?> </span></td>
+                      <td><span class="<?= $badge?>"><?=$hasil?></span></td>
                       <td><?= $data['santri_id'] ?></td>
                       <td style="word-wrap: break-word;min-width: 260px;"><a href="<?= base_url('santri/edit/').$data['santri_id']?>"><?= $data['nama_santri'] ?></a></td>
                       <td><?= $data['nik'] ?></td>
-                      <td><?= $data['nisn'] ?></td>
+                      <td><?= $data['nisn_fix'] ?></td>
                       <td>NISL</td>
                       <td><?= $data['nama_kelas'] ?></td>
                       <td><?= $data['tmp_lahir'] ?></td>
@@ -135,10 +144,15 @@
                     <?php endforeach ?>
 
                     <?php
-                      $data_kelengkapan = [] ;                  
+                      $data_kelengkapan = [] ;
+                      $data_kelengkapan_all = 0;
                       for ($k=0; $k<count($counter) ; $k++) { 
                         $data_kelengkapan [$k] = round($status_kelengkapan[$k] / $counter[$k],0);
+                        $data_kelengkapan_all += round($status_kelengkapan[$k] / $counter[$k],0);
                       }
+                      $data_kelengkapan_all = $data_kelengkapan_all / count($counter);
+
+                      echo $data_kelengkapan_all;
                      ?>
                   </tbody>
                 </table>
