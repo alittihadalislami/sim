@@ -558,8 +558,13 @@ class Penilaian extends CI_Controller {
 	public function kd_2($asatid, $mapel, $kelas)
 	{
 		$data['judul'] = 'Kompetensi Dasar';
-		
-		$data['id_tahun'] = $this->tahunAktif['id_tahun']+1;
+		$id_tahun = $this->tahunAktif['id_tahun'];
+		$is_ganjil = ($id_tahun % 2) == 1 ;
+		if ($is_ganjil) {
+			$data['id_tahun'] = $id_tahun;
+		} else{
+			$data['id_tahun'] = $id_tahun + 1;
+		}
 		$sem = 2;
 		$data['sem'] = $sem;
 		$data['id_mapel'] = $mapel; 
