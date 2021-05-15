@@ -559,7 +559,7 @@ class Penilaian extends CI_Controller {
 	{
 		$data['judul'] = 'Kompetensi Dasar';
 		$id_tahun = $this->tahunAktif['id_tahun'];
-		$is_ganjil = ($id_tahun % 2) == 1 ;
+		$is_ganjil = ($id_tahun % 2) == 1;
 		if ($is_ganjil) {
 			$data['id_tahun'] = $id_tahun;
 		} else{
