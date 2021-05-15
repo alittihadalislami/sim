@@ -508,7 +508,7 @@ class User_model extends CI_Model {
 		return $this->db->query($stringQ)->result_array();
 	}
 
-	public function guruKelas6($email)
+	public function guruKelas6($email,$tahunAktif)
 	{
 		$stringQ=" SELECT a.`id_asatid`, p.`id_mapel`, p.`mapel_alias`, k.`kelas_alias`, u.`email`, a.`nama_asatid`
 			FROM m_mengajar	m JOIN m_kelas k
@@ -516,7 +516,7 @@ class User_model extends CI_Model {
 			ON a.`id_asatid` = m.`asatid_id` JOIN user_data u
 			ON u.`nohp` = a.`nohp` JOIN m_mapel p
 			ON p.`id_mapel` = m.`mapel_id`
-			WHERE k.`rombel` = 6 AND m.`tahun_id` = 3 AND u.`email` = $email
+			WHERE k.`rombel` = 6 AND m.`tahun_id` = $tahunAktif AND u.`email` = $email
 			GROUP BY a.`id_asatid`, p.`id_mapel` ";
 		return $this->db->query($stringQ)->num_rows();
 	}
