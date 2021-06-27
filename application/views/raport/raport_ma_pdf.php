@@ -262,9 +262,9 @@
 				<td><?= $semester .' ('.$des.')'?></td>
 			</tr>
 			<tr>
-				<td>NIS / NISN</td>
+				<td>NISN</td>
 				<td>:</td>
-				<td><?= $nis.' / '.$nisn ?></td>
+				<td><?= /*$nis.' / '.*/$nisn ?></td>
 				
 				<td>Tahun Pelajaran</td>
 				<td>:</td>
