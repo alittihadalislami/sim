@@ -274,8 +274,8 @@
             <?php endif ?>
 
             <div class="tanggal" style="margin-top: 20px">
-              <div class="ar">شمبلونج، ٧ شوّال ١٤٤٢ </div>
-              <div class="id">Camplong, 19 Mei 2021</div>
+              <div class="ar">شمبلونج، ٢٢ ذوالقعدة  ١٤٤٢</div>
+              <div class="id">Camplong, 3 Juli 2021</div>
             </div>
 
             <div class="ttd" style="text-align: center; margin-top: 20px">

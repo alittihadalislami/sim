@@ -527,7 +527,7 @@
 
 		<div class="ttd">
 			<div class="cf" style='text-align:right; margin-right: 20px'>
-				Sampang, 19 Mei 2021
+				Sampang, 18 Juni 2021
 			</div>
 			<br><br>
 			<?php if ($semester == 1 ): ?>
