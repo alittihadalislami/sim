@@ -22,7 +22,7 @@ class Kurikulum extends CI_Controller {
 	{
 		$data['judul'] = 'Asatid mengajar';
 
-		$tahun_id = 4;
+		$tahun_id = $this->tahunAktif['id_tahun'];
 
 		$data['ngajar'] = $this->krm->ngajar($tahun_id);
 

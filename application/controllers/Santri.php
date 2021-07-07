@@ -399,7 +399,7 @@ class Santri extends CI_Controller {
 	{
 		$daput = $this->input->post(null,true);
 	
-		$tahun_id = 4;
+		$tahun_id = 6; //awal tahun aktif semester 1 diubah manual
 		$template2 = [1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,1,2,2,1,];
 		$id_santri = $daput['idsantri'];
 		$id_kelas = $daput['idkelas'];
