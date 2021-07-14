@@ -133,11 +133,12 @@ class Santri extends CI_Controller {
 	public function ajax_rombel()
 	{
 		$kelas = $this->input->post('kelas',true);
+		$id_tahun = $this->tahunAktif;
 
 		$rombel = $this->db->query(" SELECT k.*, COUNT(a.`santri_id`) AS jumlah
 									FROM m_kelas k LEFT JOIN t_agtkelas a
 									ON k.`id_kelas` = a.`kelas_id`
-									AND a.`tahun_id` = 4
+									AND a.`tahun_id` = $id_tahun
 									WHERE k.`nama_kelas` != '0' 
 									AND k.`nama_kelas` != '8' 
 									AND k.`nama_kelas` != '9'
