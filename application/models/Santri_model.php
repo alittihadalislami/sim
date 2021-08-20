@@ -43,19 +43,6 @@ class Santri_model extends CI_Model {
 
 	public function santriRombelTratri($tahun, $rombel, $tra_tri)
 	{
-		/*$stringQ = "SELECT a.`santri_id`,s.`nisn`, s.`nama_santri`
-					FROM t_agtkelas a JOIN m_santri s
-					ON a.`santri_id` = s.`id_santri`
-					WHERE a.`tahun_id` = $tahun
-					AND a.`kelas_id`IN ( 
-						SELECT k.`id_kelas`
-						FROM m_kelas k JOIN t_wali w
-						ON k.`id_kelas` = w.`kelas_id`
-						WHERE w.`tahun_id` = $tahun
-						AND k.`rombel` = $rombel
-						AND w.`tra_tri` = '$tra_tri' 
-						)";*/
-
 		$stringQ = " SELECT a.`santri_id`,s.`nisn`, s.`nama_santri`, a.`kelas_id`, ROUND(SUM(n.`nrp`),0) AS nilai
 			FROM t_agtkelas a JOIN m_santri s
 			ON a.`santri_id` = s.`id_santri` JOIN t_na n
