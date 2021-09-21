@@ -156,7 +156,15 @@ class Santri extends CI_Controller {
 		$data['santri'] = $this->db->get_where('m_santri', ['id_santri'=>$santri_id])->row_array();
 		$data['d_santri'] = $this->db->get_where('t_detail_santri', ['santri_id'=>$santri_id])->row_array();
 		$data['list_minat'] = $this->db->select('id_minat, nama_minat, kategori_minat')->order_by('kategori_minat','asc')->get('t_minat')->result();
-		$data['kategori'] = ['Alqur\'an','Kitab','Kesenian','Olahraga','Kepanduan','Lainnya'];
+		
+		$data['kategori'] = [
+			'Alqur\'an',
+			'Kitab',
+			'Bahasa',
+			'Kesenian',
+			'Olahraga',
+			'Lainnya'
+		];
 		
 		$nik_santri = null;	
 		if (isset($data['d_santri']['nik'])){
