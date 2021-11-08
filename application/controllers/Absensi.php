@@ -254,6 +254,15 @@ class Absensi extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	function Asatid()
+	{
+		$data['judul'] = 'Kehadiran';
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('absensi/rekap_kehadiran', $data);
+		$this->load->view('templates/footer');
+	}
+
 }
 
 /* End of file absensi.php */
