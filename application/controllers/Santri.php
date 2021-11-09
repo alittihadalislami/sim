@@ -166,17 +166,18 @@ class Santri extends CI_Controller {
 			'Lainnya'
 		];
 		
-		$nik_santri = null;	
-		if (isset($data['d_santri']['nik'])){
-			$nik_santri = $data['d_santri']['nik'];
-			$data['nik_psb'] = $this->db->get_where('p_pendaftaran', ['nik'=>$nik_santri])->row_array();
-			if (isset($data['nik_psb']['nik'])) {
-				$nik_santri = strlen($data['nik_psb']['nik'])==16 ? $data['nik_psb']['nik'] : null ;
-			}else{
-				$nik_santri = null;
+		$nisn_cek = FALSE;	
+		if (isset($data['santri']['nisn'])){
+			$nisn_santri = $data['santri']['nisn'];
+			//cari di database psb
+			$nisn_psb = $this->db->get_where('p_pendaftaran', ['nisn'=>$nisn_santri])->row_array();
+			if ($nisn_psb) {
+				$nisn_cek = TRUE;
 			}
 		}
-		$data['nik_ada_lengkap'] = $nik_santri;	
+
+		$data['nisn'] = $nisn_cek;	
+
 
 		$email = $this->session->userdata('email');
 		$user_id = $this->um->dataAktif($email)['id_user'];
@@ -480,15 +481,31 @@ class Santri extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+	public function detailKab()
+	{
+		$kode = '65.03.08.2001';
+		echo $this->um->showAlamat($kode)[0];
+	}
 
-	public function sinkronDataPsb($nik_santri)
+	public function ajaxSinkronPsb()
+	{
+		$daput = $this->input->post('data_send');
+
+		// var_dump
+		$id_santri = $daput['santri_id'];
+
+		$this->db->where('santri_id',$id_santri);
+		$this->db->update('t_detail_santri', $daput);
+	}
+	
+	public function sinkronDataPsb($nisn)
 	{
 		$data['judul'] = "Singkron data PSB";
 
 		$data['list_detail'] = [
 			"dukcapil" => [
-				"1. No Induk Kependudukan (DUKCAPIL)",
-				"2. No Kartu Keluarga (DUKCAPIL)",
+				"1. No Induk Kependudukan (NIK)",
+				"2. No Kartu Keluarga (NKK)",
 				"3. Anak Ke",
 				"4. Jumlah Saudara",
 				"5. Nama Bapak",
@@ -512,8 +529,8 @@ class Santri extends CI_Controller {
 				],
 			"psb"=> [
 				"1. Diterima tanggal",
-				"2. Kelas",
-				"3. Semester",
+				// "2. Kelas",
+				// "3. Semester",
 				"6. Nomor HP Bapak",
 				"7. Nomor HP Ibu"
 			]
@@ -524,42 +541,113 @@ class Santri extends CI_Controller {
 				"nik"=>'nik',
 				"nok"=>'nok',
 				"anak_ke"=>'anak_ke',
-				"jml_saudara"=>'',
-				"bapak"=>'',
-				"kerja_bapak"=>'',
-				"Ibu"=>'',
-				"kerja_ibu"=>'',
-				"alamat_ortu"=>''
+				"jml_saudara"=>'jml_saudara',
+				"bapak"=>'nama_bapak',
+				"kerja_bapak"=>'pekerjaan_bapak',
+				"ibu"=>'nama_ibu',
+				"kerja_ibu"=>'pekerjaan_ibu',
+				"alamat_ortu"=>'alamat_lengkap'
 			],
 			"ijazah" => [
-				"nama_seijazah"=>'',
-				"tmp_lahir"=>'',
-				"tgl_lahir"=>'',
-				"bapak_seijazah"=>'',
-				"nisn"=>'',
-				"no_ujian"=>'',
-				"nilai_ijazah"=>'',
-				"seri_ijazah"=>'',
-				"seri_skhun"=>'',
-				"tahun_ijazah"=>'',
+				"nama_seijazah"=>'nama_seijasah',
+				"tmp_lahir"=>'tmp_lahir',
+				"tgl_lahir"=>'tgl_lahir',
+				"bapak_seijazah"=>'nama_bapak',
+				"nisn"=>'nisn',
+				"no_ujian"=>'nopes',
+				"nilai_ijazah"=>'nilai_ijasah',
+				"seri_ijazah"=>'no_ijasah',
+				"seri_skhun"=>'no_skhu',
+				"tahun_ijazah"=>'thn_ijs',
 				"sekolah_asal"=>'nama_sekolah_asal',
-				"npsn"=>''
+				"npsn"=>'npsn_asal'
 				],
 			"psb"=> [
-				"tgl_terima"=>'',
-				"kelas_terima"=>'',
-				"semester_terima"=>'',
-				"hp_bapak"=>'',
-				"hp_ibu"=>''
+				"tgl_terima"=>'diterima',
+				// "kelas_terima"=>'',
+				// "semester_terima"=>'',
+				"hp_bapak"=>'no_hp_bapak',
+				"hp_ibu"=>'no_hp_ibu'
 			]
 		];
 
-		$data['psb'] = $this->db->get_where('p_pendaftaran', ['nik'=>$nik_santri])->row_array();
-		$data['d_santri'] = $this->db->get_where('t_detail_santri', ['nik'=>$nik_santri])->row_array();
+		$data['psb'] = $this->db->get_where('p_pendaftaran', ['nisn'=>$nisn])->row_array();
+		$data_awal_id = $data['psb']['data_awal_id'];
+		$dataawal = $this->db->get_where('p_data_awal', ['id_data_awal'=> $data_awal_id])->row_array();
+		$sts_wali = ['bapak','ibu','wali'];
+		$data_wali = [] ;
 
-		// var_dump($data['psb']);
-		// var_dump($data['d_santri']);
+		for ($i=1; $i <= count($sts_wali); $i++) { 
 
+			$ortu = $this->db->get_where('p_wali_pendaftaran',['data_awal_id'=> $data_awal_id, 'sts'=> $i ])->row_array();
+			
+			if ($ortu) {
+				foreach ($ortu as $key => $value) {
+					
+					$key1 = explode('_ortu',$key);
+					$data_wali [$key1[0].'_'.$sts_wali[$i-1] ] = $value;
+				}						
+			}
+		}
+
+		//membersiihkan spaci pada nok
+		$nok_baru = str_replace(' ','',$data['psb']['nok']);
+		$data['psb']['nok'] = $nok_baru;
+
+
+		$data['psb'] = array_merge($dataawal,$data['psb'],$data_wali);
+
+		//35 id pertanyaan pada tobel database
+		$pekerjaan_bapak = $this->um->showPekerjaan(35,$data['psb']['pekerjaan_bapak']);
+		$pekerjaan_ibu = $this->um->showPekerjaan(35,$data['psb']['pekerjaan_ibu']);
+		$pekerjaan_wali = $this->um->showPekerjaan(35,$data['psb']['pekerjaan_wali']);
+
+		$data['psb']['pekerjaan_bapak'] = isset($pekerjaan_bapak)?$pekerjaan_bapak['pekerjaan']:'';
+		$data['psb']['pekerjaan_ibu'] = isset($pekerjaan_ibu)?$pekerjaan_ibu['pekerjaan']:'';
+		$data['psb']['pekerjaan_wali'] = isset($pekerjaan_wali)?$pekerjaan_wali['pekerjaan']:'';
+
+		$string_alamat = $this->um->showAlamat($dataawal['desa_id'])[0];
+		$alamat_lengkap = $dataawal['alamat_pengenal'].', '.$string_alamat;
+		$data['psb']['alamat_lengkap'] = $alamat_lengkap;
+
+		
+		$nama_santri = $data['psb']['nama'];
+		$nisn = $data['psb']['nisn'];
+
+		//cek apakah sudah tersimpan di data master santri
+		$sudahDiTabelMaster = FALSE;
+		$santri_master = $this->db->get_where('m_santri', 
+			[
+				'nama_santri'=>$nama_santri,
+				'nisn'=>$nisn
+			]
+		)->row_array();
+		
+		if ($santri_master) { 
+			//jika sudah ada di data master (m_santri), dapatkan id_santrinya
+			$id_santri = $santri_master['id_santri'];
+			$sudahDiTabelMaster = TRUE;
+			
+			//cek apakah sudah ada data ditabel t_detail_santri, sesuai id_santri yang didapat dari table master
+			$cek = $this->db->get_where('t_detail_santri',['santri_id'=> $id_santri])->row();
+			if (!$cek) {
+				
+				$object = [
+					'nisn' => $nisn,
+					'santri_id'=> $id_santri,
+				];
+
+				$this->db->insert('t_detail_santri',$object);
+			}else{
+				// echo 'data sudah ada di table t_detail_santri <br/>';
+				
+			}
+
+		}else{
+			//jika belum tersimpan di data master (m_santri)
+		}
+
+		$data['d_santri'] = $this->db->get_where('t_detail_santri', ['nisn'=>$nisn])->row_array();
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/sinkronDataPsb', $data);

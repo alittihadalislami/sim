@@ -36,15 +36,7 @@
                     <a href="#">
                       <img src="<?= base_url('assets/img/user.png')?>" class="rounded float-left m-2 mb-4" alt="Cinque Terre" height="100px">
                     </a>
-                    <?php 
-                      if ($d_santri){
-                        $nik_valid = (strlen($d_santri['nik'])) == 16;
-                      }else{
-                        $nik_valid = false;
-                      }
-                      $button_active = $nik_valid && $nik_ada_lengkap ? "" : "disabled";
-                    ?>
-                    <a href="<?= base_url("santri/sinkronDataPsb/").$d_santri['nik']?>" class="btn btn-warning btn-sm float-right <?= $button_active ?>" id="singkronPsb"><i class="fas fa-cloud-download-alt"></i> Sinkron data psb</a href="">
+                    <a href="<?= base_url("santri/sinkronDataPsb/").$santri['nisn']?>" class="btn btn-warning btn-sm float-right <?=$nisn ? '' : 'disabled' ?>" id="singkronPsb"><i class="fas fa-cloud-download-alt"></i> Sinkron data psb</a>
                   </div>
                 </div>
               <div class="form-group">

@@ -520,6 +520,40 @@ class User_model extends CI_Model {
 			GROUP BY a.`id_asatid`, p.`id_mapel` ";
 		return $this->db->query($stringQ)->num_rows();
 	}
+	
+	
+	//mengembalikan alamat detail berupa array0=string, array1=array perbagian
+	public function showAlamat($kode)
+	{
+		$split = ['desa'=>13,'kec.'=>8,''=>5,'propinsi'=>2];
+		$detail = [];
+		$detail_string = '';
+		foreach ($split as $s => $i) {
+			$kode_detail = substr($kode,0,$i);
+			$this->db->select('nama');
+			$hasil = $this->db->get_where('wilayah_2020', ['kode'=> $kode_detail])->row_array();
+			$detail [$s] = $hasil['nama'];
+			$detail_string .= $s.' '.$hasil['nama']. ($s!='propinsi' ? ', ' : '.') ;
+		}
+		$data = [
+			ucwords(strtolower($detail_string)),
+			$detail
+		];
+		return $data;
+	}
+
+	public function showPekerjaan($baris_id, $nilai=18)
+	{
+		if ($nilai==NULL) {
+			$nilai = 18;
+		}
+
+		$stringQ= " SELECT p.`select` AS pekerjaan
+					FROM `u_tabel_pilihan` p
+					WHERE p.`tabel_baris_id` = $baris_id
+					AND p.`value` = $nilai ";
+		return $this->db->query($stringQ)->row_array();
+	}
 }
 
 /* End of file user.php */
