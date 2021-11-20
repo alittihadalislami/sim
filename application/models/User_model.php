@@ -554,6 +554,17 @@ class User_model extends CI_Model {
 					AND p.`value` = $nilai ";
 		return $this->db->query($stringQ)->row_array();
 	}
+
+	public function masukTabelWaliTerbaru($email)
+	{
+		$stringQ = " SELECT w.*,u.`nama`,u.`email`,u.`nohp`
+					FROM t_wali w JOIN m_asatid a
+					ON w.`asatid_id` = a.`id_asatid` JOIN user_data u
+					ON a.`nohp` = u.`nohp`
+					WHERE w.`tahun_id` = (SELECT m_tahun.`id_tahun` FROM m_tahun WHERE m_tahun.`is_active` = 1) 
+					and u.`email` = '$email' " ;
+		return $this->db->query($stringQ)->num_rows();
+	}
 }
 
 /* End of file user.php */

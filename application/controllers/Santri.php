@@ -31,6 +31,8 @@ class Santri extends CI_Controller {
 	    $user_id = $dataAktif['id_user'];
 	    $data['rule_id'] = $this->um->multipleRule($user_id)[0]['rule_id'];
 
+	    $data['masukTabelWaliTerbaru'] = $this->um->masukTabelWaliTerbaru($email);
+	    
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/index_santri', $data);
 		$this->load->view('templates/footer');

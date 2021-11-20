@@ -85,7 +85,7 @@
                         </td>
                         <td>
                           <a class="pl-3" href="<?= base_url('santri/edit/').$str['id_santri']?>"><i class="fas fa-edit text-primary"></i></a> 
-                          <?php if ($this->session->userdata('rule_id') < 6): ?>
+                          <?php if ($this->session->userdata('rule_id') < 6 || $masukTabelWaliTerbaru > 0 ): ?>
   	                        &nbsp&nbsp&nbsp
   	                        <a class="pl-3" href="<?= base_url('raport/identitas/').$str['id_santri']?>"><i class="fas fa-list-ol text-success"></i></a> 
                             <a class="ml-3 pl-3" href="<?= base_url('santri/non_aktif/').$str['id_santri']?>" onclick="return confirm('Yakin, mengeluarkan <?= $str['nama_santri'];?> dari kelas <?= $str['nama_kelas'];?> ??');"><i class="fas fa-share-square text-secondary"></i></a>
