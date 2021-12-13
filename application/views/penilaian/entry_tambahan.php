@@ -31,14 +31,13 @@
             </thead>
             <tbody>
             <?php $no=1; foreach ($santri as $sant): ?>
-              
               <tr>
                 <th scope="row"><?=$no++; ?></th>
                 <td><?=$sant['nama_santri'] ?></td>
                 <td>
-                  <?php 
+                  <?php  
                   $ada = $this->um->cekEntry($sant['id_santri'], $kelas_id, $tahun_id);  
-                  echo $ada != null ? '<span class="badge badge-primary">ok<span>' : '<span class="badge badge-secondary">belum<span>';
+                  echo $ada != null ? '<span class="badge badge-success"><i class="far fa-check-square"></i><span>' : '<span class="badge badge-danger"><i class="far fa-window-close "></i><span>';
                   ?>
                 </td>
                 <td>
@@ -61,7 +60,7 @@
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
 
-<script>
+<!-- <script>
   $(document).ready(function() {
     var table = $('#tambahan').DataTable( {
         scrollCollapse: true,
@@ -69,4 +68,4 @@
         "searching"  : false
     });
   });
-</script>
+</script> -->
