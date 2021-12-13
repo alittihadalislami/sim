@@ -275,7 +275,7 @@ class Raport_model extends CI_Model {
 		return $this->db->query($stringQ)->row_array();
 	}
 
-	function hitungSIA($tanggal_awal_sem = '20200101', $santri_id) //tanggal awal semester yyyymmdd
+	function hitungSIA($tanggal_awal_sem = '20210714', $santri_id) //tanggal awal semester yyyymmdd
 	{
 		$stringQ = " SELECT santri_id, SUM(alpa) as alpa, SUM(izin) as izin, SUM(sakit) as sakit
 					FROM (
