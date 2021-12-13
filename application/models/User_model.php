@@ -565,6 +565,12 @@ class User_model extends CI_Model {
 					and u.`email` = '$email' " ;
 		return $this->db->query($stringQ)->num_rows();
 	}
+
+	public function tmkbm($id_tahun)
+	{
+		$this->db->select('tmkbm');
+		return $this->db->get_where('m_tahun',['id_tahun'=>$id_tahun])->row_array();
+	}
 }
 
 /* End of file user.php */

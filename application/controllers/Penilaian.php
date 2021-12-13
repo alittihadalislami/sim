@@ -1107,8 +1107,9 @@ class Penilaian extends CI_Controller {
 		$this->db->where('tahun_id', $data['id_tahun']);
 		$data['cek'] = $this->db->get('t_entriwali')->row_array();
 
+		$tanggal_mulai_kbm = $this->um->tmkbm(6)['tmkbm'];
 
-		$data['sia'] = $this->rm->hitungSIA('20210714',$data['id_santri']);
+		$data['sia'] = $this->rm->hitungSIA($tanggal_mulai_kbm,$data['id_santri']);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('penilaian/f_entry', $data);

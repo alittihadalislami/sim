@@ -116,8 +116,11 @@ class Konfig extends CI_Controller {
 	public function hitungNkh($id_kelas)
 	{
 		ini_set('max_execution_time', 0);
-
-		$tgl_awal_semester = 20210714; //yyyyddmm
+		
+		// $tgl_awal_semester = 20210714; //yyyyddmm
+		
+		$tgl_awal_semester = $this->um->tmkbm(6)['tmkbm'];
+		
 		$q = $this->um->generateNKH($tgl_awal_semester,$id_kelas);
 		$id_tahun = $this->tahunAktif['id_tahun'];
 

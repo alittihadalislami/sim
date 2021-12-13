@@ -894,6 +894,8 @@ class Raport extends CI_Controller {
 			$data['jenis'] = 'Laki-laki';
 		}
 
+		$data['tanggal'] = $this->um->tmkbm(6)['tmkbm'];
+
 		// $this->load->view('templates/header', $data);
 		$this->load->view('raport/identitas', $data);
 		// $this->load->view('templates/footer');

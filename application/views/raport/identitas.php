@@ -46,7 +46,12 @@
            </table>
            <br>
            <div class="kepala" style="font-size: 17px; margin-left: 450px"> 
-                <div>Sampang, 15 Juli 2020</div>
+                <?php
+                  $tahun = substr($tanggal,0,4);
+                  $bulan = substr($tanggal,4,2);
+                  $hari = substr($tanggal,6,4);
+                ?>
+                <div>Sampang, <?=$hari.' / '.$bulan.' / '.$tahun?></div>
                 <div>Mengetahui,</div>
                 <div>Mudir Ma'had</div>
                 <div style="margin-top: 90px; font-weight: bold;">Dr. Achmad Junaidi, Lc., MA.</div>
@@ -107,7 +112,7 @@
            </table>
            <br>
            <div class="kepala" style="font-size: 17px; margin-left: 450px"> 
-                <div>Sampang, 15 Juli 2020</div>
+                <div>Sampang, <?=$hari.' / '.$bulan.' / '.$tahun?></div>
                 <div>Mengetahui,</div>
                 <div>Kepala <?= $jenjang ?></div>
                 <div style="margin-top: 90px; font-weight: bold;"><?= $kepala ?>
