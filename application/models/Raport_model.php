@@ -223,9 +223,9 @@ class Raport_model extends CI_Model {
 	public function identitas($id_santri)
 	{
 		$stringQ = " SELECT 
-						d.`nama_seijazah`,
+						UPPER(d.`nama_seijazah`),
 						CONCAT(d.`nisn`,' / ', d.`nik`) AS nomor,
-						CONCAT(d.`tmp_lahir`,', ',d.`tgl_lahir`) AS tgl,
+						CONCAT(d.`tmp_lahir`,', ',DATE_FORMAT(d.`tgl_lahir`,'%d/%m/%Y') ) AS tgl,
 						'l' AS jenis_kel,
 						'Islam' AS agama,
 						d.`anak_ke`,

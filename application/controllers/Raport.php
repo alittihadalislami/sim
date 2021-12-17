@@ -819,7 +819,7 @@ class Raport extends CI_Controller {
 
 		$data['kol'] = [
 			'Nama Santri (lengkap)',
-			'Nomor Induk / NIK',
+			'NISN / NIK',
 			'Tempat / Tanggal Lahir',
 			'Jenis Kelamin',
 			'Agama',
@@ -833,7 +833,7 @@ class Raport extends CI_Controller {
 			'c. Semester ',
 			'Sekolah Asal',
 			'a. Nama Sekolah ',
-			'b. Alamat',
+			'b. NPSN',
 			'Ijasah SD/MI SMP/MTs',
 			'Tahun',
 			'Nomor',
@@ -858,8 +858,18 @@ class Raport extends CI_Controller {
 
 		foreach ($idt as $i) {
 			$urut = 1;
-			foreach ($i as $v) {
-				$detail [$urut++] = $v;
+			$detail = [];
+			foreach ($i as $k => $v) {
+				if ( // propercase untuk beberapa bagian
+					$k == 'alamat' ||
+					$k == 'bapak_seijazah' ||
+					$k == 'ibu' ||
+					$k == 'ortu18'	
+				) {
+					$detail [$urut++] = ucwords(strtolower($v));
+				}else{
+					$detail [$urut++] = $v;
+				}
 			}
 		}
 

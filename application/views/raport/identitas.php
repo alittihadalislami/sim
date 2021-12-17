@@ -50,8 +50,50 @@
                   $tahun = substr($tanggal,0,4);
                   $bulan = substr($tanggal,4,2);
                   $hari = substr($tanggal,6,4);
+
+                  switch ($bulan) {
+                    case "01":
+                      $bulan = 'Januari';
+                      break;
+                    case "02":
+                      $bulan = 'Februari';
+                      break;
+                    case "03":
+                      $bulan = "Maret";
+                      break;
+                    case "04":
+                      $bulan = "April";
+                      break; 
+                    case "05":
+                      $bulan = "Mei";
+                      break;  
+                    case "06":
+                      $bulan = 'Juni';
+                      break;
+                    case "07":
+                      $bulan = 'Juli';
+                      break;
+                    case "08":
+                      $bulan = "Agustus";
+                      break;
+                    case "09":
+                      $bulan = "September";
+                      break;
+                    case "10":
+                      $bulan = "Oktober";
+                      break;
+                    case "11":
+                      $bulan = "November";
+                      break;
+                    case "12":
+                      $bulan = "Desember";
+                      break;
+                    default:
+                      $bulan = "Juli";
+                  }
+
                 ?>
-                <div>Sampang, <?=$hari.' / '.$bulan.' / '.$tahun?></div>
+                <div>Sampang, <?=$hari.' '.$bulan.' '.$tahun?></div>
                 <div>Mengetahui,</div>
                 <div>Mudir Ma'had</div>
                 <div style="margin-top: 90px; font-weight: bold;">Dr. Achmad Junaidi, Lc., MA.</div>
@@ -87,18 +129,23 @@
              <tr style="height: 23px">
                <td style="width: 300px ; font-size: 17px; ">
                 <?php 
+                  $id++;
+
                   $sub = substr($k,1,1);
-                  if ($sub == '.') {
+                  if ($sub == '.') { // atur indent sub bagian
                     echo '&nbsp&nbsp&nbsp&nbsp'.$k;
                   }else{
-                     echo $no++.'. '.$k;
+                    if ($id == 10) { // mengubah ma'had jadi sekolah
+                      echo $no++.'. Diterima di Sekolah ini';
+                    }else{
+                      echo $no++.'. '.$k;
+                    }
                   }
                 ?>
                 </td>
                <td>:</td>
                <td style="width: 500px; padding-left: 10px; font-size: 17px;">
                 <?php
-                $id++;
                   if ($id == '4') {
                     echo $jenis;
                   }else{
@@ -112,7 +159,7 @@
            </table>
            <br>
            <div class="kepala" style="font-size: 17px; margin-left: 450px"> 
-                <div>Sampang, <?=$hari.' / '.$bulan.' / '.$tahun?></div>
+                <div>Sampang, <?=$hari.' '.$bulan.' '.$tahun?></div>
                 <div>Mengetahui,</div>
                 <div>Kepala <?= $jenjang ?></div>
                 <div style="margin-top: 90px; font-weight: bold;"><?= $kepala ?>
