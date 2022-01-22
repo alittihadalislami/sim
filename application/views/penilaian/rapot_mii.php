@@ -227,25 +227,25 @@
             <tr>
               <td rowspan="3">2</td>
               <td rowspan="3">
-                <div>االغياب</div>
+                <div>الغياب</div>
                 <div>Ketidakhadiran</div>
               </td>
               <td>
-                <div>االمريض</div>
+                <div>المريض</div>
                 <div>Sakit</div>
               </td>
               <td><?=$tambahan['sakit'] == 0 ? '-' : $tambahan['sakit'] ?></td>             
             </tr>
             <tr>
               <td>
-                <div>االإذن</div>
+                <div>الإذن</div>
                 <div>Idzin</div>
               </td>
               <td><?=$tambahan['ijin'] == 0 ? '-' : $tambahan['ijin'] ?></td>
             </tr>
             <tr>
               <td>
-                <div>االغياب</div>
+                <div>الغياب</div>
                 <div>Alpa</div>
               </td>
               <td><?=$tambahan['alpa'] == 0 ? '-' : $tambahan['alpa'] ?></td>

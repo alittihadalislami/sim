@@ -1188,7 +1188,7 @@ class Penilaian extends CI_Controller {
 	{
 		if ($tra_tri == 'tra') {
 			$domir = [
-				'santri' => 'إسم الطالب',
+				'santri' => 'اسم الطالب',
 				'ket' => 'بعد النظر فيما ناله الطالب  من الدرجات، قررت هيئة التدريس بأن الطالب',
 				'naik' => 'ناجح',
 				'wali' => 'ولي الطالب',
