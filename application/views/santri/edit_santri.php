@@ -105,6 +105,10 @@
                         <label for="bapak">5. Nama Bapak</label>
                         <input type="text" class="form-control" name="bapak" value="<?= isset($d_santri['bapak']) ? $d_santri['bapak'] : null ?>">
                       </div>
+                      <div class="form-group pl-1" style="border-left: 5px solid gold">
+                        <label for="ibu">5.1. NIK Bapak</label>
+                        <input type="number" maxlength="16" class="form-control text-bold" name="nik_bapak" value="<?= isset($d_santri['nik_bapak']) ? $d_santri['nik_bapak'] : null ?>">
+                      </div>
                       <div class="form-group">
                         <label for="kerja_bapak">6. Pekerjaan Bapak</label>
                         <input type="text" class="form-control" name="kerja_bapak" value="<?= isset($d_santri['kerja_bapak']) ? $d_santri['kerja_bapak'] : null ?>">
@@ -112,6 +116,10 @@
                       <div class="form-group">
                         <label for="ibu">7. Nama Ibu</label>
                         <input type="text" class="form-control" name="ibu" value="<?= isset($d_santri['ibu']) ? $d_santri['ibu'] : null ?>">
+                      </div>
+                      <div class="form-group pl-1" style="border-left: 5px solid gold">
+                        <label for="ibu">7.1. NIK Ibu</label>
+                        <input type="number" maxlength="16" class="form-control text-bold" name="nik_ibu" value="<?= isset($d_santri['nik_ibu']) ? $d_santri['nik_ibu'] : null ?>">
                       </div>
                       <div class="form-group">
                         <label for="kerja_ibu">8. Pekerjaan Ibu</label>
