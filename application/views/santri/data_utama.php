@@ -85,7 +85,9 @@
                       <th>No SKHU</th>
                       <th>No Peserta UN</th>
                       <th>Nama Ibu</th>
+                      <th>NIK Ibu</th>
                       <th>Nama Bapak</th>
+                      <th>NIK Bapak</th>
                       <th>Tanggal Masuk</th>
                     </tr>
                   </thead>
@@ -150,7 +152,9 @@
                       <td><?= $data['seri_skhun'] ?></td>
                       <td><?= $data['no_ujian'] ?></td>
                       <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['ibu'] ?></td>
+                      <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['nik_ibu'] ?></td>
                       <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['bapak'] ?></td>
+                      <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['nik_bapak'] ?></td>
                       <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['tgl_terima'] ?></td>
 
                     </tr>
