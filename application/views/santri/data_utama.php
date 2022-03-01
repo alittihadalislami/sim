@@ -102,7 +102,6 @@
 
                       foreach ($data as $d => $konten ) {
                         if ($putaran == 3 || $putaran == 6 ) {
-                          # code...
                         }else{
                           if (strlen($konten) > 0) {
                             $status += 1;
@@ -111,7 +110,7 @@
                          $putaran += 1;
                       }
 
-                      $hasil = round($status/16*100,0);
+                      $hasil = round($status/18*100,0); // jumlah kolom ke samping, kalo ada update perlu ditambah
                       if ($hasil < 50) {
                         $badge = "badge badge-danger";
                       }elseif ($hasil < 75) {
@@ -168,6 +167,8 @@
                         $data_kelengkapan_all += round($status_kelengkapan[$k] / $counter[$k],0);
                       }
                       $data_kelengkapan_all = $data_kelengkapan_all / count($counter);
+
+                   
                      ?>
                   </tbody>
                 </table>
