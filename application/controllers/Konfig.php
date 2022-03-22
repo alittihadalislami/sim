@@ -118,7 +118,7 @@ class Konfig extends CI_Controller {
 		ini_set('max_execution_time', 0);
 		
 		// $tgl_awal_semester = 20210714; //yyyyddmm
-    $str_tahun_id = $this->tahunAktif['id_tahun']
+    $str_tahun_id = $this->tahunAktif['id_tahun'];
 		
 		$tgl_awal_semester = $this->um->tmkbm($str_tahun_id)['tmkbm'];
 		
