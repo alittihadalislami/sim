@@ -22,7 +22,7 @@ class Konfig extends CI_Controller {
 		$data['daftar'] = [
 			'Import data walikelas genap dari data ganjil' => base_url('konfig/aturwali'),
 			'Mengajar' => 0,
-			'Tahun Ajaran' => 0,
+			'Tahun Ajaran' => base_url('konfig/tahunAjaran'),
 			'Hitung nilai Kehadiran' => base_url('penilaian/hitungNilaiKehadiran'),
 			'Ambil nilai ijazah untuk nilai raport' => 0,
 			'Ambil nilai serumpun' => 0,
@@ -118,8 +118,9 @@ class Konfig extends CI_Controller {
 		ini_set('max_execution_time', 0);
 		
 		// $tgl_awal_semester = 20210714; //yyyyddmm
+    $str_tahun_id = $this->tahunAktif['id_tahun']
 		
-		$tgl_awal_semester = $this->um->tmkbm(6)['tmkbm'];
+		$tgl_awal_semester = $this->um->tmkbm($str_tahun_id)['tmkbm'];
 		
 		$q = $this->um->generateNKH($tgl_awal_semester,$id_kelas);
 		$id_tahun = $this->tahunAktif['id_tahun'];
@@ -183,5 +184,10 @@ class Konfig extends CI_Controller {
 			redirect('konfig','refresh');
 		 
 	}
+
+  public function tahunAjaran()
+  {
+    echo 'tahun ajaran';
+  }
 
 }
