@@ -47,9 +47,9 @@
            <br>
            <div class="kepala" style="font-size: 17px; margin-left: 450px"> 
                 <?php
-                  $tahun = substr($tanggal,0,4);
-                  $bulan = substr($tanggal,4,2);
-                  $hari = substr($tanggal,6,4);
+                  $tahun = $tanggal[0];
+                  $bulan = $tanggal[1];
+                  $hari = $tanggal[2];
 
                   switch ($bulan) {
                     case "01":

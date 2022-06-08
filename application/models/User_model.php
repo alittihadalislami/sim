@@ -571,6 +571,12 @@ class User_model extends CI_Model {
 		$this->db->select('tmkbm');
 		return $this->db->get_where('m_tahun',['id_tahun'=>$id_tahun])->row_array();
 	}
+
+  public function diterima($santri_id)
+	{
+		$this->db->select('tgl_terima');
+		return $this->db->get_where('t_detail_santri',['santri_id'=>$santri_id])->row_array();
+	}
 }
 
 /* End of file user.php */
