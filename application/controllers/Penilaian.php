@@ -229,22 +229,20 @@ class Penilaian extends CI_Controller {
 			}
 
 			$object_update=[
-						'santri_id'=> $santri,
-						'judul_penelitian'=> '',
-						'judul_tematik'=> '',
-    					'nilai_penelitian' => $penelitian,
-    					'nilai_tematik' => $tematik,
-    					'nilai_karya' => $ijz,
-    					'tahun_id' => $id_tahun
-    				];
+        'santri_id'=> $santri,
+        'judul_penelitian'=> '',
+        'judul_tematik'=> '',
+        'nilai_penelitian' => $penelitian,
+        'nilai_tematik' => $tematik,
+        'nilai_karya' => $ijz,
+        'tahun_id' => $id_tahun
+    	];
 
-    			$this->db->replace('t_karya', $object_update);
+    	$this->db->replace('t_karya', $object_update);
 		}
 
 		redirect('penilaian/uamii_form_karya','refresh');
 		
-
-
 	}
 
 	public function uamii() //rekap nilai uamii

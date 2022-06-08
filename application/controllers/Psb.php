@@ -21,7 +21,7 @@ class Psb extends CI_Controller
     {	
     	$data['judul'] = 'PSB';
     	$this->load->view('templates/header', $data);
-        $this->load->view('psb/p_data_awal_list');
+      $this->load->view('psb/p_data_awal_list');
     } 
     
     public function json() {

@@ -36,7 +36,7 @@
                 		    <th width="15%" >Dokumen</th>
                 		    <th width="15%">Keuangan</th>
                 		    <th width="10%">Asesment</th>
-                            <th width="10%">Aksi</th>
+                        <th width="10%">Aksi</th>
                         </tr>
                     </thead>
         	    
