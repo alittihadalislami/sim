@@ -397,7 +397,7 @@
 					Mengetahui,
 				</div>
 				<div class="bagi-dua" style="margin-top: 0; margin-right: 100px ">
-					Sampang, 18 Desember 2021
+					Sampang, 15 Juli 2022
 				</div>
 			</div>
 			<?php if ($semester == 1): ?>
