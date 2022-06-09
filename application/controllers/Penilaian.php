@@ -228,6 +228,10 @@ class Penilaian extends CI_Controller {
 				$penelitian = $daput["penelitian-$santri"];
 			}
 
+      if ($tematik > 0 && $penelitian > 0) {
+        $ijz = round(($tematik + $penelitian) / 2,0) ;
+      }
+
 			$object_update=[
         'santri_id'=> $santri,
         'judul_penelitian'=> '',
