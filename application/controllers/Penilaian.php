@@ -1156,8 +1156,8 @@ class Penilaian extends CI_Controller {
 			if ($kelas['rombel'] == 6) {
 					$kelas_lanjut = [
 						'kelas'=>'lulus',
-						'ket_id'=>'lulus',
-						'ket_ar'=>'lulus'
+						'ket_id'=>'Lulus',
+						'ket_ar'=>''
 					];
 				}
 				else{

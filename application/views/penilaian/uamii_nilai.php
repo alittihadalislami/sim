@@ -57,11 +57,11 @@
                       <th>Rata-rata</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="nilai_ijazah">
                     <?php $no=1; foreach ($santri as $s): ?>
-                      <tr>
+                      <tr data-key="<?= $no ?>">
                         <td><?= $no++ ?></td>
-                        <td><?= $s['nama_santri'] ?></td>
+                        <td data-key="<?=$s['id_santri']?>"><?= $s['nama_santri'] ?></td>
                         <td><?= $s['nama_kelas'] ?></td>
                         <td>
                           <?php
@@ -96,15 +96,14 @@
                           ?>
                         </td>
                         <?php $nilai = 0; foreach ($mapel as $m): ?>
-                          <td>
+                          <td data-key="<?= $m['id_mapel'] ?>">
                             <?php 
-
                               echo $nilai_ijz = $this->km->nilaiIjz($s['id_santri'],$m['id_mapel'],$id_tahun)['ijz'] ;
                               $nilai += $nilai_ijz;
                             ?>
                           </td>
                         <?php endforeach ?>
-                        <td>
+                        <td data-key="kti">
                           <?php 
                             $karya_ilmiyah = null;
                             foreach ($karya as $k) {
@@ -115,14 +114,14 @@
                             echo $karya_ilmiyah;
                           ?>
                         </td>
-                        <td>
+                        <td data-key="jml">
                           <?php  
                             if ($nilai + $karya_ilmiyah > 0) {
                                echo $nilai + $karya_ilmiyah;
                              } 
                           ?>
                         </td>
-                        <td>
+                        <td data-key="rata">
                           <?php  
                             if ($nilai + $karya_ilmiyah > 0) {
                                echo round(($nilai + $karya_ilmiyah)/26,1);
@@ -151,7 +150,8 @@
 
 <script>
   $(document).ready(function() {
-    var table = $('#leger_nilai').DataTable( {
+
+    var table = $('#leger_nilai').DataTable({
         scrollY:        "600px",
         scrollX:        true,
         scrollCollapse: true,
