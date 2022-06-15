@@ -83,8 +83,71 @@
                     </tr>
                     <?php endforeach ?>                      
                   </tbody>
-                </table>
-              </div>
+                </table>  
+                <hr class="my-4 py-4">            
+                <div class="mt-4 row-sm-12">
+                  <div class="col-md-12 col-xl-8 mb-4">
+                    <h6> 1. Santri dengan nilai dibawah kreteria</h6>
+                    <table class="table table-striped table-hover table-sm">
+                      <thead>
+                        <th>No</th>
+                        <th>Mapel</th>
+                        <th>Santri</th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>Aqidah</td>
+                          <td>ahmad,mahmud,muhammad</td>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>Aqidah</td>
+                          <td>ahmad,mahmud,muhammad</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-sm-6 mb-4">
+                    <h6> 2. Hasil nilai ujian</h6>
+                    <table class="table table-striped table-hover table-sm">
+                      <thead>
+                        <th>No</th>
+                        <th>Santri</th>
+                        <th>Rata-rata</th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td colspan="3" style="height: 2px;">tertinggi</td>
+                        </tr>
+                        <tr>
+                          <td>1</td>
+                          <td>Muhammad</td>
+                          <td>70.8</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="col-sm-6 mb-4">
+                    <h6> 3. Hasil nilai suluk</h6>
+                    <table class="table table-striped table-hover table-sm">
+                      <thead>
+                        <th>No</th>
+                        <th>Mapel</th>
+                        <th>Santri</th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>Aqidah</td>
+                          <td>ahmad,mahmud,muhammad</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
             </div>
 
         </div>
