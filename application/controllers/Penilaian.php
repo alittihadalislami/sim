@@ -867,7 +867,7 @@ class Penilaian extends CI_Controller {
 			$data['is_kepala'] = 0;
 		}
 
-
+    $data['nama_wali'] = $this->um->showNamaAsatid($this->cekwali()['asatid_id'])['nama_asatid'];
 
 		$data['judul'] = 'Leger Nilai';
 		$filter_kelas = $this->cekwali()['kelas_id'];
@@ -882,8 +882,6 @@ class Penilaian extends CI_Controller {
 		$data['mapel_perkelas'] = $this->um->mapelPerkelas($filter_kelas,$data['id_tahun']);
 		$data['nilai_perkelas'] = $this->um->nilaiPerkelas($filter_kelas,$data['id_tahun']);
 		$suluk_perkelas = $this->um->sulukPersantriPerkelas($filter_kelas,$data['id_tahun']);
-
-		// var_dump($data['mapel_perkelas']);die();
 
 		// foreach ($nilai_perkelas as $target) {
 		// 	$nilaiperkelas[] = [

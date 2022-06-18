@@ -91,7 +91,7 @@
                       <th>Tanggal Masuk</th>
                     </tr>
                   </thead>
-                  <tbody id="isi-table">
+                  <tbody id="isi-table" class="text-nowrap">
                     <?php $hasil = 0;  foreach ($data_detail as $data): ?>
 
                     <tr>
