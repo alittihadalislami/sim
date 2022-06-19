@@ -320,8 +320,6 @@ class Penilaian extends CI_Controller {
 	public function tambah_na()
 	{
 		$daput = $this->input->post(null,true);
-
-		
 		$id_tahun = $daput['id_tahun-0'];
 		$id_kelas = $daput['id_kelas-0'];
 		$id_mapel = $daput['id_mapel-0'];
@@ -375,7 +373,7 @@ class Penilaian extends CI_Controller {
     					'pas' => $daput["pas-$santri"],
     					'nrp' => $daput["nrp-$santri"]
     				];
-    				echo "<br>";
+    				// echo "<br>";
     				// var_dump($object_update);
     				// echo 'nilai-akhir'. $nilai_akhir['id_na'].'<- <br>';
     				$this->db->where('id_na', $nilai_akhir['id_na']);
