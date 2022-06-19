@@ -26,7 +26,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Rekapitulasi</h1>
+          <h1>Analisa hasil ujian</h1>
         </div>
       </div>
     </div><!-- /.container-fluid -->
@@ -40,96 +40,101 @@
           
           <div class="card">
               <div class="card-header">
-                <h5 class="card-title">Leger nilai semua mata pelajaran</h5>
+                <h5 class="card-title">pilihlah kelas berikut:</h5>
                 <?php if (isset($semua_kelas)) : ?>
                   <?php $id=1; foreach ($semua_kelas as $sk): ?>
-                    <a href="#" class="kelas badge badge-success" style="font-size: 15px; font-weight: lighter;" id="<?= $id++?>" data-id="<?= $sk['id_kelas'] ?>" ><?=$sk['nama_kelas']?></a>
+                    <a href="<?=base_url('kurikulum/analisa/').$sk['id_kelas']?>" class="kelas badge badge-success" style="font-size: 15px; font-weight: lighter;" id="<?= $id++?>" data-id="<?= $sk['id_kelas'] ?>" ><?=$sk['nama_kelas']?></a>
                   <?php endforeach ?>
                 <?php endif ?>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <h1 id="kls_terpilih" class="badge badge-success" style="font-size: 30px; font-weight: lighter;">#<?=$nama_kelas['nama_kelas']?></h1>
-                <table id="leger_nilai" class="table table-striped table-hover">
-                  <thead>                  
-                    <tr>
-                      <th>#</th>
-                      <th>Nama Santri</th>
-                      <th>Suluk</th>
-                      <?php foreach ($mapel_perkelas as $mk): ?>
-                        <th><?=$mk['nama_mapel'] ?></th>
-                      <?php endforeach ?>
-                        <th>Rata-Rata</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php $no=1; foreach ($santri as $s): ?>
-                    <tr>
-                      <td><?=$no++;?></td>
-                      <td><?= $s['nama_santri'] ?></td> 
-                      <td><?= $suluk[$s['id_santri']] ?></td> 
-                        <?php 
-                          $nkh = 0; 
-                          $nrp = 0; 
-                          $jml_mapel = 0;                         
-                        ?>
+                <button id ="klik" class="btn btn-success" data-toggle="collapse" data-target="#demo">#<?=$nama_kelas['nama_kelas']?></button>
+                <div id="demo" class="collapse">
+                  <table id="leger_nilai" class="table table-striped table-hover">
+                    <thead>                  
+                      <tr>
+                        <th>#</th>
+                        <th>Nama Santri</th>
+                        <th>Suluk</th>
                         <?php foreach ($mapel_perkelas as $mk): ?>
-                        <td>
-                          <?php 
-                            $nilai_mapel = 0; 
-                            $jml_santri = 0; 
-                          ?>
-                          <?php foreach ($nilai_perkelas as $nilai): ?>
-                            <?php
-                              if ( $nilai['mapel_id'] == $mk['mapel_id'] and $nilai['santri_id'] ==  $s['id_santri'] ) {
-                                echo $nilai['nrp'];
-                                $nrp = $nrp + $nilai['nrp'];
-                                $nkh = $nkh + $nilai['nkh'];
-                                $jml_mapel = $jml_mapel + 1;
-                              }
-                              if ( $nilai['mapel_id'] == $mk['mapel_id'] ) {
-                                  $nilai_mapel = $nilai_mapel + $nilai['nrp'];
-                                  $jml_santri = $jml_santri + 1;
-                              }
-                            ?>
-                          <?php endforeach ?>  
-                          <?php
-                            if ($nilai_mapel>0) {
-                              $rata2mapel[$mk['mapel_id']] = round($nilai_mapel/$jml_santri,2) ;
-                            }else{
-                              $rata2mapel[$mk['mapel_id']] = 0;
-                            }
-                          ?>                  
-                        </td>
+                          <th><?=$mk['nama_mapel'] ?></th>
                         <?php endforeach ?>
-                        <?php 
-                          $rata2santri = round($nrp/$jml_mapel,2);
-                          $rata2kehadiran = round($nkh/$jml_mapel,2) ;
-                        ?> 
-                        <td><?=$rata2santri?></td>
-                    </tr>
-                      <?php
-                        $nama = $s['nama_santri'];
-                        $nilai_suluk = $suluk[$s['id_santri']];
-                        $kolektif_suluk[$s['id_santri']] = $nilai_suluk;
-                        $kolektif_ujian[$s['id_santri']] = $rata2santri;
-                        $kolektif_kehadiran[$s['id_santri']] = $rata2kehadiran;
-                        
-                        $nilai_kreteria [$s['id_santri']] = [
-                          'Aqidah' => null, //'Aqidah'
-                          'Ilmu Akhlaq' => null, //'Ilmu Akhlaq'
-                          'Fiqih' => null  //'Fiqih'
-                        ];
-
-                        ?>
-                    <?php endforeach ?>                      
-                  </tbody>
-                </table>  
+                          <th>Rata-Rata</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php $no=1; foreach ($santri as $s): ?>
+                      <tr>
+                        <td><?=$no++;?></td>
+                        <td><?= $s['nama_santri'] ?></td> 
+                        <td><?= $suluk[$s['id_santri']] ?></td> 
+                          <?php 
+                            $nkh = 0; 
+                            $nrp = 0; 
+                            $jml_mapel = 0;                         
+                          ?>
+                          <?php foreach ($mapel_perkelas as $mk): ?>
+                          <td>
+                            <?php 
+                              $nilai_mapel = 0; 
+                              $jml_santri = 0; 
+                            ?>
+                            <?php foreach ($nilai_perkelas as $nilai): ?>
+                              <?php
+                                if ( $nilai['mapel_id'] == $mk['mapel_id'] and $nilai['santri_id'] ==  $s['id_santri'] ) {
+                                  echo $nilai['nrp'];
+                                  $nrp = $nrp + $nilai['nrp'];
+                                  $nkh = $nkh + $nilai['nkh'];
+                                  $jml_mapel = $jml_mapel + 1;
+                                }
+                                if ( $nilai['mapel_id'] == $mk['mapel_id'] ) {
+                                    $nilai_mapel = $nilai_mapel + $nilai['nrp'];
+                                    $jml_santri = $jml_santri + 1;
+                                }
+                              ?>
+                            <?php endforeach ?>  
+                            <?php
+                              if ($nilai_mapel>0) {
+                                $rata2mapel[$mk['mapel_id']] = round($nilai_mapel/$jml_santri,2) ;
+                              }else{
+                                $rata2mapel[$mk['mapel_id']] = 0;
+                              }
+                            ?>                  
+                          </td>
+                          <?php endforeach ?>
+                          <?php 
+                            $rata2santri = round($nrp/$jml_mapel,2);
+                            $rata2kehadiran = round($nkh/$jml_mapel,2) ;
+                          ?> 
+                          <td><?=$rata2santri?></td>
+                      </tr>
+                        <?php
+                          $nama = $s['nama_santri'];
+                          $nilai_suluk = $suluk[$s['id_santri']];
+                          $kolektif_suluk[$s['id_santri']] = $nilai_suluk;
+                          $kolektif_ujian[$s['id_santri']] = $rata2santri;
+                          $kolektif_kehadiran[$s['id_santri']] = $rata2kehadiran;
+                          
+                          $nilai_kreteria [$s['id_santri']] = [
+                            'Aqidah' => null, //'Aqidah'
+                            'Ilmu Akhlaq' => null, //'Ilmu Akhlaq'
+                            'Fiqih' => null  //'Fiqih'
+                          ];
+  
+                          ?>
+                      <?php endforeach ?>                      
+                    </tbody>
+                  </table>  
+                </div>
                 <?php 
                   arsort($kolektif_ujian);
                   arsort($kolektif_suluk);
                   arsort($kolektif_kehadiran);
                   arsort($rata2mapel);
+
+                  // var_dump($kolektif_ujian);
+                  // var_dump($nilai_perkelas);
 
                   $suluk_tertinggi = array_slice($kolektif_suluk,0,3,true);
                   foreach ($suluk_tertinggi as $key => $value) {
@@ -228,7 +233,7 @@
                       </div>
                       <div class="row">
                         <div class="col-4 pl-0">Nama Wali</div>
-                        <div class="col-8 text-bold pl-0">: <?= $nama_wali ?></div>
+                        <div class="col-8 text-bold pl-0">: <?=$nama_wali['nama_asatid'] ?></div>
                       </div>
                       <div class="row">
                         <div class="col-4 pl-0">Semester</div>
@@ -415,14 +420,45 @@
 
 <script>
   $(document).ready(function() {
-    var table = $('#leger_nilai').DataTable( {
+    // var table = $('#leger_nilai').DataTable( {
+    //     scrollY:        "600px",
+    //     scrollX:        true,
+    //     scrollCollapse: true,
+    //     paging:         false,
+    //     fixedColumns:   {
+    //         leftColumns: 2
+    //     }
+    // });
+    klik = 0
+    $('#klik').click(function(){
+      klik = klik + 1
+      if (klik == 1) {
+        setTimeout(function(){
+          table = $('#leger_nilai').DataTable( {
+            scrollY:        "600px",
+            scrollX:        true,
+            scrollCollapse: true,
+            paging:         false,
+            fixedColumns:   {
+              leftColumns: 2
+            }
+          });
+        }, 200);  
+      }
+    })
+
+    $('#klik2').click(function(){
+      // table.destroy();
+      table = $('#leger_nilai').DataTable( {
         scrollY:        "600px",
         scrollX:        true,
         scrollCollapse: true,
         paging:         false,
         fixedColumns:   {
-            leftColumns: 2
+          leftColumns: 2
         }
+      });
     });
+
   });
 </script>

@@ -342,6 +342,18 @@ class Raport_model extends CI_Model {
 		$this->db->query($stringQ);
 		return $this->db->affected_rows();
 	}
+
+  public function lebihSatuNilai($santri,$tahun,$mapel,$kelas)
+  {
+    //cek nilai apakah terinput lebih dari 1 kali
+    $stringQ = " SELECT *
+        FROM t_na n
+        WHERE n.`santri_id` = $santri
+        AND n.`tahun_id` = $tahun
+        AND n.`mapel_id` = $mapel
+        AND n.`kelas_id` = $kelas ";
+		return $this->db->query($stringQ)->result_array();
+  }
 }
 
 /* End of file Raport_model.php */

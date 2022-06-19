@@ -178,7 +178,19 @@
           <div class="nilai">
             <div class="br2 ident lb-1" id="dorongindent"><?=$i++;?></div>
             <div class="br2 ident lb-1a"><?= $s['idk_mii']; ?></div>
-            <div class="br2 nmtebal lb-3"><?= $s['nama_santri']; ?></div>
+            <?php
+            $nilai_tersedia = $this->rm->lebihSatuNilai($s['id_santri'],$id_tahun,$id_mapel,$id_kelas);
+            $lebih_dari_satu = count($nilai_tersedia)>1;
+            ?>
+            <div class="br2 nmtebal lb-3">
+              <?= $s['nama_santri']; ?> 
+              <?php if ($lebih_dari_satu) : ?>
+                <?php
+                    $id_na = $nilai_tersedia[1]['id_na'];
+                ?>
+                <a href="<?= base_url('penilaian/hapusNilaiGanda/'.$id_na.'/'.$id_asatid.'/'.$id_mapel.'/'.$id_kelas) ?>"><i class="fa fa-check"></i></a>
+              <?php endif ?>
+            </div>
 
             <div class="br2 awnilai lb-2"><input class="form-control lb-i nkh" type="number" min="0" max="100" name="nkh-<?= $s['id_santri'];?>" id="nkh-<?=$i?>" placeholder="NKH" value="<?= isset($na[$s['id_santri']]['nkh']) ? $na[$s['id_santri']]['nkh'] : ''; ?>"></div>
 

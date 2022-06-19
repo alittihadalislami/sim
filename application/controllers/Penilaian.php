@@ -50,6 +50,18 @@ class Penilaian extends CI_Controller {
 		echo $kembali_lagi;
 	}
 
+  public function hapusNilaiGanda($id_na,$id_asatid,$id_mapel,$id_kelas){
+    $stringQ = " DELETE FROM t_na WHERE t_na.id_na = $id_na ";
+    $this->db->query($stringQ);
+    // print($stringQ);
+    // echo '<hr>';
+    // echo 'penilaian/na/'.$id_asatid.'/'.$id_mapel.'/'.$id_kelas;
+    $res = $this->db->affected_rows();
+    // var_dump($res);
+    redirect('penilaian/na/'.$id_asatid.'/'.$id_mapel.'/'.$id_kelas,'refresh');
+
+  }
+
 	public function na()
 	{
 		is_ngajar();
@@ -58,6 +70,7 @@ class Penilaian extends CI_Controller {
 		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
 		$data['id_kelas'] = $this->uri->segment(5);
 		$data['id_mapel'] = $this->uri->segment(4);
+		$data['id_asatid'] = $this->uri->segment(3);
 		$data['santri'] = $this->um->santriKelas($data['id_kelas'], $data['id_tahun']);
 
 		//ambil nilai kkm dari tabel kd
@@ -91,7 +104,7 @@ class Penilaian extends CI_Controller {
 			$data['na'] = $na;
 		}
 		
-		//var_dump($data['na']);die();
+		// var_dump($data['na']);die();
 		
 		//mencari nama kelas
 		$this->db->select('nama_kelas');
@@ -362,14 +375,15 @@ class Penilaian extends CI_Controller {
     					'pas' => $daput["pas-$santri"],
     					'nrp' => $daput["nrp-$santri"]
     				];
-    				// echo "<br>";
+    				echo "<br>";
     				// var_dump($object_update);
-    				// echo 'nilai-akhir'. $nilai_akhir['id_na'].'<-<br>';
+    				// echo 'nilai-akhir'. $nilai_akhir['id_na'].'<- <br>';
     				$this->db->where('id_na', $nilai_akhir['id_na']);
     				$affect_update = $this->db->update('t_na', $object_update);
     			}
     		}
 		}
+
 		if ($affect_insert > 0 ) {
 			$this->session->set_flashdata('pesan', '<div class="col-lg-12">
 	    		<div class="col-md-6 mt-4 py-1 alert alert-success alert-dismissible elevation-2">
@@ -855,10 +869,8 @@ class Penilaian extends CI_Controller {
 
 	public function legerNilai(){
 
-	   	ini_set('memory_limit', '1024M');
-
+	  ini_set('memory_limit', '1024M');
 	   	// phpinfo();die();
-
 		$nohp = $this->um->dataAktif($this->session->userdata('email'))['nohp'];
 		$id_asatid = $this->um->idAsatid($nohp)['id_asatid'];
 		if ($id_asatid == 111 || $id_asatid == 2 || $id_asatid == 'M' || $id_asatid == 9) {
@@ -882,16 +894,6 @@ class Penilaian extends CI_Controller {
 		$data['mapel_perkelas'] = $this->um->mapelPerkelas($filter_kelas,$data['id_tahun']);
 		$data['nilai_perkelas'] = $this->um->nilaiPerkelas($filter_kelas,$data['id_tahun']);
 		$suluk_perkelas = $this->um->sulukPersantriPerkelas($filter_kelas,$data['id_tahun']);
-
-		// foreach ($nilai_perkelas as $target) {
-		// 	$nilaiperkelas[] = [
-		// 		'mapel_id' => $target['mapel_id'], 
-		// 		'santri_id' =>$target['santri_id'],
-		// 		'nilai' => $target['nrp'],
-		// 		'tandd' => $target['nrp']<70 ? "-" : "+"
-		// 	];
-		// }
-		// $data['nilai'] = $nilaiperkelas;
 
 		foreach ($suluk_perkelas as $slk) {
 			switch ( $slk['slk'] ) {
@@ -917,8 +919,6 @@ class Penilaian extends CI_Controller {
 		$data['suluk'] = $nilai_suluk;
 
 		$data['semua_kelas'] = null;
-
-		// var_dump($data);die();
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('penilaian/leger_nilai');

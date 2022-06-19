@@ -302,8 +302,14 @@ class User_model extends CI_Model {
 	public function nilaiPerkelas($kelas_id, $tahun_id)
 	{
 		$stringQ = "SELECT n.`kelas_id`, n.`mapel_id`, n.`tahun_id`, n.`santri_id`, n.`nkh`, n.`nhr`, n.`pts`, n.`pas`, ROUND((n.`nkh`+ n.`nhr` + n.`pts`+ n.`pas`)/4,2) AS nrp
-					FROM t_na n
-					WHERE kelas_id = $kelas_id AND tahun_id = $tahun_id";
+                FROM t_na n
+                WHERE kelas_id = $kelas_id 
+                AND tahun_id = $tahun_id
+                AND n.`santri_id` IN (
+                  SELECT g.`santri_id`
+                  FROM t_agtkelas g
+                  WHERE g.`tahun_id` = $tahun_id
+                  AND g.`kelas_id` = $kelas_id)";
 		return  $this->db->query($stringQ)->result_array();
 	}
 

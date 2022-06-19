@@ -217,6 +217,57 @@ class Kurikulum extends CI_Controller {
 		$kbm = $this->krm->kbm(4);
 		echo json_encode($kbm);
 	}
+
+  public function analisa($id_kelas=14){
+
+	  ini_set('memory_limit', '1024M');
+
+    
+		$data['judul'] = 'Leger Nilai';
+    $filter_kelas = $id_kelas;
+    
+    
+    
+		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
+    $data['nama_wali'] = $this->um->showNamaWali($id_kelas,$data['id_tahun']);
+		$data['nama_kelas'] = $this->um->showNamaKelas($filter_kelas);
+		$data['semua_kelas'] = $this->db
+        ->order_by('nama_kelas','asc')
+        ->get_where('m_kelas',['active'=> 1])
+        ->result_array();
+		$data['santri'] = $this->um->santriKelas($filter_kelas, $data['id_tahun']);
+		$data['mapel_perkelas'] = $this->um->mapelPerkelas($filter_kelas,$data['id_tahun']);
+		$data['nilai_perkelas'] = $this->um->nilaiPerkelas($filter_kelas,$data['id_tahun']);
+		$suluk_perkelas = $this->um->sulukPersantriPerkelas($filter_kelas,$data['id_tahun']);
+
+		foreach ($suluk_perkelas as $slk) {
+			switch ( $slk['slk'] ) {
+				case $slk['slk'] > 90 :
+					$suluk_k = "A";
+					break;
+				case $slk['slk'] > 80 :
+					$suluk_k = "B";
+					break;
+				case $slk['slk'] > 70 :
+					$suluk_k = "C";
+					break;
+				case $slk['slk'] > 60 :
+					$suluk_k = "D";
+					break;
+				default:
+					$suluk_k = "E";
+					break;
+			}
+			$nilai_suluk [ $slk['santri_id'] ] = $slk['slk'].'/'.$suluk_k;
+		}
+
+		$data['suluk'] = $nilai_suluk;
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('kurikulum/analisa_nilai');
+		$this->load->view('templates/footer');
+
+	}
 }
 
 /* End of file asatid.php */
