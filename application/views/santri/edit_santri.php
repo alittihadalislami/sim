@@ -40,11 +40,11 @@
                   </div>
                 </div>
               <div class="form-group">
-                <label for="asatid">Nama Santri</label>
-                <input type="text" class="form-control" style="font-weight: bold; font-size: 20px; color: black" value="<?=$santri['nama_santri']?>" required="true" readonly="true">
+                <label>Nama Santri</label>
+                <input type="text" class="form-control" style="font-weight: bold; font-size: 20px; color: black" value="<?=$santri['nama_santri']?>" required="true" readonly="true" name="nama_daftar">
               </div>
               <div class="form-group">
-                <label for="asatid">Nomor Induk</label>
+                <label>Nomor Induk</label>
                 <input type="text" class="form-control" name="santri_id" value="<?=$santri['id_santri']?>" required="true" readonly="true" hidden="true">
                 
                 <div class="row">
@@ -515,11 +515,52 @@
       window.location.href = "";
     })
 
-    // $("#nik").on("keyup", function(e) {
-    //   nik = $("#nik").val()
-    //   console.log(nik.length)
-    // })
+    nama_seijazah = $('input[name="nama_seijazah"]').filter(function() { return $(this).val() == ""; });
+    if (nama_seijazah.length > 0) {
+      $(nama_seijazah).val($('input[name="nama_daftar"]').val())
+      console.log('dijalankan')
+    }
 
+    kosong = $('input').filter(function() { return $(this).val() == ""; });
+    kosong.css("background-color", "gold");
+    kosong.on('keyup', function(){
+      if ($(':focus').val() == '') {
+        $(':focus').css("background-color", "gold")
+      }else{
+        $(':focus').css("background-color", "")
+      }
+    })
+
+    kosong_tanggal = $('input[type="date"]').filter(function() { return $(this).val() == ""; });
+    kosong_tanggal.on('change', function(){
+      if ($(':focus').val() == '') {
+        $(':focus').css("background-color", "gold")
+      }else{
+        $(':focus').css("background-color", "")
+      }
+    })
+
+    alamat_ortu = $('textarea[name="alamat_ortu"]');
+    if (alamat_ortu.val() == '') {
+      alamat_ortu.css("background-color", "gold")
+    }
+    alamat_ortu.on('keyup',function(){
+      if (alamat_ortu.val() == '') {
+        alamat_ortu.css("background-color", "gold")
+      }else{
+        alamat_ortu.css("background-color", "")
+      }
+    })
+
+    for (let i = 1; i < kosong.length; i++) {
+      const e_sebelumnya = kosong[i-1].parentElement.parentElement.parentElement
+      const e = kosong[i].parentElement.parentElement.parentElement
+      if ($(e).attr('data-parent') == '#accordion') {
+        if (e != e_sebelumnya) {
+          $(e).addClass('show')
+        }
+      }
+    }
 
   })
 </script>
