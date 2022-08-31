@@ -41,7 +41,7 @@
                 </div>
               <div class="form-group">
                 <label>Nama Santri</label>
-                <input type="text" class="form-control" style="font-weight: bold; font-size: 20px; color: black" value="<?=$santri['nama_santri']?>" required="true" readonly="true" name="nama_daftar">
+                <input type="text" class="form-control" style="font-weight: bold; font-size: 20px; color: black" value="<?=$santri['nama_santri']?>" required="true" readonly="true" id="nama_daftar">
               </div>
               <div class="form-group">
                 <label>Nomor Induk</label>
@@ -517,7 +517,7 @@
 
     nama_seijazah = $('input[name="nama_seijazah"]').filter(function() { return $(this).val() == ""; });
     if (nama_seijazah.length > 0) {
-      $(nama_seijazah).val($('input[name="nama_daftar"]').val())
+      $(nama_seijazah).val($('input[id="nama_daftar"]').val())
       console.log('dijalankan')
     }
 
