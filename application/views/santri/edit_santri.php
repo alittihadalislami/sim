@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css"></link>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
   @media only screen and (min-width: 769px) {
@@ -417,12 +416,31 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="sweetalert2.min.js"></script>
 <link rel="stylesheet" href="sweetalert2.min.css"></link>
+<Style>
+  #rotate {
+    width: 20px;
+    height: 20px;
+    animation-name: spin;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear; 
+  }
+  @keyframes spin {
+    from {
+      transform:rotate(0deg);
+    }
+    to {
+      transform:rotate(360deg);
+    }
+  }
+</Style>
 
 <script>
   $(document).ready(function(){
-
+    
+    url_gif = '<?=base_url()?>assets/img/rotate2.svg'
     const buatLoading = () => {
-      spinner = '<i class="fa fa-refresh fa-spin mx-4 mt-1" style="font-size:20px"></i>'
+      spinner = '<img class="mx-4" id="rotate" src='+url_gif+'>';
       $('#simpan2').html(spinner)
     }
 
