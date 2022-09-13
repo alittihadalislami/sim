@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
 <style>
   @media only screen and (min-width: 769px) {
     .alert{
@@ -137,7 +138,6 @@
                 <div class="card">
                   <div class="btn btn-primary collapsed" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><strong>DATA IJAZAH, SKHU</strong>
                   </div>
-
                   <div id="collapseTwo" class="collapse bg-light" aria-labelledby="headingTwo" data-parent="#accordion">
                     <div class="card-body">
                       <div class="form-group">
@@ -150,7 +150,7 @@
                       </div>
                       <div class="form-group">
                         <label for="tgl_lahir">3. Tanggal Lahir</label>
-                        <input type="date" name="tgl_lahir" max="2019-12-31" min="1990-01-01" class="form-control" value="<?= isset($d_santri['tgl_lahir']) ? $d_santri['tgl_lahir'] : null ?>">
+                        <input class="form-control" type="text" id="tgl_lahir" data-toggle="datepicker" name="tgl_lahir" value="<?= isset($d_santri['tgl_lahir']) ? $d_santri['tgl_lahir'] : null ?>">
                       </div>
                       <div class="form-group">
                         <label for="bapak_seijazah">4. Nama Bapak sesuai IJAZAH</label>
@@ -199,7 +199,7 @@
                     <div class="card-body">
                       <div class="form-group">
                         <label for="tgl_terima">1. Diterima tanggal</label>
-                        <input type="date" name="tgl_terima" class="form-control" value="<?= isset($d_santri['tgl_terima']) ? $d_santri['tgl_terima'] : null ?>">
+                        <input type="text" name="tgl_terima" data-toggle="datepicker" class="form-control" value="<?= isset($d_santri['tgl_terima']) ? $d_santri['tgl_terima'] : null ?>">
                       </div>
                       <div class="form-group">
                         <label for="kelas_terima">2. Kelas</label>
@@ -260,20 +260,24 @@
                         ?> 
                           
                           
-                          <div class="checkbox">
-
+                          <div>
                             <input 
+                            class="cek-peminatan"
                             id="<?= $value->id_minat ?>" 
                             type="checkbox" 
-                            minat="minat[]" <?= $checked ?> >
+                            minat="minat[]" <?= $checked ?> 
+                            data-id_santri="<?=$santri['id_santri']?>" 
+                            data-id_minat="<?= $value->id_minat ?>" 
+                            >
                             
                             <label 
-                              class="pilihan" 
+                              class="pilihan-peminatan" 
                               style="cursor: pointer;"
+                              for="<?= $value->id_minat ?>" 
                               data-id_santri="<?=$santri['id_santri']?>" 
-                              data-id_minat="<?= $value->id_minat ?>" 
-                              for="<?= $value->id_minat ?>" > 
-                                <?= $value->nama_minat ?>
+                              data-id_minat="<?= $value->id_minat ?>"  
+                            > 
+                              <?= $value->nama_minat ?>
                             </label>
                           </div>
 
@@ -290,8 +294,8 @@
                   </div>
                 </div>
               </div>
-
-              <button type="sumbit" class="btn btn-primary float-right elevation-4">Simpan</button>
+              <!-- <button type="sumbit" class="btn btn-primary float-right elevation-4">Simpan</button> -->
+              <a id="simpan2" class="btn btn-primary elevation-4 float-right text-white">Simpan</a>
             </form>
           </div>
         </div>
@@ -406,19 +410,121 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="<?=base_url()?>assets/js/bootstrap-datepicker.id.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="sweetalert2.min.js"></script>
+<link rel="stylesheet" href="sweetalert2.min.css">
+
 <script>
   $(document).ready(function(){
 
-    $('.pilihan').unbind("click").click(function(){
+    // simpan ajax
+    $("#simpan2").on('click', function(e){
+      const collectData = () => {
+        let data = $('form').serializeArray()
+        let daput = {}
+        data.forEach(function(el,index){
+          if (index <= 28 ) {
+            daput [el.name] = el.value
+          }
+        });
+        return daput
+      }
+      $.ajax({
+        type: "POST",
+        url: "<?=base_url()?>santri/ubah_santri",
+        data: {ajax:collectData()},
+        success: function (response) {
+          if (response == 'berhasil diubah') {
+            icon = 'success';
+          }else{
+            icon = 'info';
+          }
+          Swal.fire({
+            title: response,
+            icon: icon,
+            position :'top-end',
+            timer: 2500,
+            toast: true,
+            showConfirmButton: false,
+          })
+        }
+      });
+    });
+
+    $('input[data-toggle="datepicker"]').datepicker({
+        format: "dd-mm-yyyy",
+        autoclose: true,
+        language: 'id'
+    });
+
+    $('input[data-toggle="datepicker"]').change(function (e) { 
+      e.preventDefault();
+      tgl = $(this).val().split("-")
+      bulan_angka= tgl[1]-1
+      bulan_huruf = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]
+      $( ".kotak_terbilang" ).remove();
+      $(this).after('<div class="ml-2 text-bold text-success small kotak_terbilang"><i class=<i class="fa-calendar-alt"></i>'+(tgl[0]+' '+bulan_huruf[bulan_angka].toUpperCase()+' '+tgl[2])+'</div>')
+    });
+
+    $('.pilihan-peminatan').click(function(evt){
       minat = $(this).data("id_minat");
       santri = $(this).data("id_santri");
-
       $.ajax({
         type:'post',
         url:'<?=base_url()?>Kesantrian/simpanKlub',
         data:{minat_id:minat,santri_id:santri},
-        success:function(){
+        success:function(data){
+          if (data.substring(0,4) == 'Hapu') {
+            pesan = 'data peminatan berhasil dihapus'
+            tanda = 'error'
+          }else {
+            pesan = 'data peminatan berhasil disimpan'
+            tanda = 'success'
+          }
+          Swal.fire({
+            icon: tanda,
+            position :'top-end',
+            timer: 2500,
+            toast: true,
+            showConfirmButton: false,
+            title : pesan,
+          })
+        }
+      })
+      kotak = $(this).siblings()
+      if ($(kotak).is(':checked')) {
+        $(kotak).prop('checked', false)
+      }else{
+        $(kotak).prop('checked', true)
+      }
+      return false;
+    })
 
+    $('.cek-peminatan').click(function(e){
+      minat = $(this).data("id_minat");
+      santri = $(this).data("id_santri");
+      $.ajax({
+        type:'post',
+        url:'<?=base_url()?>Kesantrian/simpanKlub',
+        data:{minat_id:minat,santri_id:santri},
+        success:function(data){
+          if (data.substring(0,4) == 'Hapu') {
+            pesan = 'data peminatan berhasil dihapus'
+            tanda = 'error'
+          }else {
+            pesan = 'data peminatan berhasil disimpan'
+            tanda = 'success'
+          }
+          Swal.fire({
+            icon: tanda,
+            position :'top-end',
+            timer: 2500,
+            toast: true,
+            showConfirmButton: false,
+            title : pesan,
+          })
         }
       })
     })
@@ -531,15 +637,6 @@
       }
     })
 
-    kosong_tanggal = $('input[type="date"]').filter(function() { return $(this).val() == ""; });
-    kosong_tanggal.on('change', function(){
-      if ($(':focus').val() == '') {
-        $(':focus').css("background-color", "gold")
-      }else{
-        $(':focus').css("background-color", "")
-      }
-    })
-
     alamat_ortu = $('textarea[name="alamat_ortu"]');
     if (alamat_ortu.val() == '') {
       alamat_ortu.css("background-color", "gold")
@@ -552,6 +649,7 @@
       }
     })
 
+    //menampilakan box yang masih terdapat data kosong
     for (let i = 1; i < kosong.length; i++) {
       const e_sebelumnya = kosong[i-1].parentElement.parentElement.parentElement
       const e = kosong[i].parentElement.parentElement.parentElement

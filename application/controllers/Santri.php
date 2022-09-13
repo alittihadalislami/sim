@@ -314,23 +314,31 @@ class Santri extends CI_Controller {
 
 	public function ubah_santri()
 	{
-		$daput = $this->input->post();
-
+    $daput = $this->input->post();
+    //jika menggunakan ajax
+    if ($this->input->is_ajax_request()) {
+      $daput = ($daput['ajax']);
+    }
 		//buang spasi dan huruf kapital
 		if ($daput['nama_seijazah'] != null) {
 			$clean_nama = $this->removeWhiteSpace($daput['nama_seijazah']);
 			$daput['nama_seijazah'] = $clean_nama;
 		}
-
 		$ada = $this->km->adaDetail($daput['santri_id']);
-
 		if ($ada > 0) {
 			$this->db->where('santri_id', $daput['santri_id']);
 			$this->db->update('t_detail_santri', $daput);
 		}else{
 			$this->db->insert('t_detail_santri', $daput);
 		}
-		
+    $afftectedRows = $this->db->affected_rows();
+    if ($this->input->is_ajax_request()) {
+      if ($afftectedRows > 0 ) {
+        echo 'berhasil diubah';
+      }else{
+        echo 'tidak ada perubahan';
+      }
+    }
 		redirect('santri/perkelas/','refresh');
 	}
 
@@ -713,6 +721,22 @@ class Santri extends CI_Controller {
 			$this->load->view('templates/header', $data);
 			$this->load->view('santri/tambahPencatatanKesantrian', $data);
 			$this->load->view('templates/footer');
+		}
+
+	}
+
+	public function perbaikiFormatTanggalManual()
+	{
+		$StringQ = " SELECT ds.`santri_id`, ds.`nik`, ds.`tgl_lahir`,ds.`nama_seijazah`
+						FROM t_detail_santri ds ";
+		$data = $this->db->query($StringQ)->result_array();
+		
+		foreach ($data as $value) {
+			echo $value['santri_id'].'|';
+			echo $value['nik'].'|';
+			echo $value['tgl_lahir'].'|';
+			echo $value['nama_seijazah'];
+			echo '<br>';
 		}
 
 	}
