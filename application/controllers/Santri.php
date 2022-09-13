@@ -338,6 +338,7 @@ class Santri extends CI_Controller {
       }else{
         echo 'tidak ada perubahan';
       }
+		return ;
     }
 		redirect('santri/perkelas/','refresh');
 	}
