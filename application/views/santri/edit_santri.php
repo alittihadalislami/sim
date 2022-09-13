@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css"></link>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
   @media only screen and (min-width: 769px) {
     .alert{
@@ -419,6 +421,11 @@
 <script>
   $(document).ready(function(){
 
+    const buatLoading = () => {
+      spinner = '<i class="fa fa-refresh fa-spin mx-4 mt-1" style="font-size:20px"></i>'
+      $('#simpan2').html(spinner)
+    }
+
     // simpan ajax
     $("#simpan2").on('click', function(e){
       const collectData = () => {
@@ -431,10 +438,14 @@
         });
         return daput
       }
+
       $.ajax({
         type: "POST",
         url: "<?=base_url()?>santri/ubah_santri",
         data: {ajax:collectData()},
+        beforeSend: function () {  
+          buatLoading();
+        },
         success: function (response) {
           if (response == 'berhasil diubah') {
             icon = 'success';
@@ -449,6 +460,7 @@
             toast: true,
             showConfirmButton: false,
           })
+          $('#simpan2').html('Simpan')
         }
       });
     });
