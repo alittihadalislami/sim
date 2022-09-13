@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css"></link>
 <style>
   @media only screen and (min-width: 769px) {
     .alert{
@@ -414,7 +414,7 @@
 <script src="<?=base_url()?>assets/js/bootstrap-datepicker.id.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="sweetalert2.min.js"></script>
-<link rel="stylesheet" href="sweetalert2.min.css">
+<link rel="stylesheet" href="sweetalert2.min.css"></link>
 
 <script>
   $(document).ready(function(){
@@ -445,7 +445,7 @@
             title: response,
             icon: icon,
             position :'top-end',
-            timer: 2500,
+            // timer: 2500,
             toast: true,
             showConfirmButton: false,
           })
