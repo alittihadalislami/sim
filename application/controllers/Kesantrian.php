@@ -40,14 +40,13 @@ class Kesantrian extends CI_Controller {
 	{
 		$daput = $this->input->post();
 		$cek = $this->db->get_where('t_klub', $daput)->num_rows();
-
 		if ($cek < 1) {
 			$this->db->insert('t_klub', $daput);
-			echo 'Simpan'.$daput['minat_id'];
+			echo json_encode ('Simpan'.$daput['minat_id']);
 		}else{
 			$this->db->where($daput);
 			$this->db->delete('t_klub');
-			echo 'Hapus'.$daput['minat_id'];
+			echo json_encode('Hapus'.$daput['minat_id']);
 		}
 	}
 

@@ -467,8 +467,10 @@
         success: function (response) {
           if (response == 'berhasil diubah') {
             icon = 'success';
+            response = 'Data perubahan berhasil disimpan';
           }else{
             icon = 'info';
+            response = 'Tidak perubahan untuk disimpan';
           }
           Swal.fire({
             title: response,
@@ -499,64 +501,96 @@
     });
 
     $('.pilihan-peminatan').click(function(evt){
+        induk = $(this).parent();
+        loading_spinner = '<img class="mx-2" style="position:absolute; z-index:10; left:10px;" id="loading_spinner"  src="<?=base_url()?>assets/img/ajax-loader.gif">';
+        $(induk).prepend(loading_spinner);
       minat = $(this).data("id_minat");
       santri = $(this).data("id_santri");
+      kotak = $(this).siblings()
       $.ajax({
         type:'post',
-        url:'<?=base_url()?>Kesantrian/simpanKlub',
+        url:'<?=base_url()?>Santri/simpanKlub',
         data:{minat_id:minat,santri_id:santri},
+        dataType: "json",
+        beforSend: function () {
+        },
         success:function(data){
-          if (data.substring(0,4) == 'Hapu') {
-            pesan = 'data peminatan berhasil dihapus'
-            tanda = 'error'
-          }else {
-            pesan = 'data peminatan berhasil disimpan'
-            tanda = 'success'
-          }
-          Swal.fire({
-            icon: tanda,
-            position :'top-end',
-            timer: 2500,
-            toast: true,
-            showConfirmButton: false,
-            title : pesan,
-          })
+            if (data.status == false) {
+                Swal.fire({
+                    icon: 'error',
+                    position :'top-end',
+                    timer: 2500,
+                    toast: true,
+                    showConfirmButton: false,
+                    title : 'akses tidak diperbolehkan',
+                })
+            } else {
+                if (data.substring(0,4) == 'Hapu') {
+                    pesan = 'data peminatan berhasil <span class="text-danger">dihapus</span>'
+                    tanda = 'success'
+                }else {
+                    pesan = 'data peminatan berhasil <span class="text-success">disimpan</span>'
+                    tanda = 'success'
+                }
+                Swal.fire({
+                    icon: tanda,
+                    position :'top-end',
+                    timer: 2500,
+                    toast: true,
+                    showConfirmButton: false,
+                    title : pesan,
+                })
+
+                if ($(kotak).is(':checked')) {
+                    $(kotak).prop('checked', false)
+                }else{
+                    $(kotak).prop('checked', true)
+                }
+                $('#loading_spinner').remove();
+            }
         }
       })
-      kotak = $(this).siblings()
-      if ($(kotak).is(':checked')) {
-        $(kotak).prop('checked', false)
-      }else{
-        $(kotak).prop('checked', true)
-      }
+      
       return false;
     })
 
     $('.cek-peminatan').click(function(e){
-      minat = $(this).data("id_minat");
-      santri = $(this).data("id_santri");
-      $.ajax({
-        type:'post',
-        url:'<?=base_url()?>Kesantrian/simpanKlub',
-        data:{minat_id:minat,santri_id:santri},
-        success:function(data){
-          if (data.substring(0,4) == 'Hapu') {
-            pesan = 'data peminatan berhasil dihapus'
-            tanda = 'error'
-          }else {
-            pesan = 'data peminatan berhasil disimpan'
-            tanda = 'success'
-          }
-          Swal.fire({
-            icon: tanda,
-            position :'top-end',
-            timer: 2500,
-            toast: true,
-            showConfirmButton: false,
-            title : pesan,
-          })
-        }
-      })
+        minat = $(this).data("id_minat");
+        santri = $(this).data("id_santri");
+        $.ajax({
+            type:'post',
+            url:'<?=base_url()?>Santri/simpanKlub',
+            data:{minat_id:minat,santri_id:santri},
+            dataType: "json",
+            success:function(data){
+                if (data.status == false) {
+                    Swal.fire({
+                        icon: 'error',
+                        position :'top-end',
+                        timer: 2500,
+                        toast: true,
+                        showConfirmButton: false,
+                        title : 'akses tidak diperbolehkan',
+                    })
+                } else {
+                    if (data.substring(0,4) == 'Hapu') {
+                        pesan = 'data peminatan berhasil dihapus'
+                        tanda = 'error'
+                    }else {
+                        pesan = 'data peminatan berhasil disimpan'
+                        tanda = 'success'
+                    }
+                    Swal.fire({
+                        icon: tanda,
+                        position :'top-end',
+                        timer: 2500,
+                        toast: true,
+                        showConfirmButton: false,
+                        title : pesan,
+                    })
+                }
+            }
+        })
     })
 
     function tampilMinat(){

@@ -88,6 +88,14 @@ function is_boleh()
 	} 
 
 	if ($akses_menu < 1) {
+        if ($ci->input->is_ajax_request()) {
+            $response = [
+                'status' => FALSE,
+                'pesan'=>'Hak Akses anda tidak diizinkan'
+            ];
+            echo json_encode($response);
+            exit();
+        }
 		redirect('My404','refresh');
 	}
 }
