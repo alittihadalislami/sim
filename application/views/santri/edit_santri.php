@@ -470,7 +470,7 @@
             response = 'Data perubahan berhasil disimpan';
           }else{
             icon = 'info';
-            response = 'Tidak perubahan untuk disimpan';
+            response = 'Tidak ada perubahan untuk disimpan';
           }
           Swal.fire({
             title: response,

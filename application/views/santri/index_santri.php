@@ -66,7 +66,6 @@
                         <td><?= $str['nama_kelas'];?></td>
                         <td><?= $str['idk_umum'];?></td>
                         <td><?= $str['idk_umum2'];?></td>
-                        <!-- <td><?= var_dump($str);?></td> -->
                         <td class="sts">26 /
                           <?php
                           $ada = $this->km->adaDetail($str['id_santri']);
