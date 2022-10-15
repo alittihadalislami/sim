@@ -1,5 +1,9 @@
 <style>
-    .list-group-item:disabled {
+    .list-group-item {
+        text-align: inherit;
+    }
+
+    .activ {
         color: #0a0a0a;
         background-color: #ffe494;
         font-weight: 600;
@@ -24,17 +28,13 @@
                         <div class="col-sm-4">
                             <span>SPP</span>
                             <div class="list-group my-4">
-                                <button type="button"
-                                    class="list-tagihan list-group-item list-group-item-action">JUL-2022
+                                <button type="button" class="list-tagihan list-group-item" data-bulan="JUL-2022" data-uang="100000" >JUL-2022
                                     <span class="uang">100000</span>
                                 </button>
-                                <button type="button"
-                                    class="list-tagihan list-group-item list-group-item-action">AGU-2022</button>
-                                <button type="button"
-                                    class="list-tagihan list-group-item list-group-item-action">SEP-2022</button>
-                                <button type="button" class="list-tagihan list-group-item list-group-item-action"
-                                    disabled>OKT-2022</button>
-                                <button type="button" class="list-tagihan list-group-item list-group-item-action">
+                                <button type="button" class="list-tagihan list-group-item">AGU-2022</button>
+                                <button type="button" class="list-tagihan list-group-item">SEP-2022</button>
+                                <button type="button" class="list-tagihan list-group-item" disabled>OKT-2022</button>
+                                <button type="button" class="list-tagihan list-group-item">
                                     Bulan berikutnya
                                 </button>
                             </div>
@@ -111,13 +111,8 @@
                                         <th>Subtotal</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>SPP</td>
-                                        <td>SPP JUL2022</td>
-                                        <td>Rp. 100.000 <a href="#" class="ml-5 text-danger"><b>x</b></a></td>
-                                    </tr>
+                                <tbody id="kwitansi">
+
                                 </tbody>
                             </table>
                         </div>
@@ -131,7 +126,7 @@
                                     <tbody>
                                         <tr>
                                             <th style="width:50%">Total:</th>
-                                            <td><b class="uang">600000</b></td>
+                                            <td id="total"><b class="uang"></b></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -160,8 +155,28 @@
 <script>
     $('.list-tagihan').click(function (e) {
         e.preventDefault();
-        x = $(this).attr("disabled", true)
-        console.log(x)
+        x = $(this).toggleClass("activ").blur()
+        kategori = x.parent().siblings().text()
+        tagihan = kategori +" "+ x[0].dataset['bulan']
+        uang = x[0].dataset['uang']
+        urut = $('#kwitansi').children().length + 1
+        
+        html = "<tr>"
+        html +="<td>"+urut+"</td>"
+        html +="<td>"+kategori+"</td>"
+        html +="<td>"+tagihan+"</td>"
+        html +="<td><span class='uang kwitansi' data-uang='"+uang+"'>"+uang+"</span> <a href='#' class='ml-5 text-danger'><b>x</b></a></td>"
+        html +="</tr>"
+        $('#kwitansi').append(html);
+        
+        jumlah = $('.uang.kwitansi')
+        total = 0;
+        for (let i = 0; i < jumlah.length; i++) {
+            const element = jumlah[i].dataset['uang'];
+            total += parseInt(element);
+        }
+        $('#total').html('<b class="uang">'+total+'</b>');
+        uangkan()
     });
     uangkan()
 </script>

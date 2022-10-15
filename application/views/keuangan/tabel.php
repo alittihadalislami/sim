@@ -3,36 +3,38 @@
         <h4>Database Keuangan</43>
     </div>
     <table class="table table-bordered mt-2 table-sm" id="table_id">
-    <thead>
-        <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        </tr>
-        <?php for ($i=0; $i < rand(500,600); $i++) : ?> 
-        <tr>
-        <th scope="row"><?=$i?></th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        </tr>
-        <?php endfor ?>
-    </tbody>
-    </table>   
-</section> 
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <?php for ($i=0; $i < rand(500,600); $i++) : ?>
+            <tr>
+                <th scope="row">
+                    <?=$i?>
+                </th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <?php endfor ?>
+        </tbody>
+    </table>
+</section>
 <script>
-    $(document).ready( function () {
+    $(document).ready(function () {
         $('#table_id').DataTable({
-            "lengthMenu": [ [5, 7, 10, 25, 50, -1], [5, 7, 10, 25, 50, "All"] ],
+            "lengthMenu": [[5, 7, 10, 25, 50, -1], [5, 7, 10, 25, 50, "All"]],
             "language": {
                 "lengthMenu": "_MENU_  Perhalaman",
                 "zeroRecords": "Sobung datanah..",
@@ -49,7 +51,5 @@
                 },
             }
         });
-    } );
+    });
 </script>
-
-
