@@ -885,7 +885,7 @@ class Raport extends CI_Controller {
 			'tahun_id' => $this->tahunAktif['id_tahun']
 		])->row_array()['kelas_id'];
 
-		$jt = $this->rm->jenjangTratri($kelas);
+		$jt = $this->rm->jenjangTratri($kelas,$this->tahunAktif['id_tahun']);
 
 		if ($jt['jenjang'] < 2) {
 			$data['jenjang'] = 'Sekolah';
@@ -904,9 +904,11 @@ class Raport extends CI_Controller {
 			$data['jenis'] = 'Laki-laki';
 		}
 
-		$data['tanggal'] = explode("-",$this->um->diterima($santri_id)['tgl_terima']);
-
-    // var_dump($data['tanggal']);die;
+        $tgl_diterima = $this->um->diterima($santri_id)['tgl_terima'];
+        $data['tanggal'] = explode("-",$tgl_diterima);
+        if ( count($data['tanggal']) < 3 ) {
+            $data['tanggal'] = explode("/",$tgl_diterima);
+        }
 
 		// $this->load->view('templates/header', $data);
 		$this->load->view('raport/identitas', $data);

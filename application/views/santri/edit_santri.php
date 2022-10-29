@@ -14,6 +14,11 @@
   .input-group .input-group-text {
       width: 100%;
   }
+  #data-psb .active {
+    box-shadow : none;
+    background: none !important;
+    font-weight : normal ;
+  }
 </style>
 
 <div class="content-wrapper">
@@ -198,18 +203,85 @@
                   <div class="btn btn-primary collapsed" id="heading3" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3"><strong>DATA PPDB</strong></div>
                   <div id="collapse3" class="collapse bg-light" aria-labelledby="heading3" data-parent="#accordion">
                     <div class="card-body">
-                      <div class="form-group">
-                        <label for="tgl_terima">1. Diterima tanggal</label>
-                        <input type="text" name="tgl_terima" data-toggle="datepicker" class="form-control" value="<?= isset($d_santri['tgl_terima']) ? $d_santri['tgl_terima'] : null ?>">
-                      </div>
-                      <div class="form-group">
-                        <label for="kelas_terima">2. Kelas</label>
-                        <input type="text" class="form-control" name="kelas_terima" value="<?= isset($d_santri['kelas_terima']) ? $d_santri['kelas_terima'] : null ?>">
-                      </div>
-                      <div class="form-group">
-                        <label for="semester_terima">3. Semester</label>
-                        <input type="number" class="form-control" name="semester_terima" value="<?= isset($d_santri['semester_terima']) ? $d_santri['semester_terima'] : null ?>">
-                      </div>
+                        <div class="row">
+                            <div id="data-psb" class="col-12">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#mii">Ma'had</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#smp">SMP</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#ma">M A</a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div id="mii" class="tab-pane active"><br>
+                                        <h3 class="float-right">Ma'had Al Ittihad Al Islami Camplong</h3>
+                                        <br class="clearfix">
+                                        <div class="form-group">
+                                            <label for="tgl_terima">1. Diterima tanggal</label>
+                                            <input type="text" name="tgl_terima_mii" data-toggle="datepicker" class="form-control" value="<?= isset($d_santri['tgl_terima']) ? $d_santri['tgl_terima'] : null ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="kelas_terima">2. Kelas</label>
+                                            <input type="text" class="form-control" name="kelas_terima_mii" value="<?= isset($d_santri['kelas_terima']) ? $d_santri['kelas_terima'] : null ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="semester_terima">3. Semester</label>
+                                            <input type="number" class="form-control" name="semester_terima_mii" value="<?= isset($d_santri['semester_terima']) ? $d_santri['semester_terima'] : null ?>">
+                                        </div>
+                                    </div>
+                                    <div id="smp" class="tab-pane fade"><br>
+                                        <h3 class="float-right">SMP Al Ittihad Camplong</h3>
+                                        <br class="clearfix">
+                                        <div class="form-group">
+                                            <label for="tgl_terima">1. Diterima tanggal</label>
+                                            <input type="text" name="tgl_terima_smp" data-toggle="datepicker" class="form-control" value="<?= isset($d_santri['tgl_terima']) ? $d_santri['tgl_terima'] : null ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="kelas_terima">2. Kelas</label>
+                                            <input type="text" class="form-control" name="kelas_terima_smp" value="<?= isset($d_santri['kelas_terima']) ? $d_santri['kelas_terima'] : null ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="semester_terima">3. Semester</label>
+                                            <input type="number" class="form-control" name="semester_terima_smp" value="<?= isset($d_santri['semester_terima']) ? $d_santri['semester_terima'] : null ?>">
+                                        </div>
+                                    </div>
+                                    <div id="ma" class="tab-pane fade"><br>
+                                        <h3 class="float-right">MA Al Ittihad Al Islami</h3>
+                                        <br class="clearfix">
+                                        <div class="form-group">
+                                            <label for="tgl_terima">1. Diterima tanggal</label>
+                                            <input type="text" name="tgl_terima_ma" data-toggle="datepicker" class="form-control" value="<?= isset($d_santri['tgl_terima']) ? $d_santri['tgl_terima'] : null ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="kelas_terima">2. Kelas</label>
+                                            <input type="text" class="form-control" name="kelas_terima_ma" value="<?= isset($d_santri['kelas_terima']) ? $d_santri['kelas_terima'] : null ?>">
+                                        </div>
+                                        <select class="custom-select">
+                                            <option selected>Open this select menu</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                        <div class="form-group">
+                                            <label for="semester_terima">3. Semester</label>
+                                            <input type="number" class="form-control" name="semester_terima_ma" value="<?= isset($d_santri['semester_terima']) ? $d_santri['semester_terima'] : null ?>">
+                                        </div>
+                                        <select class="custom-select pilih">
+                                            <option value="" selected >pilih semester...</option>
+                                            <option value="1">Semester 1</option>
+                                            <option value="2">Semester 2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                       <div class="form-group">
                         <label for="hp_bapak">6. Nomor HP Bapak</label>
@@ -407,6 +479,22 @@
             <button type="submit" class="btn btn-primary" data-dismiss="modal" id="save_e_Minat">Save changes</button>
           </div>
         </form>
+    </div>
+  </div>
+</div>
+
+<div id="pilihan" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action">
+            Cras justo odio
+        </a>
+        <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+        <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+        <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+        </div>
     </div>
   </div>
 </div>

@@ -17,7 +17,6 @@
       <div class="row">
         <div class="col elevation-1" id="isi">
            <table >
-          
             <?php $id=0; $no=1; foreach ($kol as $k): ?>
              <tr style="height: 23px">
                <td style="width: 300px ; font-size: 17px; ">

@@ -263,13 +263,14 @@ class Raport_model extends CI_Model {
 		return $this->db->query($stringQ)->result_array();
 	}
 
-	public function jenjangTratri($kelas_id)
+	public function jenjangTratri($kelas_id,$tahun_id)
 	{
 		$stringQ = "
 					SELECT k.`jenjang`, w.`tra_tri`
 					FROM t_wali w JOIN m_kelas k
 					ON k.`id_kelas`= w.`kelas_id`
 					WHERE k.`id_kelas` = $kelas_id
+                    AND w.`tahun_id` = $tahun_id
 					GROUP BY k.`id_kelas`
 		";
 		return $this->db->query($stringQ)->row_array();
