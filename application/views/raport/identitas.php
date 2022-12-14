@@ -273,8 +273,8 @@
     </div>
   </section>
 </div>
-
 <script>
+    document.title = "<?php echo  $detail[1] ?>"
     function namaBulan(bulan) {
         bulanText = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         bulan = parseInt(bulan)
