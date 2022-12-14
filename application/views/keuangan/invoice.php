@@ -153,19 +153,36 @@
 </section>
 
 <script>
+
+    function clear_tagihan() {
+        target = $(event.target).parent().parent().parent()
+        target.remove()
+
+        jumlah = $('.uang.kwitansi')
+        total = 0;
+        for (let i = 0; i < jumlah.length; i++) {
+            const element = jumlah[i].dataset['uang'];
+            total += parseInt(element);
+        }
+        $('#total').html('<b class="uang">'+total+'</b>');
+        uangkan()
+        return false
+    };
+
     $('.list-tagihan').click(function (e) {
         e.preventDefault();
         x = $(this).toggleClass("activ").blur()
         kategori = x.parent().siblings().text()
-        tagihan = kategori +" "+ x[0].dataset['bulan']
+        tagihan_id = x[0].dataset['bulan']
+        tagihan = kategori +" "+ tagihan_id
         uang = x[0].dataset['uang']
         urut = $('#kwitansi').children().length + 1
         
-        html = "<tr>"
-        html +="<td>"+urut+"</td>"
+        html = "<tr id='"+tagihan_id+"'>"
+        html +="<td class='urutan' >"+urut+"</td>"
         html +="<td>"+kategori+"</td>"
         html +="<td>"+tagihan+"</td>"
-        html +="<td><span class='uang kwitansi' data-uang='"+uang+"'>"+uang+"</span> <a href='#' class='ml-5 text-danger'><b>x</b></a></td>"
+        html +="<td><span class='uang kwitansi' data-uang='"+uang+"'>"+uang+"</span> <a href='#' onClick='return clear_tagihan()' class='ml-5 text-danger'><b>x</b></a></td>"
         html +="</tr>"
         $('#kwitansi').append(html);
         
@@ -180,3 +197,5 @@
     });
     uangkan()
 </script>
+
+

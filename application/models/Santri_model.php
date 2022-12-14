@@ -87,7 +87,7 @@ class Santri_model extends CI_Model {
 
 	public function dataUtamaDetail($tahun_id)
 	{
-		$stringQ = "SELECT ds.`santri_id`,s.`nama_santri`,k.`nama_kelas`,s.`nisn` AS nisn_wali, ds.`nama_seijazah`, ds.`nik`, ds.`nisn`, ds.`tmp_lahir`, ds.`tgl_lahir`, ds.`anak_ke`, ds.`jml_saudara`, ds.`seri_ijazah`, ds.`seri_skhun`, ds.`no_ujian`, ds.`ibu`, ds.`nik_ibu`, ds.`bapak`, ds.`nik_bapak`, ds.`tgl_terima`
+		$stringQ = "SELECT ds.`santri_id`,s.`nama_santri`,k.`nama_kelas`,s.`nisn` AS nisn_wali, ds.`nama_seijazah`, ds.`nik`, ds.`nisn`, ds.`tmp_lahir`, ds.`tgl_lahir`, ds.`anak_ke`, ds.`jml_saudara`, ds.`seri_ijazah`, ds.`seri_skhun`, ds.`no_ujian`, ds.`ibu`, ds.`nik_ibu`, ds.`bapak`, ds.`nik_bapak`, ds.`tgl_terima_mii`
 			FROM t_detail_santri ds JOIN t_agtkelas ak
 			ON ds.`santri_id` = ak.`santri_id` JOIN m_santri s
 			ON ds.`santri_id` = s.`id_santri` JOIN m_kelas k

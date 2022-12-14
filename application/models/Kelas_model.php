@@ -73,9 +73,9 @@ class Kelas_model extends CI_Model {
 						+ IF( d.`tahun_ijazah` IS NULL || d.`tahun_ijazah` = '', 0,1)
 						+ IF( d.`sekolah_asal` IS NULL || d.`sekolah_asal` = '', 0,1)
 						+ IF( d.`npsn` IS NULL || d.`npsn` = '', 0,1)
-						+ IF( d.`tgl_terima` IS NULL || d.`tgl_terima` = '', 0,1)
-						+ IF( d.`kelas_terima` IS NULL || d.`kelas_terima` = '', 0,1)
-						+ IF( d.`semester_terima` IS NULL || d.`semester_terima` = '', 0,1)
+						+ IF( d.`tgl_terima_mii` IS NULL || d.`tgl_terima_mii` = '', 0,1)
+						+ IF( d.`kelas_terima_mii` IS NULL || d.`kelas_terima_mii` = '', 0,1)
+						+ IF( d.`semester_terima_mii` IS NULL || d.`semester_terima_mii` = '', 0,1)
 						+ IF( d.`hp_bapak` IS NULL || d.`hp_bapak` = '', 0,1)
 						+ IF( d.`hp_ibu` IS NULL || d.`hp_ibu` = '', 0,1)
 						AS isian

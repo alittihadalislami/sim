@@ -220,12 +220,12 @@ class Raport_model extends CI_Model {
 		return $jenjangKelas;
 	}
 	
-	public function identitas($id_santri)
+	public function identitas($id_santri,$jenjang)
 	{
 		$stringQ = " SELECT 
 						UPPER(d.`nama_seijazah`),
-						CONCAT(d.`nisn`,' / ', d.`nik`) AS nomor,
-						CONCAT(d.`tmp_lahir`,', ',DATE_FORMAT(d.`tgl_lahir`,'%d/%m/%Y') ) AS tgl,
+						CONCAT(d.`nisn`,' / ','') AS nomor,
+	                    CONCAT(d.`tmp_lahir`,', ',d.`tgl_lahir` ) AS tgl,
 						'l' AS jenis_kel,
 						'Islam' AS agama,
 						d.`anak_ke`,
@@ -233,9 +233,9 @@ class Raport_model extends CI_Model {
 						d.`alamat_ortu` AS alamat,
 						d.`hp_ibu` AS hpdianak,
 						NULL AS diterima,
-						d.`kelas_terima`,
-						d.`tgl_terima`,
-						d.`semester_terima`,
+						d.`kelas_terima_$jenjang`,
+						d.`tgl_terima_$jenjang`,
+						d.`semester_terima_$jenjang`,
 						NULL AS ket_sekolah_asal,
 						d.`sekolah_asal`,
 						d.`npsn`,
@@ -263,14 +263,18 @@ class Raport_model extends CI_Model {
 		return $this->db->query($stringQ)->result_array();
 	}
 
-	public function jenjangTratri($kelas_id)
+	public function jenjangTratri($kelas_id, $tahun_id = NULL)
 	{
+        if ($tahun_id == NULL){
+            $tahun = '(SELECT MAX(DISTINCT w.`tahun_id`) AS last_tahun_id FROM t_wali w)';
+        }
+
 		$stringQ = "
 					SELECT k.`jenjang`, w.`tra_tri`
 					FROM t_wali w JOIN m_kelas k
 					ON k.`id_kelas`= w.`kelas_id`
 					WHERE k.`id_kelas` = $kelas_id
-					GROUP BY k.`id_kelas`
+					AND w.`tahun_id` = $tahun
 		";
 		return $this->db->query($stringQ)->row_array();
 	}

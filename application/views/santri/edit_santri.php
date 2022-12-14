@@ -55,7 +55,7 @@
                       <div class="input-group-prepend">
                         <div class="input-group-text font-weight-bold">MII</div>
                       </div>
-                      <input type="text" class="form-control bg-white" readonly="true" value="<?=$santri['idk_mii']?>">
+                      <input id="j_idk_mii" type="text" class="form-control bg-white j_idk" readonly="true" value="<?=$santri['idk_mii']?>">
                     </div>
                   </div>
                   <div class="col-sm-3 my-1">
@@ -63,7 +63,7 @@
                       <div class="input-group-prepend">
                         <div class="input-group-text font-weight-bold">SMP</div>
                       </div>
-                      <input type="text" class="form-control bg-white" readonly="<?=$readonly?>" value="<?=$santri['idk_umum']?>">
+                      <input id="j_idk_smp" type="text" class="form-control bg-white j_idk" readonly="<?=$readonly?>" value="<?=$santri['idk_umum']?>">
                     </div>
                   </div>
                   <div class="col-sm-3 my-1">
@@ -71,7 +71,7 @@
                       <div class="input-group-prepend">
                         <div class="input-group-text font-weight-bold">M A</div>
                       </div>
-                      <input type="text" class="form-control bg-white" value="<?=$santri['idk_umum2']?>" readonly="<?=$readonly?>">
+                      <input id="j_idk_ma" type="text" class="form-control bg-white j_idk" value="<?=$santri['idk_umum2']?>" readonly="<?=$readonly?>">
                     </div>
                   </div>
                 </div>
@@ -198,18 +198,52 @@
                   <div class="btn btn-primary collapsed" id="heading3" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3"><strong>DATA PPDB</strong></div>
                   <div id="collapse3" class="collapse bg-light" aria-labelledby="heading3" data-parent="#accordion">
                     <div class="card-body">
-                      <div class="form-group">
-                        <label for="tgl_terima">1. Diterima tanggal</label>
-                        <input type="text" name="tgl_terima" data-toggle="datepicker" class="form-control" value="<?= isset($d_santri['tgl_terima']) ? $d_santri['tgl_terima'] : null ?>">
+                      <div class="row">
+                        <div class="col-md-4 p-4">
+                            <div class="form-group">
+                                <label for="tgl_terima">1. Diterima di Ma'had tanggal</label>
+                                <input type="text" name="tgl_terima_mii" data-toggle="datepicker" class="form-control" value="<?= isset($d_santri['tgl_terima_mii']) ? $d_santri['tgl_terima_mii'] : null ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="kelas_terima_mii">2. Kelas</label>
+                                <input type="text" class="form-control" name="kelas_terima_mii" value="<?= isset($d_santri['kelas_terima_mii']) ? $d_santri['kelas_terima_mii'] : null ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="semester_terima_mii">3. Semester</label>
+                                <input type="number" class="form-control" name="semester_terima_mii" value="<?= isset($d_santri['semester_terima_mii']) ? $d_santri['semester_terima_mii'] : null ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-4 p-4 bg-secondary">
+                            <div class="form-group">
+                                <label for="tgl_terima_smp">1. Diterima di SMP tanggal</label>
+                                <input type="text" name="tgl_terima_smp" data-toggle="datepicker" class="form-control" value="<?= isset($d_santri['tgl_terima_smp']) ? $d_santri['tgl_terima_smp'] : null ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="kelas_terima_smp">2. Kelas</label>
+                                <input type="text" class="form-control" name="kelas_terima_smp" value="<?= isset($d_santri['kelas_terima_smp']) ? $d_santri['kelas_terima_smp'] : null ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="semester_terima_smp">3. Semester</label>
+                                <input type="number" class="form-control" name="semester_terima_smp" value="<?= isset($d_santri['semester_terima_smp']) ? $d_santri['semester_terima_smp'] : null ?>">
+                            </div>
+                        </div>
+                        <!-- MA -->
+                        <div class="col-md-4 p-4">
+                            <div class="form-group">
+                                <label for="tgl_terima_ma">1. Diterima di MA pada tanggal</label>
+                                <input type="text" name="tgl_terima_ma" data-toggle="datepicker" class="form-control" value="<?= isset($d_santri['tgl_terima_ma']) ? $d_santri['tgl_terima_ma'] : null ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="kelas_terima_ma">2. Kelas MA</label>
+                                <input type="text" class="form-control" name="kelas_terima_ma" value="<?= isset($d_santri['kelas_terima_ma']) ? $d_santri['kelas_terima_ma'] : null ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="semester_terima_ma">3. Semester MA</label>
+                                <input type="number" class="form-control" name="semester_terima_ma" value="<?= isset($d_santri['semester_terima_ma']) ? $d_santri['semester_terima_ma'] : null ?>">
+                            </div>
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label for="kelas_terima">2. Kelas</label>
-                        <input type="text" class="form-control" name="kelas_terima" value="<?= isset($d_santri['kelas_terima']) ? $d_santri['kelas_terima'] : null ?>">
-                      </div>
-                      <div class="form-group">
-                        <label for="semester_terima">3. Semester</label>
-                        <input type="number" class="form-control" name="semester_terima" value="<?= isset($d_santri['semester_terima']) ? $d_santri['semester_terima'] : null ?>">
-                      </div>
+                      
 
                       <div class="form-group">
                         <label for="hp_bapak">6. Nomor HP Bapak</label>
@@ -411,6 +445,8 @@
   </div>
 </div>
 
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script src="<?=base_url()?>assets/js/bootstrap-datepicker.id.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -450,13 +486,14 @@
         let data = $('form').serializeArray()
         let daput = {}
         data.forEach(function(el,index){
-          if (index <= 28 ) {
-            daput [el.name] = el.value
+          if (el.name != 'nama_minat') {
+            if (el.name != 'kategori_minat') {
+                daput [el.name] = el.value
+            }
           }
         });
         return daput
       }
-
       $.ajax({
         type: "POST",
         url: "<?=base_url()?>santri/ubah_santri",
@@ -470,7 +507,7 @@
             response = 'Data perubahan berhasil disimpan';
           }else{
             icon = 'info';
-            response = 'Tidak ada perubahan untuk disimpan';
+            response = 'Tidak ada perubahan yang disimpan';
           }
           Swal.fire({
             title: response,
@@ -722,6 +759,48 @@
           $(e).addClass('show')
         }
       }
+    }
+
+    //nomor induk
+    
+    id = <?=$santri['id_santri']?>;
+    target = $('.j_idk')
+    $.each(target, function (i, t) { 
+         if (t.value == ''){
+           $(this).attr("readonly", false)
+           $(this).keypress(function( e ) {
+            if(e.which > 31 && (e.which < 48 || e.which > 57))
+                return false;
+            });
+           $(this).change(function (e) { 
+            e.preventDefault();
+            clean_input = $(this).val().replace(/\D/g, '')
+            $(this).val(clean_input)
+            $.ajax({
+                url:'<?=base_url()?>santri/j_induk',
+                type:'post',
+                data:{id_santri:id,induk:$(this).val(), index:i},
+                typeData:'json',
+                success:function(){
+                
+                }
+            })
+           });
+         }
+    });
+
+    idk_smp_t_detail = <?= $d_santri['idk_smp'] == NULL ? "0" : $d_santri['idk_smp'] ?> 
+    idk_ma_t_detail = <?= $d_santri['idk_ma'] == NULL ? "0" : $d_santri['idk_ma'] ?> 
+
+    if ( $('#j_idk_smp').val() == "" ) {
+        if (idk_smp_t_detail != 0 ) {
+            $('#j_idk_smp').val(idk_smp_t_detail)
+        }
+    }
+    if ( $('#j_idk_ma').val() == "" ) {
+        if (idk_ma_t_detail != 0 ) {
+            $('#j_idk_ma').val(idk_ma_t_detail)
+        }
     }
 
   })

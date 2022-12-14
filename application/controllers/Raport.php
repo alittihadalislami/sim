@@ -816,10 +816,10 @@ class Raport extends CI_Controller {
 	public function identitas($santri_id)
 	{
 		$data['judul'] = 'Halaman identitas';
-
+        $data['santri_id'] = $santri_id;
 		$data['kol'] = [
-			'Nama Santri (lengkap)',
-			'NISN / NIK',
+			'Nama Santri',
+			'NISN / NIS',
 			'Tempat / Tanggal Lahir',
 			'Jenis Kelamin',
 			'Agama',
@@ -854,7 +854,9 @@ class Raport extends CI_Controller {
 			// 'Pekerjaan Wali'
 		];
 
-		$idt = $this->rm->identitas($santri_id);
+		$idt = $this->rm->identitas($santri_id,'mii');
+        $idt_smp = $this->rm->identitas($santri_id,'smp');
+        $idt_ma = $this->rm->identitas($santri_id,'ma');
 
 		foreach ($idt as $i) {
 			$urut = 1;
@@ -878,39 +880,51 @@ class Raport extends CI_Controller {
 		}else{
 			$data ['detail']= null;
 		}
-
-
-		$kelas = $this->db->get_where('t_agtkelas', [
+    
+        $kelas = $this->db->get_where('t_agtkelas', [
 			'santri_id' => $santri_id,
 			'tahun_id' => $this->tahunAktif['id_tahun']
 		])->row_array()['kelas_id'];
 
-		$jt = $this->rm->jenjangTratri($kelas);
+        $master = $this->db->get_where('m_santri', ['id_santri'=>$santri_id])->row_array();
+		$detail_santri = $this->db->get_where('t_detail_santri', ['santri_id'=>$santri_id])->row_array();
+        
+        $idk_master = ['idk_mii', 'idk_umum', 'idk_umum2'];
+        $idk_detail = ['idk_mii', 'idk_smp', 'idk_ma'];
+        $index = 0;
+        foreach ($idk_master as $i) {
+            $data[$idk_detail[$index]] = $master[$idk_master[$index]] == "" ? $detail_santri[$idk_detail[$index]] : $master[$idk_master[$index]]  ;
+            $index++;
+        }
 
+		$jt = $this->rm->jenjangTratri($kelas);
 		if ($jt['jenjang'] < 2) {
 			$data['jenjang'] = 'Sekolah';
 			$data['kepala'] = 'Mudhar, S.Pd.';
 			$data['niy'] = '940613051';
+            $data['tanggal_sm'] = explode("-",$idt_smp[0]['tgl_terima_smp']);
+            $data['kelas_terima'] = $idt_smp[0]['kelas_terima_smp'];
+            $data['tgl_terima'] = $idt_smp[0]['tgl_terima_smp'];
+            $data['induk_sm'] = $data['idk_smp'];
 		}else{
-			$data['jenjang'] = 'Madrasah';
+            $data['jenjang'] = 'Madrasah';
 			$data['kepala'] = 'Mughni Musa, Lc., M.Ag.';
 			$data['niy'] = '940613009';
-
+            $data['tanggal_sm'] = explode("-",$idt_ma[0]['tgl_terima_ma']);
+            $data['kelas_terima'] = $idt_ma[0]['kelas_terima_ma'];
+            $data['tgl_terima'] = $idt_ma[0]['tgl_terima_ma'];
+            $data['induk_sm'] = $data['idk_ma'];
 		}
-
 		if ($jt['tra_tri'] == 'tri') {
 			$data['jenis'] = 'Perempuan';
 		}else{
 			$data['jenis'] = 'Laki-laki';
 		}
+        $data['tanggal'] = explode("-",$idt[0]['tgl_terima_mii']);
+        
 
-		$data['tanggal'] = explode("-",$this->um->diterima($santri_id)['tgl_terima']);
-
-    // var_dump($data['tanggal']);die;
-
-		// $this->load->view('templates/header', $data);
-		$this->load->view('raport/identitas', $data);
-		// $this->load->view('templates/footer');
+		
+        $this->load->view('raport/identitas', $data);
 	}
 
 

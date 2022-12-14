@@ -338,8 +338,9 @@ class Santri extends CI_Controller {
 			$clean_nama = $this->removeWhiteSpace($daput['nama_seijazah']);
 			$daput['nama_seijazah'] = $clean_nama;
 		}
+
 		$ada = $this->km->adaDetail($daput['santri_id']);
-		if ($ada > 0) {
+        if ($ada > 0) {
 			$this->db->where('santri_id', $daput['santri_id']);
 			$this->db->update('t_detail_santri', $daput);
 		}else{
@@ -755,6 +756,21 @@ class Santri extends CI_Controller {
 		}
 
 	}
+
+    public function j_induk()
+    {
+        $daput = $this->input->post();
+
+        if ($daput['index'] == 2){
+            $kolom_induk = 'idk_ma';
+        }
+        if ($daput['index'] == 1) {
+            $kolom_induk = 'idk_smp';
+        }
+        $this->db->where('santri_id', $daput['id_santri']);
+        $this->db->update('t_detail_santri', [$kolom_induk => $daput['induk']]);
+
+    }
 
 }
 

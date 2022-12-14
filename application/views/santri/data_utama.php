@@ -154,7 +154,7 @@
                       <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['nik_ibu'] ?></td>
                       <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['bapak'] ?></td>
                       <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['nik_bapak'] ?></td>
-                      <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['tgl_terima'] ?></td>
+                      <td style="word-wrap: break-word;min-width: 160px;max-width: 260px;"><?= $data['tgl_terima_mii'] ?></td>
 
                     </tr>
                     <?php endforeach ?>
