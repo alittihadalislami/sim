@@ -14,6 +14,11 @@
   .input-group .input-group-text {
       width: 100%;
   }
+  #data-psb .active {
+    box-shadow : none;
+    background: none !important;
+    font-weight : normal ;
+  }
 </style>
 
 <div class="content-wrapper">
@@ -444,7 +449,6 @@
     </div>
   </div>
 </div>
-
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
