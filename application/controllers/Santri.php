@@ -589,7 +589,7 @@ class Santri extends CI_Controller {
 				"npsn"=>'npsn_asal'
 				],
 			"psb"=> [
-				"tgl_terima"=>'diterima',
+				"tgl_terima_mii"=>'diterima',
 				// "kelas_terima"=>'',
 				// "semester_terima"=>'',
 				"hp_bapak"=>'no_hp_bapak',
