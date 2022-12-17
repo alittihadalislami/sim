@@ -206,6 +206,60 @@ class Raport extends CI_Controller {
 		
 	}
 
+    public function pdfmaKurmer($santri,$kls)
+	{
+
+		$jenjang = $this->rm->jenjangKelas($kls); 
+		$rombel = $this->um->showRombel($kls)['rombel'];
+
+		$data['judul'] = 'Raport - MA Al-Ittihad Al-Islami';
+
+		$id_santri = $this->uri->segment(3);
+		$id_kelas = $this->uri->segment(4);
+
+		$id_asatid = $this->cekwali()['asatid_id'];
+        //31,40,8,33
+		$data['kel1'] = [31,40,8,33,20,5,4,17,36,6];
+		$data['kel2'] = [22,19,38,37];
+		$data['kel3'] = [13,10,29,42,28]; 
+
+		//nama fix santri dari table detail atau dari tabel santri
+		$detail = $this->db->get_where('t_detail_santri', ['santri_id'=> $id_santri])->row_array();
+
+	    if ($detail) {
+	        if(strlen($detail['nama_seijazah']) > 3 ){
+	          	$data['santri'] = $detail['nama_seijazah'];
+	        }else{
+	          	$data['santri'] = $this->um->showNamaSantri($id_santri)['nama_santri'];
+	        }  
+	    }else{
+			$data['santri'] = $this->um->showNamaSantri($id_santri)['nama_santri'];
+	    }
+
+		$data['wali'] = $this->um->showNamaAsatid($id_asatid);
+		$data['nis'] = $this->rm->nomorSantri($id_santri)['idk_umum'];
+		$data['nisn'] = $this->rm->nomorSantri($id_santri)['nisn'];
+		$data['kelas'] =  $this->um->showNamaKelas($id_kelas);
+		$data['semester'] = $this->um->showNamaTahun($this->tahunAktif['id_tahun'])['semester'];
+		$data['tahun'] = $this->um->showNamaTahun($this->tahunAktif['id_tahun'])['nama_tahun'];
+		$data ['entry_wali'] = $this->extra($santri);
+
+		$data['kelas_baru'] = $this->naikke($data['kelas']['nama_kelas']);
+
+		$data['dkn'] = $this->siapkanNilai($id_kelas,$jenjang);
+
+		$namafile = "Raport-MA Al Ittihad-".$data['santri']."-".$data['kelas']['nama_kelas']."-s".$data['semester'].'_'.$data['tahun'];
+        
+        $data['tgl_raport'] = $this->rm->tglRaport($data['tahun']);
+		// $this->load->view('raport/raport_ma_kurmer_pdf',$data); 
+        
+		$this->load->library('pdf');
+	    $this->pdf->setPaper('A4', 'potrait');
+	    $this->pdf->filename = "$namafile.pdf";
+	    $this->pdf->load_view('raport/raport_ma_kurmer_pdf', $data);
+		
+	}
+
 	public function cetakma()
 	{
 		$data['judul'] = 'Raport - MA Al Ittihad Al Islami';
@@ -343,7 +397,6 @@ class Raport extends CI_Controller {
 		// echo '<hr>';
 
 		switch (true) {
-			
 			case  $nilai < $kkm_intv[0]:
 				$predikat[] = "D";
 				$predikat[] = "Kurang ";
@@ -367,6 +420,100 @@ class Raport extends CI_Controller {
 		// var_dump($predikat);
 		return $predikat;
 	}
+
+    public function hitungPredikatKurmer($nilai=85, $kkm =75)
+	{
+		$interval = (100 - $kkm)/3;
+		$kkm_intv[0] = intval($kkm);
+
+		for ($intv=1; $intv < 4; $intv++) { 
+			$kkm = $kkm + $interval;
+			$kkm_intv [$intv] = intval($kkm)  ;
+		}
+		// var_dump($kkm_intv);
+		// echo '<hr>';
+
+		switch (true) {
+			case  $nilai < $kkm_intv[0]:
+				$predikat[] = "D";
+				$predikat[] = "kurang ";
+			break;
+
+			case  $nilai < $kkm_intv[1]:
+				$predikat[] = "C";
+				$predikat[] = "cukup ";
+			break;
+
+			case  $nilai < $kkm_intv[2]:
+				$predikat[] = "B";
+				$predikat[] = "baik ";
+			break;
+			
+			default:
+				$predikat[] = "A";
+				$predikat[] = "sangat Baik ";
+				break;
+		}
+		// var_dump($predikat);
+		return $predikat;
+	}
+
+    public function desBaruKurmer($nilai, $kkm, $santri, $kelas, $mapel, $jenis_kd)
+	{
+		/*$kkm = 70;
+		$nilai = 90;
+		$santri = 961;
+		$kelas = 11 ;
+		$mapel = 8;
+		$jenis_kd= 'p';*/
+
+		$rombel = $this->um->showRombel($kelas)['rombel'];
+		$tahun = $this->tahunAktif['id_tahun'];
+		$nilai_nh = $this->rm->minmaxKd($tahun, $mapel, $santri);
+
+        for ($i=0; $i <count($nilai_nh); $i++) {
+			if ($jenis_kd == 'p') {
+				$kd[$i+1] = intval($nilai_nh[$i]["nilai_kdp"]);
+			}else{
+				$kd[$i+1] = intval($nilai_nh[$i]["nilai_kdk"]);
+			}
+		}
+
+		//mencari yang terkecil dan terbesar nilai array
+		$min_kd = array_keys($kd,min($kd));
+		$max_kd = array_keys($kd,max($kd));
+
+
+		//memilih nilai KD dari yang terendah/teringgi
+		$min_terpilih = $min_kd[0];
+		$max_terpilih = $max_kd[count($max_kd)-1];
+
+		//mengambil desrkiprsi sesua kd yang terpilih
+		$deskrip ['min'] = [
+			'pre' => $this->hitungPredikatKurmer(min($kd),$kkm)[1],
+			'desk' => strtolower($this->rm->pilihDeskripsiKD($tahun, $mapel, $rombel, $min_terpilih, $jenis_kd)["kd$jenis_kd"]),
+		];
+		$deskrip ['max'] = [
+			'pre'=> $this->hitungPredikatKurmer($nilai,$kkm)[1],
+			'desk'=>strtolower($this->rm->pilihDeskripsiKD($tahun, $mapel, $rombel, $max_terpilih, $jenis_kd)["kd$jenis_kd"]),
+		];
+        
+
+        if ($deskrip['min']['pre'] == "kurang " || $deskrip['min']['pre'] == "cukup ") { //jika ada kd yang bernilai/perdikat cukup atau kurang
+            if ($deskrip['max']['pre'] == $deskrip['min']['pre']) { //jika ada nilai yang sama antara kd tertinggi dengan dengan kd terendah
+                $hasil = 'Menunjukkan penguasaan yang '.$deskrip['max']['pre'].'dalam hal '.$deskrip['max']['desk'].', dan perlu bimbingan dalam hal '.$deskrip['min']['desk'];
+            }else{
+                $hasil = 'Menunjukkan penguasaan yang '.$deskrip['max']['pre'].'dalam hal '.$deskrip['max']['desk'].', dan perlu bimbingan dalam hal '.$deskrip['min']['desk'];
+            }
+        }else{
+            if ($deskrip['max']['pre'] == $deskrip['min']['pre']) {
+                $hasil = 'Menunjukkan penguasaan yang '.$deskrip['max']['pre'].'dalam hal '.$deskrip['max']['desk'].', dan dalam hal '.$deskrip['min']['desk'];
+            }else{
+                $hasil = 'Menunjukkan penguasaan yang '.$deskrip['max']['pre'].'dalam hal '.$deskrip['max']['desk'].', dan '.$deskrip['min']['pre'].'dalam hal '.$deskrip['min']['desk'];
+            }
+        }
+		return $hasil;
+	}
 	
 	public function desBaru($nilai, $kkm, $santri, $kelas, $mapel, $jenis_kd)
 	{
@@ -378,13 +525,10 @@ class Raport extends CI_Controller {
 		// $jenis_kd= 'p';
 
 		$rombel = $this->um->showRombel($kelas)['rombel'];
-		
 		$tahun = $this->tahunAktif['id_tahun'];
-
 		$nilai_nh = $this->rm->minmaxKd($tahun, $mapel, $santri);
 
-		for ($i=0; $i <count($nilai_nh); $i++) {
-
+        for ($i=0; $i <count($nilai_nh); $i++) {
 			if ($jenis_kd == 'p') {
 				$kd[$i+1] = intval($nilai_nh[$i]["nilai_kdp"]);
 			}else{

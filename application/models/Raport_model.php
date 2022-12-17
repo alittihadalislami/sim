@@ -206,6 +206,29 @@ class Raport_model extends CI_Model {
 		return $this->db->get('m_santri')->row_array();
 	}
 
+    function namaBulan($bulan) {
+        $bulanText = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        $bulan = intval($bulan);
+        if ($bulan >=1 && $bulan<=12 ) {
+            return($bulanText[$bulan-1]);
+        }else{
+            return 'range salah';
+        }
+    }
+
+    public function tglRaport($tahun)
+    {
+        $this->db->select('tgl_raport_mii,tgl_raport_smp,tgl_raport_ma');
+        $this->db->where('nama_tahun', $tahun);
+        $hasil =  $this->db->get('m_tahun')->row_array();
+        foreach ($hasil as $h => $v ){
+            $pecahan = explode("-",$v);
+            $new_index = explode("_",$h);
+            $res [$new_index[2]]= $pecahan[0].' '.$this->namaBulan($pecahan[1]).' '. $pecahan[2];
+        }
+        return $res;
+    }
+
 	public function jenjangKelas($kelas)
 	{
 		$this->db->select('jenjang');

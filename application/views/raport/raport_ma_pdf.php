@@ -527,7 +527,7 @@
 
 		<div class="ttd">
 			<div class="cf" style='text-align:right; margin-right: 20px'>
-				Sampang, 25 Juni 2022
+				Sampang, <?= $tgl_raport['ma'] ?>
 			</div>
 			<br><br>
 			<?php if ($semester == 1 ): ?>

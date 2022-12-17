@@ -975,7 +975,7 @@ class Penilaian extends CI_Controller {
 		$data['nama_kelas'] = $this->um->showNamaKelas($filter_kelas);
 		$data['santri'] = $this->um->santriKelas($data ['id_kelas'], $data['tahun_aktif']);
 		$sekolah = $this->db->get_where('m_kelas',['id_kelas' => $filter_kelas])->row_array();
-
+        $data['rombel'] = $sekolah['rombel'];
 		$jenjang = $this->um->showNamaKelas($filter_kelas)['jenjang'];
 		$jenjang == 1 ? $data['jenjang'] = 'smp' : $data['jenjang'] = 'ma';
 		$data['kls'] = $filter_kelas;

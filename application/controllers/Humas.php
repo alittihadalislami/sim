@@ -7,7 +7,7 @@ class Humas extends CI_Controller {
 	{
 		parent::__construct();
 		is_login();
-    is_boleh();
+        is_boleh();
 		$this->load->model('User_model','um');
 		$this->load->model('Humas_model','hm');
 		$this->tahunAktif = $this->um->tahunAktif();

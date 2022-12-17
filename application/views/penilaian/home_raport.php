@@ -59,7 +59,14 @@
                           <a style="margin-left: 10px;" target="_blank" class="btn btn-outline-primary <?= $disable_button ? 'disabled' : '' ?>" href="<?=base_url('raport/pdfsmp/').$sa['id_santri'].'/'.$id_kelas?>"> <i class="fa fa-file-pdf text-danger"></i> <?= $sa['nama_santri'] ?></a>
                         <?php endif ?>
                         <?php if ($raport_umum == 'MA' ): ?>
-                          <a style="margin-left: 10px;" target="_blank" class="btn btn-outline-primary <?= $disable_button ? 'disabled' : '' ?>" href="<?=base_url('raport/pdfma/').$sa['id_santri'].'/'.$id_kelas?>"> <i class="fa fa-file-pdf text-danger"></i> <?= $sa['nama_santri']
+                            <?php  
+                                if ($rombel == 4 ) {
+                                    $link_r = base_url('raport/pdfmaKurmer/').$sa['id_santri'].'/'.$id_kelas;
+                                } else {
+                                    $link_r = base_url('raport/pdfma/').$sa['id_santri'].'/'.$id_kelas;
+                                }
+                            ?>
+                          <a style="margin-left: 10px;" target="_blank" class="btn btn-outline-primary <?= $disable_button ? 'disabled' : '' ?>" href="<?=$link_r?>"> <i class="fa fa-file-pdf text-danger"></i> <?= $sa['nama_santri']
                           ?></a>
                         <?php endif ?>
                     </td>
