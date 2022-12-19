@@ -451,7 +451,7 @@ class Raport extends CI_Controller {
 			
 			default:
 				$predikat[] = "A";
-				$predikat[] = "sangat Baik ";
+				$predikat[] = "sangat baik ";
 				break;
 		}
 		// var_dump($predikat);

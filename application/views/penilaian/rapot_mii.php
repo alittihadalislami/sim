@@ -75,6 +75,7 @@
     margin-left: 5px;
   }
 </style>
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper pl-3">
   <!-- Content Header (Page header) -->
@@ -292,16 +293,18 @@
               <div class="wali" style="float: right;">
                 <div class="ar">ولي الصف</div>
                 <div class="id">Wali Kelas</div>
-                <div class="nama" style="direction: ltr; margin-top: 85px; font-weight: bold;font-size: 20px"><?= $at_wali ?></div>
+                <div class="nama" style="direction: ltr; margin-top: 85px; font-weight: bold;font-size: 20px"><u><?= $at_wali['nama_asatid'] ?></u></div>
+                <div style="direction: ltr; margin-top:-5px; font-size: 20px">NIY. <?=$at_wali['niy']?></div>
               </div>
-              <div style="position: absolute; left: 68px; bottom: 220px">
+              <div style="position: absolute; left: 50px; bottom: 240px">
                 <div class="ar">بمعرفة</div>
                 <div class="id">Mengetahui</div>
               </div>
               <div class="mudir" style="float: right;">
                 <div class="ar">مدير المعـــهد</div>
                 <div class="id">Mudir Ma'had</div>
-                <div class="nama" style="direction: ltr; margin-top: 85px; font-weight: bold; font-size: 20px">Dr. Achmad Junaidi, Lc., MA.</div>
+                <div class="nama" style="direction: ltr; margin-top: 85px; font-weight: bold; font-size: 20px"><u>Dr. Achmad Junaidi, Lc., MA.</u></div>
+                <div style="direction: ltr; margin-top:-5px; font-size: 20px">NIY. 940613045</div>
               </div>
             </div>
               <div style="clear:both;"></div>
