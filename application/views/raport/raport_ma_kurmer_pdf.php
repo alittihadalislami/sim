@@ -90,6 +90,7 @@
 			width: 727px;
 			margin-right: auto;
 			margin-left: auto;
+            padding-bottom: 30px;
 		}
 		.judul-utama{
 			font-size: 25px;
@@ -319,36 +320,40 @@
 		</table>
         <br>
 		<table class="lebar">
-			<tr style="font-weight: bold; text-align: center; background-color:#f5f5ef">
-				<th style="width: 40px;">No</th>
-				<th style="width: 200px;">Ektrakurikulier</th>
-				<th style="width: 60px;">Predikat</th>
-				<th>Keterangan</th>
-			</tr>
-			<tr>
-				<td style='font-size:15px'>1</td>
-				<td style='font-size:15px'>Pramuka</td>
-				<td style='font-size:14px;' class='center'><?= $entry_wali['des_pramuka'] ?></td>
-				<td style='font-size:15px'><?= $entry_wali['predikat_pramuka'] ?></td>
-			</tr>
-			<tr>
-				<td style='font-size:15px'>2</td>
-				<td style='font-size:15px'>OSIS/ISMII</td>
-				<td style='font-size:15px' class='center'><?= $entry_wali['des_ismi'] ?></td>
-				<td style='font-size:15px'><?= $entry_wali['predikat_ismi'] ?></td>
-			</tr>
-			<tr>
-				<td style='font-size:15px'>3</td>
-				<td style='font-size:15px'>Baca Kitab</td>
-				<td style='font-size:15px' class='center'><?= $entry_wali['des_sorasi'] ?></td>
-				<td style='font-size:15px'><?= $entry_wali['predikat_sorasi'] ?></td>
-			</tr>
-			<tr>
-				<td style='font-size:15px'>4</td>
-				<td style='font-size:15px'>Tahfidzul Qur'an</td>
-				<td style='font-size:15px' class='center' > <?= $entry_wali['des_tahfid'] ?></td>
-				<td style='font-size:15px'><?= $entry_wali['predikat_tahfid'] ?></td>
-			</tr>
+            <thead>
+                <tr style="font-weight: bold; text-align: center; background-color:#f5f5ef">
+                    <th style="width: 40px;">No</th>
+                    <th style="width: 200px;">Ektrakurikulier</th>
+                    <th style="width: 60px;">Predikat</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style='font-size:15px'>1</td>
+                    <td style='font-size:15px'>Pramuka</td>
+                    <td style='font-size:14px;' class='center'><?= $entry_wali['des_pramuka'] ?></td>
+                    <td style='font-size:15px'><?= $entry_wali['predikat_pramuka'] ?></td>
+                </tr>
+                <tr>
+                    <td style='font-size:15px'>2</td>
+                    <td style='font-size:15px'>OSIS/ISMII</td>
+                    <td style='font-size:15px' class='center'><?= $entry_wali['des_ismi'] ?></td>
+                    <td style='font-size:15px'><?= $entry_wali['predikat_ismi'] ?></td>
+                </tr>
+                <tr>
+                    <td style='font-size:15px'>3</td>
+                    <td style='font-size:15px'>Baca Kitab</td>
+                    <td style='font-size:15px' class='center'><?= $entry_wali['des_sorasi'] ?></td>
+                    <td style='font-size:15px'><?= $entry_wali['predikat_sorasi'] ?></td>
+                </tr>
+                <tr>
+                    <td style='font-size:15px'>4</td>
+                    <td style='font-size:15px'>Tahfidzul Qur'an</td>
+                    <td style='font-size:15px' class='center' > <?= $entry_wali['des_tahfid'] ?></td>
+                    <td style='font-size:15px'><?= $entry_wali['predikat_tahfid'] ?></td>
+                </tr>
+            </tbdoy>
 		</table>
 		<br>
 		<div class="keterangan hal-akhir">
@@ -390,7 +395,7 @@
 			<br><br>
 			<?php if ($semester == 1 ): ?>
 				<div class="tempat-ttd">
-					<div>
+					<div style="margin-left: 50px;">
 						<div class="sebagai" style='font-size:15px'>Orang Tua/Wali</div>
 						<br><br><br><br>
 						<div class="isi">____________________</div>
@@ -398,7 +403,7 @@
 					<div style="margin-left: 250px;">
 						<div class="sebagai" style='font-size:14px; '>Wali Kelas</div>
 						<br><br><br><br>
-						<div class="isi" style='font-size:14px;font-weight: bold;'><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
+						<div class="isi" style='font-size:14px;'><u><b><?= $wali['nama_asatid'] ?></b></u><br>NIY. <?= $wali['niy'] ?></div>
 					</div>
 				</div>
 			<?php else: ?>
