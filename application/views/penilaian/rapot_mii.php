@@ -220,7 +220,7 @@
                 <div>Prilaku</div>
               </td>
               <td style="font-size: 40px;"><?=$suluk_k ?></td>
-              <td rowspan="4">
+              <td rowspan="4" style="direction: ltr;" >
                 <?=$tambahan['nasehat'] ?>
               </td>
             </tr>
@@ -274,8 +274,13 @@
             <?php endif ?>
 
             <div class="tanggal" style="margin-top: 20px">
-              <div class="ar">شمبلونج، ٢٢ ذوالقعدة ١٤٤٣</div>
-              <div class="id">Camplong, 22 Juni 2022</div>
+            <?php
+                $bulan_mii = explode(' ', $tgl_raport['mii']);
+                $yyyy_mm_dd = $bulan_mii[2].'/'.$this->rm->angkaBulan($bulan_mii[1]).'/'.$bulan_mii[0];
+                $hijiryah = $this->rm->masehiKeHijriyah($yyyy_mm_dd)
+            ?>
+              <div class="ar"> شمبلونج، <?=$hijiryah[0].' '.$hijiryah[1].' '.$hijiryah[2]?></div>
+              <div class="id">Camplong, <?= $tgl_raport['mii'] ?></div>
             </div>
 
             <div class="ttd" style="text-align: center; margin-top: 20px">
@@ -287,7 +292,7 @@
               <div class="wali" style="float: right;">
                 <div class="ar">ولي الصف</div>
                 <div class="id">Wali Kelas</div>
-                <div class="nama" style="margin-top: 85px; font-weight: bold;font-size: 20px"><?= $at_wali ?></div>
+                <div class="nama" style="direction: ltr; margin-top: 85px; font-weight: bold;font-size: 20px"><?= $at_wali ?></div>
               </div>
               <div style="position: absolute; left: 68px; bottom: 220px">
                 <div class="ar">بمعرفة</div>
@@ -296,7 +301,7 @@
               <div class="mudir" style="float: right;">
                 <div class="ar">مدير المعـــهد</div>
                 <div class="id">Mudir Ma'had</div>
-                <div class="nama" style="margin-top: 85px; font-weight: bold; font-size: 20px">Dr. Achmad Junaidi, Lc., MA</div>
+                <div class="nama" style="direction: ltr; margin-top: 85px; font-weight: bold; font-size: 20px">Dr. Achmad Junaidi, Lc., MA.</div>
               </div>
             </div>
               <div style="clear:both;"></div>

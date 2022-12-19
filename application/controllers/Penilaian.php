@@ -1073,8 +1073,8 @@ class Penilaian extends CI_Controller {
 		$data['jumlah_mii'] = $jumlah;
 		$data['ket'] = $this->naikKe($filter_kelas);
 		$data['domir'] = $this->domir($this->kelaminKelas($filter_kelas,$tahun_id));
-		// var_dump($data['domir']);die();
-
+        $data['tgl_raport'] = $this->rm->tglRaport($this->tahunAktif["nama_tahun"]);
+        
 		$this->load->view('templates/header', $data);
 		$this->load->view('penilaian/rapot_mii', $data);
 		$this->load->view('templates/footer');

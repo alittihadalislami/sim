@@ -216,6 +216,18 @@ class Raport_model extends CI_Model {
         }
     }
 
+    function angkaBulan($bulan) {
+        $bulanText = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        $i = 1;
+        foreach ($bulanText as  $bt) {
+            if ($bt == ucwords(strtolower($bulan))) {
+                return $i;
+            }
+            $i++;
+        }
+        return 'nama bulan salah';
+    }
+
     public function tglRaport($tahun)
     {
         $this->db->select('tgl_raport_mii,tgl_raport_smp,tgl_raport_ma');
@@ -381,6 +393,39 @@ class Raport_model extends CI_Model {
         AND n.`kelas_id` = $kelas ";
 		return $this->db->query($stringQ)->result_array();
   }
+
+  function angkaLatinKeArab($str)
+    {
+        $arabic_eastern = array('٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩');
+        $arabic_western = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        return str_replace($arabic_western, $arabic_eastern, $str);
+    }
+
+    function bulanHiriyahArab($angka)
+    {
+        if ($angka > 0 && $angka <= 12 ) {
+            $data = ['المحرم','صفر','ربيع الأول','ربيع الأخير','جمادى الأولى','جمادى الأخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+            return $data[$angka-1];
+        }
+        return "salah angka bulan!!";
+    }
+
+    public function masehiKeHijriyah($yyyy_mm_dd=null) {
+        //https://pdsi.unisayogya.ac.id/api-konversi-masehi-ke-hijriah/
+        //https://service.unisayogya.ac.id/kalender/api/<fungsi>/<metode>/<tahun>/<bulan>/<tanggal>
+        if ($yyyy_mm_dd == null) {
+            $yyyy_mm_dd = date("Y/m/d");
+        }
+        str_replace('-','/',$yyyy_mm_dd);
+        $url = 'https://service.unisayogya.ac.id/kalender/api/masehi2hijriah/muhammadiyah/'.$yyyy_mm_dd;
+        $json = file_get_contents($url);
+        $obj = json_decode($json);
+        return $hasil = [ 
+            $this->angkaLatinKeArab($obj->tanggal),
+            $this->bulanHiriyahArab($obj->bulan),
+            $this->angkaLatinKeArab($obj->tahun)
+        ];
+    }
 }
 
 /* End of file Raport_model.php */
