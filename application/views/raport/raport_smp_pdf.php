@@ -392,11 +392,11 @@
 		</div>
 		<div style="clear: left;"></div>
 		<div class="ttd fon2" style="margin-left:20px; margin-top:30px;">
-			<div class="tgl">
-				<div class="bagi-dua">
+			<div style="margin-top:20px">
+				<div style="display:inline-block; margin-left:0px">
 					Mengetahui,
 				</div>
-				<div class="bagi-dua" style="margin-top: 0; margin-right: 100px ">
+				<div style="display:inline-block; margin-left:400px">
 					Sampang, <?= $tgl_raport['smp'] ?>
 				</div>
 			</div>

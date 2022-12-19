@@ -127,6 +127,7 @@ class Raport extends CI_Controller {
 		$data['kelas_baru'] = $this->naikke($data['kelas']['nama_kelas']);
 
 		$data['dkn'] = $this->siapkanNilai($kls,$jenjang);
+        $data['tgl_raport'] = $this->rm->tglRaport($this->tahunAktif["nama_tahun"]);
 
 		$namafile = "Raport-SMP Al Ittihad-".$data['nama']."-".$data['kelas']['nama_kelas']."-s".$data['semester'].'_'.$data['tahun'];
 		
