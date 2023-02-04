@@ -772,6 +772,62 @@ class Santri extends CI_Controller {
 
     }
 
+    public function generateNikOrtu($nisn = '0051924121')
+    {
+        $StringQ = "SELECT a.`nama`, a.`id_data_awal`, a.`alamat_pengenal`, a.`desa_id`,w.`sts`, w.`nik_ortu`,p.`nok`, ds.`santri_id`
+        FROM p_data_awal a JOIN p_wali_pendaftaran w
+        ON a.`id_data_awal` = w.`data_awal_id` JOIN t_detail_santri ds 
+        ON ds.`nisn` = a.`nisn` JOIN p_pendaftaran p
+        ON p.`data_awal_id` = a.`id_data_awal`
+        WHERE a.`nisn` = $nisn
+        ORDER BY w.`sts` ASC ";
+        $data_psb = $this->db->query($StringQ)->result_array();
+        if($data_psb==false){
+            echo "tidak ada di data PSB";
+            return false;
+        }
+        $nok = $data_psb[0]['nok'];
+        $nik_bapak = $data_psb[0]['nik_ortu'];
+        $nik_ibu = $data_psb[1]['nik_ortu'];
+        $alamat_pengenal = $data_psb[0]['alamat_pengenal'];
+        $alamat_id = $data_psb[0]['desa_id'];
+
+        // =====================      
+        $StringQ = "SELECT  dt.`santri_id`, dt.`nik`,dt.`alamat_ortu`,dt.`nok`, dt.`nik_bapak`, dt.`nik_ibu`, dt.`alamat_pengenal`, dt.`alamat_id`
+                FROM t_detail_santri dt
+                WHERE dt.`nisn` = $nisn ";
+        $data_detail = $this->db->query($StringQ)->row_array();
+
+        $id_santri = $data_detail['santri_id'];
+        $hasil['id_santri'] = $id_santri;
+        $hasil['nisn'] = $nisn;
+        
+        $data_target = [
+            ['nok' => ['detail'=>$data_detail['nok'],'psb'=>str_replace(" ","",$nok)] ],
+            ['nik_bapak' => [ 'detail'=>$data_detail['nik_bapak'],'psb'=>str_replace(" ","",$nik_bapak)]],
+            ['nik_ibu' => [ 'detail'=>$data_detail['nik_ibu'],'psb'=>str_replace(" ","",$nik_ibu)]],
+            ['alamat_pengenal' => ['detail'=>$data_detail['alamat_pengenal'],'psb'=>str_replace(" ","",$alamat_pengenal)]],
+            ['alamat_id' => [ 'detail'=>$data_detail['alamat_id'],'psb'=>str_replace(" ","",$alamat_id)]]
+        ];
+        
+        foreach ($data_target as $dt) {
+            foreach ($dt as $key => $value) {
+                $jumlah_huruf_d = strlen($value['detail']);
+                $jumlah_huruf_p = strlen($value['psb']);
+                if ($jumlah_huruf_d < $jumlah_huruf_p) {
+                        $hasil[$key] = $value['psb'] ;
+                }
+            }
+        }
+        var_dump($hasil);
+    }
+
+    // public function eksekusi()
+    // {
+    //     $dat = $this->generateNikOrtu('0084442525');
+    //     var_dump($dat);
+    // }
+
 }
 
 /* End of file santri.php */

@@ -476,8 +476,46 @@
 </Style>
 
 <script>
+
   $(document).ready(function(){
-    
+    function angka (jenis, maksimal) {
+        $("input[name='"+jenis+"']").on("keypress ", function (event) {
+            var inputValue = event.which;
+            var currentValue = $(this).val();
+            // hanya mengijinkan input angka (0-9)
+            if (inputValue >= 48 && inputValue <= 57) {
+                // membatasi panjang input tidak lebih dari 10 angka
+                if (currentValue.length >= maksimal) {
+                    event.preventDefault();
+                }
+                } else {
+                // menghentikan input jika bukan angka
+                event.preventDefault();
+                }
+            });
+
+            $("input[name='"+jenis+"']").on("keyup ", function (event) {
+                var currentValue = $(this).val();
+                if (currentValue.length == maksimal) {
+                $(this).removeClass("is-invalid");
+                }else{
+                $(this).addClass("is-invalid");
+                }
+            });
+        }
+
+        data = [
+            ['nisn',10],
+            ['nok',16],
+            ['nik_bapak',16],
+            ['nik_ibu',16],
+            ['nik',16]
+        ]
+        data.forEach(element => {
+            angka(element[0],element[1])
+        });
+
+
     url_gif = '<?=base_url()?>assets/img/rotate2.svg'
     const buatLoading = () => {
       spinner = '<img class="mx-4" id="rotate" src='+url_gif+'>';
