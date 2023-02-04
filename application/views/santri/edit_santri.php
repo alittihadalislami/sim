@@ -137,6 +137,11 @@
                         <textarea class="form-control" rows="5" name="alamat_ortu"><?= isset($d_santri['alamat_ortu']) ? $d_santri['alamat_ortu'] : null ?></textarea>
                       </div>
 
+                      <div class="form-group d-none">
+                        <input class="form-control"  name="alamat_pengenal" value="<?= isset($d_santri['alamat_pengenal']) ? $d_santri['alamat_pengenal'] : null ?>"></input>
+                        <input class="form-control"  name="alamat_id" value="<?= isset($d_santri['alamat_id']) ? $d_santri['alamat_id'] : null ?>"></input>
+                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -536,6 +541,9 @@
         });
         return daput
       }
+
+      console.log(collectData())
+
       $.ajax({
         type: "POST",
         url: "<?=base_url()?>santri/ubah_santri",
@@ -804,7 +812,6 @@
     }
 
     //nomor induk
-    
     id = <?=$santri['id_santri']?>;
     target = $('.j_idk')
     $.each(target, function (i, t) { 
@@ -824,7 +831,7 @@
                 data:{id_santri:id,induk:$(this).val(), index:i},
                 typeData:'json',
                 success:function(){
-                
+
                 }
             })
            });
@@ -844,6 +851,20 @@
             $('#j_idk_ma').val(idk_ma_t_detail)
         }
     }
+
+    $.ajax({
+        type: "post",
+        url: "<?=base_url()?>santri/generateNikOrtu/<?=$santri['nisn']?>",
+        dataType: "json",
+        success: function (response) {
+            for (const [key, value] of Object.entries(response)) {
+                if (key === 'id_santri' || key === 'nisn') {
+                }else{
+                    $('input[name="'+key+'"]').val(value)
+                }
+            }
+        }
+    });
 
   })
 </script>
