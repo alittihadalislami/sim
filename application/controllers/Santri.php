@@ -372,7 +372,7 @@ class Santri extends CI_Controller {
 		$this->db->where('santri_id', $id);
 		$this->db->where('tahun_id', $this->tahunAktif);
 		$this->db->update('t_agtkelas', ['kelas_id'=> 19]);
-		redirect('santri','refresh');
+		redirect('santri/perkelas','refresh');
 	}
 
 	public function updateKelasSantri()

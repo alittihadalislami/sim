@@ -30,7 +30,7 @@
               
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="santri" class="table table-bordered table-hover display responsive" width="100%">
+                <table id="santri" class="table table-bordered table-striped table-sm table-hover display responsive" width="100%">
                   <thead>                  
                     <tr>
                       <th>#</th>
@@ -66,7 +66,7 @@
                         <td><?= $str['nama_kelas'];?></td>
                         <td><?= $str['idk_umum'];?></td>
                         <td><?= $str['idk_umum2'];?></td>
-                        <td class="sts">26 /
+                        <td class="sts">
                           <?php
                           $ada = $this->km->adaDetail($str['id_santri']);
                           if ($ada > 0 ) {
@@ -79,13 +79,20 @@
                             echo 0;
                           }
                           ?>
+                           / 26
                         </td>
-                        <td>
-                          <a class="pl-3" href="<?= base_url('santri/edit/').$str['id_santri']?>"><i class="fas fa-edit text-primary"></i></a> 
+                        <td class="d-flex align-items-center justify-content-around">
+                          <a class="px-1" href="<?= base_url('santri/edit/').$str['id_santri']?>"><i class="fas fa-edit text-primary"></i></a> 
                           <?php if ($this->session->userdata('rule_id') < 6 || $masukTabelWaliTerbaru > 0 ): ?>
-  	                        &nbsp&nbsp&nbsp
-  	                        <a class="pl-3" href="<?= base_url('raport/identitas/').$str['id_santri']?>"><i class="fas fa-list-ol text-success"></i></a> 
-                            <a class="ml-3 pl-3" href="<?= base_url('santri/non_aktif/').$str['id_santri']?>" onclick="return confirm('Yakin, mengeluarkan <?= $str['nama_santri'];?> dari kelas <?= $str['nama_kelas'];?> ??');"><i class="fas fa-share-square text-secondary"></i></a>
+  	                        <a class="px-1 mx-2" href="<?= base_url('raport/identitas/').$str['id_santri']?>"><i class="fas fa-list-ol text-success"></i></a> 
+                            <a 
+                                class="px-1" 
+                                href="<?= base_url('santri/non_aktif/').$str['id_santri']?>"
+                                data-nama="<?=$str['nama_santri']?>"
+                                data-kelas="<?=$str['nama_kelas'];?>"
+                                onClick="keluarkanSantri(event)" >
+                                    <i class="fas fa-share-square text-danger"></i>
+                            </a>
                           <?php endif ?>
                         </td>
                       </tr>
@@ -107,12 +114,50 @@
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
-  $(document).ready(function() {
-    
+function keluarkanSantri(ev) {
+        ev.preventDefault();
+        var urlToRedirect = ev.currentTarget.getAttribute('href'); //use currentTarget because the click may be on the nested i tag and not a tag causing the href to be empty
+        var santri = ev.currentTarget.getAttribute("data-nama")
+        var kelas = ev.currentTarget.getAttribute("data-kelas")
+        Swal.fire({
+            title: "Apakah yakin mengeluarkan?",
+            text: "Anda tidak akan bisa mengembalikan santri yang sudah dikeluarkan",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, keluarkan",
+            cancelButtonText: "Batal",
+            input: "checkbox",
+            inputValue: 0,
+            inputPlaceholder: "Saya yakin ingin mengeluarkan <br>santri an. "+santri+" dari kelas: "+kelas,
+            inputValidator: (value) => {
+                return !value && "Anda harus mencentang checkbox untuk melanjutkan!";
+            },
+        }).then((result) => {
+            if (result.value) {
+                Swal.fire({
+                    title : "Berhasil!", 
+                    icon: "success",
+                    text : santri+" berhasil dikeluarkan!", 
+                    type : "success",
+                    timer : 3000
+                }).then(function() {
+                    window.location.replace(urlToRedirect)                    
+                })
+                // setTimeout(function () {
+                //         window.location.replace(urlToRedirect)                    
+                // }, 3000);
+            }
+        });
+    }
+
+$(document).ready(function() {
     $('#santri').dataTable( {
       "columnDefs": [{ 'visible': false, 'targets': [2] }],
       "stateSave": true
     });
-  });
+});
 </script>

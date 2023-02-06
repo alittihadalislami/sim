@@ -860,7 +860,10 @@
             for (const [key, value] of Object.entries(response)) {
                 if (key === 'id_santri' || key === 'nisn') {
                 }else{
-                    $('input[name="'+key+'"]').val(value)
+                    inputan = $('input[name="'+key+'"]')
+                    if (inputan.val() == '') {
+                        inputan.val(value)
+                    }
                 }
             }
         }
