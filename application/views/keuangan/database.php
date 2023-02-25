@@ -26,25 +26,25 @@
                         <div class="col p-5">
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-                                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
-                                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+                                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Tagihan</a>
+                                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Keringanan</a>
+                                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">...</a>
                                 </div>
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                                     <div id="kotak-tambah-nominal" class="row" style="display:none;">
-                                        <form id="form-tambah-nominal"> 
+                                        <form id="form-tambah-tagihan"> 
                                         <div class="col">
                                             <div class="input-group my-3">
                                                 <div class="input-group-prepend">
-                                                    <span style="width: 200px" class="input-group-text">Tahun Pelajaran</span>
+                                                    <span style="width: 150px" class="input-group-text">Tahun Pelajaran</span>
                                                 </div>
                                                 <input type="text" class="form-control" name="tapel" placeholder="Tulis tanpa tanda baca, contoh:20222023">
                                             </div>
                                             <div class="input-group mb-3">
                                                 <div class="input-group-prepend">
-                                                    <label style="width: 200px" class="input-group-text" for="jenis_mutasi">Jenis Tagihan</label>
+                                                    <label style="width: 150px" class="input-group-text" for="jenis_mutasi">Jenis Tagihan</label>
                                                 </div>
                                                 <select class="custom-select" id="jenis_mutasi" name="jenis_mutasi">
                                                     <option value="" selected>pilihh...</option>
@@ -54,12 +54,12 @@
                                             </div>
                                             <div class="input-group my-3">
                                                 <div class="input-group-prepend">
-                                                    <span style="width: 200px" class="input-group-text">Nominal</span>
+                                                    <span style="width: 150px" class="input-group-text">Tagihan</span>
                                                 </div>
-                                                <input name="nominal_mutasi" id='nominal_mutasi' type="text" class="form-control uang" placeholder="Tulis tanpa tanda baca, contoh:1000000">
+                                                <input name="tagihan_mutasi" id='tagihan_mutasi' type="text" class="form-control uang" placeholder="Tulis tanpa tanda baca, contoh:1000000">
                                             </div>
                                             <div class="col my-2 clearfix">
-                                                <button id='submit-form-nominal' class="btn btn-danger float-right">Simpan</button>
+                                                <button id='submit-form-tagihan' class="btn btn-danger float-right">Simpan</button>
                                                 <a class="btn-tutup btn btn-secondary float-right mx-3 text-white">Tutup</a>
                                             </div>
                                         </div>
@@ -74,7 +74,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+                                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                    konten Keringanan
+                                </div>
                                 <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
                             </div>
                         </div>
@@ -92,16 +94,16 @@
     
     isi_database()
     $('.uang').mask("#.##0", {reverse: true});
-    $('#submit-form-nominal').click(function (e) { 
+    $('#submit-form-tagihan').click(function (e) { 
         e.preventDefault();
-        let data = $('#form-tambah-nominal').serializeArray()
+        let data = $('#form-tambah-tagihan').serializeArray()
         let daput = {}
         data.forEach(function(el,index){
             daput [el.name] = el.value
         });        
         $.ajax({
             type: "POST",
-            url: "tambahNominal",
+            url: "tambahTagihan",
             data: {daput},
             dataType: 'json',
             success: function (response) {

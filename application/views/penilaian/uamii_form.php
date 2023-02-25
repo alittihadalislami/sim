@@ -141,10 +141,12 @@
           <a class="btn btn-success float-right" href="<?= base_url('penilaian/uamii') ?>">Rekap Nilai</a>
           <!-- <a class="btn btn-warning" href="<?= '#'/*base_url('penilaian/uamii')*/ ?>">Tarik dari penilaian reguler</a> -->
           <h1  class="display-1" id="head">Nilai UAMII <?= $str_tahun ?> - <span class="display-4"><?= $mapel[0]['mapel_alias'] ?></span></h1>
+          <?php if ($mapel[0]['id_mapel'] != 9 && $mapel[0]['id_mapel'] != 12 && $mapel[0]['id_mapel'] != 24) : ?>
           <ul class="mt-3">
             <li>Input nilai mata pelajaran <?= $mapel[0]['mapel_alias'] ?> dilakukan di form penilaian reguler dengan KD, NKH, PTS, PAS, SLK di <a href="<?= base_url()?>penilaian" class="badge badge-warning font-weight-bold">link ini</a></li>
             <li>Melakukan <a class="badge badge-warning" href="<?= base_url('penilaian/tarikNilaiRegulerkeUamii').'/'.$this->uri->segment(3)?>">tarik data nilai reguler</a> dan simpan untuk nilai UAMII</li>
           </ul>
+          <?php endif ?>
         </div>
       </div>
 

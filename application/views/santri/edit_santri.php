@@ -541,9 +541,6 @@
         });
         return daput
       }
-
-      console.log(collectData())
-
       $.ajax({
         type: "POST",
         url: "<?=base_url()?>santri/ubah_santri",

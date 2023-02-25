@@ -138,9 +138,9 @@
                 <button onclick="database()" class="text-center btn btn-primary">Data</button>
                 <div class="row my-4">
                     <div class="col-md-8 offset-md-2">
-                        <form action="simple-results.html">
+                        <form action="#">
                             <div class="input-group">
-                                <input id="cari_santri" style="text-align:center;s" type="search"
+                                <input id="cari_santri" style="text-align:center;" type="search"
                                     class="form-control form-control-lg" placeholder="Masukkan no induk santri">
                                 <div class="input-group-append">
                                     <span id="icon_cari" type="submit" class="btn btn-lg btn-default">

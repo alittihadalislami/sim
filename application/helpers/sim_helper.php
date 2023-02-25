@@ -51,13 +51,11 @@ function is_uamii()
 	$ci = get_instance();
 	$ci->load->model('User_model','um');
 	$tahunAktif = $ci->um->tahunAktif()['id_tahun'];
-
 	$email = '"'.$ci->session->userdata('email').'"';
-
-
 	$guruKelas6 = $ci->um->guruKelas6("$email","$tahunAktif");
+	$guruMapelUamiiBukanKelas6 = $ci->um->guruMapelUamiiBukanKelas6("$email","$tahunAktif");
 	
-	if ($guruKelas6 < 1) {
+    if (($guruKelas6 + $guruMapelUamiiBukanKelas6) < 1) {
  		redirect('dashboard','refresh');
  	}
 

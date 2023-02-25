@@ -129,7 +129,6 @@ class Penilaian extends CI_Controller {
 
 	public function uamii_form($id_mapel)
 	{
-
 		$data['judul'] = 'Nilai UAMII';
 		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
 		$data['str_tahun'] = $this->tahunAktif['nama_tahun'];
@@ -143,7 +142,6 @@ class Penilaian extends CI_Controller {
 
 	public function uamii_form_karya()
 	{
-
 		$data['judul'] = 'Nilai UAMII';
 		$data['id_tahun'] = $this->tahunAktif['id_tahun'];
 		$data['str_tahun'] = $this->tahunAktif['nama_tahun'];
@@ -311,10 +309,15 @@ class Penilaian extends CI_Controller {
 	public function hitungRata2Raport5sem()
 	{
 		set_time_limit(500);
-		$hasil =  $this->km->hitungRatarataRaport($this->tahunAktif['id_tahun']) ;
-		foreach ($hasil as $value) {
-			$this->db->replace('t_nilai_ijz', $value);;
-		}
+		$mapel_semua =  $this->km->hitungRatarataRaport($this->tahunAktif['id_tahun']) ;
+        foreach ($mapel_semua as $value) {
+            	$this->db->replace('t_nilai_ijz', $value);
+        }
+
+        $mapel_hanya_kelas6 =  $this->km->hitungRataNilai6($this->tahunAktif['id_tahun']) ;
+        foreach ($mapel_hanya_kelas6 as $value) {
+            	$this->db->replace('t_nilai_ijz', $value);
+        }
 	}
 
 	public function tambah_na()

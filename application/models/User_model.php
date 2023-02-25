@@ -526,6 +526,38 @@ class User_model extends CI_Model {
 			GROUP BY a.`id_asatid`, p.`id_mapel` ";
 		return $this->db->query($stringQ)->num_rows();
 	}
+
+    public function guruMapelUamiiBukanKelas6($email,$tahunAktif)
+	{
+		$stringQ=" SELECT m.*, ud.`email`
+                FROM m_mengajar m LEFT JOIN m_asatid ma
+                ON ma.`id_asatid` = m.`asatid_id` LEFT JOIN user_data ud
+                ON ud.`nohp` = ma.`nohp`
+                WHERE m.`tahun_id` = $tahunAktif
+                AND ud.`email` = $email
+                AND m.`mapel_id` IN 
+                (
+                SELECT m.`id_mapel`
+                FROM t_urutmapel u JOIN m_mapel m
+                ON u.`mapel_id` = m.`id_mapel`
+                WHERE u.`urut_ijz` IS NOT NULL 
+                AND u.`mapel_id` NOT IN (
+                SELECT b.`mapel_id`
+                FROM m_mengajar b
+                WHERE b.`tahun_id` = $tahunAktif
+                AND b.`kelas_id` IN 
+                (
+                SELECT k.`id_kelas`
+                FROM m_kelas k
+                WHERE k.`rombel` = 6
+                )
+                GROUP BY b.`mapel_id`
+                )
+                )
+                GROUP BY m.`mapel_id`, m.`asatid_id`
+                ";
+		return $this->db->query($stringQ)->num_rows();
+	}
 	
 	
 	//mengembalikan alamat detail berupa array0=string, array1=array perbagian

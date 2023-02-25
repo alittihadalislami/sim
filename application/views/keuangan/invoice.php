@@ -27,7 +27,7 @@
                     <div class="row mt-4">
                         <div class="col-sm-4">
                             <span>SPP</span>
-                            <div class="list-group my-4">
+                            <div class="list-group my-4"  id="spp-area">
                                 <button type="button" class="list-tagihan list-group-item" data-bulan="JUL-2022" data-uang="100000" >JUL-2022
                                     <span class="uang">100000</span>
                                 </button>
@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-sm-4">
                             <span>Tahunan</span>
-                            <div class="list-group my-4">
+                            <div class="list-group my-4" id="tahunan-area">
                                 <button type="button"
                                     class="list-tagihan list-group-item list-group-item-action">JUL-2022 <span
                                         class="uang">100000</span></button>
@@ -85,11 +85,10 @@
                         <div class="col-sm-4 invoice-col">
                             To
                             <address>
-                                <strong>John Doe</strong><br>
-                                795 Folsom Ave, Suite 600<br>
-                                San Francisco, CA 94107<br>
-                                Phone: (555) 539-1037<br>
-                                Email: john.doe@example.com
+                                <strong id="nama-kwitansi">Nama</strong><br>
+                                <span id="kelas-kwitansi">Kelas 3C , 232323</span><br>
+                                <span id="alamat-kwitansi">Jl. Raya Camplong Raya Camplong Raya Camplong Raya Camplong </span><br>
+                                <span id="hp-kwitansi"> Phone: (555) 539-1037</span><br>
                             </address>
                         </div>
                         <div class="col-sm-4 invoice-col">
@@ -153,7 +152,41 @@
 </section>
 
 <script>
+    id_santri = null;
+    function hitungTagihan() {
+        $.ajax({
+            type: "POST",
+            url: "<?=base_url()?>keuangan/hitungTagihan",
+            data: {'id_santri':id_santri},
+            dataType: "json",
+            success: function (response) {
+                spp = response['bulanan']
+                html = ""
+                $.each(spp, function (i, value) { 
+                    if (value['keringanan'] != null) {
+                        $tagihan = value['keringanan']
+                    }else{
+                        $tagihan = value['tagihan']
+                    }
+                    
+                    html +=`<button type="button" class="list-tagihan list-group-item" data-id-tagihan="${value['id_tagihan']}" data-bulan="${value['bln']+'-'+value['tahun']}" data-uang="${ $tagihan}" >${value['bln']+'-'+value['tahun']}`
+                    html +=`<span class="uang mr-2">${$tagihan}</span>`
+                    html +='</button>'
+                });
+                $('#spp-area').html(html);
 
+                tahunan = response['tahunan']
+                html = ""
+                $.each(tahunan, function (indexInArray, valueOfElement) { 
+                    html += '<button type="button" class="list-tagihan list-group-item" data-bulan="JUL-2022" data-uang="100000" >JUL-2022'
+                    html +='<span class="uang">100000</span>'
+                    html +='</button>'
+                });
+                $('#tahunan-area').html(html);
+                uangkan()
+            }
+        });
+    }
     function clear_tagihan() {
         target = $(event.target).parent().parent().parent()
         target.remove()
@@ -169,11 +202,13 @@
         return false
     };
 
-    $('.list-tagihan').click(function (e) {
+    $('.list-group').on('click','.list-tagihan',function (e) {
         e.preventDefault();
         x = $(this).toggleClass("activ").blur()
         kategori = x.parent().siblings().text()
         tagihan_id = x[0].dataset['bulan']
+        id = x[0].dataset['id-tagihan']
+        console.log(id)
         tagihan = kategori +" "+ tagihan_id
         uang = x[0].dataset['uang']
         urut = $('#kwitansi').children().length + 1

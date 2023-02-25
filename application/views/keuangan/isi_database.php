@@ -2,20 +2,20 @@
     <thead>
         <tr>
             <th scope="col">No</th>
-            <th scope="col">ID Nominal</th>
+            <th scope="col">ID Tagihan</th>
             <th scope="col">Keuangan</th>
             <th scope="col">Bulan</th>
             <th scope="col">Tahun</th>
             <th scope="col">Tahun Ajaran</th>
-            <th scope="col">Nominal</th>
+            <th scope="col">Tagihan</th>
             <th scope="col">Aksi</th>
         </tr>
     </thead>
     <tbody>
-        <?php $no=1; foreach ($nominal as $value) : ?>
+        <?php $no=1; foreach ($tagihan as $value) : ?>
         <tr>
             <th scope="row"><?=$no++?></th>
-            <td><?=$value['id_nominal']?></td>
+            <td><?=$value['id_tagihan']?></td>
             <td><?=$value['mutasi_keuangan']?></td>
             <td><?=$value['bulan'] == NULL ? '-': $value['bulan'] ?></td>
             <td><?=$value['tahun'] == NULL ? '-': $value['tahun'] ?></td>
@@ -24,10 +24,10 @@
                 $tapel2 = substr($value['tapel'],4,4);
                 echo $tapel1.'-'.$tapel2;
             ?></td>
-            <td class="uang"><?=$value['nominal']?></td>
+            <td class="uang"><?=$value['tagihan']?></td>
             <td>
                 <a href="#">edit</a> ||
-                <a class="hapus-data-nominal" href="#" data-id="<?=$value['id_nominal']?>">hapus</a>
+                <a class="hapus-data-tagihan" href="#" data-id="<?=$value['id_tagihan']?>">hapus</a>
             </td>
         </tr>
         <?php endforeach ?>

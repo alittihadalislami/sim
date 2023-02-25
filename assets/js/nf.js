@@ -76,7 +76,7 @@ const cariSantri = () => {
         $("#santri_terpilih").html("");
         $("#icon_cari").html('<i class="fa fa-search"></i>');
       }
-    }, 500);
+    }, 0);
   });
 };
 

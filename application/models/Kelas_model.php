@@ -117,27 +117,53 @@ class Kelas_model extends CI_Model {
 
 	public function hitungRatarataRaport($id_tahun_aktif, $rombel=6)
 	{
-		$id_tahun_hitung = "";
-
-		$max = 5; // jumlah semester maksimal yang dihitung
-		for ($i=$id_tahun_aktif-1 ; $i>0 ; $i--) { 
-			$id_tahun_hitung .= $i;
-			$max = $max - 1;
-			$pemisah=',';
-			if ($max == 0 || $i == 1) {
-				break;
-			}
-			$id_tahun_hitung .= $pemisah;
-		}
-
 		$stringQ = " SELECT CONCAT(a.`tahun_id`, n.`santri_id` , n.`mapel_id`) AS id_nilai, n.`mapel_id`, n.`santri_id`,a.`tahun_id`, ROUND(AVG(n.`nrp`),0) AS nrp
 					FROM t_na n JOIN t_agtkelas a
 					ON a.`santri_id` = n.`santri_id` JOIN m_kelas k
 					ON k.`id_kelas` = a.`kelas_id` 
 					WHERE a.`tahun_id` = $id_tahun_aktif
 					AND k.`rombel` = $rombel
-					AND n.`tahun_id` IN ($id_tahun_hitung)
+					AND n.`tahun_id` IN (
+                        SELECT t.`id_tahun`
+                        FROM m_tahun t
+                        WHERE t.`semester` = 2
+                        AND t.`id_tahun` != (SELECT MAX(DISTINCT ta.`id_tahun`) AS id FROM m_tahun ta)
+                    )
 					GROUP BY n.`mapel_id`, n.`santri_id` ";
+		return $this->db->query($stringQ)->result_array();
+	}
+
+    public function hitungRataNilai6($id_tahun_aktif, $rombel=6)
+	{
+		$stringQ = " SELECT concat($id_tahun_aktif, a.`santri_id`,a.`mapel_id`) as id_nilai,a.`mapel_id`, a.`santri_id`, $id_tahun_aktif AS 'tahun_id', a.`nrp`
+        FROM t_na a
+        WHERE a.`mapel_id` IN (
+        SELECT k.`id_mapel`
+        FROM t_kbm k 
+        WHERE k.`id_kelas` = 12
+        AND k.`id_tahun` = $id_tahun_aktif
+        GROUP BY k.`id_mapel`
+        HAVING k.`id_mapel` NOT IN 
+        (
+            SELECT k.`id_mapel`
+            FROM t_kbm k 
+            WHERE k.`id_kelas` NOT IN (SELECT kl.`id_kelas`
+            FROM m_kelas kl
+            WHERE kl.`rombel` = 6)
+            AND k.`id_tahun` = $id_tahun_aktif
+            GROUP BY k.`id_mapel`)
+        )
+        AND a.`santri_id` IN 
+        (
+            SELECT gt.`santri_id`
+            FROM t_agtkelas gt
+            WHERE gt.`kelas_id` IN (
+            SELECT kl.`id_kelas`
+            FROM m_kelas kl
+            WHERE kl.`rombel` = 6)
+            AND gt.`tahun_id` = $id_tahun_aktif
+        )
+        GROUP BY a.`mapel_id`, a.`santri_id` ";
 		return $this->db->query($stringQ)->result_array();
 	}
 
