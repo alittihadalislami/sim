@@ -268,6 +268,7 @@ class Kurikulum extends CI_Controller {
 		$this->load->view('templates/footer');
 
 	}
+
 }
 
 /* End of file asatid.php */
