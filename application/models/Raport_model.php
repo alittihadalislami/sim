@@ -438,7 +438,7 @@ class Raport_model extends CI_Model {
             SELECT d.`urut`
             FROM t_kd d
             WHERE d.`tahun_id` = $tahun_id
-            AND d.`kelas_id` = $kelas_id
+            AND d.`rombel` = (SELECT k.`rombel` FROM m_kelas k  WHERE k.`id_kelas` = $kelas_id)
             AND d.`mapel_id` = $mapel_id
             AND (d.`kdp` = 'Ujian Praktik' OR d.`kdk` = 'Ujian Praktik')
         )

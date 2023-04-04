@@ -123,7 +123,7 @@ class Penilaian extends CI_Controller {
 
         $nilai_praktik = $this->rm->cekNilaiPraktik($data['id_tahun'],$data['id_kelas'],$data['id_mapel']);
         $data['is_praktik'] = $nilai_praktik == true;
-
+  
         if ($nilai_praktik) {
             foreach ($nilai_praktik as $value) {
                 $nilai_praktik_arr [$value['santri_id']] = $value['nilai_praktik']; 
