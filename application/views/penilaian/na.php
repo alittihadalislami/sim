@@ -152,7 +152,7 @@
       <div class="card border-light mb-3">
         <div class="card-header bg-success" style="font-size: 20px;"><?php echo $judul.' - '.$atribut['nama_mapel'].' '.$atribut['nama_kelas']; ?></div>
         <div class="card-body">
-          <form action="<?=base_url('penilaian/tambah_na') ?>" method="post">
+          <form action="<?=base_url('penilaian/tambah_na') ?>" method="post" onsubmit="hitungUlang()">
           <div class="judul">
             <div class="br1 lb-1">NO</div>
             <div class="br1 lb-1a">Induk</div>
@@ -197,8 +197,15 @@
             <div class="br2 awnilai lb-2"><input class="form-control lb-i nhr" type="text" readonly name="nhr-<?= $s['id_santri'];?>" value="<?= isset($nhr[$s['id_santri']]) ? $nhr[$s['id_santri']] : ''; ?>" id="nhr-<?=$i?>" placeholder="NHR"></div>
 
             <div class="br2 lb-2"><input class="form-control lb-i pts" type="number" min="0" max="100" name="pts-<?= $s['id_santri'];?>" id="pts-<?=$i?>" placeholder="PTS" value="<?= isset($na[$s['id_santri']]['pts']) ? $na[$s['id_santri']]['pts'] : ''; ?>"></div>
-
-            <div class="br2 lb-2"><input class="form-control lb-i pas" type="number" min="0" max="100" name="pas-<?= $s['id_santri'];?>" id="pas-<?=$i?>" placeholder="PAS" value="<?= isset($na[$s['id_santri']]['pas']) ? $na[$s['id_santri']]['pas'] : ''; ?>"></div>
+            <?php 
+                if ($is_praktik) {
+                    $praktik = $nilai_praktik_arr[$s['id_santri']];
+                    $poper = 'data-nilaiPraktik="'.$praktik.'" data-toggle="popover" data-placement="top" data-content="Praktik: '.$praktik.'"';
+                } else {
+                    $poper = '';
+                }
+            ?>
+            <div class="br2 lb-2"><input <?=$poper?> class="form-control lb-i pas" type="number" min="0" max="100" name="pas-<?= $s['id_santri'];?>" id="pas-<?=$i?>" placeholder="PAS" value="<?= isset($na[$s['id_santri']]['pas']) ? $na[$s['id_santri']]['pas'] : ''; ?>"></div>
 
             <div class="br2 lb-2"><input class="form-control lb-i nrp" type="number" min="0" max="100" readonly name="nrp-<?= $s['id_santri'];?>" id="nrp-<?=$i?>" placeholder="NRP" value="<?= isset($na[$s['id_santri']]['nrp']) ? $na[$s['id_santri']]['nrp'] : ''; ?>"></div>
 
@@ -222,12 +229,24 @@
 </div>
 
 <script src="<?=base_url() ?>/assets/js/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <!-- <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script> --> 
 <script>
+    <?php 
+        $cek = $is_praktik > 0 ? '1' : '0' ;
+    ?>
+    $('html').on('click', function(e) {
+        if (typeof $(e.target).data('original-title') == 'undefined') {
+            $('[data-original-title]').popover('hide');
+        }
+    });
   $(document).ready(function(){
+    $('[data-toggle="popover"]').popover()  
 
     $(".form-control").keyup(function () {
         var idKotak = this.id
@@ -256,9 +275,9 @@
 
     });
 
-    $(".form-control").change(function () {
+    $(".form-control").keyup(function () {
       var idKotak = this.id
-      var nilaiKotak   = this.value 
+      var nilaiKotak = this.value 
       var kotakAsal = idKotak.split("-")
       var idform = kotakAsal[1];
 
@@ -267,8 +286,17 @@
       var pas = $("#pas-"+idform+"").val();
       var nhr = $("#nhr-"+idform+"").val();
       var nrp = $("#nrp-"+idform+""); //menampung nilai saja.
-
-      var nilai = (parseFloat(nkh) + parseFloat(nhr) + parseFloat(pts) + parseFloat(pas))/4;
+    
+    is_praktik = <?= $cek ?> ;
+    if  (is_praktik > 0) {
+        var nilai_praktik = $("#pas-"+idform+"").data('nilaipraktik')
+        console.log("ada praktik dari asal->"+idform);
+        const nilai_praktek_pas = ( parseFloat(pas)+nilai_praktik ) / 2;
+        var nilai = (parseFloat(nkh) + parseFloat(nhr) + parseFloat(pts) + nilai_praktek_pas )/4;
+      }else{
+        console.log("normal->"+idform);
+          var nilai = (parseFloat(nkh) + parseFloat(nhr) + parseFloat(pts) + parseFloat(pas))/4;
+      }
 
       if (parseFloat(nkh) >= 0 && parseFloat(nhr) >= 0 && parseFloat(pts) >= 0 && parseFloat(pas) >= 0){
         nrp.val(nilai.toFixed(2));
@@ -288,6 +316,49 @@
             })
           }
     });
+    hitungUlang();
 
   });
+
+      const hitungUlang = () => {
+        data = $('.nrp')
+        for (let index = 0; index < data.length; index++) {
+            const idform = data[index].id.split("-")[1];
+            
+            var nkh = $("#nkh-"+idform+"").val();
+            var pts = $("#pts-"+idform+"").val();
+            var pas = $("#pas-"+idform+"").val();
+            var nhr = $("#nhr-"+idform+"").val();
+            var nrp = $("#nrp-"+idform+""); //menampung nilai saja.
+            
+            is_praktik = <?= $cek ?> ;
+            if  (is_praktik > 0) {
+                console.log("ada praktik-> "+idform);
+                var nilai_praktik = $("#pas-"+idform+"").data('nilaipraktik')
+                const nilai_praktek_pas = ( parseFloat(pas)+nilai_praktik ) / 2;
+                var nilai = (parseFloat(nkh) + parseFloat(nhr) + parseFloat(pts) + nilai_praktek_pas )/4;
+            }else{
+                console.log("normal-> "+idform);
+                var nilai = (parseFloat(nkh) + parseFloat(nhr) + parseFloat(pts) + parseFloat(pas))/4;
+            }
+
+            if (parseFloat(nkh) >= 0 && parseFloat(nhr) >= 0 && parseFloat(pts) >= 0 && parseFloat(pas) >= 0){
+                nrp.val(nilai.toFixed(2));
+            }else{
+                nrp.val('');
+            }
+
+            if (nrp.val() < "<?= $kkm['kkm']; ?>" && (parseFloat(nkh) >= 0 && parseFloat(nhr) >= 0 && parseFloat(pts) >= 0 && parseFloat(pas) >= 0) ) {
+                nrp.css({
+                    "background-color": "#EE6666",
+                    "color": "white",
+                    })
+                }else{
+                    nrp.css({
+                    "background-color": "#E9ECEF",
+                    "color": "black",
+                    })
+                }
+        }
+    }
 </script>

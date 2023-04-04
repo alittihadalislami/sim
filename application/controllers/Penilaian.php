@@ -83,8 +83,8 @@ class Penilaian extends CI_Controller {
 
 		//menghitung dan mecacah nilai harian 
 		foreach ($data['santri'] as $santri) {
-			 $data_nhr = $this->um->hitungHhr($data['id_tahun'], $data['id_kelas'], $data['id_mapel'], $santri['id_santri']);
-			 $nhr[$santri["id_santri"]] = round($data_nhr['nhr'],0);
+            $data_nhr = $this->um->hitungHhr($data['id_tahun'], $data['id_kelas'], $data['id_mapel'], $santri['id_santri']);
+			$nhr[$santri["id_santri"]] = round($data_nhr['nhr'],0);
 		}
 		$data['nhr'] = $nhr;
 
@@ -121,6 +121,15 @@ class Penilaian extends CI_Controller {
 			'nama_mapel' => $nama_mapel['nama_mapel']
 		];
 
+        $nilai_praktik = $this->rm->cekNilaiPraktik($data['id_tahun'],$data['id_kelas'],$data['id_mapel']);
+        $data['is_praktik'] = $nilai_praktik == true;
+
+        if ($nilai_praktik) {
+            foreach ($nilai_praktik as $value) {
+                $nilai_praktik_arr [$value['santri_id']] = $value['nilai_praktik']; 
+            }
+            $data['nilai_praktik_arr'] = $nilai_praktik_arr;
+        }
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('penilaian/na', $data);
@@ -277,26 +286,65 @@ class Penilaian extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
-	public function tarikNilaiRegulerkeUamii($mapel_id=28)
+	public function tarikNilaiRegulerkeUamii($mapel_id=28,$rombel=6)
 	{
 		$id_tahun = $this->tahunAktif['id_tahun'];
-		$stringQ = 'SELECT CONCAT(n.`tahun_id`, n.`santri_id`,n.`mapel_id`) AS id_nilai, n.`pas` AS uamii
+
+        $stringQ = "SELECT CONCAT(h.`tahun_id`, h.`santri_id`, h.`mapel_id`) AS id_praktik, h.`nilai_kdk` AS nilai_praktik
+            FROM t_nh h
+            WHERE h.`tahun_id` = $id_tahun
+            AND h.`kelas_id` IN (SELECT m.`id_kelas` FROM m_kelas m WHERE m.`rombel` = $rombel)
+            AND h.`mapel_id` = $mapel_id
+            AND h.`urut_kd` = (
+                SELECT d.`urut`
+                FROM t_kd d
+                WHERE d.`tahun_id` = $id_tahun
+                AND d.`rombel` = $rombel
+                AND d.`mapel_id` = $mapel_id
+                AND (d.`kdp` = 'Ujian Praktik' OR d.`kdk` = 'Ujian Praktik')
+            )";
+        $praktik = $this->db->query($stringQ)->result_array();
+        if ($praktik) {
+            foreach ($praktik as $el) {
+                $praktik_arr [$el['id_praktik']] = $el['nilai_praktik'];
+            }
+        }
+
+        //query nilai pas
+		$stringQ = "SELECT CONCAT(n.`tahun_id`, n.`santri_id`,n.`mapel_id`) AS id_nilai, n.`pas` AS uamii
 					FROM t_na n JOIN m_kelas k
 					ON k.`id_kelas` = n.`kelas_id`
-					WHERE n.`tahun_id` = '.$id_tahun.'
-					AND n.`mapel_id` = '.$mapel_id.'
-					AND k.`rombel` = 6';
+					WHERE n.`tahun_id` = $id_tahun
+					AND n.`mapel_id` = $mapel_id
+					AND k.`rombel` = $rombel";
 		$hasil = $this->db->query($stringQ)->result_array();
+
 		foreach ($hasil as $uamii ) {
-			$this->db->where('id_nilai', $uamii['id_nilai']);
-    		$this->db->update('t_nilai_ijz', $uamii);
+            if ($praktik) {
+                $id = $uamii['id_nilai'];
+                //jika sebagian nilai praktik tidak di input oleh Guru 
+                if (isset($praktik_arr[$id])) {
+                    $nilai_prt = $praktik_arr[$id];
+                }else{
+                    $nilai_prt = $uamii['uamii'];
+                }
+                $nilai_pas = $uamii['uamii'];
+                $pas_prt = round(($nilai_prt + $nilai_pas) / 2 , 0);
+
+                $this->db->where('id_nilai', $id);
+                $this->db->update('t_nilai_ijz', ['uamii'=>$pas_prt]);
+            }else {
+                $this->db->where('id_nilai', $uamii['id_nilai']);
+                $this->db->update('t_nilai_ijz', $uamii);
+            }
 		}
 
-		$stringQ2 = 'SELECT CONCAT(h.`tahun_id`, h.`santri_id`, h.`mapel_id`) AS id_nilai, h.`nilai_suluk` AS slk
+		$stringQ2 = "SELECT CONCAT(h.`tahun_id`, h.`santri_id`, h.`mapel_id`) AS id_nilai, h.`nilai_suluk` AS slk
 					FROM t_nh h
-					WHERE h.`tahun_id` = '.$id_tahun.'
-					AND h.`mapel_id` = '.$mapel_id.'
-					AND h.`kelas_id` IN (12,13,24)';//rombel 6 saja
+					WHERE h.`tahun_id` = $id_tahun
+					AND h.`mapel_id` = $mapel_id
+					AND h.`kelas_id` IN (SELECT m.`id_kelas` FROM m_kelas m WHERE m.`rombel` = $rombel)
+                    GROUP BY h.`santri_id`";
 		$hasil2 = $this->db->query($stringQ2)->result_array();
 		foreach ($hasil2 as $slk ) {
 			$this->db->where('id_nilai', $slk['id_nilai']);
@@ -330,29 +378,28 @@ class Penilaian extends CI_Controller {
 		foreach ($daput as $dp => $val) {
 			$cacah = explode('-', $dp);
 			if ($cacah[0] != 'id') {
-		
 				$arrayc[] =  $cacah[1];
-				
 			}
 		}
-
 		$santri_id = (array_unique($arrayc));
-
-
 		$affect_insert = null;
 		$affect_update = null;
 
+        $nilai_praktik = $this->rm->cekNilaiPraktik($id_tahun,$id_kelas,$id_mapel);
+        if ($nilai_praktik) {
+            foreach ($nilai_praktik as $value) {
+                $nilai_praktik_arr [$value['santri_id']] = $value['nilai_praktik']; 
+            }
+        }
 
 		foreach ($santri_id as $santri) { 
-		    
 		    $key = 'nkh-'.$santri;
             if ( array_key_exists($key,$daput) ){
-			
     			$nilai_akhir = $this->um->cekNilaiAkhir($id_tahun, $id_kelas, $id_mapel, $santri);
-    			
-    			if ($nilai_akhir == null) {
-    				//do insert
-    				$object_insert=[
+                if ($nilai_akhir == null) {
+                    //do insert
+    				//ke table na
+                    $object_insert=[
     					'tahun_id' => $id_tahun,
     					'kelas_id' => $id_kelas,
     					'mapel_id' => $id_mapel,
@@ -360,15 +407,15 @@ class Penilaian extends CI_Controller {
     					'nkh' => $daput["nkh-$santri"],
     					'nhr' => $daput["nhr-$santri"],
     					'pts' => $daput["pts-$santri"],
-    					'pas' => $daput["pas-$santri"],
+                        'pas' => $daput["pas-$santri"],
     					'nrp' => $daput["nrp-$santri"]
     				];
     				// echo "<br>";
     				// var_dump($object_insert);
     				$affect_insert = $this->db->insert('t_na', $object_insert);
-    				
     			}else{
     				//do update
+                    //ke tabel na
     				$object_update=[
     					'nkh' => $daput["nkh-$santri"],
     					'nhr' => $daput["nhr-$santri"],
@@ -377,14 +424,13 @@ class Penilaian extends CI_Controller {
     					'nrp' => $daput["nrp-$santri"]
     				];
     				// echo "<br>";
-    				// var_dump($object_update);
+                    // var_dump($object_update);
     				// echo 'nilai-akhir'. $nilai_akhir['id_na'].'<- <br>';
     				$this->db->where('id_na', $nilai_akhir['id_na']);
     				$affect_update = $this->db->update('t_na', $object_update);
     			}
     		}
 		}
-
 		if ($affect_insert > 0 ) {
 			$this->session->set_flashdata('pesan', '<div class="col-lg-12">
 	    		<div class="col-md-6 mt-4 py-1 alert alert-success alert-dismissible elevation-2">
@@ -402,6 +448,17 @@ class Penilaian extends CI_Controller {
 		}
 		redirect('penilaian','refresh');
 	}
+
+    public function lihat()
+    {
+        $id_tahun = 9;
+        $id_mapel = 38;
+        $id_kelas = 12;
+        $santri = 306;
+        $nilai_t_praktik = $this->rm->nilaiPraktik($id_tahun.$id_mapel.$id_kelas.$santri);
+        echo '<br>nilai_tabel_praktikx: ';
+        var_dump($nilai_t_praktik);
+    }
 
 
 	public function nh()

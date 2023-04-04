@@ -426,6 +426,25 @@ class Raport_model extends CI_Model {
             $this->angkaLatinKeArab($obj->tahun)
         ];
     }
+
+    public function cekNilaiPraktik($tahun_id,$kelas_id,$mapel_id)
+    {
+        $stringQ = "SELECT h.`mapel_id`, h.`kelas_id`, h.`tahun_id`, h.`santri_id`, h.`nilai_kdk` AS 'nilai_praktik'
+        FROM t_nh h
+        WHERE h.`tahun_id` = $tahun_id
+        AND h.`kelas_id` = $kelas_id
+        AND h.`mapel_id` = $mapel_id
+        AND h.`urut_kd` = (
+            SELECT d.`urut`
+            FROM t_kd d
+            WHERE d.`tahun_id` = $tahun_id
+            AND d.`kelas_id` = $kelas_id
+            AND d.`mapel_id` = $mapel_id
+            AND (d.`kdp` = 'Ujian Praktik' OR d.`kdk` = 'Ujian Praktik')
+        )
+        ";
+		return $this->db->query($stringQ)->result_array();
+    }
 }
 
 /* End of file Raport_model.php */

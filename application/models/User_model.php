@@ -162,11 +162,17 @@ class User_model extends CI_Model {
 	function hitungHhr($tahun, $kelas, $mapel, $santri)
 	{
 		$stringQ = " SELECT ROUND((AVG(n.`nilai_kdp`)+AVG(n.`nilai_kdk`))/2,2) AS nhr
-					FROM t_nh n
+					FROM t_nh n JOIN t_kd d
+                    ON n.`mapel_id` = d.`mapel_id` 
+                    AND n.`tahun_id` = d.`tahun_id` 
+                    AND n.`urut_kd` = d.`urut`
 					WHERE n.`mapel_id` = $mapel
-					AND n.`kelas_id` = $kelas
+                    AND d.`rombel` = (SELECT k.`rombel` FROM m_kelas k WHERE k.`id_kelas` = $kelas)
 					AND n.`tahun_id` = $tahun
-					AND n.`santri_id` = $santri ";
+					AND n.`santri_id` = $santri 
+                    AND d.`kdp` != 'Ujian Praktik'
+                    AND d.`kdk` != 'Ujian Praktik'
+                    ";
 		return  $this->db->query($stringQ)->row_array();
 	}
 
