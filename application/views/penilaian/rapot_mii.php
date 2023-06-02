@@ -278,7 +278,7 @@
             <?php
                 $bulan_mii = explode(' ', $tgl_raport['mii']);
                 $yyyy_mm_dd = $bulan_mii[2].'/'.$this->rm->angkaBulan($bulan_mii[1]).'/'.$bulan_mii[0];
-                $hijiryah = $this->rm->masehiKeHijriyah($yyyy_mm_dd)
+                $hijiryah = $this->rm->masehiKeHijriyah($yyyy_mm_dd);
             ?>
               <div class="ar"> شمبلونج، <?=$hijiryah[0].' '.$hijiryah[1].' '.$hijiryah[2]?></div>
               <div class="id">Camplong, <?= $tgl_raport['mii'] ?></div>

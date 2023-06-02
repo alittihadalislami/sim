@@ -228,10 +228,10 @@ class Raport_model extends CI_Model {
         return 'nama bulan salah';
     }
 
-    public function tglRaport($tahun)
+    public function tglRaport($id)
     {
         $this->db->select('tgl_raport_mii,tgl_raport_smp,tgl_raport_ma');
-        $this->db->where('nama_tahun', $tahun);
+        $this->db->where('id_tahun', $id);
         $hasil =  $this->db->get('m_tahun')->row_array();
         foreach ($hasil as $h => $v ){
             $pecahan = explode("-",$v);
