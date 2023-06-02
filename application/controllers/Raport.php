@@ -127,7 +127,7 @@ class Raport extends CI_Controller {
 		$data['kelas_baru'] = $this->naikke($data['kelas']['nama_kelas']);
 
 		$data['dkn'] = $this->siapkanNilai($kls,$jenjang);
-        $data['tgl_raport'] = $this->rm->tglRaport($this->tahunAktif["nama_tahun"]);
+        $data['tgl_raport'] = $this->rm->tglRaport($this->tahunAktif["id_tahun"]);
 
 		$namafile = "Raport-SMP Al Ittihad-".$data['nama']."-".$data['kelas']['nama_kelas']."-s".$data['semester'].'_'.$data['tahun'];
 		
@@ -194,7 +194,7 @@ class Raport extends CI_Controller {
 		$data['kelas_baru'] = $this->naikke($data['kelas']['nama_kelas']);
 
 		$data['dkn'] = $this->siapkanNilai($id_kelas,$jenjang);
-        $data['tgl_raport'] = $this->rm->tglRaport($this->tahunAktif["nama_tahun"]);
+        $data['tgl_raport'] = $this->rm->tglRaport($this->tahunAktif["id_tahun"]);
 
 		$namafile = "Raport-MA Al Ittihad-".$data['santri']."-".$data['kelas']['nama_kelas']."-s".$data['semester'].'_'.$data['tahun'];
 		// $this->load->view('raport/raport_ma_pdf',$data); die();
@@ -251,7 +251,7 @@ class Raport extends CI_Controller {
 
 		$namafile = "Raport-MA Al Ittihad-".$data['santri']."-".$data['kelas']['nama_kelas']."-s".$data['semester'].'_'.$data['tahun'];
         
-        $data['tgl_raport'] = $this->rm->tglRaport($this->tahunAktif["nama_tahun"]);
+        $data['tgl_raport'] = $this->rm->tglRaport($this->tahunAktif["id_tahun"]);
 		// $this->load->view('raport/raport_ma_kurmer_pdf',$data); 
         
 		$this->load->library('pdf');
