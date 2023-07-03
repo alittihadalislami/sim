@@ -143,7 +143,7 @@
 
             success: function(respon){
               hasil = '<tr>';
-              for(let i =0;i < respon.length-1;i++)
+              for(let i =0;i < respon.length;i++)
               {
                 var item = respon[i];
 
