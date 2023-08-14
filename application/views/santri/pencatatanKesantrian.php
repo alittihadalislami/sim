@@ -25,7 +25,6 @@
               <div class="card-header">
                 <h3 class="card-title"><?= $judul ?></h3>
               </div>
-              
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="row">
@@ -41,24 +40,22 @@
                       <th>Nama</th>
                       <th>NIM</th>
                       <th>Kelas</th>
-                      <th>Tatib Terkait</th>
-                      <th>Penilaian</th>
+                      <th>Jenis Catatan</th>
+                      <th>Keterangan/Detail</th>
                       <th>Tanggal Catatan</th>
-                      <th>Keterangan</th>
                     </tr>
                   </thead>
                   <tbody id="isi-table">
-                    <?php foreach ($catatan as $c): ?>
-                      
+                    <?php $no=1; foreach ($catatan as $c): ?>
                     <tr>
-                      <td></td>
+                      <td><?=$no++?></td>
                       <td><?= $c['nama_santri'] ?></td>
                       <td><?= $c['idk_mii'] ?></td>
                       <td><?= $c['nama_kelas'] ?></td>
                       <td><?= $c['jenis_catatan'] ?></td>
-                      <td><?= $c['penilaian'] ?></td>
-                      <td><?= $c['tanggal_pencatatan'] ?></td>
+                      <!-- <td><?= $c['penilaian'] ?></td> -->
                       <td><?= $c['keterangan'] ?></td>
+                      <td><?= $c['tanggal_pencatatan'] ?></td>
                     </tr>
                     <?php endforeach ?>
                    

@@ -730,6 +730,13 @@ class Santri extends CI_Controller {
 			$this->db->insert('t_catatan_santri', $daput);
 			redirect('santri/pencatatanKesantrian');
 		}else {
+            $StringQ = " SELECT s.*
+                        FROM m_santri s JOIN t_agtkelas a
+                        ON s.`id_santri` = a.`santri_id`
+                        WHERE a.`tahun_id` = $this->tahunAktif ";
+                        
+		    $data['santri'] = $this->db->query($StringQ)->result_array();
+
 			$data['santri'] = $this->db->get('m_santri')->result_array();
 			$data['jenis_catatan'] = $this->db->get('t_jenis_catatan')->result_array();
 

@@ -18,7 +18,7 @@
 
         <div class="card card-success mt-5">
           <div class="card-header">
-            <h3 class="card-title">Mutasi Masuk</h3>
+            <h3 class="card-title">Catatan Santri</h3>
           </div>
 
           <div class="card-body">
@@ -35,7 +35,7 @@
               </div>
 
               <div class="form-group">
-                <label for="jenis_catatan_id">Catatan</label>
+                <label for="jenis_catatan_id">Jenis Catatan</label>
                 <select class="form-control" name="jenis_catatan_id" id="jenis_catatan_id" required="true">
                 <option value="">--pilih--</option>
                   <?php foreach ($jenis_catatan as $catatan): ?>
@@ -44,11 +44,10 @@
                 </select>
               </div>
 
-
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="penilaian">penilaian</label>
                 <input type="text" class="form-control" name="penilaian" required="true">
-              </div>
+              </div> -->
 
               <div class="form-group">
                 <label for="tanggal_pencatatan">Tanggal Pencatatan</label>
@@ -56,7 +55,7 @@
               </div>
 
               <div class="form-group">
-                <label for="keterangan">Keterangan</label>
+                <label for="keterangan">Keterangan/Detail</label>
                 <textarea class="form-control" id="keterangan" rows="3" name="keterangan"></textarea>
               </div>  
             
