@@ -3,18 +3,22 @@ SELECT `a`.`santri_id` AS `santri_id`,`k`.`id_kelas`  AS `id_kelas`,`k`.`id_mape
   COUNT(IF(`a`.`absen` = 1,1,NULL)) AS `izin`,
   COUNT(IF(`a`.`absen` = 2,1,NULL)) AS `sakit`, 
   COUNT(IF(`a`.`absen` = 0,1,NULL)) + COUNT(IF(`a`.`absen` = 1,1,NULL)) + COUNT(IF(`a`.`absen` = 2,1,NULL)) AS `total`,
-  s.`nama_santri`, m.`mapel_alias`, kl.`nama_kelas`
+  s.`nama_santri`, m.`mapel_alias`, kl.`nama_kelas`, asa.nama_asatid
 FROM `t_absensi` `a` JOIN `t_jurnal` `j`
-ON `a`.`jurnal_id` = `j`.`id_jurnal` JOIN `t_kbm` `k`
+ON `a`.`jurnal_id` = `j`.`id_jurnal` JOIN `t_kbm` `k` 
 ON `j`.`kbm_id` = `k`.`id_kbm` JOIN `m_santri` s 
 ON s.`id_santri` = a.`santri_id` JOIN m_mapel m
 ON m.`id_mapel` = k.`id_mapel` JOIN m_kelas kl
-ON kl.`id_kelas` = k.`id_kelas`
-WHERE k.`id_tahun` = 9 AND s.`id_santri` NOT IN (
+ON kl.`id_kelas` = k.`id_kelas` JOIN t_wali w 
+ON w.kelas_id = kl.id_kelas AND w.tahun_id = 10 JOIN m_asatid asa
+ON asa.id_asatid = w.asatid_id
+WHERE k.`id_tahun` = 10 AND s.`id_santri` NOT IN (
 	SELECT agt.santri_id
     FROM t_agtkelas agt LEFT JOIN m_kelas k 
     on agt.kelas_id = k.id_kelas
-    WHERE agt.tahun_id = 9 AND k.rombel = 0
+    WHERE agt.tahun_id = 10 AND k.rombel = 0
 )
 GROUP BY `a`.`santri_id`,`k`.`id_mapel`,`k`.`id_kelas`, k.`id_tahun`
-ORDER BY total DESC
+ORDER BY total DESC;
+
+#ganti angka sepuluh sesuai tahun aktif

@@ -733,8 +733,9 @@ class Santri extends CI_Controller {
             $StringQ = " SELECT s.*
                         FROM m_santri s JOIN t_agtkelas a
                         ON s.`id_santri` = a.`santri_id`
-                        WHERE a.`tahun_id` = $this->tahunAktif ";
-                        
+                        WHERE a.`tahun_id` = $this->tahunAktif 
+                        ORDER BY s.`id_santri` DESC ";
+
 		    $data['santri'] = $this->db->query($StringQ)->result_array();
 
 			$data['santri'] = $this->db->get('m_santri')->result_array();
