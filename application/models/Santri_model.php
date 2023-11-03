@@ -110,7 +110,7 @@ class Santri_model extends CI_Model {
 	}
     
     function nilai_per_tahun($tahun_id, $santri_id)  {
-        $StringQ = " SELECT na.`mapel_id`, na.`nrp`, na.`kelas_id`, m.`mapel_alias`
+        $StringQ = " SELECT na.`mapel_id`, na.`kelas_id`, m.`mapel_alias`, ROUND( (na.`nkh`+na.`nhr`+na.`pts`+na.`pas`)/4, 2) AS `nrp`
                     FROM t_na na JOIN m_mapel m
                     ON na.`mapel_id` = m.`id_mapel`
                     WHERE na.`santri_id` = $santri_id

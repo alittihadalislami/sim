@@ -379,7 +379,7 @@
                         <div class="container testimonial-group">
                             <div class="row text-center flex-nowrap">
                                 <?php foreach ($tahun_ada_nilai as $value) : ?>
-                                <div class="col-sm-6">
+                                <div class="col-sm">
                                     <div class="row text-center d-box flex">
                                         <div class="col mb-2">
                                             Tahun Pelajaran <?=$value['nama_tahun'].', Semester '.$value['semester'] ?>.
@@ -403,11 +403,13 @@
 														$nilai= $CI->Santri_model->nilai_per_tahun($value['tahun_id'],$santri_id);        
 													?>
 													<?php $no=1; foreach ($nilai as $key => $value) : ?>
-                                                    <tr>
-                                                        <th scope="row"><?=$no++?></th>
-                                                        <td><?=$value['mapel_alias']?></td>
-                                                        <td><?=$value['nrp']?></td>
-                                                    </tr>
+                                                    <?php if ($value['nrp'] > 0) :?>
+                                                        <tr>
+                                                            <th scope="row"><?=$no++?></th>
+                                                            <td><?=$value['mapel_alias']?></td>
+                                                            <td><?=$value['nrp']?></td>
+                                                        </tr>
+                                                    <?php endif ?>
                                                     <?php endforeach; ?>
                                                 </tbody>
                                             </table>
