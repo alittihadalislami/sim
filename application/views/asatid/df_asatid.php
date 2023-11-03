@@ -36,7 +36,7 @@ body.modal-open .modal .modal-dialog {
                 <?php $no=1; foreach ($asatid as $as): ?>
                   <tr>
                     <td><?=$no++;?></td>
-                    <td><?= $as['nama_asatid']; ?></td>
+                    <td><a class="text-dark" href="<?=base_url('asatid/detail/').$as['niy']?>"><b><?= $as['nama_asatid']; ?></b></a></td>
                     <td><?= $as['niy'] == 0 ? '' : $as['niy']  ?></td>
                     <td><?= $as['nohp']; ?></td>
                     <td><?= $as['kategori'] ==  1 ? '<span class="badge badge-success"> Guru </span>' : '<span class="badge badge-info badge-warning" > Pegawai </span>' ?></td>
@@ -58,7 +58,7 @@ body.modal-open .modal .modal-dialog {
   <div class="modal-dialog" style="width: 500px">
     <div class="modal-content">
       <div class="modal-header">
-          <h4 class="modal-title">Default Modal</h4>
+          <h4 class="modal-title">Tambah Civitas</h4>
       </div>
       <div class="modal-body">
         <form action="<?=base_url()?>asatid/tambahCivitas" method="POST" >

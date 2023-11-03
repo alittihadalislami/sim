@@ -107,6 +107,17 @@ class Santri_model extends CI_Model {
 				ON k.`id_kelas` = g.`kelas_id`
 				WHERE g.`tahun_id` = $tahun_id";
 		return $this->db->query($stringQ)->result_array();
-
 	}
+    
+    function nilai_per_tahun($tahun_id, $santri_id)  {
+        $StringQ = " SELECT na.`mapel_id`, na.`nrp`, na.`kelas_id`, m.`mapel_alias`
+                    FROM t_na na JOIN m_mapel m
+                    ON na.`mapel_id` = m.`id_mapel`
+                    WHERE na.`santri_id` = $santri_id
+                    AND na.`tahun_id` = $tahun_id
+                    ORDER BY na.`mapel_id` ";
+        return $this->db->query($StringQ)->result_array();
+    }
+
+
 }

@@ -40,8 +40,24 @@
             <form action="<?= base_url('santri/ubah_santri') ?>" method="post">
                 <div class="row">
                   <div class="col-md-12">
+					<?php 
+					$curl_handle = curl_init();
+					$url = "https://opensheet.elk.sh/1Frs-WGBhnBXNOXOkFEaDmMvhobynO7idhP-5xFeTBo0/1";
+					curl_setopt($curl_handle, CURLOPT_URL, $url);
+					curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
+					$curl_data = curl_exec($curl_handle);
+					curl_close($curl_handle);
+					$response_data = json_decode($curl_data);
+					// var_dump($response_data);
+					$profil = base_url('assets/img/user.png');
+					foreach ($response_data as $value) {
+						$data_foto = explode(".",$value->nama_file)[0];
+						if ( $data_foto == $santri['idk_mii'] )
+							$profil = "https://drive.google.com/uc?export=view&id=".$value->id_file;
+					}
+				?>
                     <a href="#">
-                      <img src="<?= base_url('assets/img/user.png')?>" class="rounded float-left m-2 mb-4" alt="Cinque Terre" height="100px">
+                      <img src="<?= $profil ?>" class="rounded float-left m-2 mb-4" height="150px">
                     </a>
                     <a href="<?= base_url("santri/sinkronDataPsb/").$santri['nisn']?>" class="btn btn-warning btn-sm float-right <?=$nisn ? '' : 'disabled' ?>" id="singkronPsb"><i class="fas fa-cloud-download-alt"></i> Sinkron data psb</a>
                   </div>
@@ -338,6 +354,74 @@
                     </div>
                   </div>
                 </div>
+                
+                <style>
+                    /* The heart of the matter */
+                    .testimonial-group > .row {
+                        overflow-x: auto;
+                        white-space: nowrap;
+                    }
+                    .testimonial-group > .row > .col-sm-6 {
+                        display: inline-block;
+                        float: none;
+                    }
+
+                </style>
+
+                <div class="card">
+                  <div class="btn btn-success collapsed" id="heading5" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5"><strong>NILAI</strong></div>
+                  <div id="collapse5" class="collapse bg-light" aria-labelledby="heading5" data-parent="#accordion">
+                    
+                    <div class="card-body">
+                      
+                        <div class="row p-1">
+                        
+                        <div class="container testimonial-group">
+                            <div class="row text-center flex-nowrap">
+                                <?php foreach ($tahun_ada_nilai as $value) : ?>
+                                <div class="col-sm-6">
+                                    <div class="row text-center d-box flex">
+                                        <div class="col mb-2">
+                                            Tahun Pelajaran <?=$value['nama_tahun'].', Semester '.$value['semester'] ?>.
+                                        </div>
+                                    </div>
+                                        <div class="row">
+                                            <div class="col">
+                                            <table class="table table-bordered table-striped table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">No.</th>
+                                                        <th scope="col">Mata Pelajaran</th>
+                                                        <th scope="col">Nilai</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+													<?php
+														$santri_id = $this->uri->segment(3);
+														$CI =& get_instance();
+														$CI->load->model('Santri_model');
+														$nilai= $CI->Santri_model->nilai_per_tahun($value['tahun_id'],$santri_id);        
+													?>
+													<?php $no=1; foreach ($nilai as $key => $value) : ?>
+                                                    <tr>
+                                                        <th scope="row"><?=$no++?></th>
+                                                        <td><?=$value['mapel_alias']?></td>
+                                                        <td><?=$value['nrp']?></td>
+                                                    </tr>
+                                                    <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                </div>
+                                    </div>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <!-- ========================================= -->
               </div>
               <!-- <button type="sumbit" class="btn btn-primary float-right elevation-4">Simpan</button> -->
               <a id="simpan2" class="btn btn-primary elevation-4 float-right text-white">Simpan</a>

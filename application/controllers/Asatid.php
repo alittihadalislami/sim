@@ -76,6 +76,17 @@ class Asatid extends CI_Controller {
 		}
 	}
 
+    public function detail($niy)
+	{
+		$data['judul'] = 'Detail Asatid';
+		$data['niy'] = $niy;
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('asatid/detail', $data);
+		$this->load->view('templates/footer');
+
+	}
+
 }
 
 /* End of file asatid.php */

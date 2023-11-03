@@ -193,6 +193,15 @@ class Santri extends CI_Controller {
 			}
 		}
 
+        //untuk keperluan data nilai pertahun
+        $StringQ = " SELECT na.`tahun_id`, t.`semester`, t.`nama_tahun`
+                    FROM t_na na JOIN m_tahun t
+                    ON na.`tahun_id` = t.`id_tahun`
+                    WHERE na.`santri_id` = $santri_id
+                    GROUP BY na.`tahun_id`
+                    ORDER BY na.`tahun_id` DESC ";
+        $data['tahun_ada_nilai'] = $this->db->query($StringQ)->result_array();
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('santri/edit_santri', $data);
 		$this->load->view('templates/footer');
