@@ -400,21 +400,6 @@
 					Sampang, <?= $tgl_raport['smp'] ?>
 				</div>
 			</div>
-			<?php if ($semester == 1): ?>
-				<div class="tempat-ttd cf">
-					<div class="bagi-dua">
-						<div class="sebagai">Orang Tua/Wali</div>
-						<br><br><br><br>
-						<div class="isi">_____________________</div>
-					</div>
-					<div class="bagi-dua" style="margin-left: 250px;">
-						<div class="sebagai">Wali Kelas</div>
-						<br><br><br><br>
-						<div class="isi"><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
-					</div>
-				</div>
-			<?php endif ?>
-			<?php if ($semester == 2): ?>
 				<div class="tempat-ttd cf">
 					<div class="bagi-tiga">
 						<div class="sebagai">Orang Tua/Wali</div>
@@ -430,7 +415,6 @@
 						<div class="isi"><u>Mudhar, S.Pd.</u> <br> NIY. 940613051</div>
 					</div>
 				</div>
-			<?php endif ?>
 		</div>
 	</div>
 </body>

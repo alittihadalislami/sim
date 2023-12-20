@@ -396,20 +396,6 @@
 				Sampang, <?= $tgl_raport['ma'] ?>
 			</div>
 			<br><br>
-					<?php //if ($semester == 1 ): ?>
-				<!-- <div class="tempat-ttd">
-					<div>
-						<div class="sebagai" style='font-size:14px'>Orang Tua/Wali</div>
-						<br><br><br><br>
-						<div class="isi">____________________</div>
-					</div>
-					<div style="margin-left: 250px;">
-						<div class="sebagai" style='font-size:14px'>Wali Kelas</div>
-						<br><br><br><br>
-						<div class="isi" style='font-size:14px'><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
-					</div>
-				</div> -->
-			<?php// else: ?>
 				<div class="tempat-ttd">
 					<div class="bagi-tiga" style='width: 190px; padding-left: 20px;'>
 						<div class="sebagai" style='font-size:14px'>Orang Tua/Wali</div>
@@ -424,7 +410,6 @@
 						<div class="isi" style='font-size:14px; margin-top:80px;'><u>Mughni Musa, Lc., M.Ag.</u><br>NIY. 940613009</div>
 					</div>
 				</div>
-			<?php// endif ?>
 		</div>
 	</div>
 </body>
