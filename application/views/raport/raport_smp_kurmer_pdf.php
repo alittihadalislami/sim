@@ -377,23 +377,9 @@
 
 		<div class="ttd">
 			<div class="cf" style='text-align:right; margin-right: 20px'>
-				Sampang, <?= $tgl_raport['ma'] ?>
+				Sampang, <?= $tgl_raport['smp'] ?>
 			</div>
 			<br><br>
-					<?php //if ($semester == 1 ): ?>
-				<!-- <div class="tempat-ttd">
-					<div>
-						<div class="sebagai" style='font-size:14px'>Orang Tua/Wali</div>
-						<br><br><br><br>
-						<div class="isi">____________________</div>
-					</div>
-					<div style="margin-left: 250px;">
-						<div class="sebagai" style='font-size:14px'>Wali Kelas</div>
-						<br><br><br><br>
-						<div class="isi" style='font-size:14px'><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
-					</div>
-				</div> -->
-			<?php// else: ?>
 				<div class="tempat-ttd" style="padding-left:10">
 					<div class="bagi-tiga" style='width: 130px; padding-left: 10px;'>
 						<div class="sebagai" style='font-size:14px'>Orang Tua/Wali</div>
@@ -408,7 +394,6 @@
 						<div class="isi" style='font-size:14px; margin-top:80px;'><u>Mudhar, S.Pd.</u> <br> NIY. 940613051</div>
 					</div>
 				</div>
-			<?php// endif ?>
 		</div>
 	</div>
 </body>

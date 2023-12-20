@@ -207,9 +207,9 @@ class Raport extends CI_Controller {
 		$this->load->library('pdf');
 		$this->pdf->setPaper('A4', 'potrait');
 	    $this->pdf->filename = "$namafile.pdf";
-	    // $this->pdf->load_view('raport/raport_smp_kurmer_pdf', $data);
+	    $this->pdf->load_view('raport/raport_smp_kurmer_pdf', $data);
 	    
-        $this->load->view('raport/raport_smp_kurmer_pdf', $data);
+        // $this->load->view('raport/raport_smp_kurmer_pdf', $data);
 		
 	}
 	
@@ -825,7 +825,7 @@ class Raport extends CI_Controller {
             ];
         }
         $data['informatika'] = $informatika;
-        
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('raport/dkn_fix', $data);
 		$this->load->view('templates/footer');
