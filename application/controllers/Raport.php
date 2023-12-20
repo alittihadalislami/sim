@@ -142,14 +142,6 @@ class Raport extends CI_Controller {
 		
 	}
 
-    function nilaiInformatika($kelas=14)  {
-        $tik = $this->rm->nilaiInformatika($kelas, $this->tahunAktif["id_tahun"]);
-        foreach ($tik as $value) {
-            $informatika [$value['santri_id']] = $value['nrp'];
-        }
-        return $informatika;
-    }
-
     public function pdfsmpKurmer($santri,$kls)
 	{
 		$jenjang = $this->rm->jenjangKelas($kls); 
@@ -173,12 +165,16 @@ class Raport extends CI_Controller {
 			$data['nama'] = $this->um->showNamaSantri($id_santri)['nama_santri'];
 	    }
 
+        $tik = $this->rm->nilaiInformatika($id_kelas, $this->tahunAktif["id_tahun"]);
+        foreach ($tik as $value) {
+            $informatika_col [$value['santri_id']] = $value['nrp'];
+        }
         $informatika [28] = [
             'mapel_id' => 28,
             'nama_mapel' => 'Informatika', //TIK
-            'p' => strval(round($this->nilaiInformatika('14')[$id_santri]))
+            'p' => strval(round($informatika_col[$id_santri]))
         ];  
-
+        
         $data['wali'] = $this->um->showNamaAsatid($id_asatid);
 		$data['nis'] = $this->rm->nomorSantri($id_santri)['idk_umum'];
 		$data['nisn'] = $this->rm->nomorSantri($id_santri)['nisn'];
@@ -203,7 +199,8 @@ class Raport extends CI_Controller {
 
         $seni [$data['dkn'][$id_santri]['nilai']['22']['mapel_id'] ] = $data['dkn'][$id_santri]['nilai']['22'];
         unset($data['dkn'][$id_santri]['nilai'][22]);
-        array_splice($data['dkn'][$id_santri]['nilai'], 8, 0, $informatika+$seni);        
+        array_splice($data['dkn'][$id_santri]['nilai'], 8, 0, $informatika+$seni);   
+             
 		$this->load->library('pdf');
 		$this->pdf->setPaper('A4', 'potrait');
 	    $this->pdf->filename = "$namafile.pdf";
