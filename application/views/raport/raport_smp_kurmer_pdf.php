@@ -381,15 +381,15 @@
 			</div>
 			<br><br>
 				<div class="tempat-ttd" style="padding-left:10">
-					<div class="bagi-tiga" style='width: 130px; padding-left: 10px;'>
+					<div class="bagi-tiga" style='width: 100px; padding-left: 10px;'>
 						<div class="sebagai" style='font-size:14px'>Orang Tua/Wali</div>
 						<div class="isi">____________________</div>
 					</div>
-					<div class="bagi-tiga" style='width: 200px; padding-left: 10px;'>
+					<div class="bagi-tiga" style='width:300px; padding-left: 20px;'>
 						<div class="sebagai" style='font-size:14px'>Wali Kelas</div>
 						<div class="isi" style='font-size:14px'><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
 					</div>
-					<div class="kepala" style='width: 180px; padding-left: 10px;'>
+					<div class="bagi-tiga" style='width: 180px; padding-left: 5px;; margin-left:-50'>
 						<div class="sebagai" style='font-size:14px'>Mengetahui<br>Kepala Sekolah</div>
 						<div class="isi" style='font-size:14px; margin-top:80px;'><u>Mudhar, S.Pd.</u> <br> NIY. 940613051</div>
 					</div>
