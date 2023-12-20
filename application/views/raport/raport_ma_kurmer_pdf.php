@@ -90,7 +90,6 @@
 			width: 727px;
 			margin-right: auto;
 			margin-left: auto;
-            padding-bottom: 30px;
 		}
 		.judul-utama{
 			font-size: 25px;
@@ -100,7 +99,6 @@
 		table, tr, td {
 			border: 1px solid black;
 			padding: 5px;
-            vertical-align:middle;
 		}
 		table.atas tr td,table.atas tr,table.atas {
 			border: 0px solid red;
@@ -169,11 +167,6 @@
 		.keputusan{
 			margin-top: 20px;
 		}
-		.kepala{
-			position: relative;
-			right: 60px;
-			left: 350px;
-		}
 		.teks{
 			font-size: 14px;
 			font-family: tahoma;
@@ -201,20 +194,18 @@
     	.pindah-hal{
 		    page-break-before: always;
 	    }
-	    
+        .tempat-ttd{
+            width: 100%;
+            display: table;
+        }
 	    .tempat-ttd > div {
-	        float:left;
-	        margin-right:45px;
-	        margin-left:20px;
+            display: table-cell;
 	    }
 	    .ttd{
 	        margin-top:25px;
 	    }
 	    .jarak{
 	        margin-top:25px;
-	    }
-	    .kepala{
-	        margin-left:30px;
 	    }
 	    .isi-deskrip{
 	        word-wrap: break-word;
@@ -240,7 +231,7 @@
 				<td>MA AL ITTIHAD AL ISLAMI</td>
 				<td>Fase</td>
 				<td>:</td>
-				<td>E</td>
+				<td><?=$fase?></td>
 			</tr>
 			<tr>
 				<td>Alamat</td>
@@ -365,15 +356,27 @@
 					</tr>
 					<tr>
 						<td style='font-size:15px'>Sakit</td>
-						<td style='font-size:15px' class='center'><?= $entry_wali['sakit'] ?> Pertemuan</td>
+                        <?php 
+                          $jml_sakit = floor($entry_wali['sakit']/4);
+                          $ket_sakit = $jml_sakit > 0 ? $jml_sakit.' hari' : '-';
+                        ?>
+						<td style='font-size:15px; text-align:center'><?=$ket_sakit?></td>
 					</tr>
 					<tr>
 						<td style='font-size:15px'>Idzin</td>
-						<td style='font-size:15px' class='center'><?= $entry_wali['ijin'] ?> Pertemuan</td>
+						<?php 
+                          $jml_ijin = floor($entry_wali['ijin']/4);
+                          $ket_ijin = $jml_ijin > 0 ? $jml_ijin.' hari' : '-';
+                        ?>
+						<td style='font-size:15px; text-align:center'><?=$ket_ijin?></td>
 					</tr>
 					<tr>
 						<td style='font-size:15px'>Tanpa Keterangan</td>
-						<td style='font-size:15px' class='center'><?= $entry_wali['alpa'] ?> Pertemuan</td>
+						<?php 
+                          $jml_alpa = floor($entry_wali['alpa']/4);
+                          $ket_alpa = $jml_alpa > 0 ? $jml_alpa.' hari' : '-';
+                        ?>
+						<td style='font-size:15px; text-align:center'><?=$ket_alpa?></td>
 					</tr>
 				</table>
 			</div>
@@ -393,35 +396,35 @@
 				Sampang, <?= $tgl_raport['ma'] ?>
 			</div>
 			<br><br>
-			<?php if ($semester == 1 ): ?>
-				<div class="tempat-ttd">
-					<div style="margin-left: 50px;">
-						<div class="sebagai" style='font-size:15px'>Orang Tua/Wali</div>
+					<?php //if ($semester == 1 ): ?>
+				<!-- <div class="tempat-ttd">
+					<div>
+						<div class="sebagai" style='font-size:14px'>Orang Tua/Wali</div>
 						<br><br><br><br>
 						<div class="isi">____________________</div>
 					</div>
 					<div style="margin-left: 250px;">
-						<div class="sebagai" style='font-size:14px; '>Wali Kelas</div>
+						<div class="sebagai" style='font-size:14px'>Wali Kelas</div>
 						<br><br><br><br>
-						<div class="isi" style='font-size:14px;'><u><b><?= $wali['nama_asatid'] ?></b></u><br>NIY. <?= $wali['niy'] ?></div>
+						<div class="isi" style='font-size:14px'><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
 					</div>
-				</div>
-			<?php else: ?>
+				</div> -->
+			<?php// else: ?>
 				<div class="tempat-ttd">
-					<div class="bagi-tiga">
-						<div class="sebagai" style='font-size:15px'>Orang Tua/Wali</div>
+					<div class="bagi-tiga" style='width: 190px; padding-left: 20px;'>
+						<div class="sebagai" style='font-size:14px'>Orang Tua/Wali</div>
 						<div class="isi">____________________</div>
 					</div>
-					<div class="bagi-tiga">
-						<div class="sebagai" style='font-size:15px'>Wali Kelas</div>
-						<div class="isi" style='font-size:15px'><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
+					<div class="bagi-tiga" style='width: 220px; padding-left: 10px;'>
+						<div class="sebagai" style='font-size:14px'>Wali Kelas</div>
+						<div class="isi" style='font-size:14px'><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
 					</div>
-					<div class="kepala">
-						<div class="sebagai" style='font-size:15px'>Mengetahui<br>Kepala Sekolah</div>
+					<div class="kepala" style='width: 180px; padding-left: 10px;'>
+						<div class="sebagai" style='font-size:14px'>Mengetahui<br>Kepala Sekolah</div>
 						<div class="isi" style='font-size:14px; margin-top:80px;'><u>Mughni Musa, Lc., M.Ag.</u><br>NIY. 940613009</div>
 					</div>
 				</div>
-			<?php endif ?>
+			<?php// endif ?>
 		</div>
 	</div>
 </body>

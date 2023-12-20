@@ -445,6 +445,15 @@ class Raport_model extends CI_Model {
         ";
 		return $this->db->query($stringQ)->result_array();
     }
+
+    function nilaiInformatika($kelas,$tahun) {
+        $stringQ = "SELECT a.`santri_id`, a.`nhr` ,a.`nrp`
+                    FROM t_na a
+                    WHERE a.`mapel_id` = 28 #mapel TIK
+                    AND a.`tahun_id` = $tahun
+                    AND a.`kelas_id` = $kelas ";
+        return $this->db->query($stringQ)->result_array();
+    }
 }
 
 /* End of file Raport_model.php */

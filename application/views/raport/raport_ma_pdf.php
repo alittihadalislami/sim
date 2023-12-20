@@ -167,11 +167,6 @@
 		.keputusan{
 			margin-top: 20px;
 		}
-		.kepala{
-			position: relative;
-			right: 60px;
-			left: 350px;
-		}
 		.teks{
 			font-size: 14px;
 			font-family: tahoma;
@@ -199,20 +194,18 @@
     	.pindah-hal{
 		    page-break-before: always;
 	    }
-	    
+        .tempat-ttd{
+            width: 100%;
+            display: table;
+        }
 	    .tempat-ttd > div {
-	        float:left;
-	        margin-right:45px;
-	        margin-left:20px;
+            display: table-cell;
 	    }
 	    .ttd{
 	        margin-top:25px;
 	    }
 	    .jarak{
 	        margin-top:25px;
-	    }
-	    .kepala{
-	        margin-left:30px;
 	    }
 	    .isi-deskrip{
 	        word-wrap: break-word;
@@ -530,8 +523,8 @@
 				Sampang, <?= $tgl_raport['ma'] ?>
 			</div>
 			<br><br>
-			<?php if ($semester == 1 ): ?>
-				<div class="tempat-ttd">
+			<?php //if ($semester == 1 ): ?>
+				<!-- <div class="tempat-ttd">
 					<div>
 						<div class="sebagai" style='font-size:14px'>Orang Tua/Wali</div>
 						<br><br><br><br>
@@ -542,23 +535,23 @@
 						<br><br><br><br>
 						<div class="isi" style='font-size:14px'><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
 					</div>
-				</div>
-			<?php else: ?>
+				</div> -->
+			<?php// else: ?>
 				<div class="tempat-ttd">
-					<div class="bagi-tiga">
+					<div class="bagi-tiga" style='width: 190px; padding-left: 10px;'>
 						<div class="sebagai" style='font-size:14px'>Orang Tua/Wali</div>
 						<div class="isi">____________________</div>
 					</div>
-					<div class="bagi-tiga">
+					<div class="bagi-tiga" style='width: 220px; padding-left: 10px;'>
 						<div class="sebagai" style='font-size:14px'>Wali Kelas</div>
 						<div class="isi" style='font-size:14px'><u><?= $wali['nama_asatid'] ?></u><br>NIY. <?= $wali['niy'] ?></div>
 					</div>
-					<div class="kepala">
+					<div class="kepala" style='width: 180px; padding-left: 10px;'>
 						<div class="sebagai" style='font-size:14px'>Mengetahui<br>Kepala Sekolah</div>
 						<div class="isi" style='font-size:14px; margin-top:80px;'><u>Mughni Musa, Lc., M.Ag.</u><br>NIY. 940613009</div>
 					</div>
 				</div>
-			<?php endif ?>
+			<?php// endif ?>
 		</div>
 	</div>
 </body>

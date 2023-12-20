@@ -141,6 +141,77 @@ class Raport extends CI_Controller {
         // $this->load->view('raport/raport_smp_pdf', $data);
 		
 	}
+
+    function nilaiInformatika($kelas=14)  {
+        $tik = $this->rm->nilaiInformatika($kelas, $this->tahunAktif["id_tahun"]);
+        foreach ($tik as $value) {
+            $informatika [$value['santri_id']] = $value['nrp'];
+        }
+        return $informatika;
+    }
+
+    public function pdfsmpKurmer($santri,$kls)
+	{
+		$jenjang = $this->rm->jenjangKelas($kls); 
+
+		$data['judul'] = 'Raport - SMP Al Ittihad Camplong';
+
+		$id_santri = $this->uri->segment(3);
+		$id_kelas = $this->uri->segment(4);
+
+		$id_asatid = $this->cekwali()['asatid_id'];
+
+		//nama fix santri dari table detail atau dari tabel santri
+		$detail = $this->db->get_where('t_detail_santri', ['santri_id'=> $id_santri])->row_array();
+	    if ($detail) {
+	        if(strlen($detail['nama_seijazah']) > 3 ){
+	          	$data['nama'] = $detail['nama_seijazah'];
+	        }else{
+	          	$data['nama'] = $this->um->showNamaSantri($id_santri)['nama_santri'];
+	        }  
+	    }else{
+			$data['nama'] = $this->um->showNamaSantri($id_santri)['nama_santri'];
+	    }
+
+        $informatika [28] = [
+            'mapel_id' => 28,
+            'nama_mapel' => 'Informatika', //TIK
+            'p' => strval(round($this->nilaiInformatika('14')[$id_santri]))
+        ];  
+
+        $data['wali'] = $this->um->showNamaAsatid($id_asatid);
+		$data['nis'] = $this->rm->nomorSantri($id_santri)['idk_umum'];
+		$data['nisn'] = $this->rm->nomorSantri($id_santri)['nisn'];
+		$data['kelas'] =  $this->um->showNamaKelas($id_kelas);
+		$data['semester'] = $this->um->showNamaTahun($this->tahunAktif['id_tahun'])['semester'];
+		$data['tahun'] = $this->um->showNamaTahun($this->tahunAktif['id_tahun'])['nama_tahun'];
+		$data ['entry_wali'] = $this->extra($santri);
+        
+        $tingkat = substr($data['kelas']['nama_kelas'],0,1);
+        if ($tingkat == 5 OR $tingkat == 6) {
+            $data['fase'] = "F";
+        }elseif ($tingkat == 4) {
+            $data['fase'] = "E";
+        }else{
+            $data['fase'] = "D";
+        }
+
+		$data['kelas_baru'] = $this->naikke($data['kelas']['nama_kelas']);
+		$data['dkn'] = $this->siapkanNilai($kls,$jenjang);
+        $data['tgl_raport'] = $this->rm->tglRaport($this->tahunAktif["id_tahun"]);
+		$namafile = "Raport-SMP Al Ittihad-".$data['nama']."-".$data['kelas']['nama_kelas']."-s".$data['semester'].'_'.$data['tahun'];
+
+        $seni [$data['dkn'][$id_santri]['nilai']['22']['mapel_id'] ] = $data['dkn'][$id_santri]['nilai']['22'];
+        unset($data['dkn'][$id_santri]['nilai'][22]);
+        array_splice($data['dkn'][$id_santri]['nilai'], 8, 0, $informatika+$seni);        
+		$this->load->library('pdf');
+		$this->pdf->setPaper('A4', 'potrait');
+	    $this->pdf->filename = "$namafile.pdf";
+	    // $this->pdf->load_view('raport/raport_smp_kurmer_pdf', $data);
+	    
+        $this->load->view('raport/raport_smp_kurmer_pdf', $data);
+		
+	}
 	
 	public function pdfma($santri,$kls)
 	{
@@ -241,7 +312,16 @@ class Raport extends CI_Controller {
 		$data['nis'] = $this->rm->nomorSantri($id_santri)['idk_umum'];
 		$data['nisn'] = $this->rm->nomorSantri($id_santri)['nisn'];
 		$data['kelas'] =  $this->um->showNamaKelas($id_kelas);
-		$data['semester'] = $this->um->showNamaTahun($this->tahunAktif['id_tahun'])['semester'];
+        
+        $tingkat = substr($data['kelas']['nama_kelas'],0,1);
+        if ($tingkat == 5 OR $tingkat == 6) {
+            $data['fase'] = "F";
+        }elseif ($tingkat == 4) {
+            $data['fase'] = "E";
+        }else{
+            $data['fase'] = "D";
+        }
+        $data['semester'] = $this->um->showNamaTahun($this->tahunAktif['id_tahun'])['semester'];
 		$data['tahun'] = $this->um->showNamaTahun($this->tahunAktif['id_tahun'])['nama_tahun'];
 		$data ['entry_wali'] = $this->extra($santri);
 
@@ -260,6 +340,8 @@ class Raport extends CI_Controller {
 	    $this->pdf->load_view('raport/raport_ma_kurmer_pdf', $data);
 		
 	}
+
+    
 
 	public function cetakma()
 	{
@@ -735,6 +817,15 @@ class Raport extends CI_Controller {
 		$data['dkn'] = $this->siapkanNilai($kls,$jenjang);
 		$data['mapel'] = $this->rm->showMapel($jenjang,$rombel);
 
+        $tik = $this->rm->nilaiInformatika($kls, $this->tahunAktif["id_tahun"]);
+        foreach ($tik as $value) {
+            $informatika [$value['santri_id']] = [ 
+                'nrp' => round($value['nrp']),
+                'nhr' =>  round(($value['nrp'] + $value['nhr']) / 2) ,
+            ];
+        }
+        $data['informatika'] = $informatika;
+        
 		$this->load->view('templates/header', $data);
 		$this->load->view('raport/dkn_fix', $data);
 		$this->load->view('templates/footer');

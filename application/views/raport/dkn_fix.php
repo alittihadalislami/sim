@@ -46,6 +46,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+                <?php $tambah_kolom = $rombel < 2 ? true : false  ?>
                 <table id="dkn" class="table table-striped table-responsive table-bordered">
                   <thead>
                     <tr>
@@ -54,6 +55,11 @@
                       <?php foreach ($mapel as $mp): ?>
                         <th colspan="2"><?=$mp['nama_mapel'] ?></th>
                       <?php endforeach ?>
+                      <?php if ($tambah_kolom)  :?>
+                            <th colspan="2">
+                                Informatika
+                            </th>
+                      <?php endif ?>
                     </tr>
                   </thead>                          
                   <tbody>
@@ -62,7 +68,6 @@
                           <td><?= $no++ ?></td>
                           <td><?= $dk['nama_santri']?></td>
                           <?php foreach ($dk['nilai'] as $k => $v): ?>
-
                           <?php 
                             $kkm = $this->rm->kkm($rombel,$dk['nilai'][$k]['mapel_id'],$tahun); 
                             $p = $dk['nilai'][$k]['p'];
@@ -72,6 +77,10 @@
                             <td <?= $p < $kkm ? 'class="under-kkm"' : null ?> ><?= $p ?></td>
                             <td <?= $k < $kkm ? 'class="under-kkm"' : null ?> ><?= $k ?></td>
                           <?php endforeach ?>
+                          <?php if ($tambah_kolom)  :?>
+                            <td><?= $informatika[$dk['santri_id']]['nrp']; ?></td>
+                            <td><?= $informatika[$dk['santri_id']]['nhr']; ?></td>
+                          <?php endif ?>
                       </tr>
                     <?php endforeach ?>
                   </tbody>
