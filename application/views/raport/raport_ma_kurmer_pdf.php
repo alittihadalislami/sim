@@ -191,9 +191,9 @@
     	}
     	.page-number:after { content: '| hal ' counter(page); }
     	
-    	.pindah-hal{
-		    page-break-before: always;
-	    }
+    	.hal-akhir{
+            page-break-before: always;
+        }
         .tempat-ttd{
             width: 100%;
             display: table;
@@ -310,7 +310,7 @@
 			</tbody>
 		</table>
         <br>
-		<table class="lebar">
+		<table class="lebar hal-akhir">
             <thead>
                 <tr style="font-weight: bold; text-align: center; background-color:#f5f5ef">
                     <th style="width: 40px;">No</th>
@@ -347,7 +347,7 @@
             </tbdoy>
 		</table>
 		<br>
-		<div class="keterangan hal-akhir">
+		<div class="keterangan">
 			<div class="kiri">
 				<table class="lebar">
                     <tr style="text-align: center; font-weight: bold; background-color:#f5f5ef">
