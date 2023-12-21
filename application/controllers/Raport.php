@@ -729,32 +729,23 @@ class Raport extends CI_Controller {
 				foreach ($target_siswa as $ts) { //ekeskusi setiap siswa
 					$id = $ts['id_dkn_raport'];
 					$nilai_p = $ts['p'];
-					$nilai_p_kantrol = $kkm + (( $ts['p'] - $peng_terkecil)/($peng_terbesar-$peng_terkecil)*($target_max_p-$kkm)) ;
-
+					$nilai_p_kantrol = $kkm + (( $ts['p'] - $peng_terkecil)/($peng_terbesar-$peng_terkecil+0.0001)*($target_max_p-$kkm)) ;
 					$data = ['p'=>round($nilai_p_kantrol,0)];
-
-					 // var_dump($data);
-
 					$this->db->update('t_dkn_raport', $data, ['id_dkn_raport'=>$id]);
 				}
 			}
 
 			if ($kete_terkecil < $kkm) { //jika nilai KETERAMPILAN kurang dari kkm
-				
 				$target_siswa = $this->rm->ambilSiswaBawahKkm($kelas, $mp['mapel_id'], $this->tahunAktif['id_tahun']);
 				foreach ($target_siswa as $ts) { //ekeskusi setiap siswa
 					$id = $ts['id_dkn_raport'];
 					$nilai_p = $ts['k'];
-					$nilai_k_kantrol = $kkm + (( $ts['k'] - $kete_terkecil)/($kete_terbesar-$kete_terkecil)*($target_max_k-$kkm)) ;
-
+					$nilai_k_kantrol = $kkm + (( $ts['k'] - $kete_terkecil)/($kete_terbesar-$kete_terkecil+0.0001)*($target_max_k-$kkm)) ;
 					$data = ['k'=>round($nilai_k_kantrol,0)];
-
 					 // var_dump($data);
-
 					$this->db->update('t_dkn_raport', $data, ['id_dkn_raport'=>$id]);
 				}
 			}
-		
 		}
 	}
 
@@ -821,7 +812,11 @@ class Raport extends CI_Controller {
                 'nhr' =>  round(($value['nrp'] + $value['nhr']) / 2) ,
             ];
         }
-        $data['informatika'] = $informatika;
+        if (isset($informatika)) {
+            $data['informatika'] = $informatika;
+        } else {
+            $data['informatika'] = false;
+        }
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('raport/dkn_fix', $data);

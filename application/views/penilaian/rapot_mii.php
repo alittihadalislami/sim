@@ -83,7 +83,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-lg-12 text-center">
-          <button class="btn btn-secondary" onclick="cetak()"><i class="fas fa-print text-primary"></i> Cetak Raport MII - <?= $at_santri['nama_santri'] ?></button>
+          <button id="cetek-mii" class="btn btn-secondary" onclick="cetak()"><i class="fas fa-print text-primary"></i> Cetak Raport MII - <?= $at_santri['nama_santri'] ?></button>
         </div>
       </div>
     </div><!-- /.container-fluid -->
@@ -159,12 +159,12 @@
                   <div style="font-weight: bold;"><?=$mii['mapel_ar'] ?></div>
                   <div><?=$mii['mapel'] ?></div>
                 </td>
-                <td style="font-size: 19px"><?=$mii['nkh'] ?></td>
-                <td style="font-size: 19px"><?=$mii['nhr'] ?></td>
-                <td style="font-size: 19px"><?=$mii['pts'] ?></td>
-                <td style="font-size: 19px"><?=$mii['pas'] ?></td>
-                <td style="font-size: 19px"><?=$mii['nrp'] ?></td>
-                <td style="font-size: 19px"><?=$mii['rata2'] ?></td>
+                <td class="nilai" style="font-size: 19px"><?=$mii['nkh'] ?></td>
+                <td class="nilai" style="font-size: 19px"><?=$mii['nhr'] ?></td>
+                <td class="nilai" style="font-size: 19px"><?=$mii['pts'] ?></td>
+                <td class="nilai" style="font-size: 19px"><?=$mii['pas'] ?></td>
+                <td class="nilai" style="font-size: 19px"><?=$mii['nrp'] ?></td>
+                <td class="nilai" style="font-size: 19px"><?=$mii['rata2'] ?></td>
               </tr>
             <?php endforeach ?>
               <tr style="font-weight: bold;">
@@ -317,6 +317,19 @@
 
 <script>
 function cetak() {
-  window.print();
+    nilai_mii = document.getElementsByClassName('nilai');
+    adaKosong = 0;
+    for (let index = 0; index < nilai_mii.length; index++) {
+        const element = nilai_mii[index];
+        if (element.innerText < 66){
+            adaKosong = adaKosong + 1
+        }
+    }
+    if (adaKosong > 1) {
+        alert('Ada nilai kosong, silahkan periksa kembali')
+    }else{
+        window.print();
+    }
+
 }
 </script>

@@ -46,7 +46,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <?php $tambah_kolom = $rombel < 2 ? true : false  ?>
+                <?php $tambah_kolom = $informatika  ?>
                 <table id="dkn" class="table table-striped table-responsive table-bordered">
                   <thead>
                     <tr>
