@@ -321,7 +321,7 @@ function cetak() {
     adaKosong = 0;
     for (let index = 0; index < nilai_mii.length; index++) {
         const element = nilai_mii[index];
-        if (element.innerText < 66){
+        if (element.innerText < 1){
             adaKosong = adaKosong + 1
         }
     }
@@ -330,6 +330,5 @@ function cetak() {
     }else{
         window.print();
     }
-
 }
 </script>
