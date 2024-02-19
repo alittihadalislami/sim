@@ -50,13 +50,15 @@
 					$response_data = json_decode($curl_data);
 					// var_dump($response_data);
 					$profil = base_url('assets/img/user.png');
+                    $link_ft = "#"
 					foreach ($response_data as $value) {
 						$data_foto = explode(".",$value->nama_file)[0];
 						if ( $data_foto == $santri['idk_mii'] )
 							$profil = "https://drive.google.com/thumbnail?id=".$value->id_file;
+                            $link_ft = "https://drive.usercontent.google.com/download?id=".$value->id_file;
 					}
 				?>
-                    <a href="#">
+                    <a href="<?=$link_ft?>">
                       <img src="<?= $profil ?>" class="rounded float-left m-2 mb-4" height="150px">
                     </a>
                     <a href="<?= base_url("santri/sinkronDataPsb/").$santri['nisn']?>" class="btn btn-warning btn-sm float-right <?=$nisn ? '' : 'disabled' ?>" id="singkronPsb"><i class="fas fa-cloud-download-alt"></i> Sinkron data psb</a>
