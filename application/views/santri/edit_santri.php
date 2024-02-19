@@ -53,7 +53,7 @@
 					foreach ($response_data as $value) {
 						$data_foto = explode(".",$value->nama_file)[0];
 						if ( $data_foto == $santri['idk_mii'] )
-							$profil = "https://drive.google.com/uc?export=view&id=".$value->id_file;
+							$profil = "https://drive.google.com/thumbnail?id=".$value->id_file;
 					}
 				?>
                     <a href="#">
