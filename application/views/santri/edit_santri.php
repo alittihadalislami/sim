@@ -50,7 +50,7 @@
 					$response_data = json_decode($curl_data);
 					// var_dump($response_data);
 					$profil = base_url('assets/img/user.png');
-                    $link_ft = "#"
+                    $link_ft = "#";
 					foreach ($response_data as $value) {
 						$data_foto = explode(".",$value->nama_file)[0];
 						if ( $data_foto == $santri['idk_mii'] )
