@@ -197,7 +197,8 @@
             <div class="br2 ident lb-1a"><?= $s['idk_mii']; ?></div>
             <div class="br2 nmtebal lb-3"><?= $s['nama_santri']; ?></div>
 
-            <?php 
+            <?php
+              $r_nrp = '';
               foreach ($nilai_raport as $nr) {
                 if ($s['id_santri'] == $nr['santri_id']) {
                   $r_nrp = $nr['nrp'];
