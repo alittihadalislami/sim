@@ -825,6 +825,8 @@ class Raport extends CI_Controller {
 
 	public function InsertDknRaport($kelas) //nilai raport umum 
 	{
+        set_time_limit(500);
+
 		$jenjang = $this->rm->jenjangKelas($kelas);
 		$rombel = $this->um->showRombel($kelas)['rombel'];
 

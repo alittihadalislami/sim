@@ -1164,7 +1164,7 @@ class Penilaian extends CI_Controller {
 		$this->db->where('tahun_id', $data['id_tahun']);
 		$data['cek'] = $this->db->get('t_entriwali')->row_array();
 
-		$tanggal_mulai_kbm = $this->um->tmkbm(6)['tmkbm'];
+		$tanggal_mulai_kbm = $this->um->tmkbm($data['id_tahun'])['tmkbm'];
 
 		$data['sia'] = $this->rm->hitungSIA($tanggal_mulai_kbm,$data['id_santri']);
 
@@ -1249,6 +1249,7 @@ class Penilaian extends CI_Controller {
 				'ket' => 'بعد النظر فيما ناله الطالب  من الدرجات، قررت هيئة التدريس بأن الطالب',
 				'naik' => 'ناجح',
 				'wali' => 'ولي الطالب',
+                'rata' => 'معدل الطالب',
 			];
 		}else{
 			$domir = [
@@ -1256,6 +1257,7 @@ class Penilaian extends CI_Controller {
 				'ket' => 'بعد النظر فيما ناله الطالبة  من الدرجات، قررت هيئة التدريس بأن الطالبة',
 				'naik' => 'ناجحة',
 				'wali' => 'ولي الطالبة',
+                'rata' => 'معدل الطالبة',
 			];
 		}
 		return $domir;

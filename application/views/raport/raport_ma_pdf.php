@@ -486,15 +486,30 @@
 					</tr>
 					<tr>
 						<td style='font-size:14px'>Sakit</td>
-						<td style='font-size:14px' class='center'><?= $entry_wali['sakit'] ?> Pertemuan</td>
+						<td style='font-size:14px' class='center'>
+                            <?php 
+                                $sakit = floor($entry_wali['sakit']/4);
+                                echo $sakit == 0 ? '-' : $sakit.' '.'Hari';
+                            ?> 
+                        </td>
 					</tr>
 					<tr>
 						<td style='font-size:14px'>Idzin</td>
-						<td style='font-size:14px' class='center'><?= $entry_wali['ijin'] ?> Pertemuan</td>
+						<td style='font-size:14px' class='center'>
+                            <?php 
+                                $ijin = floor($entry_wali['ijin']/4);
+                                echo $ijin == 0 ? '-' : $ijin.' '.'Hari';
+                            ?> 
+                        </td>
 					</tr>
 					<tr>
 						<td style='font-size:14px'>Tanpa Keterangan</td>
-						<td style='font-size:14px' class='center'><?= $entry_wali['alpa'] ?> Pertemuan</td>
+						<td style='font-size:14px' class='center'>
+                            <?php 
+                                $alpa = floor($entry_wali['alpa']/4);
+                                echo $alpa == 0 ? '-' : $alpa.' '.'Hari';
+                            ?> 
+                        </td>
 					</tr>
 				</table>
 			</div>

@@ -123,6 +123,9 @@
                 <td style="font-size: 19px"><?= substr($at_kelas,0,1) == 7 ? 'Takhassus' : $at_kelas ; ?> / <?= $at_tahun['semester'] == 1 ? 'Ganjil':'Genap' ?></td>
             </tr>
           </table>
+            <?php 
+                $baris_tabel = count($nilai_mii)+2;
+            ?>
           <div class="pembatas">نتائج الإختبارات</div>
           <table class="table table-sm" style="text-align: center;">
             <tr>
@@ -147,8 +150,9 @@
               <th style="width: 12%">
                 <div class="ar-head">المجموع</div><div>Nilai Akhir</div>
               </th>
+              <th rowspan="<?=$baris_tabel?>" style="background-color:white"></th>
               <th style="width: 12%">
-                <div class="ar-head">المعدل</div><div>Rata-rata</div>
+                <div class="ar-head">معدل الفصل</div><div>Rata-rata Kelas</div>
               </th>
             </tr>
             <!-- konten raport -->
@@ -169,8 +173,8 @@
             <?php endforeach ?>
               <tr style="font-weight: bold;">
                 <td colspan="2">
-                  <div>المعدل</div>
-                  <div>Rata-rata</div>
+                  <div><?=$domir['rata']?></div>
+                  <div>Rata-rata Santri</div>
                 </td>
                 <td class="jml">
                   <?=round($jumlah_mii['rata_nkh'],1) ?>
@@ -188,7 +192,7 @@
                   <?=round($jumlah_mii['rata_nrp'],1) ?>
                 </td>
                 <td class="jml">
-                  <?=round($jumlah_mii['rata_total'],1) ?>
+                  <!-- <?=round($jumlah_mii['rata_total'],1) ?> -->
                 </td>
               </tr>
           </table>
@@ -235,21 +239,36 @@
                 <div>المريض</div>
                 <div>Sakit</div>
               </td>
-              <td><?=$tambahan['sakit'] == 0 ? '-' : $tambahan['sakit'] ?></td>             
+              <td>
+                <?php 
+                    $sakit = floor($tambahan['sakit']/4);
+                    echo $sakit == 0 ? '-' : $sakit
+                ?>
+              </td>             
             </tr>
             <tr>
               <td>
                 <div>الإذن</div>
                 <div>Idzin</div>
               </td>
-              <td><?=$tambahan['ijin'] == 0 ? '-' : $tambahan['ijin'] ?></td>
+              <td>
+                <?php 
+                    $ijin = floor($tambahan['ijin']/4);
+                    echo $ijin == 0 ? '-' : $ijin
+                ?>
+              </td>
             </tr>
             <tr>
               <td>
                 <div>الغياب</div>
                 <div>Alpa</div>
               </td>
-              <td><?=$tambahan['alpa'] == 0 ? '-' : $tambahan['alpa'] ?></td>
+              <td>
+                <?php 
+                    $alpa = floor($tambahan['alpa']/4);
+                    echo $alpa == 0 ? '-' : $alpa
+                ?>
+              </td>
             </tr>
           </table>
 
