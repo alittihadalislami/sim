@@ -256,12 +256,79 @@ class Absensi extends CI_Controller {
 
 	function Asatid()
 	{
-		$data['judul'] = 'Kehadiran';
+		$data['judul'] = 'Kehadiran asatid';
+        $data['bulan'] = array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+        $data['list_guru'] = $this->am->listGuru('10','1');
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('absensi/rekap_kehadiran', $data);
 		$this->load->view('templates/footer');
 	}
+
+    function asatid_ajax() {
+        $daput = $this->input->post();
+        $list_guru = $this->am->dataKehadiran($daput['tahun'],$daput['bulan'],$daput['asatid']);
+        echo json_encode($list_guru);
+    }
+
+    function santri()
+	{
+		$data['judul'] = 'Kehadiran santri';
+        $data['bulan'] = array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+        $data['list_kelas'] = $this->db->order_by('nama_kelas', 'ASC')->get_where('m_kelas', ['jenjang'=>1])->result_array();
+        
+        $data['tahunAktif'] = $this->tahunAktif['id_tahun']; //tahun aktif ajaran saat ini.
+
+		$nohp = $this->um->dataAktif($this->session->userdata('email'))['nohp'];
+		$data_mapel_kelas = $this->um->ngajarApa($nohp,$data['tahunAktif']);
+
+        $mapel = [] ;
+        $kelas = [] ;
+        foreach ($data_mapel_kelas as $dpk) {
+            $mapel[] = ['id_mapel'=>$dpk['id_mapel'],'nama_mapel'=>$dpk['nama_mapel']];
+            $kelas[] = ['id_kelas'=>$dpk['id_kelas'],'nama_kelas'=>$dpk['nama_kelas']];
+        }
+        $data['list_mapel'] = array_intersect_key($mapel, array_unique(array_column($mapel, 'id_mapel')));
+        $data['list_kelas'] = array_intersect_key($kelas, array_unique(array_column($kelas, 'id_kelas')));
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('absensi/rekap_kehadiran_santri', $data);
+		$this->load->view('templates/footer');
+	}
+
+    function santri_ajax() {
+        $daput = $this->input->post();
+        // $daput['tahun']= '2024';
+        // $daput['bulan']= 'Januari';
+        // $daput['kelas']= '22';
+        // $daput['mapel']= '6';
+        $hasil = $this->am->dataKehadiranSantri($daput['tahun'],$daput['bulan'],$daput['kelas'],$daput['mapel']);
+        $list_santri =  array_unique(array_column($hasil, 'santri_id'));
+        
+        foreach ($list_santri as $s) {
+            $absen [$s] = [
+                'detail' => $this->um->showNamaSantri($s),
+                'alpa' => 0 ,
+                'ijin' => 0 ,
+                'sakit' => 0 
+            ];
+            foreach ($hasil as $hsl) {
+                if ($hsl['santri_id'] == $s) {
+                    if ($hsl['absen'] == 0) {
+                        $absen[$s]['alpa'] =+ 1 ;
+                    }
+                    if ($hsl['absen'] == 1) {
+                        $absen[$s]['ijin'] =+ 1 ;
+                    }
+                    if ($hsl['absen'] == 2) {
+                        $absen[$s]['sakit'] =+ 1 ;
+                    }
+                }
+            }
+        }
+
+        echo json_encode($absen);
+    }
 
 }
 

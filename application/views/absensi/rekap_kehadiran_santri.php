@@ -34,12 +34,21 @@
                                 <?php endforeach ?>
                             </select>
                         </div>
-                        <div class="form-group col-lg-6">
-                            <label for="asatid">Guru</label>
-                            <select class="chosen-single form-control" id="asatid" name="asatid" required="">
+                        <div class="form-group col-lg-3">
+                            <label for="asatid">Kelas</label>
+                            <select class="chosen-single form-control" id="kelas" name="asatid" required="">
                                 <option value="">- pilih -</option>
-                                <?php foreach ($list_guru as $guru) : ?>
-                                    <option value="<?=$guru['id_asatid']?>"><?=$guru['nama_asatid']?></option>
+                                <?php foreach ($list_kelas as $kelas) : ?>
+                                    <option value="<?=$kelas['id_kelas']?>"><?=$kelas['nama_kelas']?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label for="asatid">Mapel</label>
+                            <select class="chosen-single form-control" id="mapel" name="asatid" required="">
+                                <option value="">- pilih -</option>
+                                <?php foreach ($list_mapel as $mapel) : ?>
+                                    <option value="<?=$mapel['id_mapel']?>"><?=$mapel['nama_mapel']?></option>
                                 <?php endforeach ?>
                             </select>
                         </div>
@@ -55,19 +64,25 @@
                         <table class="table table-sm table-stripped table-bordered">
                             <thead class="bg-dark">
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Hari, Tanggal</th>
-                                    <th scope="col">Nama Guru</th>
-                                    <th scope="col">Kelas</th>
-                                    <th scope="col">Mata Pelajaran</th>
-                                    <th scope="col">Materi</th>
-                                    <th scope="col">Jamke</th>
-                                    <th scope="col">Status</th>
+                                    <th scope="col" rowspan=2 class="text-center align-middle">#</th>
+                                    <th scope="col" rowspan=2 class="text-center align-middle">Nama Santri</th>
+                                    <th scope="col" rowspan=2 class="text-center align-middle">Kelas</th>
+                                    <!-- <th scope="col" colspan="31" class="text-center align-middle">Tanggal</th> -->
+                                    <th scope="col" colspan="4" class="text-center align-middle">Jumlah</th>
+                                </tr>
+                                <tr>
+                                    <!-- <?php for ($i=1; $i<32 ; $i++) : ?>
+                                        <th scope="col"><?=$i?></th>
+                                    <?php endfor ?> -->
+                                    <th>alpa</th>
+                                    <th>sakit</th>
+                                    <th>ijin</th>
+                                    <!-- <th>hadir</th> -->
                                 </tr>
                             </thead>
                             <tbody id="data">
                                 <tr>
-                                    <td colspan="8">no data</td>
+                                    <td colspan="40">no data</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -83,32 +98,33 @@
         e.preventDefault();
         tahun = document.getElementById('tahun').value
         bulan = document.getElementById('bulan').value
-        asatid = document.getElementById('asatid').value
+        kelas = document.getElementById('kelas').value
+        mapel = document.getElementById('mapel').value
         
-        if (tahun == '' || bulan =='' || asatid == '' ) {
+        if (tahun == '' || bulan =='' || kelas == '' || mapel == '' ) {
             alert('Silahkan pilih data terlebih dahulu')
             return 
         }
 
         $.ajax({
             type: "POST",
-            url: "<?=base_url()?>absensi/asatid_ajax",
-            data: {tahun, bulan, asatid},
+            url: "<?=base_url()?>absensi/santri_ajax",
+            data: {tahun, bulan, kelas, mapel},
             dataType : 'json', 
             // beforeSend: function () {  
             // buatLoading();
             // },
             success: function (response) {
-                hasil = ''
+                console.log(response.length)
+                hasil = '123'
                 for (let i = 0; i < response.length; i++) {
                     hasil += '<tr><td>'+ (i+1)+'</td>' +
-                    '<td>'+response[i]['tgl']+' - '+response[i]['id_jurnal']+'</td>' + 
-                     '<td>'+response[i]['nama_asatid']+'</td>' + 
-                     '<td>'+response[i]['kelas_alias']+'</td>' + 
-                     '<td>'+response[i]['mapel_alias']+'</td>' + 
-                     '<td>'+response[i]['materi']+'</td>' + 
-                     '<td>'+response[i]['jamke']+'</td>' + 
-                     '<td> hadir </td>' 
+                    '<td>'+response[i]['detail']['nama_santri']+'</td>' + 
+                    '<td>'+response[i]['detail']['nama_santri']+'</td>' + 
+                     '<td>'+response[i]['alpa']+'</td>' + 
+                     '<td>'+response[i]['sakit']+'</td>' + 
+                     '<td>'+response[i]['ijin']+'</td></tr>'
+                    console.log(hasil)
                 }
             $('#data').html(hasil)
             }

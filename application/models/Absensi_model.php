@@ -93,6 +93,51 @@ class Absensi_model extends CI_Model {
 		return $this->db->query($stringQ)->result();
 	}
 
+    public function listGuru($tahun, $jenjang) {
+        $stringQ = " SELECT a.`id_asatid`, a.`niy`, a.`nama_asatid`
+                    FROM m_mengajar m JOIN m_kelas k
+                    ON m.`kelas_id` = k.`id_kelas` JOIN m_asatid a
+                    ON a.`id_asatid` = m.`asatid_id`
+                    WHERE m.`tahun_id` = '$tahun' 
+                    AND k.`jenjang` = '$jenjang'
+                    GROUP BY a.`nama_asatid`
+                    ORDER BY a.`nama_asatid` ";
+        return $this->db->query($stringQ)->result_array();
+    }
+
+    function dataKehadiran($tahun, $bulan, $id_asatid) {
+        $stringQ = " SELECT j.*, k.`id_asatid` , a.`nama_asatid`, k.`jamke`, kl.`kelas_alias`, ml.`mapel_alias`,
+                    TRIM(SUBSTRING_INDEX(j.`tgl`, ',', 1)) AS hari,
+                    TRIM(SUBSTRING_INDEX(TRIM(SUBSTRING_INDEX(j.`tgl`, ',', -1)), ' ', 1)) AS tanggal,
+                    TRIM(SUBSTRING_INDEX(TRIM(SUBSTRING_INDEX(TRIM(SUBSTRING_INDEX(j.`tgl`, ',', -1)), ' ', 2)), ' ', -1)) AS bulan,
+                    TRIM(SUBSTRING_INDEX(TRIM(SUBSTRING_INDEX(j.`tgl`, ',', -1)), ' ', -1)) AS tahun
+                    FROM t_jurnal j JOIN t_kbm k
+                    ON j.`kbm_id` = k.`id_kbm` JOIN m_asatid a
+                    ON a.`id_asatid` = k.`id_asatid` JOIN m_kelas kl
+                    ON k.`id_kelas` = kl.`id_kelas`  JOIN m_mapel ml
+                    ON k.`id_mapel` = ml.`id_mapel`
+                    WHERE k.`id_asatid` = '$id_asatid'
+                    HAVING tahun = '$tahun'
+                    AND bulan = '$bulan' ";
+        return $this->db->query($stringQ)->result_array();
+    }
+    function dataKehadiranSantri($tahun, $bulan, $kelas, $mapel) {
+        $stringQ = " SELECT a.*, k.`id_mapel`, k.`id_kelas`, j.`tgl`,
+                    TRIM(SUBSTRING_INDEX(j.`tgl`, ',', 1)) AS hari,
+                    TRIM(SUBSTRING_INDEX(TRIM(SUBSTRING_INDEX(j.`tgl`, ',', -1)), ' ', 1)) AS tanggal,
+                    TRIM(SUBSTRING_INDEX(TRIM(SUBSTRING_INDEX(TRIM(SUBSTRING_INDEX(j.`tgl`, ',', -1)), ' ', 2)), ' ', -1)) AS bulan,
+                    TRIM(SUBSTRING_INDEX(TRIM(SUBSTRING_INDEX(j.`tgl`, ',', -1)), ' ', -1)) AS tahun
+                    FROM t_absensi a JOIN t_jurnal j
+                    ON a.`jurnal_id` = j.`id_jurnal` JOIN t_kbm k
+                    ON k.`id_kbm` = j.`kbm_id`
+                    WHERE k.`id_kelas` = $kelas
+                    AND k.`id_mapel` = $mapel
+                    HAVING bulan = '$bulan'
+                    AND tahun = '$tahun'
+                    ORDER BY a.`santri_id` ";
+        return $this->db->query($stringQ)->result_array();
+    }
+
 }
 
 /* End of file Absensi_model.php */
