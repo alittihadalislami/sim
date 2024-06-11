@@ -102,7 +102,7 @@
                 hasil = ''
                 for (let i = 0; i < response.length; i++) {
                     hasil += '<tr><td>'+ (i+1)+'</td>' +
-                    '<td>'+response[i]['tgl']+' - '+response[i]['id_jurnal']+'</td>' + 
+                    '<td>'+response[i]['tgl']+'</td>' + 
                      '<td>'+response[i]['nama_asatid']+'</td>' + 
                      '<td>'+response[i]['kelas_alias']+'</td>' + 
                      '<td>'+response[i]['mapel_alias']+'</td>' + 

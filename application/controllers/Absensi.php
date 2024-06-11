@@ -327,7 +327,12 @@ class Absensi extends CI_Controller {
             }
         }
 
-        echo json_encode($absen);
+        $absen2 = [];
+        foreach ($absen as $ab ) {
+            $absen2 [] = $ab;
+        }
+
+        echo json_encode($absen2);
     }
 
 }

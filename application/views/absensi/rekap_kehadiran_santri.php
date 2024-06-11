@@ -66,7 +66,7 @@
                                 <tr>
                                     <th scope="col" rowspan=2 class="text-center align-middle">#</th>
                                     <th scope="col" rowspan=2 class="text-center align-middle">Nama Santri</th>
-                                    <th scope="col" rowspan=2 class="text-center align-middle">Kelas</th>
+                                    <!-- <th scope="col" rowspan=2 class="text-center align-middle">Kelas</th> -->
                                     <!-- <th scope="col" colspan="31" class="text-center align-middle">Tanggal</th> -->
                                     <th scope="col" colspan="4" class="text-center align-middle">Jumlah</th>
                                 </tr>
@@ -111,20 +111,20 @@
             url: "<?=base_url()?>absensi/santri_ajax",
             data: {tahun, bulan, kelas, mapel},
             dataType : 'json', 
-            // beforeSend: function () {  
-            // buatLoading();
-            // },
+            beforeSend: function () {  
+                $('#data').html(
+                    "<tr><td rowspan='6'>loading...<td></tr>"
+                )
+            },
             success: function (response) {
-                console.log(response.length)
-                hasil = '123'
+                hasil = ''
                 for (let i = 0; i < response.length; i++) {
                     hasil += '<tr><td>'+ (i+1)+'</td>' +
                     '<td>'+response[i]['detail']['nama_santri']+'</td>' + 
-                    '<td>'+response[i]['detail']['nama_santri']+'</td>' + 
+                    // '<td>'+response[i]['detail']['idk_umum']+'</td>' + 
                      '<td>'+response[i]['alpa']+'</td>' + 
                      '<td>'+response[i]['sakit']+'</td>' + 
                      '<td>'+response[i]['ijin']+'</td></tr>'
-                    console.log(hasil)
                 }
             $('#data').html(hasil)
             }
