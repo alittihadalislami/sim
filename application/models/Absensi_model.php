@@ -138,6 +138,34 @@ class Absensi_model extends CI_Model {
         return $this->db->query($stringQ)->result_array();
     }
 
+    function dataKehadiranSantriPerSemester($tahun, $sem=1, $kelas) {
+        
+        // if ($sem == 2 ) {
+        //     $bulan = "('Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni')";
+        // } else {
+        //     $bulam = "('Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember')";
+        // }
+        if ( $sem == 1 ) {
+            $string_condition = "NOT IN";
+        }else{
+            $string_condition = "IN";
+        }
+
+        $stringQ = " SELECT a.*, k.`id_mapel`, k.`id_kelas`, j.`tgl`,
+                TRIM(SUBSTRING_INDEX(j.`tgl`, ',', 1)) AS hari,
+                TRIM(SUBSTRING_INDEX(TRIM(SUBSTRING_INDEX(j.`tgl`, ',', -1)), ' ', 1)) AS tanggal,
+                TRIM(SUBSTRING_INDEX(TRIM(SUBSTRING_INDEX(TRIM(SUBSTRING_INDEX(j.`tgl`, ',', -1)), ' ', 2)), ' ', -1)) AS bulan,
+                TRIM(SUBSTRING_INDEX(TRIM(SUBSTRING_INDEX(j.`tgl`, ',', -1)), ' ', -1)) AS tahun
+                FROM t_absensi a JOIN t_jurnal j
+                ON a.`jurnal_id` = j.`id_jurnal` JOIN t_kbm k
+                ON k.`id_kbm` = j.`kbm_id`
+                WHERE k.`id_kelas` = $kelas
+                HAVING bulan $string_condition ('Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni')
+                AND tahun = '$tahun'
+                ORDER BY a.`santri_id` ";
+        return $this->db->query($stringQ)->result_array();
+    }
+
 }
 
 /* End of file Absensi_model.php */

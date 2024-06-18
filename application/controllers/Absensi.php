@@ -335,6 +335,27 @@ class Absensi extends CI_Controller {
         echo json_encode($absen2);
     }
 
+    function ajax_santri_wali() {
+        // $daput = $this->input->post();
+        $daput['tahun']= '2023';
+        $daput['kelas']= '22';
+        $daput['sem']= '1';
+        $hasil = $this->am->dataKehadiranSantriPerSemester($daput['tahun'],$daput['sem'],$daput['kelas']);
+
+        $no = 0;
+        foreach ($hasil as $h) {
+            var_dump($h);
+
+
+            $no++;
+            if ($no >  10) {
+                die();
+            }
+        }
+        
+        // var_dump($hasil);
+    }
+
 }
 
 /* End of file absensi.php */
