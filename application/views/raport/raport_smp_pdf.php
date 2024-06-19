@@ -361,15 +361,27 @@
 					</tr>
 					<tr>
 						<td class="fon2">Sakit</td>
-						<td class="fon2" style="text-align:center"><?= round($entry_wali['sakit']/4,0) ?> Hari</td>
+						<?php 
+                          $jml_sakit = floor($entry_wali['sakit']/4);
+                          $ket_sakit = $jml_sakit > 0 ? $jml_sakit.' hari' : '-';
+                        ?>
+                        <td class="fon2" style="text-align:center"><?= $ket_sakit ?></td>
 					</tr>
 					<tr>
 						<td class="fon2">Idzin</td>
-						<td class="fon2" style="text-align:center"><?= round($entry_wali['ijin']/4,0) ?> Hari</td>
+						<?php 
+                          $jml_ijin = floor($entry_wali['ijin']/4);
+                          $ket_ijin = $jml_ijin > 0 ? $jml_ijin.' hari' : '-';
+                        ?>
+                        <td class="fon2" style="text-align:center"><?= $ket_ijin ?></td>
 					</tr>
 					<tr>
 						<td class="fon2">Tanpa Keterangan</td>
-						<td class="fon2" style="text-align:center"><?= round($entry_wali['alpa']/4,0) ?> Hari</td>
+						<?php 
+                          $jml_alpa = floor($entry_wali['alpa']/4);
+                          $ket_alpa = $jml_alpa > 0 ? $jml_alpa.' hari' : '-';
+                        ?>
+                        <td class="fon2" style="text-align:center"><?= $ket_alpa ?></td>
 					</tr>
 				</table>
 			</div>
@@ -385,7 +397,7 @@
 					<?php if ($semester == 2 && $rombel == 3): ?>
 						<p class="fon2" style="font-weight: bold;">  <?= $kelas_baru[1] ?> </p>
 					<?php else: ?>
-						<p class="fon2" style="font-weight: bold;">Naik ke Kelas <?= $kelas_baru[0].' ('.$kelas_baru[1].')' ?></p>
+						<p class="fon2" style="font-weight: bold;">Naik ke kelas <?= $kelas_baru[0].' ('.$kelas_baru[1].')' ?></p>
 					<?php endif ?>
 				</div>
 			<?php endif ?>

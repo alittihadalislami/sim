@@ -387,7 +387,7 @@
 		<?php if ($semester == 2 ): ?>
 			<div class="keputusan">
 				<h4><strong>Keputusan:</strong></h4>
-				<p style="margin-left: 20px; line-height: 20px; position: relative; bottom: 6px; font-size:15px">Berdasarkan pencapaian kompetensi pada semester 1 dan 2, <br> maka peserta didik ditetapkan: Naik <?= $kelas_baru[0].' ('.$kelas_baru[1].')' ?></p>
+				<p style="margin-left: 20px; line-height: 20px; position: relative; bottom: 6px; font-size:15px">Berdasarkan pencapaian kompetensi pada semester 1 dan 2, <br> maka peserta didik ditetapkan: Naik ke kelas <?= $kelas_baru[0].' ('.$kelas_baru[1].')' ?></p>
 			</div>
 		<?php endif ?>
 
