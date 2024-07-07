@@ -37,7 +37,7 @@
                 }
             }
         ?>
-        <img class="img-thumbnail mb-4 mx-auto d-block" src="https://drive.google.com/uc?export=view&id=<?= $id_google_drive ?>" width="150px">
+        <img class="img-thumbnail mb-4 mx-auto d-block" src="https://drive.google.com/thumbnail?id=<?= $id_google_drive ?>" width="150px">
         <table class="table table-bordered">
         <thead>
         <tbody>
