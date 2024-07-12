@@ -465,7 +465,7 @@ class Psb extends CI_Controller
        $santri['nisn'] = $csantri['nisn'];
        
        /*Manual Tanggal diterima*/
-       $diterima = '13/07/2020';
+       $diterima = '13/07/2024';
 
 
        $this->db->where('id_data_awal', $id);
