@@ -265,6 +265,20 @@ class Absensi extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+    function rekapPerAsatid()
+	{
+		$data['judul'] = 'Kehadiran asatid';
+        $data['bulan'] = array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+        $data['list_guru'] = $this->am->listGuru('10','1');
+
+        $email = $this->session->userdata['email'];
+        $data['hasil'] = $this->am->showRuleLevelByEmail($email);
+        
+		$this->load->view('templates/header', $data);
+		$this->load->view('absensi/rekap_kehadiran', $data);
+		$this->load->view('templates/footer');
+	}
+
     function asatid_ajax() {
         $daput = $this->input->post();
         $list_guru = $this->am->dataKehadiran($daput['tahun'],$daput['bulan'],$daput['asatid']);

@@ -166,6 +166,18 @@ class Absensi_model extends CI_Model {
         return $this->db->query($stringQ)->result_array();
     }
 
+    function showRuleLevelByEmail($email) {
+        $stringQ = " SELECT a.`id_asatid`, a.`nama_asatid`, a.`niy`, a.`tetap`, dr.`rule_id`, us.`level`
+                    FROM m_asatid a JOIN user_data u
+                    ON a.`nohp` = u.`nohp` RIGHT JOIN  user_dapat_rule dr
+                    ON u.`id_user` = dr.`user_id` LEFT JOIN user_rule us
+                    ON dr.`rule_id` = us.`id_rule`
+                    WHERE u.`email` = '$email'
+                    ORDER BY us.`level` ASC
+                    LIMIT 1 ";
+        return $this->db->query($stringQ)->result_array();
+    }
+
 }
 
 /* End of file Absensi_model.php */

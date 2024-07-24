@@ -18,6 +18,9 @@
             <div class="row mt-2">
                 <div class="col-lg-8">
                     <div class="form-row">
+                        <?php 
+                            var_dump($hasil);
+                        ?>
                         <div class="form-group col-lg-2">
                             <label for="asatid">Tahun</label>
                             <select class="chosen-single form-control" id="tahun" name="tahun" required="">
