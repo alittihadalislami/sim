@@ -178,6 +178,15 @@ class Absensi_model extends CI_Model {
         return $this->db->query($stringQ)->result_array();
     }
 
+    function getMapelAsatid($tahun, $asatid ) {
+        $stringQ = "SELECT k.`id_asatid`, k.`id_mapel`
+                    FROM t_kbm k
+                    WHERE k.`id_tahun` = $tahun
+                    AND k.`id_asatid` = $asatid
+                    GROUP BY k.`id_mapel` ";
+        return $this->db->query($stringQ)->result_array();
+    }
+
 }
 
 /* End of file Absensi_model.php */

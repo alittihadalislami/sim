@@ -107,7 +107,7 @@
               ?>
               
               <input type="text" hidden="true" id="k-<?=$sa['id_santri']?>" name="kehadiran-<?=$sa['id_santri']?>" value="<?= isset($absensi['absen']) ? $absensi['absen'] : 4 ?>">
-              
+        
     
 
               <li class="list-group-item nama" id="<?=$sa['id_santri']?>"><span id="ket-<?=$sa['id_santri']?>" class="btn <?= $kelas ?> ling"><?= $huruf ?></span>  <?= $no++ .'. '. $nama_fix ?></li>
