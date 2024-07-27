@@ -145,21 +145,15 @@
   });
 
   $( document ).ready(function() {
-
-
     $('.nama').click(function(){
-      
       let id = $(this).attr('id');
       let nilai = $('#k-'+id+' ').val();
-      
       if (nilai > 0) {
         nilai = nilai - 1;
       }else{
         nilai = 4;
       }
-      
       $('#k-'+id+' ').val(nilai);
-
       if (nilai == 0) {
         $('#ket-'+id).replaceWith( '<span id="ket-'+id+'" class="btn badge-danger ling">A</span> ' );
       }
@@ -175,9 +169,6 @@
       if (nilai == 4) {
         $('#ket-'+id).replaceWith( '<span id="ket-'+id+'" class="btn btn-success ling">H</span> ' );
       }
-
-
-
     });
   });
 </script>

@@ -279,6 +279,30 @@ class Absensi extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
+    function ajax_getMapel() {
+        $daput = $this->input->post();
+        $hasil = $this->am->getMapelAsatid($this->tahunAktif['id_tahun'],$daput['asatid']);
+        echo json_encode($hasil);
+    }
+
+    function ajax_getKelas() {
+        $daput = $this->input->post();
+        $hasil = $this->am->getKelasAsatid($this->tahunAktif['id_tahun'],$daput['asatid'],$daput['mapel']);
+        echo json_encode($hasil);
+    }
+
+    function ajax_anggotaKelas() {
+        $daput = $this->input->post();
+        $hasil = $this->am->getAnggotaKelas($this->tahunAktif['id_tahun'],$daput['kelas']);
+        echo json_encode($hasil);
+    }
+
+    function ajax_jadwal() {
+        $daput = $this->input->post();
+        $hasil = $this->am->getJadwal($this->tahunAktif['id_tahun'],$daput['asatid'],$daput['mapel'],$daput['kelas']);
+        echo json_encode($hasil);
+    }
+
     function asatid_ajax() {
         $daput = $this->input->post();
         $list_guru = $this->am->dataKehadiran($daput['tahun'],$daput['bulan'],$daput['asatid']);

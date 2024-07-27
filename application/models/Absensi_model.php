@@ -178,14 +178,52 @@ class Absensi_model extends CI_Model {
         return $this->db->query($stringQ)->result_array();
     }
 
-    function getMapelAsatid($tahun, $asatid ) {
-        $stringQ = "SELECT k.`id_asatid`, k.`id_mapel`
-                    FROM t_kbm k
-                    WHERE k.`id_tahun` = $tahun
-                    AND k.`id_asatid` = $asatid
+    function getMapelAsatid($tahun, $asatid) {
+        $stringQ = " SELECT k.`id_asatid`, k.`id_mapel`, m.`mapel_alias`
+                    FROM t_kbm k LEFT JOIN m_mapel m
+                    ON k.`id_mapel` = m.`id_mapel`
+                    WHERE k.`id_tahun` = '$tahun'
+                    AND k.`id_asatid` = '$asatid'
                     GROUP BY k.`id_mapel` ";
         return $this->db->query($stringQ)->result_array();
+        }
+        
+    function getKelasAsatid($tahun, $asatid, $mapel) {
+        $stringQ = " SELECT k.*, kl.`nama_kelas`, kl.`kelas_alias`
+                FROM t_kbm k LEFT JOIN m_kelas kl
+                ON k.`id_kelas` = kl.`id_kelas`
+                WHERE k.`id_tahun` = '$tahun'
+                AND k.`id_asatid` = '$asatid'
+                AND k.`id_mapel` = '$mapel'
+                GROUP BY k.`id_kelas`
+                ORDER BY kl.`nama_kelas`";
+        return $this->db->query($stringQ)->result_array();
     }
+        
+    function getAnggotaKelas($tahun, $kelas) {
+        $stringQ = " SELECT a.`santri_id`, d.`nama_seijazah`
+            FROM t_agtkelas a LEFT JOIN t_detail_santri d
+            ON a.`santri_id` = d.`santri_id`
+            WHERE a.`tahun_id` = '$tahun'
+            AND a.`kelas_id` = '$kelas'
+            ORDER BY d.`bapak_seijazah` ";
+        return $this->db->query($stringQ)->result_array();
+    }
+        
+    function getJadwal($tahun, $asatid, $mapel, $kelas) {
+        $stringQ = "SELECT k.*, kl.`nama_kelas`, kl.`kelas_alias`
+                    FROM t_kbm k LEFT JOIN m_kelas kl
+                    ON k.`id_kelas` = kl.`id_kelas`
+                    WHERE k.`id_tahun` = '$tahun'
+                    AND k.`id_asatid` = '$asatid'
+                    AND k.`id_mapel` = '$mapel'
+                    AND K.`id_kelas` = '$kelas'
+                    ";
+        return $this->db->query($stringQ)->result_array();
+
+    }
+
+
 
 }
 
