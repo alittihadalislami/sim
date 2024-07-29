@@ -134,7 +134,6 @@ class Absensi extends CI_Controller {
 			$this->db->update('t_jurnal', $jurnal);
 		}
 
-
 		$id_jurnal = $this->am->cekJurnal($daput['id_kbm'], $daput['tanggal'])['id_jurnal'];
 
 		foreach ($daput as $absen => $a) {
@@ -301,6 +300,38 @@ class Absensi extends CI_Controller {
         $daput = $this->input->post();
         $hasil = $this->am->getJadwal($this->tahunAktif['id_tahun'],$daput['asatid'],$daput['mapel'],$daput['kelas']);
         echo json_encode($hasil);
+    }
+
+    function ajax_prosesAjuan(){
+        $daput = $this->input->post();
+        $jurnal = [
+            'kbm_id' => $daput['data_jurnal']['id_kbm'],
+			'tgl' => $daput['data_jurnal']['tanggal'],
+			'materi' => $daput['data_jurnal']['materi']
+		];
+        
+		$cek = $this->am->cekJurnal($jurnal['kbm_id'], $jurnal['tgl']);
+		if (!$cek) {
+            $this->db->insert('t_jurnal', $jurnal);
+            $id_jurnal_saat_ini = $this->db->insert_id();
+		}else{
+            $this->db->where('kbm_id', $jurnal['kbm_id']);
+			$this->db->where('tgl', $jurnal['tgl']);
+			$this->db->update('t_jurnal', $jurnal);
+            $id_jurnal_saat_ini = $this->am->cekJurnal($jurnal['kbm_id'], $jurnal['tgl'])['id_jurnal'];
+		}
+
+        $absen = $daput['data_absen'];
+        foreach ($absen as $ab) {
+            $object = [   
+                'id_absensi' => $id_jurnal_saat_ini.$ab['id'],
+                'jurnal_id' => $id_jurnal_saat_ini,
+                'santri_id' => $ab['id'],
+                'absen' => $ab['value']
+            ];
+            $this->db->replace('t_absensi', $object);
+        }
+        echo json_encode(['pesan'=>'berhasil disimpan']);
     }
 
     function asatid_ajax() {

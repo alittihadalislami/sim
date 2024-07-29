@@ -2,7 +2,7 @@
 
 <style>
     .input-group-text {
-      width: 100px;
+      width: 120px;
     }
     .ling{
         border-radius: 20px 20px;
@@ -10,6 +10,9 @@
         height: 30px;
         padding: 2px;
         font-weight: bold;
+    }
+    .absen{
+        width: 20px;
     }
 </style>
 
@@ -68,7 +71,7 @@
                    <button type="submit" id="cari" class="btn btn-primary">
                         Tampilkan
                     </button>
-                   <button type="button" id="tambah" class="btn btn-primary d-none float-right" data-toggle="modal" data-target="#exampleModal">
+                   <button type="button" id="tambah" class="btn btn-primary d-none float-right">
                         Tambah data
                    </button>
                 </div>
@@ -105,17 +108,17 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ajuanModal" tabindex="-1" aria-labelledby="ajuanModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Pengajuan Presensi Asatid</h4>
+        <h4 class="modal-title" id="ajuanModalLabel">Pengajuan Presensi Asatid</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <div class="input-group mb-1">
+        <!-- <div class="input-group mb-1">
             <div class="input-group-prepend">
                 <label class="input-group-text" for="ket">Keterangan</label>
             </div>
@@ -124,7 +127,7 @@
                 <option value="1">Lupa</option>
                 <option value="1">Pindah Jadwal</option>
             </select>
-        </div>
+        </div> -->
         <div class="input-group mb-1 date" data-provide="datepicker">
           <div class="input-group-prepend">
             <label class="input-group-text">Tanggal</label>
@@ -151,7 +154,7 @@
             <div class="input-group-prepend">
                 <label class="input-group-text" for="">Jadwal</label>
             </div>
-            <select class="custom-select f-tambah" id="jadwal">
+            <select class="custom-select f-tambah" id="id_kbm">
                 <option value="" selected>Pilih...</option>
             </select>
         </div>
