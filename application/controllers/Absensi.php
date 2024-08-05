@@ -16,7 +16,7 @@ class Absensi extends CI_Controller {
 
 	public function index()
 	{
-		$data['judul'] = 'Absensi';
+		$data['judul'] = 'Presensi';
 		$data['jam'] = $this->waktuAbsen()['jam'].'.'.$this->waktuAbsen()['menit'];
 		$data['tanggal'] = $this->waktuAbsen()['tanggal'];
 		$hari = $this->waktuAbsen()['nama_hari'];
@@ -103,7 +103,7 @@ class Absensi extends CI_Controller {
 
 	public function dhSantri()
 	{
-		$data['judul'] = 'Absensi';
+		$data['judul'] = 'Presensi - Jurnal';
 		$data['jam'] = $this->waktuAbsen()['jam'].'.'.$this->waktuAbsen()['menit'];
 		$data['tanggal'] = $this->waktuAbsen()['tanggal'];
 		$data['kbm'] = $this->am->detailKbm($this->uri->segment(3));

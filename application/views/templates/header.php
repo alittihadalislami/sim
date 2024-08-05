@@ -98,13 +98,19 @@
           <div style="background-color:transparent" class="my-0 py-0 breadcrumb float-sm-right">
               <?php 
               $menuTerpilih = $this->uri->segment(1);
-
               foreach ($daftarMenu as $df) {
                 if ($df['url'] == $menuTerpilih) {
                   $linkq= strtolower($df['nama_menu']);
                 }
               }
               isset($linkq) ? $linkq = base_url().$linkq : $linkq = base_url('penilaian/raport');
+
+                //setting hardcode untuk absensi/presensi karera tidak cocok dengan template awal
+                if ($menuTerpilih == 'absensi') {
+                    $linkq = base_url('absensi');
+                    $menuTerpilih = "PRESENSI";
+                }
+
               ?>
 
             <li class="breadcrumb-item"><a href="<?=$linkq ?>"><?= strtoupper($menuTerpilih) ?></a></li>
