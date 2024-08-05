@@ -145,8 +145,8 @@ class Absensi extends CI_Controller {
 		foreach ($absensi as $ab) {
 			$this->db->replace('t_absensi', $ab);
 		}
-
-		redirect('absensi/dhsantri/'.$daput['id_kbm'],'refresh');
+		// redirect('absensi/dhsantri/'.$daput['id_kbm'],'refresh');
+		redirect('absensi','refresh');
 	}
 
 	public function pilihPeriode()
