@@ -1,5 +1,3 @@
-var base_url = window.location.origin + "/sim/";
-
 var status_presensi = {
   4: ["btn-success", "H"],
   3: ["btn-outline-success", "D"],
