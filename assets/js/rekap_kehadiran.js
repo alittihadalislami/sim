@@ -1,3 +1,5 @@
+var base_url = window.location.origin + "/sim/";
+
 var status_presensi = {
   4: ["btn-success", "H"],
   3: ["btn-outline-success", "D"],
@@ -8,6 +10,7 @@ var status_presensi = {
 
 $(document).ready(function () {
   id_kbm = null;
+
   $("#simpan-ajuan").click(async function (e) {
     e.preventDefault();
     data = $(".f-tambah");
