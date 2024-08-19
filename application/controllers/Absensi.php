@@ -43,6 +43,13 @@ class Absensi extends CI_Controller {
 			$data['jadwal'] = $this->am->jadwalHariIni($hari,$id_asatid,$this->tahunAktif['id_tahun']);
 		}
 
+        $data['judul'] = 'Kehadiran asatid';
+        $data['bulan'] = array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+        
+        $email = $this->session->userdata['email'];
+        $hasil = $this->am->showRuleLevelByEmail($email);
+        $data['list_guru'] = $hasil;
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('absensi/home', $data);
 		$this->load->view('templates/footer');	
@@ -338,6 +345,17 @@ class Absensi extends CI_Controller {
         $daput = $this->input->post();
         $list_guru = $this->am->dataKehadiran($daput['tahun'],$daput['bulan'],$daput['asatid']);
         echo json_encode($list_guru);
+    }
+
+    function asatid_ajax_pdf() {
+        $daput = [
+            'asatid' => '9',
+            'tahun' => '2024',
+            'bulan' => 'Agustus',
+        ];
+        // $daput = $this->input->post();
+        $list_guru = $this->am->dataKehadiran($daput['tahun'],$daput['bulan'],$daput['asatid']);
+        $this->load->view('absensi/rekap_asatid_pdf', )
     }
 
     function santri()
