@@ -481,6 +481,14 @@ class Absensi extends CI_Controller
         date_default_timezone_set('Asia/Jakarta');
 
         $daput = $this->input->get();
+        $id_dicari = $daput['asatid'] ;
+        $id_pengguna =  $this->pengguna[0]['id_asatid'];
+        
+        if ($id_pengguna != '9' ){
+            if ($id_dicari != $id_pengguna ) {
+                redirect('My404','refresh');
+            }
+        }
 
         $periode = $this->ambilPeriode($daput['bulan'], $daput['tahun']);
         $bulan_1 = $periode[0][0];
@@ -510,7 +518,6 @@ class Absensi extends CI_Controller
         // $data['ttd'] = $file_path;
         $nama_file = "Rekap Jurnal - $bulan_2 - $tahun_2 - $nama_asatid.pdf";
 
-
         // $this->load->view('absensi/rekap_asatid_pdf', $data);
         $html = $this->load->view('absensi/rekap_asatid_pdf', $data, true);
 
@@ -519,62 +526,31 @@ class Absensi extends CI_Controller
 
 
         // // set document information
-        $pdf->SetCreator('SIM');
-        $pdf->SetAuthor('SIM');
-        $pdf->SetTitle('Rekap Jurnal');
-        $pdf->SetSubject('Rekap Jurnal');
-        // $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
-
-        // // set default header data
-        // $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 018', PDF_HEADER_STRING);
-
-        // // set header and footer fonts
-        // $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        // $pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-        // // set default monospaced font
-        // $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-        // // set margins
-        // $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        // $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        // $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+        $pdf->SetCreator('www.sim.alittihadalislami.org');
+        $pdf->SetAuthor('sim.alittihadalislami.org');
+        $pdf->SetTitle($nama_file);
+        $pdf->SetSubject('Rekap Jurnal Asatidz');
 
         // set auto page breaks
         $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 
+        // Call before the addPage() method
+        $pdf->SetPrintHeader(false);
+        $pdf->SetPrintFooter(false);
         // set image scale factor
         $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-        // set some language dependent data:
-        // $lg = array();
-        // $lg['a_meta_charset'] = 'UTF-8';
-        // $lg['a_meta_dir'] = 'rtl';
-        // $lg['a_meta_language'] = 'fa';
-        // $lg['w_page'] = 'page';
-
-        // set some language-dependent strings (optional)
-        // $pdf->setLanguageArray($lg);
-
-        // ---------------------------------------------------------
-
 
         // add a page
         $pdf->AddPage();
 
-        $pdf->SetFont('amiri', 'B', 24);
-        $pdf->Cell(0, 4, 'Rekap Jurnal Mengajar Asatid', 0, 1, 'C');
-        $pdf->SetFont('amiri', 'B', 20);
-        $pdf->Cell(0, 4, 'Ma\'had Al Ittihad Al Islami', 0, 1, 'C');
-
-
-
-
+        $pdf->SetFont('amiri', 'B', 16);
+        $pdf->Cell(0, 4, 'REKAP JURNAL MENGAJAR ASATIDZ', 0, 1, 'C');
+        $pdf->SetFont('amiri', 'B', 18);
+        $pdf->Cell(0, 4, 'MA\'HAD AL ITTIHAD AL ISLAMI', 0, 1, 'C');
         // set font
         $pdf->SetFont('amiri', '', 12);
         // set LTR direction for english translation
         $pdf->setRTL(false);
-
         $pdf->Ln();
         $pdf->WriteHTML($html, true, 0, true, 0);
 
@@ -584,8 +560,6 @@ class Absensi extends CI_Controller
         $pdf->Cell(0, 10, 'ttd', 0, 1, 'C');
         $pdf->SetFont('amiri', 'BIU', 12);
         $pdf->Cell(0, 4, $nama_asatid, 0, 1, 'C');
-
-
 
         //Close and output PDF document
         $pdf->Output($nama_file, 'I');

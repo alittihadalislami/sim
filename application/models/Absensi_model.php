@@ -122,7 +122,8 @@ class Absensi_model extends CI_Model
                     WHERE k.`id_asatid` = '$id_asatid'
                     HAVING tahun = '$tahun'
                     AND bulan = '$bulan' 
-                    AND tanggal $tgl ";
+                    AND tanggal $tgl 
+                    ORDER BY CAST(tanggal AS UNSIGNED), jamke ASC ";
         return $this->db->query($stringQ)->result_array();
     }
     public function dataKehadiranSantri($tahun, $bulan, $kelas, $mapel)

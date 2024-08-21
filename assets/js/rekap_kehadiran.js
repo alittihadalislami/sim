@@ -9,6 +9,29 @@ var status_presensi = {
 $(document).ready(function () {
   id_kbm = null;
 
+  function getBulanSekarang() {
+    const bulanIndonesia = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ];
+    const sekarang = new Date();
+    const bulan = sekarang.getMonth(); // Bulan dimulai dari 0 (Januari)
+    return bulanIndonesia[bulan];
+  }
+
+  const bulanSelect = document.getElementById("bulan");
+  bulanSelect.value = getBulanSekarang();
+
   $("#simpan-ajuan").click(async function (e) {
     e.preventDefault();
     data = $(".f-tambah");
@@ -205,7 +228,6 @@ $("#cari").click(function (e) {
     data: { tahun, bulan, asatid },
     dataType: "json",
     // beforeSend: function () {
-    // buatLoading();
     // },
     success: function (response) {
       hasil = "";
@@ -235,6 +257,9 @@ $("#cari").click(function (e) {
           "<td> hadir </td>";
       }
       $("#data").html(hasil);
+      if (response.length == 0) {
+        $("#data").html("<tr><td colspan='8'>tidak ada data</td></tr>");
+      }
       $("#tambah_data").removeClass("d-none");
     },
   });

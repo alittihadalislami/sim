@@ -262,13 +262,13 @@
                                     </div>
                                     <div class="col-lg-12 mb-3">
                                         <button type="submit" id="cari" class="btn btn-primary">
-                                            Tampilkan
+                                            <i class="fas fa-list-ol mr-2"></i>Tampilkan
                                         </button>
-                                        <button id="pdf" class="btn btn-primary">
-                                            PDF
+                                        <button id="pdf" class="btn btn-danger">
+                                            <i class="far fa-file-pdf mr-2"></i>PDF
                                         </button>
-                                        <button id="tambah_data" class="btn btn-primary float-right d-none">
-                                            Tambah data
+                                        <button id="tambah_data" class="btn btn-success float-right d-none">    
+                                        <i class="fas fa-plus-square mr-2"></i>Tambah data
                                         </button>
                                     </div>
                                 </div>
@@ -290,7 +290,7 @@
                                                 </thead>
                                                 <tbody id="data">
                                                     <tr>
-                                                        <td colspan="8">no data</td>
+                                                        <td colspan="8">silahkan klik tampilkan</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
