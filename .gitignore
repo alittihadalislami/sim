@@ -30,3 +30,5 @@ application/config/config.php
 application/libraries/dompdf/lib/fonts/Times-Bold.afm.php
 application/libraries/dompdf/lib/fonts/Times-BoldItalic.afm.php
 application/libraries/dompdf/lib/fonts/Times-Roman.afm.php
+assest/qrcode/*
+
