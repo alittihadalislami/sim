@@ -180,7 +180,7 @@ $(document).ready(function () {
     $(target[0]).html(status_presensi[nilai_baru][1]);
   });
 
-  $("#tambah").click(function (e) {
+  $("#tambah_data").click(function (e) {
     e.preventDefault();
     $("#ajuanModal").modal("show");
   });
@@ -233,7 +233,7 @@ $("#cari").click(function (e) {
           "<td> hadir </td>";
       }
       $("#data").html(hasil);
-      $("#tambah").removeClass("d-none");
+      $("#tambah_data").removeClass("d-none");
     },
   });
 });
@@ -248,43 +248,11 @@ $("#pdf").click(function (e) {
     alert("Silahkan pilih data terlebih dahulu");
     return;
   }
+  var queryString = `tahun=${encodeURIComponent(
+    tahun
+  )}&bulan=${encodeURIComponent(bulan)}&asatid=${encodeURIComponent(asatid)}`;
+  console.log(queryString);
 
-  console.log({ tahun, bulan, asatid });
-
-  $.ajax({
-    type: "POST",
-    url: base_url + "absensi/asatid_ajax_pdf",
-    data: { tahun, bulan, asatid },
-    dataType: "json",
-    // success: function (response) {
-    //   hasil = "";
-    //   for (let i = 0; i < response.length; i++) {
-    //     hasil +=
-    //       "<tr><td>" +
-    //       (i + 1) +
-    //       "</td>" +
-    //       "<td>" +
-    //       response[i]["tgl"] +
-    //       "</td>" +
-    //       "<td>" +
-    //       response[i]["nama_asatid"] +
-    //       "</td>" +
-    //       "<td>" +
-    //       response[i]["kelas_alias"] +
-    //       "</td>" +
-    //       "<td>" +
-    //       response[i]["mapel_alias"] +
-    //       "</td>" +
-    //       "<td>" +
-    //       response[i]["materi"] +
-    //       "</td>" +
-    //       "<td>" +
-    //       response[i]["jamke"] +
-    //       "</td>" +
-    //       "<td> hadir </td>";
-    //   }
-    //   $("#data").html(hasil);
-    //   $("#tambah").removeClass("d-none");
-    // },
-  });
+  // Redirect ke URL dengan query string
+  window.location.href = `${base_url}absensi/asatid_ajax_tcpdf?${queryString}`;
 });

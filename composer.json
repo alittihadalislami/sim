@@ -12,7 +12,8 @@
 	},
 	"require": {
 		"php": ">=5.2.4",
-		"phpoffice/phpword": "0.17"
+		"phpoffice/phpword": "0.17",
+		"tecnickcom/tcpdf": "^6.7"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
