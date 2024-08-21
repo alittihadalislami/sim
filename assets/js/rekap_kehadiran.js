@@ -156,7 +156,7 @@ $(document).ready(function () {
             `<div class="list-group-item list-group-item-action nama-santri">
                 <span id="ling-${
                   dt.santri_id
-                }" class="btn btn-success ling">A</span>
+                }" class="btn btn-success ling">H</span>
                 <span class="ml-2">${parseInt(index + 1)}. ${
               dt.nama_seijazah
             }</span>

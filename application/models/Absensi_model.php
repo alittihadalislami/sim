@@ -217,7 +217,7 @@ class Absensi_model extends CI_Model
             ON a.`santri_id` = d.`santri_id`
             WHERE a.`tahun_id` = '$tahun'
             AND a.`kelas_id` = '$kelas'
-            ORDER BY d.`bapak_seijazah` ";
+            ORDER BY d.`nama_seijazah` ";
         return $this->db->query($stringQ)->result_array();
     }
 
