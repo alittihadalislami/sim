@@ -32,3 +32,4 @@ application/libraries/dompdf/lib/fonts/Times-BoldItalic.afm.php
 application/libraries/dompdf/lib/fonts/Times-Roman.afm.php
 assest/qrcode/*
 
+/assets/qrcode
