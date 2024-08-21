@@ -228,7 +228,7 @@ class Absensi_model extends CI_Model
                     WHERE k.`id_tahun` = '$tahun'
                     AND k.`id_asatid` = '$asatid'
                     AND k.`id_mapel` = '$mapel'
-                    AND K.`id_kelas` = '$kelas'
+                    AND k.`id_kelas` = '$kelas'
                     ";
         return $this->db->query($stringQ)->result_array();
     }
