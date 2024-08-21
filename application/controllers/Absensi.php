@@ -372,81 +372,9 @@ class Absensi extends CI_Controller
 
     public function asatid_ajax_pdf()
     {
-        setlocale(
-            LC_ALL,
-            'id_ID.UTF8',
-            'id_ID.UTF-8',
-            'id_ID.8859-1',
-            'id_ID',
-            'IND.UTF8',
-            'IND.UTF-8',
-            'IND.8859-1',
-            'IND',
-            'Indonesian.UTF8',
-            'Indonesian.UTF-8',
-            'Indonesian.8859-1',
-            'Indonesian',
-            'Indonesia',
-            'id',
-            'ID',
-
-            // Add english as default (if all Indonesian not available)
-            'en_US.UTF8',
-            'en_US.UTF-8',
-            'en_US.8859-1',
-            'en_US',
-            'American',
-            'ENG',
-            'English'
-        );
-        date_default_timezone_set('Asia/Jakarta');
-
         $daput = $this->input->get();
-
-        // $daput = [
-        //     'asatid' => 'zz',
-        //     'tahun' => '2024',
-        //     'bulan' => 'Agustus',
-        // ];
-
-        $periode = $this->ambilPeriode($daput['bulan'], $daput['tahun']);
-        $bulan_1 = $periode[0][0];
-        $tahun_1 = $periode[0][1];
-        $tanggal_1 = $periode[0][2];
-
-        $bulan_2 = $periode[1][0];
-        $tahun_2 = $periode[1][1];
-        $tanggal_2 = $periode[1][2];
-
-        $data['bulan_tahun'] = [$bulan_2, $tahun_2];
-
-        // $daput = $this->input->post();
-        $data1 = $this->am->dataKehadiran($tahun_1, $bulan_1, $daput['asatid'], $tanggal_1);
-        $data2 = $this->am->dataKehadiran($tahun_2, $bulan_2, $daput['asatid'], $tanggal_2);
-
-        $data ['list_guru'] = array_merge($data1, $data2);
-        $data ['pengguna'] = $this->pengguna[0];
-        $nama_asatid = $this->hapusTandaAkhir($data ['pengguna']['nama_asatid']);
-
-        $this->load->library('QrKode');
-        $this->load->library('pdf');
-        $this->pdf->setPaper('A4', 'potrait');
-        $nama_file = "Rekap Jurnal - $bulan_2 - $tahun_2 - $nama_asatid.pdf";
-        $this->pdf->filename = $nama_file;
-
-        $timestamp = time();
-        $data ['tanggal_waktu'] = strftime('%A, %d %B %Y %H:%M:%S', $timestamp);
-
-        // Text yang akan dijadikan QR code
-        $text = $nama_asatid.'\n'.$data ['tanggal_waktu'];
-
-        $file_path = FCPATH . 'assets/qrcode/temp_qrcode.png';
-        $this->qrkode->generate($text, $file_path);
-        $data['ttd'] = base_url('assets/qrcode/temp_qrcode.png');
-        // $data['ttd'] = $file_path;
-
-        $this->load->view('absensi/rekap_asatid_pdf', $data);
-        // $this->pdf->load_view('absensi/rekap_asatid_pdf', $data);
+        var_dump($daput);
+        die();
     }
 
     public function asatid_ajax_tcpdf()
@@ -483,10 +411,10 @@ class Absensi extends CI_Controller
         $daput = $this->input->get();
         $id_dicari = $daput['asatid'] ;
         $id_pengguna =  $this->pengguna[0]['id_asatid'];
-        
-        if ($id_pengguna != '9' ){
-            if ($id_dicari != $id_pengguna ) {
-                redirect('My404','refresh');
+
+        if ($id_pengguna != '9') {
+            if ($id_dicari != $id_pengguna) {
+                redirect('My404', 'refresh');
             }
         }
 
@@ -516,7 +444,7 @@ class Absensi extends CI_Controller
         $this->qrkode->generate($text, $file_path);
         $data['ttd'] = base_url('assets/qrcode/temp_qrcode.png');
         // $data['ttd'] = $file_path;
-        $nama_file = "Rekap Jurnal - $bulan_2 - $tahun_2 - $nama_asatid.pdf";
+        $nama_file = "Jurnal Mengajar - $bulan_2 $tahun_2 - $nama_asatid.pdf";
 
         // $this->load->view('absensi/rekap_asatid_pdf', $data);
         $html = $this->load->view('absensi/rekap_asatid_pdf', $data, true);
@@ -529,7 +457,7 @@ class Absensi extends CI_Controller
         $pdf->SetCreator('www.sim.alittihadalislami.org');
         $pdf->SetAuthor('sim.alittihadalislami.org');
         $pdf->SetTitle($nama_file);
-        $pdf->SetSubject('Rekap Jurnal Asatidz');
+        $pdf->SetSubject('Jurnal Asatidz-Pegawai');
 
         // set auto page breaks
         $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
@@ -543,9 +471,9 @@ class Absensi extends CI_Controller
         // add a page
         $pdf->AddPage();
 
-        $pdf->SetFont('amiri', 'B', 16);
-        $pdf->Cell(0, 4, 'REKAP JURNAL MENGAJAR ASATIDZ', 0, 1, 'C');
-        $pdf->SetFont('amiri', 'B', 18);
+        $pdf->SetFont('amiri', 'B', 14);
+        $pdf->Cell(0, 4, 'JURNAL MENGAJAR ASATIDZ', 0, 1, 'C');
+        $pdf->SetFont('amiri', '', 18);
         $pdf->Cell(0, 4, 'MA\'HAD AL ITTIHAD AL ISLAMI', 0, 1, 'C');
         // set font
         $pdf->SetFont('amiri', '', 12);
@@ -558,7 +486,7 @@ class Absensi extends CI_Controller
         $pdf->Cell(0, 4, 'File diunduh dari SIM, pada:', 0, 1, 'C');
         $pdf->Cell(0, 4, $data ['tanggal_waktu'], 0, 1, 'C');
         $pdf->Cell(0, 10, 'ttd', 0, 1, 'C');
-        $pdf->SetFont('amiri', 'BIU', 12);
+        $pdf->SetFont('amiri', 'BU', 12);
         $pdf->Cell(0, 4, $nama_asatid, 0, 1, 'C');
 
         //Close and output PDF document
