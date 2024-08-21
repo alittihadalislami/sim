@@ -137,7 +137,9 @@ $(document).ready(function () {
                 <span class="ml-2">${parseInt(index + 1)}. ${
               dt.nama_seijazah
             }</span>
-                <input type="text" id="${dt.santri_id}" value="4" class="absen">
+                <input type="hidden" id="${
+                  dt.santri_id
+                }" value="4" class="absen">
             </div>`
           );
         });
