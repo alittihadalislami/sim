@@ -582,12 +582,15 @@ class Absensi extends CI_Controller
             }
         }
 
-        $absen2 = [];
-        foreach ($absen as $ab) {
-            $absen2 [] = $ab;
+        if (isset($absen)) {
+            $absen2 = [];
+            foreach ($absen as $ab) {
+                $absen2 [] = $ab;
+            }
+            echo json_encode($absen2);
+        } else {
+            echo json_encode('tidak ada data');
         }
-
-        echo json_encode($absen2);
     }
 
     public function ajax_santri_wali()

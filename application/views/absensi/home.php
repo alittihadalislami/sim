@@ -85,6 +85,8 @@
                             <button class="nav-link" id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile"
                                 type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Rekap
                                 Jurnal</button>
+                            <button class="nav-link" id="rekap-santri" data-toggle="tab" type="button" role="tab"
+                                aria-selected="false">Rekap Santri</button>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
@@ -267,8 +269,8 @@
                                         <button id="pdf" class="btn btn-danger">
                                             <i class="far fa-file-pdf mr-2"></i>PDF
                                         </button>
-                                        <button id="tambah_data" class="btn btn-success float-right d-none">    
-                                        <i class="fas fa-plus-square mr-2"></i>Tambah data
+                                        <button id="tambah_data" class="btn btn-success float-right d-none">
+                                            <i class="fas fa-plus-square mr-2"></i>Tambah data
                                         </button>
                                     </div>
                                 </div>

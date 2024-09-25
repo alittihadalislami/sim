@@ -265,6 +265,13 @@ $("#cari").click(function (e) {
   });
 });
 
+$(document).ready(function () {
+  $("#rekap-santri").click(function (e) {
+    e.preventDefault();
+    window.location.href = base_url + "absensi/santri";
+  });
+});
+
 $("#pdf").click(function (e) {
   e.preventDefault();
   tahun = document.getElementById("tahun").value;
