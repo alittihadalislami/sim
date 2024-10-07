@@ -21,9 +21,20 @@ class Yayasan extends CI_Controller
 
         $data['tahun_ajaran'] = $this->tahunAktif['nama_tahun'];
 
+        $this->db->order_by('nama_asatid', 'ASC');
+        $data ['asatid'] = $this->db->get_where('m_asatid', ['sts' => 1])->result_array();
+
         $this->load->view('templates/header', $data);
         $this->load->view('yayasan/home', $data);
         $this->load->view('templates/footer');
+    }
+
+    function ajaxCekNomor() {
+        $this->db->select('COUNT(p.id_penugasan) + 1 AS nomor');
+        $this->db->from('t_penugasan p');
+        $this->db->where('p.tahun', '2024-2025');
+        $nomor = $this->db->get()->row_array()['nomor'];
+        echo json_encode($nomor);
     }
 
     public function tampilData($tahun='2023-2024', $niy=null)

@@ -99,11 +99,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="input-group mb-1 date" data-provide="datepicker">
+                <div class="input-group mb-1">
                     <div class="input-group-prepend">
                         <label class="input-group-text">Tahun Ajaran</label>
                     </div>
-                    <input type="text" class="form-control" id="tahun">
+                    <input type="text" class="form-control" id="tahun" readonly>
                 </div>
                 <div class="input-group mb-1">
                     <div class="input-group-prepend">
@@ -114,28 +114,6 @@
                         <option value="1" selected>Ma'had</option>
                         <option value="2" selected>MA</option>
                         <option value="3" selected>SMP</option>
-                    </select>
-                </div>
-                <div class="input-group mb-1">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="asatid">Nama Asatid</label>
-                    </div>
-                    <select class="custom-select f-tambah" id="asatid">
-                        <option value="" selected>Pilih...</option>
-                    </select>
-                </div>
-                <div class="input-group mb-1 date" data-provide="datepicker">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text">Tanggal</label>
-                    </div>
-                    <input type="text" class="form-control f-tambah" id="tanggal" placeholder="Klik disini dahulu">
-                </div>
-                <div class="input-group mb-1">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="mapel">Mapel</label>
-                    </div>
-                    <select class="custom-select f-tambah" id="mapel">
-                        <option value="" selected>Pilih...</option>
                     </select>
                 </div>
                 <div class="input-group mb-1">
@@ -158,7 +136,32 @@
                         <option value="tidak tetap">Tidak Tetap</option>
                     </select>
                 </div>
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="asatid">Nama Asatid</label>
+                    </div>
+                    <select class="custom-select f-tambah" id="asatid">
+                        <option value="" selected>Pilih...</option>
+                        <?php foreach ($asatid as $ast) : ?>
+                            <option value="<?= $ast['niy'] ?>"><?= $ast['nama_asatid'] ?></option>
+                        <?php endforeach  ?>
+                    </select>
+                </div>
                 <div class="input-group mb-1 date" data-provide="datepicker">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Tanggal</label>
+                    </div>
+                    <input type="text" class="form-control f-tambah" id="tanggal" placeholder="Klik disini dahulu">
+                </div>
+                <div class="input-group mb-1 d-none" id="div-mapel">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="mapel">Mapel</label>
+                    </div>
+                    <select class="custom-select f-tambah" id="mapel">
+                        <option value="" selected>Pilih...</option>
+                    </select>
+                </div>
+                <div class="input-group mb-1">
                     <div class="input-group-prepend">
                         <label class="input-group-text">Nomor Surat</label>
                     </div>
@@ -167,6 +170,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="gen-nomor-surat">Nomor</button>
                 <button type="button" class="btn btn-primary" id="simpan-ajuan">Save changes</button>
             </div>
         </div>
