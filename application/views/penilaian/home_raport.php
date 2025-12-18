@@ -71,7 +71,7 @@
                                 if ($rombel == 1 or $rombel == 2) {
                                     $link_r = base_url('raport/pdfsmpKurmer/').$sa['id_santri'].'/'.$id_kelas;
                                 } else {
-                                    $link_r = base_url('raport/pdfsmp/').$sa['id_santri'].'/'.$id_kelas;
+                                    $link_r = base_url('raport/pdfsmpKurmer/').$sa['id_santri'].'/'.$id_kelas;
                                 }
                             ?>
                                     <a style="margin-left: 10px;" target="_blank"
